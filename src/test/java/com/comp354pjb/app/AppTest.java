@@ -1,4 +1,4 @@
-package com.comp354-pjb.app;
+package com.comp354pjb.app;
 
 import static org.junit.Assert.assertTrue;
 
