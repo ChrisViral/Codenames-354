@@ -11,7 +11,7 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
+# *.jar # Needed for SQLite package
 *.war
 *.nar
 *.ear
