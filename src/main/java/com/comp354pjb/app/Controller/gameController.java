@@ -33,6 +33,13 @@ public class gameController {
     }
 
     public void enterGameLoop(Players firstTeam, Players secondTeam){
+        //in order to do this, we need the hints setup and be able to pull cards from the database, which ben is setting up
+
+        //first team gives hint, first team guesses
+        //if first team has guessed 9 cards, they win
+
+        //second team gives hint, second team guesses
+        //if first team has guessed 9 cards, they win
 
     }
 
