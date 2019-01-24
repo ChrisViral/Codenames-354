@@ -6,11 +6,8 @@ import java.util.Random;
 public class gameController {
 
     public gameController(){
-        Players red = new Players("Red");
-        Players blue = new Players("Blue");
-        Cards gameboard [] = new Cards[25];
-        //initializeCards(); //TODO, cards need to be pulled from DB and initialized
-        decideFirstRoll(red, blue);
+        //initialize(); //TODO, cards need to be pulled from DB and initialized
+
     }
 
     public void decideFirstRoll(Players red, Players blue){
@@ -32,10 +29,6 @@ public class gameController {
         return rand.nextInt(2);
     }
 
-    public void giveHint(Players team){
-        System.out.println(team.type + " will now give a hint...");
-        System.out.print("Hint: ");
-    }
 
     public void enterGameLoop(Players firstTeam, Players secondTeam){
         //in order to do this, we need the hints setup and be able to pull cards from the database, which ben is setting up
@@ -44,12 +37,12 @@ public class gameController {
         while(true) {
 
 
-            giveHint(firstTeam);
+            // giveHint(firstTeam);
             // attemptGuess(firstTeam); //TODO
             // checkWinner(firstTeam);
 
 
-            giveHint(secondTeam); //TODO
+            // giveHint(secondTeam); //TODO
             // attemptGuess(secondTeam); //TODO
             // checkWinner(secondTeam); //TODO
 

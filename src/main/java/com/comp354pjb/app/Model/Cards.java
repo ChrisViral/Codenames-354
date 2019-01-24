@@ -4,7 +4,6 @@ public class Cards {
 
     private String word;
     private boolean isRevealed;
-
     //type can be red, blue, civ, ass
     private String type;
 

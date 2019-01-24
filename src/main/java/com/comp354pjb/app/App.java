@@ -11,7 +11,7 @@ public class App
     {
 
         System.out.println( "Hello World!" );
-        gameController gameInstance = new gameController();
+
         //at this point we need our pull method from database to retrieve all cards
 
 
