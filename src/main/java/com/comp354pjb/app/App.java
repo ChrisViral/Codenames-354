@@ -2,15 +2,16 @@ package com.comp354pjb.app;
 import com.comp354pjb.app.Model.databaseHelpers;
 import com.comp354pjb.app.Controller.gameController;
 
-/**
- * Hello world!
- *
- */
-public class App 
-{
+import javafx.application.Application;
+import javafx.stage.Stage;
 
-    public static void main( String[] args )
+
+public class App extends Application
+{
+    public static void main(String[] args)
     {
+        launch(args);
+    }
 
         try{
             Class.forName("org.sqlite.JDBC");
@@ -20,9 +21,9 @@ public class App
 
         System.out.println( "Hello World!" );
         databaseHelpers.connect();
-
-
-        //at this point we need our pull method from database to retrieve all cards
+    @Override
+    public void start(Stage stage)
+    {
 
     }
 }
