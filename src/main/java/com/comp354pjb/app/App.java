@@ -64,7 +64,7 @@ public class App extends Application
     public void start(Stage stage) throws IOException
     {
         //Loading FXML file
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Resources/board.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../../../board.fxml"));
         Scene scene = new Scene(loader.<Parent>load(), 1280, 800);
         view = loader.getController();
         view.setApp(this);
@@ -73,6 +73,17 @@ public class App extends Application
         stage.setTitle("Codenames");
         stage.setScene(scene);
         stage.show();
+
+        String[][] test =
+        {
+            { "0-0", "0-1", "0-2", "0-3", "0-4" },
+            { "1-0", "1-1", "1-2", "1-3", "1-4" },
+            { "2-0", "2-1", "2-2", "2-3", "2-4" },
+            { "3-0", "3-1", "3-2", "3-3", "3-4" },
+            { "4-0", "4-1", "4-2", "4-3", "4-4" }
+        };
+
+        view.setWords(test);
     }
     //endregion
 }

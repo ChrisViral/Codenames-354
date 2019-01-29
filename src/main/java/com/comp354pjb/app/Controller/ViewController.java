@@ -39,7 +39,7 @@ public class ViewController
         }
     }
 
-    private void setWords(String[][] words)
+    public void setWords(String[][] words)
     {
         for (int i = 0; i < 5; i++)
         {
