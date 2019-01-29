@@ -1,0 +1,30 @@
+/* For the words on the cards */
+.word {
+    -fx-fill: #000;
+}
+.word:hover {
+    
+}
+
+.ass-word {
+    -fx-fill: #fff;
+}
+
+/* For the card background */
+.red {
+    -fx-background-color: #ab2346;
+}
+.blue {
+    -fx-background-color: #03f7eb;
+}
+.civ {
+    -fx-background-color: #d6d6b1;
+}
+.ass {
+    -fx-background-color: #191516;
+}
+
+/* Card background for unchosen cards */
+.unknown {
+    -fx-background-color: #91af84;
+}
