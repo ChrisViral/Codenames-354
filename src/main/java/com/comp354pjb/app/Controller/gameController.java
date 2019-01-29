@@ -8,12 +8,13 @@ public class gameController {
 
     public gameController(String [] words){
         words = shuffleWords(words);
-        createCards(words);
+        Cards[][] chosenCards = createCards(words); //THIS IS WHAT IS HOLDING THE 25 CARDS
     }
 
     public Cards [][] createCards(String [] words){
 
         Cards[][] cards = new Cards[5][5];
+
         for (int i = 0; i < 5; i++)
         {
             for (int j = 0; j < 5; j++)
