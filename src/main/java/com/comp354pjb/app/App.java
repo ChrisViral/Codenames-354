@@ -49,11 +49,10 @@ public class App extends Application
         String[] words = DatabaseHelpers.getWords();
         gameController game = new gameController(words);
 
+        DatabaseHelpers.connect();
+
         //Launches JavaFX
         launch(args);
-
-        System.out.println("Hello World!");
-        DatabaseHelpers.connect();
     }
 
     /**
