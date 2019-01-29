@@ -14,3 +14,9 @@ Name                     | Role              | GitHub                           
 **Rezza Zairan**         | Documenter        | [@RZeeZee](https://github.com/RZeeZee)             | @Soundboy#0320
 **Steven Zanga**         | Coder             | [@stevau5](https://github.com/stevau5)             | @CallmeZexy#1123
 **Mottel Zirkind**       | Organizer         | [@Mottelz](https://github.com/Mottelz)             | @mottelz#4899
+
+## IntelliJ Setup For SQLite
+1- got to file-> Project Structure
+2- Under the libraries tab click the + 
+3- Select "Java" 
+4- Use this path --> C:INSERT_YOUR_PATH_HERE\Codenames-354\lib
