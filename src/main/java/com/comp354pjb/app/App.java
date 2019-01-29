@@ -64,7 +64,7 @@ public class App extends Application
     public void start(Stage stage) throws IOException
     {
         //Loading FXML file
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../../../board.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Resources/board.fxml"));
         Scene scene = new Scene(loader.<Parent>load(), 1280, 800);
         view = loader.getController();
         view.setApp(this);
