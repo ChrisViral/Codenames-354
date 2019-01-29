@@ -65,8 +65,8 @@ public class App extends Application
     {
         //Loading FXML file
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Resources/board.fxml"));
-        view = loader.getController();
         Scene scene = new Scene(loader.<Parent>load(), 500, 400);
+        view = loader.getController();
 
         //Showing GUI
         stage.setTitle("Codenames");
