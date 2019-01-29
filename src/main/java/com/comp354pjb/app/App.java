@@ -13,15 +13,21 @@ public class App
         System.out.println( "Hello World!" );
         DatabaseHelpers.connect();
         String[] words = DatabaseHelpers.getWords();
-        int count=0;
-        while(count<250)
-        {
-            System.out.println(words[count]);
-            count++;
-        }
+        gameController game = new gameController(words);
 
 
-        //at this point we need our pull method from database to retrieve all cards
+
+
+//        int count=0;
+//        while(count<250)
+//        {
+//            System.out.println(words[count]);
+//            count++;
+//        }
+
+
+
+
 
     }
 }

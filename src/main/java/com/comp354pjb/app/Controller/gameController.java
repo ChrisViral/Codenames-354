@@ -1,14 +1,31 @@
 package com.comp354pjb.app.Controller;
 import com.comp354pjb.app.Model.*;
 
-import java.util.Random;
+import java.util.*;
 
 public class gameController {
 
-    public gameController(){
-        //initialize(); //TODO, cards need to be pulled from DB and initialized
+    public gameController(String [] words){
+        words = shuffleWords(words); //TODO, shuffle words, return 25 random
+
+
+        //createCards();  //TODO, create in cards
 
     }
+
+    public String [] shuffleWords(String [] words){
+
+        List<String> listOfWords = Arrays.asList(words);
+        Collections.shuffle(listOfWords);
+
+
+        return listOfWords.toArray(new String [listOfWords.size()]);
+    }
+
+
+
+
+
 
     public void decideFirstRoll(Players red, Players blue){
         int flipResult = flipCoin();
