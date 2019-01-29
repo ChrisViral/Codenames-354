@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane alignment="CENTER" hgap="5.0" vgap="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@board.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.comp354pjb.app.Controller.veiwController">
+  <!--A bunch of default config stuff that makes things ugly if I remove it.-->
+    <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+    <rowConstraints>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+    <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+
+    <!--The information.-->
+    <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="0">
+        <Text layoutX="15.0" layoutY="19.0" text="Red: 1/8" />
+        <Text layoutX="13.0" layoutY="43.0" text="Blue: 1/9" />
+    </Pane>
+    <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="0" GridPane.columnSpan="2">
+        <Text layoutX="37.0" layoutY="19.0" text="Clue: Hypnosis 4" />
+        <Text layoutX="49.0" layoutY="43.0" text="Guesses: 1/4" textAlignment="CENTER" />
+    </Pane>
+    <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="0" GridPane.columnIndex="0">
+        <Text layoutX="54.0" layoutY="19.0" text="Turn #24" />
+        <Text layoutX="37.0" layoutY="43.0" text="Blue Operative" />
+    </Pane>
+
+    <!--First row-->
+    <Pane prefHeight="200.0" prefWidth="200.0" styleClass="unknown" GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <Text layoutX="23.0" layoutY="30.0" styleClass="word" text="Word" />
+    </Pane>
+    <Pane prefHeight="200.0" prefWidth="200.0" styleClass="unknown" GridPane.columnIndex="2" GridPane.rowIndex="1">
+        <Text layoutX="23.0" layoutY="30.0" styleClass="word" text="Word" />
+    </Pane>
+    <Pane prefHeight="200.0" prefWidth="200.0" styleClass="unknown" GridPane.columnIndex="3" GridPane.rowIndex="1">
+        <Text layoutX="23.0" layoutY="30.0" styleClass="word" text="Word" />
+    </Pane>
+    <Pane prefHeight="200.0" prefWidth="200.0" styleClass="unknown" GridPane.columnIndex="4" GridPane.rowIndex="1">
+        <Text layoutX="23.0" layoutY="30.0" styleClass="word" text="Word" />
+    </Pane>
+    <Pane prefHeight="200.0" prefWidth="200.0" styleClass="unknown" GridPane.columnIndex="5" GridPane.rowIndex="1">
+        <Text layoutX="23.0" layoutY="30.0" styleClass="word" text="Word" />
+    </Pane>
+
+    <!--Second row-->
+    <Pane prefHeight="200.0" prefWidth="200.0" styleClass="unknown" GridPane.columnIndex="1" GridPane.rowIndex="2">
+        <Text layoutX="23.0" layoutY="30.0" styleClass="word" text="Word" />
+    </Pane>
+    <Pane prefHeight="200.0" prefWidth="200.0" styleClass="unknown" GridPane.columnIndex="2" GridPane.rowIndex="2">
+        <Text layoutX="23.0" layoutY="30.0" styleClass="word" text="Word" />
+    </Pane>
+    <Pane prefHeight="200.0" prefWidth="200.0" styleClass="unknown" GridPane.columnIndex="3" GridPane.rowIndex="2">
+        <Text layoutX="23.0" layoutY="30.0" styleClass="word" text="Word" />
+    </Pane>
+    <Pane prefHeight="200.0" prefWidth="200.0" styleClass="unknown" GridPane.columnIndex="4" GridPane.rowIndex="2">
+        <Text layoutX="23.0" layoutY="30.0" styleClass="word" text="Word" />
+    </Pane>
+    <Pane prefHeight="200.0" prefWidth="200.0" styleClass="unknown" GridPane.columnIndex="5" GridPane.rowIndex="2">
+        <Text layoutX="23.0" layoutY="30.0" styleClass="word" text="Word" />
+    </Pane>
+
+    <!--Third row-->
+    <Pane prefHeight="200.0" prefWidth="200.0" styleClass="unknown" GridPane.columnIndex="1" GridPane.rowIndex="3">
+        <Text layoutX="23.0" layoutY="30.0" styleClass="word" text="Word" />
+    </Pane>
+    <Pane prefHeight="200.0" prefWidth="200.0" styleClass="unknown" GridPane.columnIndex="2" GridPane.rowIndex="3">
+        <Text layoutX="23.0" layoutY="30.0" styleClass="word" text="Word" />
+    </Pane>
+    <Pane prefHeight="200.0" prefWidth="200.0" styleClass="unknown" GridPane.columnIndex="3" GridPane.rowIndex="3">
+        <Text layoutX="23.0" layoutY="30.0" styleClass="word" text="Word" />
+    </Pane>
+    <Pane prefHeight="200.0" prefWidth="200.0" styleClass="unknown" GridPane.columnIndex="4" GridPane.rowIndex="3">
+        <Text layoutX="23.0" layoutY="30.0" styleClass="word" text="Word" />
+    </Pane>
+    <Pane prefHeight="200.0" prefWidth="200.0" styleClass="unknown" GridPane.columnIndex="5" GridPane.rowIndex="3">
+        <Text layoutX="23.0" layoutY="30.0" styleClass="word" text="Word" />
+    </Pane>
+
+    <!--Fourth row-->
+    <Pane prefHeight="200.0" prefWidth="200.0" styleClass="unknown" GridPane.columnIndex="1" GridPane.rowIndex="4">
+        <Text layoutX="23.0" layoutY="31.0" styleClass="word" text="Word" />
+    </Pane>
+    <Pane prefHeight="200.0" prefWidth="200.0" styleClass="unknown" GridPane.columnIndex="2" GridPane.rowIndex="4">
+        <Text layoutX="23.0" layoutY="31.0" styleClass="word" text="Word" />
+    </Pane>
+    <Pane prefHeight="200.0" prefWidth="200.0" styleClass="unknown" GridPane.columnIndex="3" GridPane.rowIndex="4">
+        <Text layoutX="23.0" layoutY="31.0" styleClass="word" text="Word" />
+    </Pane>
+    <Pane prefHeight="200.0" prefWidth="200.0" styleClass="unknown" GridPane.columnIndex="4" GridPane.rowIndex="4">
+        <Text layoutX="23.0" layoutY="31.0" styleClass="word" text="Word" />
+    </Pane>
+    <Pane prefHeight="200.0" prefWidth="200.0" styleClass="unknown" GridPane.columnIndex="5" GridPane.rowIndex="4">
+        <Text layoutX="23.0" layoutY="31.0" styleClass="word" text="Word" />
+    </Pane>
+
+    <!--Fifth row-->
+    <Pane prefHeight="200.0" prefWidth="200.0" styleClass="unknown" GridPane.columnIndex="1" GridPane.rowIndex="5">
+        <Text layoutX="23.0" layoutY="31.0" styleClass="word" text="Word" />
+    </Pane>
+    <Pane prefHeight="200.0" prefWidth="200.0" styleClass="civ" GridPane.columnIndex="2" GridPane.rowIndex="5">
+        <Text layoutX="23.0" layoutY="31.0" styleClass="word" text="Word" />
+    </Pane>
+    <Pane prefHeight="200.0" prefWidth="200.0" styleClass="ass" GridPane.columnIndex="3" GridPane.rowIndex="5">
+        <Text layoutX="23.0" layoutY="31.0" styleClass="ass-word" text="Word" />
+    </Pane>
+    <Pane prefHeight="200.0" prefWidth="200.0" styleClass="red" GridPane.columnIndex="4" GridPane.rowIndex="5">
+        <Text layoutX="23.0" layoutY="31.0" styleClass="word" text="Word" />
+    </Pane>
+    <Pane prefHeight="200.0" prefWidth="200.0" styleClass="blue" GridPane.columnIndex="5" GridPane.rowIndex="5">
+        <Text layoutX="23.0" layoutY="31.0" styleClass="word" text="Word" />
+    </Pane>
+
+
+</GridPane>
