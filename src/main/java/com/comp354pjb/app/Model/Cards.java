@@ -4,17 +4,16 @@ public class Cards {
 
     private String word;
     private boolean isRevealed;
-    //type can be red, blue, civ, ass
-    private String type;
+    public cardType type;
 
     public Cards(){
         this.word = " ";
         isRevealed = false;
     }
 
-    public Cards(String word, String type) {
+    public Cards(String word) {
         this.word = word;
-        this.type = type;
+        this.type = cardType.RED;
         this.isRevealed = false;
     }
 
@@ -33,6 +32,16 @@ public class Cards {
     public void setRevealed(boolean revealed) {
         isRevealed = revealed;
     }
+
+    public cardType getType()
+    {
+        return type;
+    }
+    public void setType(cardType tp)
+    {
+        type = tp;
+    }
+
 }
 
 

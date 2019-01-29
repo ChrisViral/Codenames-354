@@ -1,8 +1,8 @@
 package com.comp354pjb.app;
+import com.comp354pjb.app.Model.DatabaseHelpers;
 
 import com.comp354pjb.app.Controller.ViewController;
 import com.comp354pjb.app.Controller.gameController;
-import com.comp354pjb.app.Model.databaseHelpers;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -45,15 +45,15 @@ public class App extends Application
      */
     public static void main( String[] args )
     {
-        //Connect to SQLite database
-        databaseHelpers.connect();
+        DatabaseHelpers.connect();
+        String[] words = DatabaseHelpers.getWords();
+        gameController game = new gameController(words);
 
         //Launches JavaFX
         launch(args);
 
-        //Create Game Controller
-        game = new gameController();
-    }
+        System.out.println( "Hello World!" );
+        databaseHelpers.connect();
 
     /**
      * Starts the JavaFX GUI

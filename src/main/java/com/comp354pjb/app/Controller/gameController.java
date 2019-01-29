@@ -1,13 +1,41 @@
 package com.comp354pjb.app.Controller;
 import com.comp354pjb.app.Model.*;
 
-import java.util.Random;
+
+import java.util.*;
 
 public class gameController {
 
-    public gameController(){
-        //initialize(); //TODO, cards need to be pulled from DB and initialized
+    public gameController(String [] words){
+        words = shuffleWords(words);
+        Cards[][] chosenCards = createCards(words); //THIS IS WHAT IS HOLDING THE 25 CARDS
+    }
 
+    public Cards [][] createCards(String [] words){
+
+        Cards[][] cards = new Cards[5][5];
+
+        for (int i = 0; i < 5; i++)
+        {
+            for (int j = 0; j < 5; j++)
+            {
+                cards[i][j] = new Cards(words[(i * 5) + j]);
+            }
+        }
+
+        System.out.println(cards[0][4].getWord());
+
+        System.out.println("we chilling, cards are shuffled and set,  play ball");
+
+        return cards;
+    }
+
+    public String [] shuffleWords(String [] words){
+
+        List<String> listOfWords = Arrays.asList(words);
+        Collections.shuffle(listOfWords);
+
+        return listOfWords.toArray(new String [listOfWords.size()]);
     }
 
     public void decideFirstRoll(Players red, Players blue){
