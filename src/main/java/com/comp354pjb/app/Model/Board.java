@@ -27,7 +27,7 @@ public class Board
         board[i][j].setWord(word);
     }
 
-    public void setTypeAt(int i, int j, CARDTYPE tp)
+    public void setTypeAt(int i, int j, cardType tp)
     {
         board[i][j].setType(tp);
     }
