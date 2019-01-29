@@ -1,8 +1,11 @@
 package com.comp354pjb.app.Controller;
 
 import com.comp354pjb.app.App;
+import com.comp354pjb.app.Model.Cards;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -22,6 +25,7 @@ public class ViewController
     @FXML
     private GridPane grid;
     private Text[][] words;
+    private Cards[][] cards;
 
     @FXML
     private void initialize()
@@ -39,13 +43,26 @@ public class ViewController
         }
     }
 
-    public void setWords(String[][] words)
+    @FXML
+    private void onClicked(MouseEvent data)
     {
+        Pane pane = (Pane)data.getSource();
+        int x = GridPane.getRowIndex(pane) - 1;
+        int y = GridPane.getColumnIndex(pane) - 1;
+        ObservableList<String> styles = pane.getStyleClass();
+        styles.remove("unknown");
+        //styles.add(this.cards[x][y].getType().toString());
+        System.out.println("Setting style");
+    }
+
+    public void setWords(Cards[][] cards)
+    {
+        this.cards = cards;
         for (int i = 0; i < 5; i++)
         {
             for (int j = 0; j < 5; j++)
             {
-                this.words[i][j].setText(words[i][j]);
+                this.words[i][j].setText(this.cards[i][j].getWord());
             }
         }
     }
