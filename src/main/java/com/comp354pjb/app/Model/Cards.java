@@ -1,18 +1,23 @@
 package com.comp354pjb.app.Model;
 
+enum CARDTYPE
+{
+    Red, Blue, Civ, Ass
+}
+
 public class Cards {
 
     private String word;
     private boolean isRevealed;
     //type can be red, blue, civ, ass
-    private String type;
+    private CARDTYPE type;
 
     public Cards(){
         this.word = " ";
         isRevealed = false;
     }
 
-    public Cards(String word, String type) {
+    public Cards(String word, CARDTYPE type) {
         this.word = word;
         this.type = type;
         this.isRevealed = false;
@@ -33,6 +38,16 @@ public class Cards {
     public void setRevealed(boolean revealed) {
         isRevealed = revealed;
     }
+
+    public CARDTYPE getType()
+    {
+        return type;
+    }
+    public void setType(CARDTYPE tp)
+    {
+        type = tp;
+    }
+
 }
 
 
