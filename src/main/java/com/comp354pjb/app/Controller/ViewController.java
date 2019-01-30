@@ -49,10 +49,13 @@ public class ViewController
         Pane pane = (Pane)data.getSource();
         int x = GridPane.getRowIndex(pane) - 1;
         int y = GridPane.getColumnIndex(pane) - 1;
-        ObservableList<String> styles = pane.getStyleClass();
-        styles.remove("unknown");
-        //styles.add(this.cards[x][y].getType().toString());
-        System.out.println("Setting style");
+        Card card = this.cards[x][y];
+        if (!card.isRevealed())
+        {
+            ObservableList<String> styles = pane.getStyleClass();
+            styles.remove("unknown");
+            styles.add(card.getType().toString().toLowerCase());
+        }
     }
 
     public void setWords(Card[][] cards)

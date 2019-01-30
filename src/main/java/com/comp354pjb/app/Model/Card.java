@@ -49,7 +49,6 @@ public class Card
     {
         type = tp;
     }
-
 }
 
 

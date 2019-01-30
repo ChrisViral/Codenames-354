@@ -36,7 +36,6 @@ public class GameController
 
     private String[] shuffleWords(String[] words)
     {
-
         List<String> listOfWords = Arrays.asList(words);
         Collections.shuffle(listOfWords);
 
@@ -86,9 +85,9 @@ public class GameController
             else if (i < 17)
             { arr[row][coll].setType(winner); }
             else if (i < 23)
-            { arr[row][coll].setType(CardType.CIV); }
+            { arr[row][coll].setType(CardType.CIVILIAN); }
             else
-            { arr[row][coll].setType(CardType.ASS); }
+            { arr[row][coll].setType(CardType.ASSASSIN); }
         }
 
     }
