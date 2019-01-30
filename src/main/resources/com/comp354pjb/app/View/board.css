@@ -1,5 +1,6 @@
 #grid {
     display: block;
+    -fx-background-color: rgb(188, 191, 186);
 }
 
 /* For the words on the cards */
@@ -14,7 +15,11 @@
 .red .word, .blue .word, .civilian .word, .assassin .word {
     -fx-fill: transparent;
 }
-
+.info{
+    -fx-font-size: 1.4em;
+    -fx-font-weight: bold;
+    -fx-font-family: monospace;
+}
 
 /* For the card background */
 .card {

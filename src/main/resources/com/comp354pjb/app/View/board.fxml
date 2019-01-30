@@ -38,21 +38,21 @@
    <children>
        <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
           <children>
-                  <Text text="Round: 24" />
-                  <Text text="Phase: Blue Operative" />
+                  <Text text="Round: 24" styleClass="info"/>
+                  <Text text="Phase: Blue Operative" styleClass="info"/>
           </children>
        </VBox>
    
        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="0">
       <children>
-              <Text text="Red: 1/8" />
-              <Text text="Blue: 1/9" />
+              <Text text="Red: 1/8" styleClass="info"/>
+              <Text text="Blue: 1/9" styleClass="info"/>
       </children>
        </VBox>
        <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="0">
           <children>
-              <Text text="Clue: Hypnosis 4" />
-              <Text text="Guesses: 1/4" />
+              <Text text="Guesses: 1/4" styleClass="info"/>
+              <Text text="Clue: Hypnosis 4" styleClass="info"/>
           </children>
        </VBox>
    
