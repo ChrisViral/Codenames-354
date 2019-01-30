@@ -1,16 +1,25 @@
+#grid {
+    display: block;
+}
+
 /* For the words on the cards */
 .word {
-    -fx-fill: #000;
+    -fx-font-size: 1.5em;
+    -fx-fill: rgb(0, 0, 0);
+    -fx-font-family:sans-serif;
 }
-.word:hover {
-    
+.card:hover .word {
+    -fx-font-weight: bold;
+}
+.red .word, .blue .word, .civilian .word, .assassin .word {
+    -fx-fill: transparent;
 }
 
-.assassin-word {
-    -fx-fill: #fff;
-}
 
 /* For the card background */
+.card {
+    -fx-background-radius: 25;
+}
 .red {
     -fx-background-color: rgb(216,70,59);
 }
@@ -23,8 +32,6 @@
 .assassin {
     -fx-background-color: rgb(48,47,40);
 }
-
-/* Card background for unchosen cards */
 .unknown {
     -fx-background-color: rgb(178,137,162);
 }
