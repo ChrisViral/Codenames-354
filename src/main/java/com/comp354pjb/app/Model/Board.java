@@ -4,7 +4,7 @@ public class Board
 {
     private Card[][] board;
 
-    Board(Card[][] arr)
+    public Board(Card[][] arr)
     {
         board = arr;
     }

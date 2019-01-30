@@ -164,12 +164,12 @@
               <Text layoutX="23.0" layoutY="31.0" styleClass="word" text="Word" />
       </children>
        </Pane>
-       <Pane onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="civ" GridPane.columnIndex="2" GridPane.rowIndex="5">
+       <Pane onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="civilian" GridPane.columnIndex="2" GridPane.rowIndex="5">
           <children>
               <Text layoutX="23.0" layoutY="31.0" styleClass="word" text="Word" />
           </children>
        </Pane>
-       <Pane onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="ass" GridPane.columnIndex="3" GridPane.rowIndex="5">
+       <Pane onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="assassin" GridPane.columnIndex="3" GridPane.rowIndex="5">
           <children>
               <Text layoutX="23.0" layoutY="31.0" styleClass="ass-word" text="Word" />
           </children>
