@@ -45,12 +45,8 @@ public class App extends Application
      */
     public static void main( String[] args )
     {
-        DatabaseHelpers.connect();
         String[] words = DatabaseHelpers.getWords();
         gameController game = new gameController(words);
-
-        DatabaseHelpers.connect();
-
         //Launches JavaFX
         launch(args);
     }

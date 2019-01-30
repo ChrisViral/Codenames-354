@@ -20,7 +20,7 @@ public class DatabaseHelpers {
         return url;
     }
 
-    public static void connect()
+    public static void checkConnection()
     {
 
         String url = getURL();
