@@ -1,12 +1,13 @@
 package com.comp354pjb.app;
 
-import com.comp354pjb.app.Model.Board.Card;
+import com.comp354pjb.app.Model.Board.Board;
+import com.comp354pjb.app.Model.Board.CardType;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
 public class ViewController
@@ -23,13 +24,12 @@ public class ViewController
 
     @FXML
     private GridPane grid;
-    private Text[][] words;
-    private Card[][] cards;
+    private HBox[][] cards;
 
     @FXML
     private void initialize()
     {
-        this.words = new Text[5][5];
+        this.cards = new HBox[5][5];
         for (Node node : grid.getChildren())
         {
             int x = GridPane.getRowIndex(node) - 1;
@@ -37,7 +37,7 @@ public class ViewController
 
             if (x >= 0 && x < 5 && y >= 0 && y < 5)
             {
-                this.words[x][y] = (Text)((Pane)node).getChildren().get(0);
+                this.cards[x][y] = (HBox)node;
             }
         }
     }
@@ -45,27 +45,27 @@ public class ViewController
     @FXML
     private void onClicked(MouseEvent data)
     {
-        Pane pane = (Pane)data.getSource();
-        int x = GridPane.getRowIndex(pane) - 1;
-        int y = GridPane.getColumnIndex(pane) - 1;
-        Card card = this.cards[x][y];
-        if (!card.isRevealed())
-        {
-            ObservableList<String> styles = pane.getStyleClass();
-            styles.remove("unknown");
-            styles.add(card.getType().toString().toLowerCase());
-        }
+        HBox box = (HBox)data.getSource();
+        int x = GridPane.getRowIndex(box) - 1;
+        int y = GridPane.getColumnIndex(box) - 1;
+        App.getGame().getBoard().revealAt(x, y);
     }
 
-    public void setWords(Card[][] cards)
+    public void setBoard(Board board)
     {
-        this.cards = cards;
         for (int i = 0; i < 5; i++)
         {
             for (int j = 0; j < 5; j++)
             {
-                this.words[i][j].setText(this.cards[i][j].getWord());
+                ((Text)this.cards[i][j].getChildren().get(0)).setText(board.getCard(i, j).getWord());
             }
         }
+    }
+
+    public void reveal(int x, int y, CardType type)
+    {
+        ObservableList<String> styles = this.cards[x][y].getStyleClass();
+        styles.remove("unknown");
+        styles.add(type.toString().toLowerCase());
     }
 }

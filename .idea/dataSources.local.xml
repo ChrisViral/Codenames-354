@@ -3,6 +3,12 @@
   <component name="dataSourceStorageLocal">
     <data-source name="codenames" uuid="4d98e7ea-c270-41e3-85f0-3543b9b77a66">
       <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="SQLITE" exact-version="0" />
+      <introspection-schemas>*:</introspection-schemas>
+    </data-source>
+    <data-source name="codenames [2]" uuid="c61bb48e-7156-4ee7-9b6f-c384a0734c61">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="SQLITE" exact-version="0" />
+      <auth-required>false</auth-required>
+      <introspection-schemas>*:</introspection-schemas>
     </data-source>
   </component>
 </project>

@@ -2,7 +2,6 @@ package com.comp354pjb.app.Model.Board;
 
 public class Card
 {
-
     private CardType type;
     private String word;
     private boolean isRevealed;
@@ -13,10 +12,10 @@ public class Card
         isRevealed = false;
     }
 
-    public Card(String word)
+    public Card(String word, CardType type)
     {
         this.word = word;
-        this.type = CardType.RED;
+        this.type = type;
         this.isRevealed = false;
     }
 

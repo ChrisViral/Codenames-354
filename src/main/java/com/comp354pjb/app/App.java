@@ -1,7 +1,7 @@
 package com.comp354pjb.app;
 import com.comp354pjb.app.Model.DatabaseHelper;
 
-import com.comp354pjb.app.Model.GameController;
+import com.comp354pjb.app.Model.Game;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,12 +26,12 @@ public class App extends Application
         return view;
     }
 
-    private static GameController game;
+    private static Game game;
     /**
      * Gets the Game controller
-     * @return Current GameController
+     * @return Current Game
      */
-    public static GameController getGame()
+    public static Game getGame()
     {
         return game;
     }
@@ -44,8 +44,13 @@ public class App extends Application
      */
     public static void main( String[] args )
     {
-        String[] words = DatabaseHelper.getWords();
-        GameController game = new GameController(words);
+        //Check for Database connection
+        if (!DatabaseHelper.checkConnection())
+        {
+            System.out.println("Could not connect to the database, aborting...");
+            return;
+        }
+
         //Launches JavaFX
         launch(args);
     }
@@ -59,10 +64,14 @@ public class App extends Application
     public void start(Stage stage) throws IOException
     {
         //Loading FXML file
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Resources/board.fxml"));
-        Scene scene = new Scene(loader.<Parent>load(), 1280, 800);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("View/board.fxml"));
+        Parent parent = loader.load();
+        Scene scene = new Scene(parent, 1280, 800);
         view = loader.getController();
         view.setApp(this);
+
+        //Create Game
+        game = new Game();
 
         //Showing GUI
         stage.setTitle("Codenames");

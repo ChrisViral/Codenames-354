@@ -16,21 +16,21 @@ public class DatabaseHelper
         return "jdbc:sqlite:" + path;
     }
 
-    public static void checkConnection()
+    public static boolean checkConnection()
     {
-
         String url = getURL();
         Connection conn = null;
+        boolean success = true;
         try
         {
             // create a connection to the database
             conn = DriverManager.getConnection(url);
             System.out.println("Connection to SQLite has been established.");
-
         }
         catch (SQLException e)
         {
             System.out.println(e.getMessage());
+            success = false;
         }
         finally
         {
@@ -44,8 +44,10 @@ public class DatabaseHelper
             catch (SQLException ex)
             {
                 System.out.println(ex.getMessage());
+                success = false;
             }
         }
+        return success;
     }
 
     public static String[] getWords()
@@ -70,7 +72,6 @@ public class DatabaseHelper
         {
             System.out.println(e.getMessage());
         }
-        return new String[]{ "error" };
+        return new String[] { "error" };
     }
-
 }
