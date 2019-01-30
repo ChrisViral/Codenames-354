@@ -1,26 +1,29 @@
 package com.comp354pjb.app.Controller;
-import com.comp354pjb.app.Model.*;
 
+import com.comp354pjb.app.Model.*;
 
 import java.util.*;
 
-public class gameController {
+public class GameController
+{
 
-    public gameController(String [] words){
+    public GameController(String[] words)
+    {
         words = shuffleWords(words);
-        Cards[][] chosenCards = createCards(words); //THIS IS WHAT IS HOLDING THE 25 CARDS
+        Card[][] chosenCards = createCards(words); //THIS IS WHAT IS HOLDING THE 25 CARDS
 
     }
 
-    public Cards [][] createCards(String [] words){
+    private Card[][] createCards(String[] words)
+    {
 
-        Cards[][] cards = new Cards[5][5];
+        Card[][] cards = new Card[5][5];
 
         for (int i = 0; i < 5; i++)
         {
             for (int j = 0; j < 5; j++)
             {
-                cards[i][j] = new Cards(words[(i * 5) + j]);
+                cards[i][j] = new Card(words[(i * 5) + j]);
             }
         }
 
@@ -31,72 +34,79 @@ public class gameController {
         return cards;
     }
 
-    public String [] shuffleWords(String [] words){
+    private String[] shuffleWords(String[] words)
+    {
 
         List<String> listOfWords = Arrays.asList(words);
         Collections.shuffle(listOfWords);
 
-        return listOfWords.toArray(new String [listOfWords.size()]);
+        return listOfWords.toArray(new String[listOfWords.size()]);
     }
 
-    public void decideFirstRoll(IPlayer red, IPlayer blue){
+    public void decideFirstRoll(IPlayer red, IPlayer blue)
+    {
         int flipResult = flipCoin();
 
-        if (flipResult == 1) {
+        if (flipResult == 1)
+        {
             System.out.println("Blue Team will start, which means they must guess 9 cards");
             System.out.println("Red Team will go second, which means they must guess 8 cards");
             enterGameLoop(blue, red);
-        } else {
+        }
+        else
+        {
             System.out.println("Red Team will start, which means they must guess 9 cards");
             System.out.println("Blue Team will go second, which means they must guess 8 cards");
             enterGameLoop(red, blue);
         }
     }
 
-    public int flipCoin(){
+    private int flipCoin()
+    {
         Random rand = new Random();
         return rand.nextInt(2);
     }
 
-    public Cards[][] randomizeCards(Cards[][] arr, cardType winner, cardType loser){
-        List<Integer> indexList= new ArrayList<Integer>();
-        for(int i=0;i<25;i++)
+    private void randomizeCards(Card[][] arr, CardType winner, CardType loser)
+    {
+        List<Integer> indexList = new ArrayList<Integer>();
+        for (int i = 0; i < 25; i++)
         {
             indexList.add(i);
         }
         Collections.shuffle(indexList);
-        for(int i=0;i<25;i++)
+        for (int i = 0; i < 25; i++)
         {
             int current = indexList.get(i);
             current++;
-            int row = current/5;
-            int coll = current%5;
-            if(i<9)
-                arr[row][coll].setType(winner);
-            else if(i<17)
-                arr[row][coll].setType(winner);
-            else if(i<23)
-                arr[row][coll].setType(cardType.CIV);
+            int row = current / 5;
+            int coll = current % 5;
+            if (i < 9)
+            { arr[row][coll].setType(winner); }
+            else if (i < 17)
+            { arr[row][coll].setType(winner); }
+            else if (i < 23)
+            { arr[row][coll].setType(CardType.CIV); }
             else
-                arr[row][coll].setType(cardType.ASS);
+            { arr[row][coll].setType(CardType.ASS); }
         }
-        return arr;
 
     }
 
     public void setupGame(IPlayer firstTeam, IPlayer secondTeam)
     {
-        randomizeCards();
+        //randomizeCards(); //Missing parameters right now
 
     }
 
 
-    public void enterGameLoop(IPlayer firstTeam, IPlayer secondTeam){
+    private void enterGameLoop(IPlayer firstTeam, IPlayer secondTeam)
+    {
         //in order to do this, we need the hints setup and be able to pull cards from the database, which ben is setting up
 
 
-
-        while(true) {
+        while (true)
+        {
 
 
             // giveHint(firstTeam);
@@ -109,9 +119,6 @@ public class gameController {
             // checkWinner(secondTeam); //TODO
 
         }
-
-
-
 
 
     }

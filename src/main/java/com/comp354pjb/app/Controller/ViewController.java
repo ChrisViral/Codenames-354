@@ -1,7 +1,7 @@
 package com.comp354pjb.app.Controller;
 
 import com.comp354pjb.app.App;
-import com.comp354pjb.app.Model.Cards;
+import com.comp354pjb.app.Model.Card;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -25,7 +25,7 @@ public class ViewController
     @FXML
     private GridPane grid;
     private Text[][] words;
-    private Cards[][] cards;
+    private Card[][] cards;
 
     @FXML
     private void initialize()
@@ -55,7 +55,7 @@ public class ViewController
         System.out.println("Setting style");
     }
 
-    public void setWords(Cards[][] cards)
+    public void setWords(Card[][] cards)
     {
         this.cards = cards;
         for (int i = 0; i < 5; i++)

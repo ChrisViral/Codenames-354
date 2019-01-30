@@ -1,43 +1,51 @@
 package com.comp354pjb.app.Model;
 
-public class Cards {
+public class Card
+{
 
+    private CardType type;
     private String word;
     private boolean isRevealed;
-    public cardType type;
 
-    public Cards(){
+    public Card()
+    {
         this.word = " ";
         isRevealed = false;
     }
 
-    public Cards(String word) {
+    public Card(String word)
+    {
         this.word = word;
-        this.type = cardType.RED;
+        this.type = CardType.RED;
         this.isRevealed = false;
     }
 
-    public String getWord() {
+    public String getWord()
+    {
         return word;
     }
 
-    public void setWord(String word) {
+    public void setWord(String word)
+    {
         this.word = word;
     }
 
-    public boolean isRevealed() {
+    public boolean isRevealed()
+    {
         return isRevealed;
     }
 
-    public void setRevealed(boolean revealed) {
+    public void setRevealed(boolean revealed)
+    {
         isRevealed = revealed;
     }
 
-    public cardType getType()
+    public CardType getType()
     {
         return type;
     }
-    public void setType(cardType tp)
+
+    public void setType(CardType tp)
     {
         type = tp;
     }

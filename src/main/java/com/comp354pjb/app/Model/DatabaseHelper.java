@@ -2,22 +2,18 @@ package com.comp354pjb.app.Model;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.ResultSet;
+import java.sql.*;
 
-public class DatabaseHelpers {
+public class DatabaseHelper
+{
 
-    public static String getURL()
+    private static String getURL()
     {
         //get path to you current root directory, then appends db/codenames.db at the back, and
         //jbdc:sqlite at the front to complete a correct
         Path currentDir = Paths.get("db/codenames.db");
-        String path= currentDir.toAbsolutePath()+ "";
-        String url = "jdbc:sqlite:"+path;
-        return url;
+        String path = currentDir.toAbsolutePath() + "";
+        return "jdbc:sqlite:" + path;
     }
 
     public static void checkConnection()
@@ -61,9 +57,9 @@ public class DatabaseHelpers {
             ResultSet size = stmt.executeQuery("select count(wordValue) as size from word;");
             String[] words = new String[size.getInt("size")];
             //getting all the words in the database
-            ResultSet query =  stmt.executeQuery("select * from word;");
-            int count=0;
-            while(query.next())
+            ResultSet query = stmt.executeQuery("select * from word;");
+            int count = 0;
+            while (query.next())
             {
                 words[count] = query.getString("wordValue");
                 count++;
@@ -74,8 +70,7 @@ public class DatabaseHelpers {
         {
             System.out.println(e.getMessage());
         }
-        String[] error= {"error"};
-        return error;
+        return new String[]{ "error" };
     }
 
 }

@@ -1,8 +1,8 @@
 package com.comp354pjb.app;
-import com.comp354pjb.app.Model.DatabaseHelpers;
+import com.comp354pjb.app.Model.DatabaseHelper;
 
 import com.comp354pjb.app.Controller.ViewController;
-import com.comp354pjb.app.Controller.gameController;
+import com.comp354pjb.app.Controller.GameController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -27,12 +27,12 @@ public class App extends Application
         return view;
     }
 
-    private static gameController game;
+    private static GameController game;
     /**
      * Gets the Game controller
      * @return Current GameController
      */
-    public static gameController getGame()
+    public static GameController getGame()
     {
         return game;
     }
@@ -45,8 +45,8 @@ public class App extends Application
      */
     public static void main( String[] args )
     {
-        String[] words = DatabaseHelpers.getWords();
-        gameController game = new gameController(words);
+        String[] words = DatabaseHelper.getWords();
+        GameController game = new GameController(words);
         //Launches JavaFX
         launch(args);
     }
