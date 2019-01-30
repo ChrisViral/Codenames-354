@@ -1,7 +1,6 @@
-package com.comp354pjb.app.Controller;
+package com.comp354pjb.app;
 
-import com.comp354pjb.app.App;
-import com.comp354pjb.app.Model.Card;
+import com.comp354pjb.app.Model.Board.Card;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -49,10 +48,13 @@ public class ViewController
         Pane pane = (Pane)data.getSource();
         int x = GridPane.getRowIndex(pane) - 1;
         int y = GridPane.getColumnIndex(pane) - 1;
-        ObservableList<String> styles = pane.getStyleClass();
-        styles.remove("unknown");
-        //styles.add(this.cards[x][y].getType().toString());
-        System.out.println("Setting style");
+        Card card = this.cards[x][y];
+        if (!card.isRevealed())
+        {
+            ObservableList<String> styles = pane.getStyleClass();
+            styles.remove("unknown");
+            styles.add(card.getType().toString().toLowerCase());
+        }
     }
 
     public void setWords(Card[][] cards)

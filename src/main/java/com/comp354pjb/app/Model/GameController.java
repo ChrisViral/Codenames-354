@@ -1,6 +1,8 @@
-package com.comp354pjb.app.Controller;
+package com.comp354pjb.app.Model;
 
-import com.comp354pjb.app.Model.*;
+import com.comp354pjb.app.Model.Board.Card;
+import com.comp354pjb.app.Model.Board.CardType;
+import com.comp354pjb.app.Model.Player.IPlayer;
 
 import java.util.*;
 
@@ -36,7 +38,6 @@ public class GameController
 
     private String[] shuffleWords(String[] words)
     {
-
         List<String> listOfWords = Arrays.asList(words);
         Collections.shuffle(listOfWords);
 
@@ -86,9 +87,9 @@ public class GameController
             else if (i < 17)
             { arr[row][coll].setType(winner); }
             else if (i < 23)
-            { arr[row][coll].setType(CardType.CIV); }
+            { arr[row][coll].setType(CardType.CIVILIAN); }
             else
-            { arr[row][coll].setType(CardType.ASS); }
+            { arr[row][coll].setType(CardType.ASSASSIN); }
         }
 
     }

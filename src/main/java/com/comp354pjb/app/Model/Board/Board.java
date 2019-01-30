@@ -1,10 +1,10 @@
-package com.comp354pjb.app.Model;
+package com.comp354pjb.app.Model.Board;
 
 public class Board
 {
     private Card[][] board;
 
-    Board(Card[][] arr)
+    public Board(Card[][] arr)
     {
         board = arr;
     }
