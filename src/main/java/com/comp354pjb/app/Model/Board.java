@@ -2,14 +2,14 @@ package com.comp354pjb.app.Model;
 
 public class Board
 {
-    private Cards [][] board;
+    private Card[][] board;
 
-    Board(Cards[][] arr)
+    Board(Card[][] arr)
     {
         board = arr;
     }
 
-    public Cards[][] getBoard()
+    public Card[][] getBoard()
     {
         return board;
     }
@@ -27,7 +27,7 @@ public class Board
         board[i][j].setWord(word);
     }
 
-    public void setTypeAt(int i, int j, cardType tp)
+    public void setTypeAt(int i, int j, CardType tp)
     {
         board[i][j].setType(tp);
     }

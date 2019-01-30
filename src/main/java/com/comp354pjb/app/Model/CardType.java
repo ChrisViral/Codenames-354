@@ -1,6 +1,6 @@
 package com.comp354pjb.app.Model;
 
-public enum cardType
+public enum CardType
 {
     RED, BLUE, CIV, ASS
 }
