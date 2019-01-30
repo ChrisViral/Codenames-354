@@ -1,6 +1,8 @@
-package com.comp354pjb.app.Controller;
+package com.comp354pjb.app.Model;
 
-import com.comp354pjb.app.Model.*;
+import com.comp354pjb.app.Model.Board.Card;
+import com.comp354pjb.app.Model.Board.CardType;
+import com.comp354pjb.app.Model.Player.IPlayer;
 
 import java.util.*;
 

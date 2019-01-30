@@ -1,8 +1,7 @@
 package com.comp354pjb.app;
 import com.comp354pjb.app.Model.DatabaseHelper;
 
-import com.comp354pjb.app.Controller.ViewController;
-import com.comp354pjb.app.Controller.GameController;
+import com.comp354pjb.app.Model.GameController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

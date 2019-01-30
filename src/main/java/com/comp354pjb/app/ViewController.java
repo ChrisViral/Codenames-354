@@ -1,7 +1,6 @@
-package com.comp354pjb.app.Controller;
+package com.comp354pjb.app;
 
-import com.comp354pjb.app.App;
-import com.comp354pjb.app.Model.Card;
+import com.comp354pjb.app.Model.Board.Card;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
