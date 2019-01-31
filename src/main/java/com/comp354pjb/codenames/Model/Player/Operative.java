@@ -1,4 +1,4 @@
-package com.comp354pjb.app.Model.Player;
+package com.comp354pjb.codenames.Model.Player;
 
 public class Operative
 {

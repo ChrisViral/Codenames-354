@@ -1,6 +1,6 @@
-package com.comp354pjb.app;
+package com.comp354pjb.codenames;
 
-import com.comp354pjb.app.Model.DatabaseHelper;
+import com.comp354pjb.codenames.Model.DatabaseHelper;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

@@ -1,7 +1,7 @@
-package com.comp354pjb.app.Model.Board;
+package com.comp354pjb.codenames.Model.Board;
 
-import com.comp354pjb.app.App;
-import com.comp354pjb.app.Model.Player.PlayerType;
+import com.comp354pjb.codenames.App;
+import com.comp354pjb.codenames.Model.Player.PlayerType;
 
 import java.util.*;
 
