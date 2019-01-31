@@ -10,5 +10,8 @@
         <module name="Codenames-354" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Codenames-354" target="1.7" />
+    </bytecodeTargetLevel>
   </component>
 </project>
