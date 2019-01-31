@@ -1,6 +1,6 @@
 package com.comp354pjb.codenames.Model.Board;
 
-import com.comp354pjb.codenames.App;
+import com.comp354pjb.codenames.Model.Game;
 import com.comp354pjb.codenames.Model.Player.PlayerType;
 
 import java.util.*;
@@ -15,10 +15,12 @@ public class Board
         CardType.ASSASSIN,  //1 Assassin card
     };
 
+    private Game game;
     private Card[][] cards;
 
-    public Board(String[] words, PlayerType startingPlayer)
+    public Board(Game game, String[] words, PlayerType startingPlayer)
     {
+        this.game = game;
         this.cards = Board.createCards(words, startingPlayer);
     }
 
@@ -67,7 +69,7 @@ public class Board
         if (!card.isRevealed())
         {
             card.setRevealed(true);
-            App.getController().flip(x, y, card.getType());
+            this.game.getController().flip(x, y, card.getType());
         }
     }
 }

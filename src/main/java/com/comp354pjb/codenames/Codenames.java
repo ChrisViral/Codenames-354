@@ -12,24 +12,16 @@ import java.io.IOException;
 /**
  * Application entry point class
  */
-public class App extends Application
+public class Codenames extends Application
 {
     //region Controllers
     private static Controller controller;
-    /**
-     * Gets the View controller
-     * @return Current Controller
-     */
-    public static Controller getController()
-    {
-        return controller;
-    }
     //endregion
 
     //region Initialization
     /**
      * Application entry point
-     * @param args App arguments
+     * @param args Codenames arguments
      */
     public static void main( String[] args )
     {

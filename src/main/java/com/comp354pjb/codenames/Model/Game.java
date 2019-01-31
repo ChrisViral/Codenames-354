@@ -9,9 +9,14 @@ import java.util.*;
 
 public class Game
 {
-    private static final Random random = new Random();
+    private static final Random RANDOM = new Random();
 
     private final Controller controller;
+    public Controller getController()
+    {
+        return this.controller;
+    }
+
     private Board board;
     public Board getBoard()
     {
@@ -23,12 +28,12 @@ public class Game
         this.controller = controller;
         String[] words = DatabaseHelper.getWords();
         words = shuffleWords(words);
-        this.board = new Board(words, Game.chooseStartingPlayer());
+        this.board = new Board(this, words, Game.chooseStartingPlayer());
     }
 
     private static PlayerType chooseStartingPlayer()
     {
-        return random.nextBoolean() ? PlayerType.RED : PlayerType.BLUE;
+        return RANDOM.nextBoolean() ? PlayerType.RED : PlayerType.BLUE;
     }
 
     private String[] shuffleWords(String[] words)
@@ -41,9 +46,7 @@ public class Game
 
     public void decideFirstRoll(IPlayer red, IPlayer blue)
     {
-        boolean flipResult = random.nextBoolean();
-
-        if (flipResult)
+        if (RANDOM.nextBoolean())
         {
             System.out.println("Blue Team will start, which means they must guess 9 cards");
             System.out.println("Red Team will go second, which means they must guess 8 cards");
