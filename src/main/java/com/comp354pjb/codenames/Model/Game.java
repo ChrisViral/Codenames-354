@@ -26,9 +26,9 @@ public class Game
     public Game(Controller controller)
     {
         this.controller = controller;
-        String[] words = DatabaseHelper.getWords();
+        String[] words = DatabaseHelper.selectWords(25);
         words = shuffleWords(words);
-        this.board = new Board(this, words, Game.chooseStartingPlayer());
+        this.board = new Board(this, words, chooseStartingPlayer());
     }
 
     private static PlayerType chooseStartingPlayer()
