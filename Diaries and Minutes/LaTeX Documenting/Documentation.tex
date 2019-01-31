@@ -1,0 +1,359 @@
+\documentclass[12pt, a4paper]{article}
+
+%import packages
+\usepackage[pagestyles]{titlesec}
+\usepackage{titlesec}
+\usepackage{enumerate}
+
+%package configurations
+\pagestyle{empty}	
+\setcounter{tocdepth}{4}
+\renewcommand*\contentsname{\centering Table of Contents}
+\titleformat*{\section}{\center\Large\bfseries}
+
+%configures page number placement
+\newpagestyle{main}{\setfoot{}{}{\thepage}}
+\pagestyle{main}
+\assignpagestyle{\chapter}{main}
+
+%stuff from prof that handles formatting
+\topmargin=0cm
+\oddsidemargin=0cm
+\textheight=22.0cm
+\textwidth=16cm
+\parindent=0cm
+\parskip=0.15cm
+\topskip=0truecm
+\raggedbottom
+\abovedisplayskip=3mm
+\belowdisplayskip=3mm
+\abovedisplayshortskip=0mm
+\belowdisplayshortskip=2mm
+\normalbaselineskip=12pt
+\normalbaselines
+
+
+\begin{document}
+		
+\hrulefill
+\begin{flushright}
+\textbf{Team PB-J}
+\end{flushright}
+\hrulefill
+
+\vspace*{0.5in}
+\centerline{\bf\Large CODENAMES GAME}
+
+%team members table
+\vspace*{1.5in}
+\begin{table}[htbp]
+\begin{center}
+	Team Members\\
+\end{center}
+\begin{center}
+	\begin{tabular}{| c | c |}
+	\hline
+	Name & ID Number \\
+	\hline\hline
+	Ashesh Patel & ??? \\
+	Christophe Savard & 40017812\\
+	Benjamin Th\'erien & 40034572\\
+	Daniel Thibault-Shea & 40073133\\
+	Shereece Victor & 40105094\\
+	Michael Wilgus & 29206388 \\
+	Rezza-Zairan Zaharin & 40003377 \\
+	Steven Zanga & 40000797\\
+	Mottel Zirkind & 27206151\\
+	\hline
+	\end{tabular}
+\end{center}
+\end{table}
+
+\newpage
+%\tableofcontents
+\newpage
+
+
+\section{Project Analysis and Development Plan}
+
+	\subsection{Introduction}
+	
+	 The purpose of this document is to detail the high-level requirements and features of the Codenames Game developed by team PB-J. The Codenames Game is a game of 2 to 8 human and AI players. This project is an adaptation of the Codenames Game designed by Vlada Chv\'atil and published by Czech games.\\
+	 \\
+	 The specifics of how the Codenames Game fulfills these needs will be detailed in the use cases which more will be detailed in the upcoming design phase\\
+	
+	\subsection{Purpose}
+	
+	This document will describe the specifications entailed by the development of Codenames in compliance with the requirements of COMP 354. It will outline the high-level requirements encompassing user interfaces, product functions, user descriptions, assumptions and dependancies, constraints, specific requirements and an analysis model. The analysis model will hold use case diagrams, class diagrams, sequence diagrams and state transition diagrams.
+	
+	\subsection{Scope}
+	
+	This document only addresses the high level requirements of Codenames  that the design phase.  \\
+	
+
+	\subsection{Definitions and Abbreviations}
+	
+		\subsubsection{Definitions}
+	
+		\textbf{Board} \\
+		The main playing area will be composed of a 5 by 5 grid of words. Each cell of the grid are representative of codenames of agents. Each cell in the grid will be defined in this document as a \textbf{Card}.\\
+	
+		\textbf{Card} \\
+		The card will hold two values indicative of it's state.\\
+	
+		\subsubsection{Abbreviations}
+	
+	\subsection{Reference}
+	
+	\subsection{Overview}
+	
+	The rest of this document outlines the problem description and the development plan. \\ 
+	\\  
+	The problem description will describe the game user's interfaces, product functions, user descriptions, assumptions and dependencies, constraints, specification requirements, and the analysis model. \\  
+	
+	\newpage
+	
+\section{Problem Description}
+
+	\subsection{Project Purpose, Scope, and Objectives}
+	
+		\subsubsection{User Interfaces}
+	
+			\paragraph{Game Board}
+			
+			\paragraph{Card}
+			
+			\paragraph{Winner Interface}
+			
+	\subsection{Product Functions}
+	
+		\subsubsection{Introduction}
+		
+		\subsubsection{Board}
+		
+		\subsubsection{Game}
+		
+	\subsection{User Description}
+	
+		\subsubsection{User Environment}
+		
+		\subsubsection{User Profiles}
+		
+	\subsection{Assumptions and Dependencies}
+	
+	\subsection{Constraints}
+	
+	\subsection{Specific Requirements}
+	
+	\subsection{Analysis Models}
+	
+		\subsubsection{Use Case Diagrams}
+		
+		\subsubsection{Player Use Cases}
+			\paragraph{Use Case 1: Start Game }
+			
+			\begin{center}
+				\begin{tabular}{ |c|p{7cm}| } 
+					\hline
+					Description & The user commences the game  \\
+					\hline 
+					Actors & User \\
+					\hline  
+					Pre-Conditions & None \\
+					\hline  
+					Basic Path & 
+					
+					\begin{itemize}
+						
+						\item The user clicks "Start Game".
+					\end{itemize}\\
+					\hline
+					Alternative Paths & None \\
+					\hline
+					Post-Conditions & \begin{itemize}
+						\item The Board is initialized.
+						\item The first Spymaster can reveal a clue. 
+					\end{itemize} \\
+					\hline 
+					Related Use Cases & \\
+					\hline 
+					Used Use Cases & None \\
+					\hline 
+					Extending Use Cases & None \\
+					\hline 
+				\end{tabular}
+			\end{center}
+	
+	
+	\paragraph{Use Case 2: Reveal Clue}
+		\begin{center}
+		\begin{tabular}{ |c|p{7cm}| } 
+			\hline
+			Description & The Spymaster issues a clue \\ 
+			\hline
+			Actors & Spymaster \\
+			\hline 
+			Pre-Conditions & \begin{itemize}
+				\item The Board is initialized.
+				\item It's the Spymaster's turn to play  
+			\end{itemize} \\
+			\hline
+			Basic Path & 
+				\begin{enumerate}
+					\item The word which comprises the clue is displayed 
+					\item The number of cards related to the clue is revealed
+					\item 3.	The system checks to see if the clue is valid 
+				\end{enumerate} \\
+			\hline 
+			Alternative Paths & Alternative 1: \begin{itemize}
+				\item If the clue is not value, a card belonging to the opposing team is revealed. 
+				\item The turn is passed to the opposing spymaster.
+			\end{itemize}
+	
+			Alternative 2:
+			\begin{itemize}
+			\item	The clue is valid
+			\item 	Game play continues 
+			\end{itemize}
+			 \\
+			\hline 
+			Post-Conditions & 
+				\begin{itemize}
+					\item A clue has been revealed
+					\item The Spymaster’s turn has ended 
+				\end{itemize} \\
+			\hline 
+			Related Use Cases & \\
+			\hline 
+			Used Use Cases & None \\
+			\hline
+			Extending Use Cases & None \\
+			\hline
+		\end{tabular}
+	\end{center}
+		
+		\paragraph{Use Case 3: Card Reveal}
+		\begin{center}
+			\begin{tabular}{ |c|p{7cm}| } 
+				\hline
+				Description & The operative picks cards to be revealed\\ 
+				\hline
+				Actors & Operative  \\
+				\hline 
+				Pre-Conditions & \begin{itemize}	
+					\item The Spymaster has given a valid clue and number of guesses 
+					\item It is the operatives turn to play
+				\end{itemize}	
+				  \\
+				\hline
+				Basic Path & 
+				\begin{enumerate}
+					\item The operative picks a card on the board based on the clue
+					\item The system reveals the contents of the card  
+					\item If the card chosen belongs to the operative’s team. The operative’s reveal count increments.
+					\item The operative gets to reveal another card 
+				\end{enumerate} \\
+				\hline 
+				Alternative Paths & Alternative 1: \begin{itemize}
+					\item If the operative has depleted their chances to guess, they cannot reveal another card.
+				\end{itemize}
+				
+				Alternative 2:
+				\begin{itemize}
+					\item If the operative reveals the opposing team’s card; the opposing teams reveal count is incremented.
+					\item The operative’s turn ends.  
+				\end{itemize}
+			
+			Alternative 3:
+			\begin{itemize}
+				\item If the operative reveals a civilian card: 
+				\item The operative’s turn ends   
+			\end{itemize}
+		
+		Alternative 4:
+		\begin{itemize}
+			\item If the operative reveals the assassin, the game ends.
+			\item The operative’s team loses  
+		\end{itemize}
+				\\
+				\hline 
+				Post-Conditions & 
+				\begin{itemize}
+					\item A clue has been revealed
+					\item The Spymaster’s turn has ended 
+				\end{itemize} \\
+				\hline 
+				Related Use Cases & \\
+				\hline 
+				Used Use Cases & None \\
+				\hline
+				Extending Use Cases & None \\
+				\hline
+			\end{tabular}
+		\end{center}
+			
+			\paragraph{Use Case 4: End Game}
+			\begin{center}
+				\begin{tabular}{ |c|p{7cm}| } 
+					\hline
+					Description & The game is ended \\ 
+					\hline
+					Actors & System  \\
+					\hline 
+					Pre-Conditions & \begin{itemize}	
+						\item The assassin card has been revealed 
+						\item One of the teams has revealed all of their cards
+					\end{itemize}	
+					\\
+					\hline
+					Basic Path & 
+					\begin{enumerate}
+						\item The game board is hidden
+						\item A results screen is displayed   
+					\end{enumerate} \\
+					\hline 
+					Alternative Paths & 
+					\\
+					\hline 
+					Post-Conditions & 
+					\begin{itemize}
+						\item The game is done
+						
+					\end{itemize} \\
+					\hline 
+					Related Use Cases & \\
+					\hline 
+					Used Use Cases & None \\
+					\hline
+					Extending Use Cases & None \\
+					\hline
+				\end{tabular}
+			\end{center}
+	
+		\subsubsection{Class Diagrams}
+		
+			\paragraph{Full Class Diagram}
+			
+			\paragraph{Simplified View}
+			
+			\paragraph{Hierarchical View}
+			
+		\subsubsection{Sequence Diagram}
+		
+\section{Development Plan}
+
+	\subsection{Project Estimates}
+	
+	\subsection{Project Plan}
+	
+		\subsubsection{Phase plan}
+		\subsubsection{Project Schedule}
+		\subsubsection{Project Resourcing}
+	
+	
+	
+
+
+
+
+\end{document}
