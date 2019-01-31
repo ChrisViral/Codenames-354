@@ -1,4 +1,4 @@
-package com.comp354pjb.app.Model;
+package com.comp354pjb.codenames.Model;
 
 public interface Observer
 {
