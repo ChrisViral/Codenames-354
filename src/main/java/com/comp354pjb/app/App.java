@@ -15,14 +15,14 @@ import java.io.IOException;
 public class App extends Application
 {
     //region Controllers
-    private static ViewController view;
+    private static Controller controller;
     /**
      * Gets the View controller
-     * @return Current ViewController
+     * @return Current Controller
      */
-    public static ViewController getView()
+    public static Controller getController()
     {
-        return view;
+        return controller;
     }
     //endregion
 
@@ -56,7 +56,7 @@ public class App extends Application
         FXMLLoader loader = new FXMLLoader(getClass().getResource("View/board.fxml"));
         Parent parent = loader.load();
         Scene scene = new Scene(parent, 1280, 800);
-        view = loader.getController();
+        controller = loader.getController();
 
         //Showing GUI
         stage.setTitle("Codenames");
@@ -64,7 +64,7 @@ public class App extends Application
         stage.show();
 
         //Setup board
-        view.setup();
+        controller.setup();
     }
     //endregion
 }

@@ -1,10 +1,9 @@
 package com.comp354pjb.app.Model;
 
-import com.comp354pjb.app.App;
+import com.comp354pjb.app.Controller;
 import com.comp354pjb.app.Model.Board.Board;
 import com.comp354pjb.app.Model.Player.IPlayer;
 import com.comp354pjb.app.Model.Player.PlayerType;
-import com.comp354pjb.app.ViewController;
 
 import java.util.*;
 
@@ -12,14 +11,14 @@ public class Game
 {
     private static final Random random = new Random();
 
-    private final ViewController controller;
+    private final Controller controller;
     private Board board;
     public Board getBoard()
     {
         return this.board;
     }
 
-    public Game(ViewController controller)
+    public Game(Controller controller)
     {
         this.controller = controller;
         String[] words = DatabaseHelper.getWords();

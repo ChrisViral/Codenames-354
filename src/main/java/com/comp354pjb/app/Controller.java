@@ -11,7 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
-public class ViewController
+public class Controller
 {
     @FXML
     private GridPane grid;
