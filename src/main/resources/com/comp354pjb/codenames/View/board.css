@@ -42,3 +42,7 @@
 .unknown {
     -fx-background-color: rgb(91, 178, 67);
 }
+
+.button {
+    /*button styling will go here.*/
+}
