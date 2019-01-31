@@ -67,7 +67,7 @@ public class Board
         if (!card.isRevealed())
         {
             card.setRevealed(true);
-            App.getView().reveal(x, y, card.getType());
+            App.getView().flip(x, y, card.getType());
         }
     }
 }

@@ -4,6 +4,7 @@ import com.comp354pjb.app.App;
 import com.comp354pjb.app.Model.Board.Board;
 import com.comp354pjb.app.Model.Player.IPlayer;
 import com.comp354pjb.app.Model.Player.PlayerType;
+import com.comp354pjb.app.ViewController;
 
 import java.util.*;
 
@@ -11,18 +12,19 @@ public class Game
 {
     private static final Random random = new Random();
 
+    private final ViewController controller;
     private Board board;
     public Board getBoard()
     {
         return this.board;
     }
 
-    public Game()
+    public Game(ViewController controller)
     {
+        this.controller = controller;
         String[] words = DatabaseHelper.getWords();
         words = shuffleWords(words);
         this.board = new Board(words, Game.chooseStartingPlayer());
-        App.getView().setBoard(this.board);
     }
 
     private static PlayerType chooseStartingPlayer()

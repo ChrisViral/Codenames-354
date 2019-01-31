@@ -42,3 +42,4 @@ desktop.ini
 # IntelliJ
 # .idea/	# We actually need this to enforce code style
 workspace.xml
+misc.xml

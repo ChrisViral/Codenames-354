@@ -1,7 +1,6 @@
 package com.comp354pjb.app;
-import com.comp354pjb.app.Model.DatabaseHelper;
 
-import com.comp354pjb.app.Model.Game;
+import com.comp354pjb.app.Model.DatabaseHelper;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,16 +23,6 @@ public class App extends Application
     public static ViewController getView()
     {
         return view;
-    }
-
-    private static Game game;
-    /**
-     * Gets the Game controller
-     * @return Current Game
-     */
-    public static Game getGame()
-    {
-        return game;
     }
     //endregion
 
@@ -68,15 +57,14 @@ public class App extends Application
         Parent parent = loader.load();
         Scene scene = new Scene(parent, 1280, 800);
         view = loader.getController();
-        view.setApp(this);
-
-        //Create Game
-        game = new Game();
 
         //Showing GUI
         stage.setTitle("Codenames");
         stage.setScene(scene);
         stage.show();
+
+        //Setup board
+        view.setup();
     }
     //endregion
 }
