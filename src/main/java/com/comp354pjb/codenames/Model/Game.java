@@ -27,21 +27,12 @@ public class Game
     {
         this.controller = controller;
         String[] words = DatabaseHelper.selectWords(25);
-        words = shuffleWords(words);
         this.board = new Board(this, words, chooseStartingPlayer());
     }
 
     private static PlayerType chooseStartingPlayer()
     {
         return RANDOM.nextBoolean() ? PlayerType.RED : PlayerType.BLUE;
-    }
-
-    private String[] shuffleWords(String[] words)
-    {
-        List<String> listOfWords = Arrays.asList(words);
-        Collections.shuffle(listOfWords);
-
-        return listOfWords.toArray(new String[listOfWords.size()]);
     }
 
     public void decideFirstRoll(IPlayer red, IPlayer blue)
