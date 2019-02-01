@@ -188,7 +188,7 @@
           </children>
        </HBox>
        <HBox alignment="CENTER" GridPane.columnIndex="5" GridPane.rowIndex="6">
-           <Button disable="true" styleClass="button" text="Undo"/>
+           <Button disable="false" styleClass="button" text="Undo"/>
            <Button disable="true" styleClass="button" text="Redo">
             <HBox.margin>
                 <Insets left="10" />
