@@ -1,7 +1,17 @@
+/*
+ * Codenames.java
+ * Created by: Christophe Savard
+ * Created on: 17/01/19
+ *
+ * Contributors:
+ * Christophe Savard
+ * Steven Zanga
+ * Benjamin Therrien
+ */
+
 package com.comp354pjb.codenames;
 
 import com.comp354pjb.codenames.model.DatabaseHelper;
-import com.comp354pjb.codenames.model.board.Board;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
