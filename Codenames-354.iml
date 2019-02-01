@@ -10,7 +10,6 @@
       <sourceFolder url="file://$MODULE_DIR$/target/classes/com/comp354pjb/app/View" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/Resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/target/classes/com/comp354pjb/codenames/View" type="java-resource" />
       <excludeFolder url="file://$MODULE_DIR$/.github" />
       <excludeFolder url="file://$MODULE_DIR$/Diaries and Minutes" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
