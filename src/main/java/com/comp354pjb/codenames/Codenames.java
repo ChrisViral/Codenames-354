@@ -14,10 +14,6 @@ import java.io.IOException;
  */
 public class Codenames extends Application
 {
-    //region Controllers
-    private static Controller controller;
-    //endregion
-
     //region Initialization
     /**
      * Application entry point
@@ -29,7 +25,7 @@ public class Codenames extends Application
         if (!DatabaseHelper.checkConnection())
         {
             System.out.println("Could not connect to the database, aborting...");
-            return;
+            System.exit(1);
         }
 
         //Launches JavaFX
@@ -48,7 +44,6 @@ public class Codenames extends Application
         FXMLLoader loader = new FXMLLoader(getClass().getResource("View/board.fxml"));
         Parent parent = loader.load();
         Scene scene = new Scene(parent, 1280, 800);
-        controller = loader.getController();
 
         //Showing GUI
         stage.setTitle("Codenames");
@@ -56,7 +51,7 @@ public class Codenames extends Application
         stage.show();
 
         //Setup board
-        controller.setup();
+        ((Controller)loader.getController()).setup();
     }
     //endregion
 }

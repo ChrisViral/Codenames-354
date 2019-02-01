@@ -90,7 +90,8 @@ public class DatabaseHelper
         String[] result = new String[n];
         for (int i = 0; i < n; i++)
         {
-            result[i] = words.get(i);
+            String word = words.get(i);
+            result[i] = Character.toUpperCase(word.charAt(0)) + word.substring(1);
         }
         return result;
     }
