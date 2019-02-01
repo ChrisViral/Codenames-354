@@ -1,3 +1,14 @@
+/*
+ * Board.java
+ * Created by: Benjamin Therrien
+ * Created on: 17/01/19
+ *
+ * Contributors:
+ * Steven Zanga
+ * Christophe Savard
+ *
+ */
+
 package com.comp354pjb.codenames.model.board;
 
 import com.comp354pjb.codenames.model.Game;
@@ -7,6 +18,10 @@ import java.util.*;
 
 public class Board
 {
+    /**
+     * Sets the preset of card types on the board. All 25 cards are defaulted to a specific type of card, either
+     * RED, BLUE, ASSASSIN or CIVILIAN.
+     */
     private static final CardType[] preset =
     {
         CardType.RED, CardType.RED, CardType.RED, CardType.RED, CardType.RED, CardType.RED, CardType.RED, CardType.RED,                      //8 Red cards
@@ -58,11 +73,24 @@ public class Board
         return cards;
     }
 
+    /**
+     * Getting a specific card at a specific index on the board.
+     *
+     * @param x Index of card on horizontal axis
+     * @param y Index of card on vertical axis
+     * @return returns specific card on board
+     */
     public Card getCard(int x, int y)
     {
         return this.cards[x][y];
     }
 
+    /**
+     * Reveals the card at a specific index, checks if it was flipped already, if not, it will flip the card.
+     * @param x Index horizontal
+     * @param y Index vertical
+     *
+     */
     public void revealAt(int x, int y)
     {
         Card card = getCard(x, y);

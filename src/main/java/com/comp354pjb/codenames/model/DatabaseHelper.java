@@ -1,3 +1,12 @@
+/*
+ * DatabaseHelper.java
+ * Created by: Benjamin Therrien
+ * Created on: 17/01/19
+ *
+ * Contributors:
+ * Steven Zanga
+ * ...
+ */
 package com.comp354pjb.codenames.model;
 
 import java.nio.file.Path;
@@ -9,8 +18,15 @@ import java.util.List;
 
 public class DatabaseHelper
 {
+    /**
+     * SQLite Header ID
+     */
     private static final String SQLITE_HEADER = "jdbc:sqlite:";
 
+    /**
+     * get URL of Database
+     * @return returns the header + absolute path to DB
+     */
     private static String getURL()
     {
         //get path to you current root directory, then appends db/codenames.db at the back, and
@@ -19,6 +35,10 @@ public class DatabaseHelper
         return SQLITE_HEADER + currentDir.toString();
     }
 
+    /**
+     * Establishes connection between program and database.
+     * @return boolean to whether the connection has been established
+     */
     public static boolean checkConnection()
     {
         String url = getURL();
@@ -53,6 +73,10 @@ public class DatabaseHelper
         return success;
     }
 
+    /**
+     * fetch information from database. Specifically the words and hints.
+     * @return Words stored in DB
+     */
     public static String[] fetchDatabase()
     {
         String url = getURL();
@@ -78,6 +102,11 @@ public class DatabaseHelper
         return new String[0];
     }
 
+    /**
+     * select 25 words to be created into cards, they are randomly selected.
+     * @param n
+     * @return selected words
+     */
     public static String[] selectWords(int n)
     {
         List<String> words = Arrays.asList(fetchDatabase());
