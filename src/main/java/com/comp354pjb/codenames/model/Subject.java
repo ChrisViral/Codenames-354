@@ -1,4 +1,4 @@
-package com.comp354pjb.codenames.Model;
+package com.comp354pjb.codenames.model;
 
 public interface Subject
 {

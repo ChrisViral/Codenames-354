@@ -1,8 +1,8 @@
 package com.comp354pjb.codenames;
 
-import com.comp354pjb.codenames.Model.Board.Board;
-import com.comp354pjb.codenames.Model.Board.CardType;
-import com.comp354pjb.codenames.Model.Game;
+import com.comp354pjb.codenames.model.board.Board;
+import com.comp354pjb.codenames.model.board.CardType;
+import com.comp354pjb.codenames.model.Game;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;

@@ -1,6 +1,7 @@
 package com.comp354pjb.codenames;
 
-import com.comp354pjb.codenames.Model.DatabaseHelper;
+import com.comp354pjb.codenames.model.DatabaseHelper;
+import com.comp354pjb.codenames.model.board.Board;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,12 +15,27 @@ import java.io.IOException;
  */
 public class Codenames extends Application
 {
+    //region Constants
+    /**
+     * Width of the App's window
+     */
+    public static final int WIDTH = 1280;
+    /**
+     * Height of the App's window
+     */
+    public static final int HEIGHT = 800;
+    /**
+     * Board FXML file location
+     */
+    private static final String BOARD_FXML = "view/board.fxml";
+    //endregion
+
     //region Initialization
     /**
      * Application entry point
      * @param args Codenames arguments
      */
-    public static void main( String[] args )
+    public static void main(String[] args)
     {
         //Check for Database connection
         if (!DatabaseHelper.checkConnection())
@@ -41,12 +57,11 @@ public class Codenames extends Application
     public void start(Stage stage) throws IOException
     {
         //Loading FXML file
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("View/board.fxml"));
-        Parent parent = loader.load();
-        Scene scene = new Scene(parent, 1280, 800);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(BOARD_FXML));
+        Scene scene = new Scene(loader.<Parent>load(), WIDTH, HEIGHT);
 
         //Showing GUI
-        stage.setTitle("Codenames");
+        stage.setTitle(getClass().getSimpleName());
         stage.setScene(scene);
         stage.show();
 

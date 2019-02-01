@@ -1,9 +1,9 @@
-package com.comp354pjb.codenames.Model;
+package com.comp354pjb.codenames.model;
 
 import com.comp354pjb.codenames.Controller;
-import com.comp354pjb.codenames.Model.Board.Board;
-import com.comp354pjb.codenames.Model.Player.IPlayer;
-import com.comp354pjb.codenames.Model.Player.PlayerType;
+import com.comp354pjb.codenames.model.board.Board;
+import com.comp354pjb.codenames.model.player.IPlayer;
+import com.comp354pjb.codenames.model.player.PlayerType;
 
 import java.util.*;
 

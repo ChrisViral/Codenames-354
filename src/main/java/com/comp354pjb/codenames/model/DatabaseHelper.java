@@ -1,4 +1,4 @@
-package com.comp354pjb.codenames.Model;
+package com.comp354pjb.codenames.model;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
