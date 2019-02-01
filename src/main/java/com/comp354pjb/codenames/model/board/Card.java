@@ -1,4 +1,4 @@
-package com.comp354pjb.codenames.Model.Board;
+package com.comp354pjb.codenames.model.board;
 
 public class Card
 {
