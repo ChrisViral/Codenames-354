@@ -1,6 +1,6 @@
 package com.comp354pjb.codenames;
 
-import com.comp354pjb.codenames.Model.DatabaseHelper;
+import com.comp354pjb.codenames.model.DatabaseHelper;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
