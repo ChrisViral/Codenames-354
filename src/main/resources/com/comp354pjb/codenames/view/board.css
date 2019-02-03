@@ -1,7 +1,7 @@
 #grid {
     display: block;
     /*-fx-background-color: rgb(188, 191, 186);*/
-    -fx-background-color: radial-gradient(center 50% 50% , radius 100% , #bb499c, #512140);
+    -fx-background-color: radial-gradient(center 50% 50% , radius 100% , rgba(11, 9, 86, 0.50), rgba(49, 70, 191, 0.5));
 }
 
 /* For the words on the cards */
@@ -40,7 +40,7 @@
     -fx-background-color: rgb(48, 47, 40);
 }
 .unknown {
-    -fx-background-color: rgb(91, 178, 67);
+    -fx-background-color: rgb(50, 178, 127);
 }
 
 .button {
@@ -48,20 +48,20 @@
     -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
     -fx-background-radius: 8;
     -fx-background-color:
-            linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
-            #9d4024,
-            #d86e3a,
-            radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);
+            linear-gradient(from 0% 93% to 0% 100%, #a3a31a 0%, #909018 100%),
+            #9d9b24,
+            #d8d822,
+            radial-gradient(center 50% 50%, radius 100%, #eae15c, #c5c22d);
     -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
     -fx-font-weight: bold;
     -fx-font-size: 1.1em;
 }
 .button:hover {
     -fx-background-color:
-            linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
-            #9d4024,
-            #d86e3a,
-            radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+            linear-gradient(from 0% 93% to 0% 100%, #a3a31a 0%, #909018 100%),
+            #9d9731,
+            #d8d822,
+            radial-gradient(center 50% 50%, radius 100%, #eae15c, #c5c22d);
 }
 .button:pressed {
     -fx-padding: 10 15 13 15;
@@ -69,5 +69,5 @@
 }
 .button Text {
     -fx-fill: white;
-    -fx-effect: dropshadow( gaussian , #a30000 , 0,0,0,2 );
+    -fx-effect: dropshadow( gaussian , #7d7d19, 0,0,0,2 );
 }
