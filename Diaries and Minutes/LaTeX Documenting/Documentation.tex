@@ -1,4 +1,4 @@
-\documentclass[12pt, a4paper]{article}
+\documentclass[10pt, a4paper]{article}
 
 %import packages
 \usepackage[pagestyles]{titlesec}
@@ -96,14 +96,32 @@
 		\subsubsection{Definitions}
 	
 		\textbf{Board} \\
+		\\
 		The main playing area will be composed of a 5 by 5 grid of words. Each cell of the grid are representative of codenames of agents. Each cell in the grid will be defined in this document as a \textbf{Card}.\\
 	
 		\textbf{Card} \\
-		The card will hold two values indicative of it's state.\\
+		\\
+		The card will hold two values indicative of it's state: unrevealed
+		and revealed. In it's unrevealed state, it will present a word taken from the game. In it's revealed state, it can either be a blue or red team's \textbf{Spy} card, a \textbf{Civillian} card or the \textbf{Assassin} card.\\
+		
+		\textbf{Assassin} \\
+		The Assassin is a card type that when revealed, it would cause the team that revealed it to lose.\\
+		
+		\textbf{Spy}\\
+		\\
+		The Spy is a card type that belongs to either the red or blue team. Once all spy cards of a team are revealed, the team wins.
+		
+		\textbf{Civillian}\\
+		\\
+		The Civillian is a card type that occupies leftover space on the board that is not occupied by \textbf{Spy} cards or the \textbf{Assassin} card. When revealed, it only skips the revealing team's turn. \\
 	
 		\subsubsection{Abbreviations}
+		
+		To be updated. \\
 	
 	\subsection{Reference}
+	
+	To be updated.\\
 	
 	\subsection{Overview}
 	
@@ -117,6 +135,9 @@
 
 	\subsection{Project Purpose, Scope, and Objectives}
 	
+	% Update for each iteration
+	The objective of this project is to simulate a multi-user tabletop game named Codenames game by by Vlada Chv\'atil and published by Czech games. The rules of the game will intimately follow Vlada Chv\'atil with slight variations to accomodate the digital conversion. This project will be a multi-user game of up to four players composed of currently only computer players.\\
+	
 		\subsubsection{User Interfaces}
 	
 			\paragraph{Game Board}
@@ -127,11 +148,39 @@
 			
 	\subsection{Product Functions}
 	
+	Every function below has to support system  functions, such as a click of a button or revealing images when necessary. The following functions will be a part of the Codenames game.\\
+	
 		\subsubsection{Introduction}
+		
+		To be updated.\\
 		
 		\subsubsection{Board}
 		
+		To be updated.\\
+		
 		\subsubsection{Game}
+		
+		There will be two teams of \textbf{red} and \textbf{blue}. Each team possesses a pair of players each playing either the role of Spymaster of Operative. Since each team follows the same path:\\
+		
+		\begin{itemize}
+			\item [--] Team \textbf{Spymaster} reveals clue.
+			\item [--] Turn passes to Team's \textbf{Operative}
+			\item [--] Team \textbf{Operative} makes guesses based on clue given.
+			\item [--] Turn passes to opposing team's \textbf{Spymaster}
+		\end{itemize}
+	
+		\textbf{Input:}\\
+		To be updated.\\
+		\\
+		\textbf{Action:}
+		To be updated.\\
+		\\
+		\textbf{Output:}\\
+		To be updated.\\
+		\\
+		\textbf{Validity Check:}\\
+		Sequence of the players is to be followed according to the order set earlier established. When a team finishes their turn, the next team's turn becomes active.\\
+		
 		
 	\subsection{User Description}
 	
@@ -143,13 +192,26 @@
 	
 	\subsection{Constraints}
 	
+	Assuming that a majority of player's PCs will run by the Windows OS, the project must be written in this platform that suports GUI.Thus, the decision has been made touse :
+	\begin{itemize}
+		\item[--] JAVA as the programming language.
+		\item[--] SQLite as chosen for data storage.
+		\item[--] JUnit for unit testing.
+		\item[--] Eclipse as the integrated development environment(IDE).
+	\end{itemize}
+		
+	
 	\subsection{Specific Requirements}
 	
 	\subsection{Analysis Models}
 	
 		\subsubsection{Use Case Diagrams}
 		
-		\subsubsection{Player Use Cases}
+		The following diagarams will help provide an overview of the functions in the game. They describe the action that a player can perform, as well as the interaction between some of the system functions, ... To be updated.\\
+		
+		\subsection{Use Cases?}
+		
+		\subsubsection{Use Case Details}
 			\paragraph{Use Case 1: Start Game }
 			
 			\begin{center}
@@ -342,6 +404,7 @@
 		
 \section{Development Plan}
 
+This section of the document contains the estimated cost and schedule for the project in the form of a phase plan and project schedule. To be updated. \\
 	\subsection{Project Estimates}
 	
 	\subsection{Project Plan}
@@ -351,9 +414,4 @@
 		\subsubsection{Project Resourcing}
 	
 	
-	
-
-
-
-
 \end{document}
