@@ -1,12 +1,14 @@
 /*
  * DatabaseHelper.java
  * Created by: Benjamin Therrien
- * Created on: 17/01/19
+ * Created on: 28/01/19
  *
  * Contributors:
+ * Benjamin Therrien
  * Steven Zanga
- * ...
+ * Christophe Savard
  */
+
 package com.comp354pjb.codenames.model;
 
 import java.nio.file.Path;

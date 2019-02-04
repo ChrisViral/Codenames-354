@@ -1,12 +1,10 @@
 /*
  * FileName.java
- * Created by: Christopher Savard
- * Created on: 17/01/19
+ * Created by: Benjamin Therrien
+ * Created on: 29/01/19
  *
  * Contributors:
  * Benjamin Therrien
- * Steven Zanga
- * ...
  */
 
 package com.comp354pjb.codenames.model;

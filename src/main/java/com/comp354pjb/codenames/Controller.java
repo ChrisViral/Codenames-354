@@ -4,7 +4,6 @@
  * Created on: 28/01/19
  *
  * Contributors:
- * Mottel Zirkind
  * Christophe Savard
  */
 
