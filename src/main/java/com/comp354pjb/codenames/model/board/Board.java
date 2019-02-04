@@ -1,11 +1,11 @@
 package com.comp354pjb.codenames.model.board;
-
+import com.comp354pjb.codenames.model.Observer;
+import com.comp354pjb.codenames.model.Subject;
 import com.comp354pjb.codenames.model.Game;
 import com.comp354pjb.codenames.model.player.PlayerType;
-
 import java.util.*;
 
-public class Board
+public class Board implements Subject
 {
     private static final CardType[] preset =
     {
@@ -72,4 +72,39 @@ public class Board
             this.game.getController().flip(x, y, card.getType());
         }
     }
+
+    /**
+     * The following methods are all related to the subject interface
+     */
+
+    private ArrayList<Observer> observers = new ArrayList<Observer>();
+
+    public void register(Observer obs)
+    {
+        observers.add(obs);
+    }
+    public void unregister(Observer obs)
+    {
+        for(int i=0; i<observers.size(); i++)
+        {
+            if(observers.get(i).equals(obs))
+            {
+                observers.remove(i);
+                i--;
+            }
+
+        }
+    }
+
+    public void notifyObservers()
+    {
+        for(int i=0; i<observers.size(); i++)
+        {
+            observers.get(i).update();
+        }
+    }
+
+    //public Object getUpdate(Observer obs){}
+
+
 }
