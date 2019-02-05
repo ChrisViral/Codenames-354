@@ -1,3 +1,14 @@
+/*
+ * Game.java
+ * Created by: Steven Zanga
+ * Created on: 23/01/19
+ *
+ * Contributors:
+ * Steven Zanga
+ * Benjamin Therrien
+ * Christophe Savard
+ */
+
 package com.comp354pjb.codenames.model;
 
 import com.comp354pjb.codenames.Controller;
@@ -9,13 +20,9 @@ import java.util.*;
 
 public class Game
 {
+    // creating random object.
     private static final Random RANDOM = new Random();
 
-    private final Controller controller;
-    public Controller getController()
-    {
-        return this.controller;
-    }
 
     private Board board;
     public Board getBoard()
@@ -23,13 +30,19 @@ public class Game
         return this.board;
     }
 
-    public Game(Controller controller)
+    /**
+     * Default constructor, selection of 25 words, sets main controller and creates a new board with the selected 25 cards
+     */
+    public Game()
     {
-        this.controller = controller;
         String[] words = DatabaseHelper.selectWords(25);
-        this.board = new Board(this, words, chooseStartingPlayer());
+        this.board = new Board(words, chooseStartingPlayer());
     }
 
+    /**
+     * decide what team starts first, red or blue
+     * @return returns whether the starting player type will be red or blue.
+     */
     private static PlayerType chooseStartingPlayer()
     {
         return RANDOM.nextBoolean() ? PlayerType.RED : PlayerType.BLUE;

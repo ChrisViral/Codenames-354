@@ -38,12 +38,11 @@ buildNumber.properties
 Thumbs.db
 .DS_STORE
 desktop.ini
+log.txt
 
 # IntelliJ
 # .idea/	# We actually need this to enforce code style
 workspace.xml
 misc.xml
-
-\.idea/dictionaries/
-
-\.idea/inspectionProfiles/
+.idea/dictionaries/
+.idea/inspectionProfiles/

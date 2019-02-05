@@ -4,18 +4,20 @@
  * Created on: 28/01/19
  *
  * Contributors:
- * Mottel Zirkind
  * Christophe Savard
  */
 
 package com.comp354pjb.codenames;
 
+import com.comp354pjb.codenames.commander.Commander;
 import com.comp354pjb.codenames.model.board.Board;
-import com.comp354pjb.codenames.model.board.CardType;
+import com.comp354pjb.codenames.model.board.Card;
 import com.comp354pjb.codenames.model.Game;
+import com.comp354pjb.codenames.observer.events.CardFlippedObserver;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -24,17 +26,22 @@ import javafx.scene.text.Text;
 /**
  * Controller object, interacts between the View (FXML) and the Model
  */
-public class Controller
+public class Controller implements CardFlippedObserver
 {
     //region Fields
+    //FXML Fields
     @FXML
     private GridPane grid;
+    @FXML
+    private Button undoButton, redoButton;
+
+    //Data
     private HBox[][] boxes;
     private Game game;
-    private boolean isSetup = false;
+    private Commander commander;
     //endregion
 
-    //region Methods
+    //region FXML Methods
     /**
      * Initializes the controller along with the FXML file
      */
@@ -54,7 +61,24 @@ public class Controller
             }
         }
 
-        this.game = new Game(this);
+        //Create game object
+        this.game = new Game();
+
+        //Register to all events
+        this.game.getBoard().onFlip.register(this);
+
+        //Create the Commander object
+        this.commander = new Commander(this, this.game);
+
+        //Setup all the text boxes in the view to their correct word
+        Board board = this.game.getBoard();
+        for (int i = 0; i < 5; i++)
+        {
+            for (int j = 0; j < 5; j++)
+            {
+                ((Text)this.boxes[i][j].getChildren().get(0)).setText(board.getCard(i, j).getWord());
+            }
+        }
     }
 
     /**
@@ -72,42 +96,81 @@ public class Controller
     }
 
     /**
-     * Sets up the board originally in the view
+     * Triggers the Undo action in the Commander
      */
-    public void setup()
+    @FXML
+    private void onUndo()
     {
-        //Only sets up the board if it hasn't been setup yet
-        if (!this.isSetup)
-        {
-            //Setup all the text boxes in the view to their correct word
-            Board board = this.game.getBoard();
-            for (int i = 0; i < 5; i++)
-            {
-                for (int j = 0; j < 5; j++)
-                {
-                    ((Text)this.boxes[i][j].getChildren().get(0)).setText(board.getCard(i, j).getWord());
-                }
-            }
-            this.isSetup = true;
-        }
-        else
-        {
-            //If already setup, notify
-            System.out.println("Game board has already been setup.");
-        }
+        this.commander.undo();
     }
 
     /**
-     * Flips a card
-     * @param x X coordinate of the card
-     * @param y Y coordinate of the card
-     * @param type Type of card to flip to
+     * Triggers the redo action in the Commander
      */
-    public void flip(int x, int y, CardType type)
+    @FXML
+    private void onRedo()
     {
-        ObservableList<String> styles = this.boxes[x][y].getStyleClass();
-        styles.remove("unknown");
-        styles.add(type.toString().toLowerCase());
+        this.commander.redo();
+    }
+    //endregion
+
+    //region Methods
+    /**
+     * Card flipped event listener
+     * @param card Card being flipped
+     */
+    @Override
+    public void onFlip(Card card)
+    {
+        switchStyles(this.boxes[card.getX()][card.getY()], "unknown", card.getType().name().toLowerCase());
+    }
+
+    /**
+     * Unflips a card on the View
+     * @param card Card to unflip
+     */
+    public void unFlip(Card card)
+    {
+        switchStyles(this.boxes[card.getX()][card.getY()], card.getType().name().toLowerCase(), "unknown");
+    }
+
+    /**
+     * Switches the CSS style of one of the HBoxes
+     * @param box  Box to change the style for
+     * @param from Style to remove
+     * @param to   Style to add
+     */
+    private void switchStyles(HBox box, String from, String to)
+    {
+        ObservableList<String> styles = box.getStyleClass();
+        styles.remove(from);
+        styles.add(to);
+    }
+
+    /**
+     * Sets the enabled/disabled state of the Undo button
+     * @param disabled If the Undo button is disabled or not
+     */
+    public void setUndoDisabled(boolean disabled)
+    {
+        this.undoButton.setDisable(disabled);
+    }
+
+    /**
+     * Sets the enabled/disabled state of the Redo button
+     * @param disabled If the Redo button is disabled or not
+     */
+    public void setRedoDisabled(boolean disabled)
+    {
+        this.redoButton.setDisable(disabled);
+    }
+
+    /**
+     * Performs all cleanup actions as the app closes
+     */
+    public void close()
+    {
+        this.commander.close();
     }
     //endregion
 }

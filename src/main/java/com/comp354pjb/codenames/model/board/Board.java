@@ -1,29 +1,62 @@
+/*
+ * Board.java
+ * Created by: Benjamin Therrien
+ * Created on: 29/01/19
+ *
+ * Contributors:
+ * Benjamin Therrien
+ * Steven Zanga
+ * Christophe Savard
+ */
+
 package com.comp354pjb.codenames.model.board;
 
-import com.comp354pjb.codenames.model.Game;
 import com.comp354pjb.codenames.model.player.PlayerType;
+import com.comp354pjb.codenames.observer.events.CardFlippedEvent;
 
 import java.util.*;
 
+/**
+ * Board class, represents the 5 by 5 grid of cards on which the game happens
+ */
 public class Board
 {
-    private static final CardType[] preset =
+    //region Constants
+    /**
+     * Sets the preset of card types on the board. All 25 cards are defaulted to a specific type of card, either
+     * RED, BLUE, ASSASSIN or CIVILIAN.
+     */
+    private static final CardType[] PRESET =
     {
         CardType.RED, CardType.RED, CardType.RED, CardType.RED, CardType.RED, CardType.RED, CardType.RED, CardType.RED,                      //8 Red cards
         CardType.BLUE, CardType.BLUE, CardType.BLUE, CardType.BLUE, CardType.BLUE, CardType.BLUE, CardType.BLUE, CardType.BLUE,              //8 Blue cards
         CardType.CIVILIAN, CardType.CIVILIAN, CardType.CIVILIAN, CardType.CIVILIAN, CardType.CIVILIAN, CardType.CIVILIAN, CardType.CIVILIAN, //7 Civilian cards
         CardType.ASSASSIN,  //1 Assassin card
     };
+    //endregion
 
-    private Game game;
-    private Card[][] cards;
+    //region Fields
+    private final Card[][] cards;
+    //endregion
 
-    public Board(Game game, String[] words, PlayerType startingPlayer)
+    //region Events
+    public final CardFlippedEvent onFlip = new CardFlippedEvent();
+    //endregion
+
+    //region Constructors
+    /**
+     * Creates a new 5x5 board of cards with the supplied words
+     * @param words          Array containing the 25 words to be displayed on the cards
+     * @param startingPlayer Player starting the game
+     */
+    public Board(String[] words, PlayerType startingPlayer)
     {
-        this.game = game;
+        //Create the cards
         this.cards = Board.createCards(words, startingPlayer);
     }
+    //endregion
 
+    //region Static methods
     /**
      * Creates an array of card with the correct amount of types with the given words
      * @param words Words to put on the cards
@@ -33,7 +66,7 @@ public class Board
     public static Card[][] createCards(String[] words, PlayerType startingPlayer)
     {
         Card[][] cards = new Card[5][5];
-        ArrayList<CardType> types = new ArrayList<>(Arrays.asList(preset));
+        ArrayList<CardType> types = new ArrayList<>(Arrays.asList(PRESET));
         switch (startingPlayer)
         {
             case RED:
@@ -52,24 +85,52 @@ public class Board
             for (int j = 0; j < 5; j++)
             {
                 int index = stride + j;
-                cards[i][j] = new Card(words[index], types.get(index));
+                cards[i][j] = new Card(words[index], types.get(index), i, j);
             }
         }
         return cards;
     }
+    //endregion
 
+    //region Accessors
+    /**
+     * Getting a specific card at a specific index on the board.
+     *
+     * @param x Index of card on horizontal axis
+     * @param y Index of card on vertical axis
+     * @return returns specific card on board
+     */
     public Card getCard(int x, int y)
     {
         return this.cards[x][y];
     }
+    //endregion
 
+    //region Methods
+    /**
+     * Reveals the card at a specific index, checks if it was flipped already, if not, it will flip the card.
+     * @param x Index horizontal
+     * @param y Index vertical
+     *
+     */
     public void revealAt(int x, int y)
     {
-        Card card = getCard(x, y);
+        revealCard(getCard(x, y));
+    }
+
+    /**
+     * Reveals a given card
+     * @param card Card to reveal
+     */
+    public void revealCard(Card card)
+    {
         if (!card.isRevealed())
         {
+            //Set card as revealed
             card.setRevealed(true);
-            this.game.getController().flip(x, y, card.getType());
+            //Fire card flipped event
+            this.onFlip.invoke(card);
         }
     }
+    //endregion
 }
