@@ -11,7 +11,12 @@ package com.comp354pjb.codenames.model;
 
 import java.util.ArrayList;
 
-public abstract class Subject<T extends Observer<U>, U>
+/**
+ * Subject base class
+ * @param <T> Type of Observer being targeted
+ * @param <U> Type of information passed to the Observer
+ */
+public abstract class Subject<T, U>
 {
     private ArrayList<T> listeners = new ArrayList<>();
 
@@ -28,7 +33,9 @@ public abstract class Subject<T extends Observer<U>, U>
     {
         for (T listener : this.listeners)
         {
-            listener.invoke(data);
+            update(listener, data);
         }
     }
+
+    protected abstract void update(T listener, U data);
 }

@@ -1,6 +1,6 @@
 package com.comp354pjb.codenames.model.observerexample;
 
-public interface IntegerObserver
+public interface AgeObserver
 {
-    void updateInteger(Integer i);
+    void updateAge(Integer age);
 }

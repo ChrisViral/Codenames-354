@@ -11,6 +11,5 @@ package com.comp354pjb.codenames.model;
 
 public interface Observer<T>
 {
-    void invoke(T data);
 }
 
