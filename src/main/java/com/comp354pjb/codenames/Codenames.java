@@ -74,9 +74,6 @@ public class Codenames extends Application
         stage.setTitle(getClass().getSimpleName());
         stage.setScene(scene);
         stage.show();
-
-        //Setup board
-        ((Controller)loader.getController()).setup();
     }
     //endregion
 }

@@ -1,8 +1,22 @@
+/*
+ * OperativeAI.java
+ * Created by: Benjamin Therrien
+ * Created on: 29/01/19
+ *
+ * Contributors:
+ * Benjamin Therrien
+ * Steven Zanga
+ */
+
 package com.comp354pjb.codenames.model.player;
 import com.comp354pjb.codenames.model.Game;
 import com.comp354pjb.codenames.model.board.CardType;
 import java.lang.*;
 
+
+/**
+ * Implementation  of IPlayer for the AI class
+ */
 public class OperativeAI implements IPlayer
 {
     private CardType teamColor;
