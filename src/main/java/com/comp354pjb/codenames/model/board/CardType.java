@@ -11,7 +11,7 @@
 package com.comp354pjb.codenames.model.board;
 
 /**
- * enum for the type of Card
+ * Type of card
  */
 public enum CardType
 {

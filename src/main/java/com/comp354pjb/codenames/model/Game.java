@@ -23,12 +23,6 @@ public class Game
     // creating random object.
     private static final Random RANDOM = new Random();
 
-    //creating controller to handle the game requests.
-    private final Controller controller;
-    public Controller getController()
-    {
-        return this.controller;
-    }
 
     private Board board;
     public Board getBoard()
@@ -38,13 +32,11 @@ public class Game
 
     /**
      * Default constructor, selection of 25 words, sets main controller and creates a new board with the selected 25 cards
-     * @param controller
      */
-    public Game(Controller controller)
+    public Game()
     {
-        this.controller = controller;
         String[] words = DatabaseHelper.selectWords(25);
-        this.board = new Board(this, words, chooseStartingPlayer());
+        this.board = new Board(words, chooseStartingPlayer());
     }
 
     /**
