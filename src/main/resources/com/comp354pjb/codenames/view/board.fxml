@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -9,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<GridPane fx:id="grid" alignment="CENTER" hgap="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" stylesheets="@board.css" vgap="5.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.comp354pjb.codenames.Controller">
+<GridPane fx:id="grid" alignment="CENTER" hgap="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" stylesheets="@board.css" vgap="5.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.comp354pjb.codenames.Controller">
     <!--A bunch of default config stuff that makes things ugly if I remove it.-->
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -218,12 +223,14 @@
           </children>
        </HBox>
        <HBox alignment="CENTER" GridPane.columnIndex="5" GridPane.rowIndex="6">
-           <Button disable="false" styleClass="button" text="Undo"/>
-           <Button disable="true" styleClass="button" text="Redo">
-            <HBox.margin>
-                <Insets left="10" />
-            </HBox.margin>
-           </Button>
+          <children>
+              <Button fx:id="undoButton" disable="true" onAction="#onUndo" styleClass="button" text="Undo" />
+              <Button fx:id="redoButton" disable="true" onAction="#onRedo" styleClass="button" text="Redo">
+               <HBox.margin>
+                   <Insets left="10" />
+               </HBox.margin>
+              </Button>
+          </children>
        </HBox>
    </children>
 </GridPane>
