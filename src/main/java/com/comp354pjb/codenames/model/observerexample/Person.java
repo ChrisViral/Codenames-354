@@ -1,5 +1,8 @@
 package com.comp354pjb.codenames.model.observerexample;
 
+/**
+ * A person, listening to age and name updates
+ */
 public class Person implements AgeObserver, NameObserver
 {
     private int age = 15;
