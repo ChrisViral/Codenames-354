@@ -5,7 +5,7 @@
  *
  * Contributors:
  * Steven Zanga
- * Benjamin Therrien
+ * Benjamin Therien
  * Christophe Savard
  */
 
@@ -29,16 +29,7 @@ public class Game
     private String currentHint = "";
     private int hintNum = 0, roundCount=1, redTilesRevealed=0, blueTilesRevealed=0;
     private CardType startTeam, winner, loser;
-
-
     private boolean assassinRevealed =false;
-
-
-    private final Controller controller;
-    public Controller getController()
-    {
-        return this.controller;
-    }
 
     private Board board;
     public Board getBoard()

@@ -49,7 +49,7 @@ public class Board
      * @param words          Array containing the 25 words to be displayed on the cards
      * @param startingPlayer Player starting the game
      */
-    public Board(String[] words, PlayerType startingPlayer)
+    public Board(String[] words, CardType startingPlayer)
     {
         //Create the cards
         this.cards = Board.createCards(words, startingPlayer);
