@@ -10,8 +10,9 @@
 package com.comp354pjb.codenames;
 
 import com.comp354pjb.codenames.model.board.Board;
-import com.comp354pjb.codenames.model.board.CardType;
+import com.comp354pjb.codenames.model.board.Card;
 import com.comp354pjb.codenames.model.Game;
+import com.comp354pjb.codenames.observer.events.CardFlippedObserver;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -23,14 +24,13 @@ import javafx.scene.text.Text;
 /**
  * Controller object, interacts between the View (FXML) and the Model
  */
-public class Controller
+public class Controller implements CardFlippedObserver
 {
     //region Fields
     @FXML
     private GridPane grid;
     private HBox[][] boxes;
     private Game game;
-    private boolean isSetup = false;
     //endregion
 
     //region Methods
@@ -53,7 +53,21 @@ public class Controller
             }
         }
 
-        this.game = new Game(this);
+        //Create game object
+        this.game = new Game();
+
+        //Register to all events
+        this.game.getBoard().onFlip.register(this);
+
+        //Setup all the text boxes in the view to their correct word
+        Board board = this.game.getBoard();
+        for (int i = 0; i < 5; i++)
+        {
+            for (int j = 0; j < 5; j++)
+            {
+                ((Text)this.boxes[i][j].getChildren().get(0)).setText(board.getCard(i, j).getWord());
+            }
+        }
     }
 
     /**
@@ -71,42 +85,15 @@ public class Controller
     }
 
     /**
-     * Sets up the board originally in the view
+     * Card flipped event listener
+     * @param card Card being flipped
      */
-    public void setup()
+    @Override
+    public void onFlip(Card card)
     {
-        //Only sets up the board if it hasn't been setup yet
-        if (!this.isSetup)
-        {
-            //Setup all the text boxes in the view to their correct word
-            Board board = this.game.getBoard();
-            for (int i = 0; i < 5; i++)
-            {
-                for (int j = 0; j < 5; j++)
-                {
-                    ((Text)this.boxes[i][j].getChildren().get(0)).setText(board.getCard(i, j).getWord());
-                }
-            }
-            this.isSetup = true;
-        }
-        else
-        {
-            //If already setup, notify
-            System.out.println("Game board has already been setup.");
-        }
-    }
-
-    /**
-     * Flips a card
-     * @param x X coordinate of the card
-     * @param y Y coordinate of the card
-     * @param type Type of card to flip to
-     */
-    public void flip(int x, int y, CardType type)
-    {
-        ObservableList<String> styles = this.boxes[x][y].getStyleClass();
+        ObservableList<String> styles = this.boxes[card.getX()][card.getY()].getStyleClass();
         styles.remove("unknown");
-        styles.add(type.toString().toLowerCase());
+        styles.add(card.getType().toString().toLowerCase());
     }
     //endregion
 }
