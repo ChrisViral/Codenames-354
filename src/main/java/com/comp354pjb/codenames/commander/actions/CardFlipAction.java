@@ -42,6 +42,7 @@ public class CardFlipAction implements Action
     @Override
     public void undo()
     {
+        card.setRevealed(false);
         this.controller.unFlip(card);
     }
 
@@ -51,6 +52,7 @@ public class CardFlipAction implements Action
     @Override
     public void redo()
     {
+        card.setRevealed(true);
         this.controller.onFlip(card);
     }
     //endregion
