@@ -35,21 +35,51 @@
    <children>
        <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
           <children>
-                  <Text styleClass="info" text="Round: 24" />
-                  <Text styleClass="info" text="Phase: Blue Operative" />
+              <HBox>
+                  <children>
+                  <Text styleClass="info" text="Round: " />
+                  <Text styleClass="info" text="24" />
+                  </children>
+              </HBox>
+              <HBox>
+                  <children>
+                      <Text styleClass="info" text="Phase: " />
+                      <Text styleClass="info" text="Blue Operative" />
+                  </children>
+              </HBox>
           </children>
        </VBox>
    
        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="0">
       <children>
-              <Text styleClass="info" text="Red: 1/8" />
-              <Text styleClass="info" text="Blue: 1/9" />
+          <HBox>
+              <children>
+                  <Text styleClass="info" text="Red: " />
+                  <Text styleClass="info" text="1/8" />
+              </children>
+          </HBox>
+          <HBox>
+              <children>
+                  <Text styleClass="info" text="Blue: " />
+                  <Text styleClass="info" text="1/9" />
+              </children>
+          </HBox>
       </children>
        </VBox>
        <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="0">
           <children>
-              <Text styleClass="info" text="Guesses: 1/4" />
-              <Text styleClass="info" text="Clue: Hypnosis 4" />
+              <HBox>
+                  <children>
+                      <Text styleClass="info" text="Guesses: " />
+                      <Text styleClass="info" text="1/4" />
+                  </children>
+              </HBox>
+              <HBox>
+                  <children>
+                      <Text styleClass="info" text="Clue: " />
+                      <Text styleClass="info" text="Hypnosis 4" />
+                  </children>
+              </HBox>
           </children>
        </VBox>
    
@@ -188,7 +218,7 @@
           </children>
        </HBox>
        <HBox alignment="CENTER" GridPane.columnIndex="5" GridPane.rowIndex="6">
-           <Button disable="true" styleClass="button" text="Undo"/>
+           <Button disable="false" styleClass="button" text="Undo"/>
            <Button disable="true" styleClass="button" text="Redo">
             <HBox.margin>
                 <Insets left="10" />
