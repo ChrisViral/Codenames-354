@@ -122,7 +122,7 @@ public class Controller implements CardFlippedObserver
     @Override
     public void onFlip(Card card)
     {
-        switchStyles(this.boxes[card.getX()][card.getY()], "unknown", card.getType().toString().toLowerCase());
+        switchStyles(this.boxes[card.getX()][card.getY()], "unknown", card.getType().name().toLowerCase());
     }
 
     /**
@@ -131,7 +131,7 @@ public class Controller implements CardFlippedObserver
      */
     public void unFlip(Card card)
     {
-        switchStyles(this.boxes[card.getX()][card.getY()], card.getType().toString().toLowerCase(), "unknown");
+        switchStyles(this.boxes[card.getX()][card.getY()], card.getType().name().toLowerCase(), "unknown");
     }
 
     /**
@@ -163,6 +163,14 @@ public class Controller implements CardFlippedObserver
     public void setRedoDisabled(boolean disabled)
     {
         this.redoButton.setDisable(disabled);
+    }
+
+    /**
+     * Performs all cleanup actions as the app closes
+     */
+    public void close()
+    {
+        this.commander.close();
     }
     //endregion
 }

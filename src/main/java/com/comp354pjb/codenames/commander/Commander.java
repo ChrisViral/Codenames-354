@@ -16,6 +16,10 @@ import com.comp354pjb.codenames.model.Game;
 import com.comp354pjb.codenames.model.board.Card;
 import com.comp354pjb.codenames.observer.events.CardFlippedObserver;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Stack;
 
 /**
@@ -23,8 +27,20 @@ import java.util.Stack;
  */
 public class Commander implements CardFlippedObserver
 {
+    //region Constants
+    /**
+     * Timestamp formatter
+     */
+    private static final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("HH:mm:ss");
+    /**
+     * OS specific line separator
+     */
+    private static final String NEWLINE = System.lineSeparator();
+    //endregion
+
     //region Fields
     private final Controller controller;
+    private final FileWriter writer;
     private final Stack<Action> undoStack = new Stack<>();
     private final Stack<Action> redoStack = new Stack<>();
     //endregion
@@ -42,6 +58,20 @@ public class Commander implements CardFlippedObserver
 
         //Listen to all events
         game.getBoard().onFlip.register(this);
+
+        //Create the Log file
+        System.out.println("=== Codenames Log ===");
+        FileWriter writer = null;
+        try
+        {
+            writer = new FileWriter("log.txt");
+            writer.write("=== Codenames Log ===" + NEWLINE);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        this.writer = writer;
     }
     //endregion
 
@@ -55,6 +85,7 @@ public class Commander implements CardFlippedObserver
         action.undo();
         this.redoStack.push(action);
         checkButtonStates();
+        log("Undo " + action.info());
     }
 
     /**
@@ -66,6 +97,7 @@ public class Commander implements CardFlippedObserver
         action.redo();
         this.undoStack.push(action);
         checkButtonStates();
+        log("Redo " + action.info());
     }
 
     /**
@@ -101,7 +133,44 @@ public class Commander implements CardFlippedObserver
     @Override
     public void onFlip(Card card)
     {
-        pushNewAction(new CardFlipAction(this.controller, card));
+        Action action = new CardFlipAction(this.controller, card);
+        pushNewAction(action);
+        log(action.info());
+    }
+
+    public void log(String message)
+    {
+        //Get time and format message, then print to standard output
+        String logMessage = String.format("[%s] %s", LocalDateTime.now().format(FORMAT), message);
+        System.out.println(logMessage);
+
+        //Print to log file
+        try
+        {
+            writer.write(logMessage + NEWLINE);
+            writer.flush();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Closes the handle to the file and writes the final messages
+     */
+    public void close()
+    {
+        System.out.println("=== Terminating Application ===");
+        try
+        {
+            this.writer.write("=== Terminating Application ===");
+            this.writer.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
     //endregion
 }

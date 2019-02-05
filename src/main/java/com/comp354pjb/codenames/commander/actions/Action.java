@@ -24,5 +24,11 @@ public interface Action
      * Redoes the action
      */
     void redo();
+
+    /**
+     * Informative message to be printed to the log related to the Action
+     * @return String info of the action
+     */
+    String info();
     //endregion
 }

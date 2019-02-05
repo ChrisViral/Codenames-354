@@ -11,6 +11,8 @@
 
 package com.comp354pjb.codenames.model;
 
+import com.comp354pjb.codenames.Utils;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.*;
@@ -55,6 +57,7 @@ public class DatabaseHelper
         catch (SQLException e)
         {
             System.out.println(e.getMessage());
+            e.printStackTrace();
             success = false;
         }
         finally
@@ -66,9 +69,10 @@ public class DatabaseHelper
                     conn.close();
                 }
             }
-            catch (SQLException ex)
+            catch (SQLException e)
             {
-                System.out.println(ex.getMessage());
+                System.out.println(e.getMessage());
+                e.printStackTrace();
                 success = false;
             }
         }
@@ -122,7 +126,7 @@ public class DatabaseHelper
         for (int i = 0; i < n; i++)
         {
             String word = words.get(i);
-            result[i] = Character.toUpperCase(word.charAt(0)) + word.substring(1);
+            result[i] = Utils.toCamelCase(word);
         }
         return result;
     }

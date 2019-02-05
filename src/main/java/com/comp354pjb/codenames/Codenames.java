@@ -40,6 +40,10 @@ public class Codenames extends Application
     private static final String BOARD_FXML = "view/board.fxml";
     //endregion
 
+    //region Fields
+    private Controller controller;
+    //endregion
+
     //region Initialization
     /**
      * Application entry point
@@ -74,6 +78,17 @@ public class Codenames extends Application
         stage.setTitle(getClass().getSimpleName());
         stage.setScene(scene);
         stage.show();
+
+        this.controller = loader.getController();
+    }
+
+    /**
+     * Sends the app closing message down to the MVC
+     */
+    @Override
+    public void stop()
+    {
+        this.controller.close();
     }
     //endregion
 }
