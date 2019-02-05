@@ -21,7 +21,7 @@ public class OperativeAI implements IPlayer
 {
     private CardType teamColor;
 
-    OperativeAI(CardType team)
+    public OperativeAI(CardType team)
     {
         teamColor = team;
     }

@@ -59,9 +59,11 @@ public class Game
     public void decideFirstRoll(CardType red, CardType blue)
     {
         ArrayList<IPlayer> bluePlayers = new ArrayList<IPlayer>();
-        bluePlayers.add(new SpyMasterAI(CardType.BLUE), new OperativeAI(CardType.BLUE));
+        bluePlayers.add(new SpyMasterAI(CardType.BLUE));
+        bluePlayers.add( new OperativeAI(CardType.BLUE));
         ArrayList<IPlayer> redPlayers = new ArrayList<IPlayer>();
-        redPlayers.add(new SpyMasterAI(CardType.RED), new OperativeAI(CardType.RED));
+        redPlayers.add(new SpyMasterAI(CardType.RED));
+        redPlayers.add(new OperativeAI(CardType.RED));
 
         if (RANDOM.nextBoolean())
         {

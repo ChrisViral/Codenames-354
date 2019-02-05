@@ -8,7 +8,6 @@
  */
 package com.comp354pjb.codenames.model.player;
 
-
 import com.comp354pjb.codenames.model.Game;
 
 /**

@@ -6,7 +6,7 @@ import com.comp354pjb.codenames.model.board.CardType;
 public class SpyMasterAI implements IPlayer
 {
     private CardType teamColor;
-    SpyMasterAI(CardType team)
+    public SpyMasterAI(CardType team)
     {
         teamColor = team;
     }
