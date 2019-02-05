@@ -9,12 +9,26 @@
 
 package com.comp354pjb.codenames.model;
 
-public interface Subject
+import java.util.ArrayList;
+
+public abstract class Subject<T extends Observer<U>, U>
 {
-    public void register(Observer obj);
-    public void unregister(Observer obj);
+    private ArrayList<T> listeners = new ArrayList<>();
 
-    public void notifyObservers();
+    public void register(T listener)
+    {
+        this.listeners.add(listener);
+    }
+    public void unregister(T listener)
+    {
+        this.listeners.remove(listener);
+    }
 
-    public Object getUpdate(Observer obj);
+    public void notify(U data)
+    {
+        for (T listener : this.listeners)
+        {
+            listener.invoke(data);
+        }
+    }
 }

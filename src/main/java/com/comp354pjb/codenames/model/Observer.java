@@ -9,11 +9,8 @@
 
 package com.comp354pjb.codenames.model;
 
-public interface Observer
+public interface Observer<T>
 {
-    //update the observer
-    public void update();
-
-    //attach the observer
-    public void setSubject(Subject sub);
+    void invoke(T data);
 }
+
