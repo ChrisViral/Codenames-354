@@ -5,9 +5,10 @@
  *
  * Contributors:
  * Benjamin Therrien
+ * Christophe Savard
  */
 
-package com.comp354pjb.codenames.model;
+package com.comp354pjb.codenames.observer;
 
 import java.util.ArrayList;
 
@@ -18,11 +19,14 @@ import java.util.ArrayList;
  */
 public abstract class Subject<T, U>
 {
+    //region Fields
     /**
      * List of all currently registered listeners
      */
-    private final ArrayList<T> listeners = new ArrayList<>();
+    protected final ArrayList<T> listeners = new ArrayList<>();
+    //endregion
 
+    //region Methods
     /**
      * Registers a listener
      * @param listener Listener to register
@@ -35,28 +39,33 @@ public abstract class Subject<T, U>
     /**
      * Unregisters a listener
      * @param listener Listener to unregister
+     * @return If the listener was successfully unregistered
      */
-    public void unregister(T listener)
+    public boolean unregister(T listener)
     {
-        this.listeners.remove(listener);
+        return this.listeners.remove(listener);
     }
 
     /**
      * Notify all the current listeners of the changed data
      * @param data Data being passed
      */
-    public void notify(U data)
+    public void invoke(U data)
     {
         for (T listener : this.listeners)
         {
             update(listener, data);
         }
     }
+    //endregion
 
+    //region Abstract methods
     /**
      * Notifies a single listener of the changed data
+     * Inheriting subjects should override this class and make it interact with the Observer it is using
      * @param listener Listener to notify
      * @param data     Data being passed
      */
     protected abstract void update(T listener, U data);
+    //endregion
 }
