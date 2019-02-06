@@ -8,10 +8,12 @@
  */
 package com.comp354pjb.codenames.model.player;
 
+import com.comp354pjb.codenames.model.Game;
+
 /**
  * Interface for the type of Player
  */
 public interface IPlayer
 {
-    PlayerType team = null;
+    void playTurn(Game game);
 }
