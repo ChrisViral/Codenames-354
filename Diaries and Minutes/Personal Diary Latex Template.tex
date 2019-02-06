@@ -22,70 +22,251 @@
 
 \vspace*{0.5in}
 \centerline{\bf\Large Personal Journal}
-
 \vspace*{0.5in}
-\centerline{\bf\Large Team PJ-c}
+\centerline{\bf\Large Team PJ-b}
+\vspace*{0.5in}
+\centerline{\bf\Large Project Title: Codenames Game }
 \vspace*{0.25in}
 \centerline{\bf\Large Iteration 1}
 
 
-\vspace*{1.5in}
+\vspace*{2in}
 \begin{table}[htbp]
 \caption{Team}
 \begin{center}
 \begin{tabular}{|r | c|}
 \hline
-Name & ID Number \\
+Contributor & ID Number \\
 \hline\hline
-Daniel Thibault-Shea & 40073133 \\
+Shereece A.A. Victor  & 40105094  \\
 \hline
 \end{tabular}
 \end{center}
 \end{table}
 
 \clearpage
+\section{Introduction}
 
-\section{11-01-2019 - First Group Meeting}
+\subsection{Project Description}
+According to my understanding thus far, Codenames Game, is a spy themed card game, designed for play with four or more persons. It involves, two Spymasters, and Operatives. The players are divided into two teams, a red team and a blue team. 
+
+The game is played with a mixture of red and blue cards placed faced down on the table in a 5x5 grid. The contents and placement of each card are only known to each spymaster. The cards each contain a word which is visible to all, and either a red or blue spy, uncolored civilian or the assassin. 
+
+Throughout the game each team’s spymaster is tasked with provided clues that indicated how many and the location of their color spies on the board. The first team to figure out the location of all their spies wins. If either team reveals the assassin, they lose and the game ends. 
+
+The goal of my team’s project to recreate this game in a computer program in three iterations. The first, gives the user minimum input, and the last allows the a user to participate in the game. 
+
+\subsection{Team Members}
+PJ-b Initial Team Members:
+
+BT - Benjamin Thérien 
+DT - Daniel Thibault-Shea
+MZ - Mordechai Zirkind 
+RZ - Rezza Zairan 
+SV - Shereece Victor
+SZ - Steven Zanga 
+
+PJ-b Final Members 
+AP - Ashesh Patel
+BR - Bilal Rana
+CS - Christophe Savard
+DS – Daniel Thibault-Shea
+BT - Benjamin Therien
+SV - Shereece Angell Agatha Victor
+MW - Michael Wilgus
+RZ - Rezza-Zairan Zaharin
+SZ – Steven Zanga
+MZ - Mordechai Zirkind
+
+\pagebreak
+\section{Team Meeting 1a }
 
 \subsection{Administrative}
-Daniel, Mottle, Sheneece, Leo, Brian, Reza, Benjamin, (missing 1 anonymous).
+Wednesday, 16th January, 2019 | 8:15pm – 9:15pm (approx.) | H Building 7th Floor Common Area 
+Attended by: 
+BT - Benjamin Thérien 
+DT - Daniel Thibault-Shea 
+MZ - Mordechai Zirkind 
+RZ - Rezza Zairan 
+SV - Shereece Victor 
+SZ - Steven Zanga
 
-Meeting from: 20:15 to 20:45\\
-Git tutorial: 20:45 to 21:20 (Thanks Mottle!)
 
 \subsection{Summary}
-We all met after class in another smaller room. We started by introducing ourselves and then went on to deciding who would do what role for the first iteration of the project. Ben, Brian, and the anonymous guy would handle coding. Leo, Sheneece, and Reza would be on documentation. Sheneece is from abroad and is catching up in Java by doing COMP 249 (she knows C++ though) so she wanted to sit out the coding part to give her time to learn the syntax of Java. Mottle seems to have the most industry experience so I decided to pair up with him so that I could learn the ropes (Git, SQLite, Maven, etc.). Leo and I are meeting tomorrow and he will show me what he knows about making a GUI in Eclipse using Window Builder.
+-	To begin the meeting, we played the card game, Codenames, to familiarize ourselves with the gameplay and rules. 
+-	After the game I understood finally understood the game. 
+-	I presented by idea of using a 5x5 matrix data structure to represent the game board and assigning each of the matrix’s contents to a one-dimensional array for ease of use. Then using a random function to assign the cards to each space. 
+-	MZ initiated the discussion of how we would implement the game and spoke about logical game design using objects.
+-	SZ and BT retaught the MVC model, because we were still unclear of it. 
+-	We all participated in a discussion about where the logic of the system would be contained, if it would be in the controller or the model. 
+-	We discovered that our group had been expanded and thus we went to the lab to meet them. 
 
-Encouraged by the quality and skill in the team. I am hoping that I can learn a lot from them as I am clearly not at their level. I need to get up to speed fast.
 
-\subsection{Agreed upon goals}
-\begin{itemize}
-\item Read the project outline.
-\item Take a look at all the tools we're gonna use over the project.
-\item Confirm time for next meeting.
-\item Think through how you would do the project on your own. 
-\item Make sure you have access to the repo and Discord server. 
-\item Say hello to the rest of the team.
-\end{itemize}
 
-\subsection{Miscellaneous}
-I really feel like I need to catch up to the other team members. I think most of them are much farther into their degrees than I. Regardless, I will do my best to pull my weight.
+\pagebreak
+\section{Team Meeting 1b }
+
+\subsection{Administrative}
+Wednesday, 16th January 2019 | 9:30 pm – 10:40pm (approx.) | H 903 Lab 
+Attendees: AP – Ashesh Patel*
+SP – Saad Patel*
+BT - Benjamin Thérien
+CS – Christophe Savard* 
+DT - Daniel Thibault-Shea
+MZ - Mordechai Zirkind 
+MW – Micheal Wilgus* 
+MZ - Mottel Zirkind
+RZ - Rezza Zairan 
+SV - Shereece Victor 
+SZ - Steven Zanga
+
+
+
+\subsection{Summary}
+-	We met the new members of our team (labelled with an ‘*’).
+-	We met the tutor, he gave us guidance on what is expected.
+-	The different roles were discussed: Coders, Documenters, Organizers, Quality Assurance.
+-	We chose our roles for this iteration, I am a documenter, because I didn’t do any Java programming prior to this course and needed time to learn and adapt. 
+-	It was declared that everyone will be involved in coding and testing. 
+-	We discussed the skills needed: knowledge of Java, Unit Testing, GitHub etc.
+-	I think I am the least knowledgeable and experienced in this group. 
+-	The software, websites and accounts we will be using to go the project. 
+-	The MVC model was recapped. 
+-	We discussed the database that may be needed, and maybe storing words, their hints and even pre-generated game boards in them. 
+-	We discussed, what game statistics would be displayed, how intelligent the computer players should be, the game cycle, and tasks to do by next week. 
+
+ 
+
+
 
 \pagebreak
 
-\section{DD-MM-YYYY - Journal Entry Description}
+\section{Team Meeting 2 }
 
-\subsection{Attendance}
+\subsection{Administrative}
+Wednesday, 23rd January 2019 | 9:30 pm – 10:40pm (approx.) | Capstone Project room 
+Attendees: 
+Via Discord: 
+BR - Bilal Rana
+CS – Christophe Savard 
+SZ - Steven Zanga
+Present: 
+AP – Ashesh Patel
+BT - Benjamin Thérien
+DT - Daniel Thibault-Shea
+MW – Micheal Wilgus
+MZ - Mordechai Zirkind  
+RZ - Rezza Zairan 
+SV - Shereece Victor 
+
+
+
 
 \subsection{Summary}
+-	We discussed what we each want out of the course, I want to not be too stressed. 
+-	We recapped what we each did that week. 
+-	I had written and posted the meeting minutes and downloaded a Latex editor. 
+-	Documenters were assigned the task or drawing UML diagrams.
+-	We realised a flaw in our work as a team, we were trying to write code before establishing the scope and requirements of the project. 
+-	Learned about the code written so far, how they fit into the MVC model and got an idea of what objects will be used and how they come together to form the game 
+-	Finally, I suggested that team mates share their progress with the group to improve synergy. 
 
-\subsection{Agreed upon goals}
-\begin{itemize}
-\item random stuff.
-\end{itemize}
 
-\subsection{Miscellaneous}
+
 
 \pagebreak
+
+\section{Personal work }
+
+\subsection{Administrative}
+Tuesday, 29rd January 2019 | 3:00 pm – 4:05 pm | -
+
+
+
+\subsection{Summary}
+-	Reviewed code posted on GitHub
+-	Downloaded Latex Document template and making edits to see how it works   
+
+
+
+
+\pagebreak
+\section{Mini Team Meeting }
+
+\subsection{Administrative}
+Wednesday, 30th January 2019 | 3:00 pm – 6:00 pm | LB Sandbox
+Attendees: 
+
+MZ - Mordechai Zirkind  
+RZ - Rezza Zairan 
+SV - Shereece Victor 
+
+
+
+\subsection{Summary}
+-	Discussed the gameplay with MZ 
+-	Discussed the format of the use cases and their format with RZ 
+-	Researched use cases and examples of use cases 
+-	Started writing main use cases in Word Document 
+
+
+
+\pagebreak
+\section{Mini Team Meeting }
+
+\subsection{Administrative}
+Wednesday, 30th January 2019 |7:00 pm – 9:25 pm | H Building 6th Floor Common Area 
+Attendees: 
+
+MW – Micheal Wilgus
+MZ - Mordechai Zirkind  
+RZ - Rezza Zairan 
+SV - Shereece Victor 
+
+
+
+
+\subsection{Summary}
+-	Transferred Use Cases to Latex Document 
+-	Spent hours trying to debug syntax errors
+-	MW found the solution at the end 
+-	Discussed UML and Use Case diagrams 
+-	RZ suggested a good software for drawing UML diagrams 
+
+
+
+\pagebreak
+\section{Team Meeting 3 }
+
+\subsection{Administrative}
+Wednesday, 30th January 2019 |9:30 pm – 10:30 pm | H 903 Lab
+Attendees: 
+
+AP - Ashesh Patel
+BR - Bilal Rana
+CS - Christophe Savard
+DS – Daniel Thibault-Shea
+BT - Benjamin Therien
+SV - Shereece Angell Agatha Victor
+MW - Michael Wilgus
+RZ - Rezza-Zairan Zaharin
+SZ – Steven Zanga
+MZ - Mordechai Zirkind
+
+
+
+
+
+\subsection{Summary}
+-	Discussed Progress with Tutor 
+-	I created a list of tasks to be completed by next week based on the requirements mentioned by the tutor:
+
+-	Clarified again, the work to be done for the first iteration 
+
+
+
+
+\pagebreak
+
 
 \end{document}
