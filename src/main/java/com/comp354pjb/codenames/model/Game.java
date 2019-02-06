@@ -98,15 +98,13 @@ public class Game
         this.blueCardsRevealed = blueTilesRevealed;
     }
 
-    private int clueNum;
-    private String currentClue;
+    private Clue clue;
     /**
      * Sets the current clue
      */
-    public void setCurrentClue(String currentClue, int clueNum)
+    public void setCurrentClue(Clue clue)
     {
-        this.currentClue = currentClue;
-        this.clueNum = clueNum;
+        this.clue = clue;
     }
 
     private boolean assassinRevealed;

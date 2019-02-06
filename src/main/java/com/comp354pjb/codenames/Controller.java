@@ -34,6 +34,8 @@ public class Controller implements CardFlippedObserver
     private GridPane grid;
     @FXML
     private Button undoButton, redoButton, nextMoveButton;
+    @FXML
+    private Text round, phase, red, blue, guesses, clue;
 
     //Data
     private HBox[][] boxes;

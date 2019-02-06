@@ -54,13 +54,13 @@
               <HBox>
                   <children>
                   <Text styleClass="info" text="Round: " />
-                  <Text styleClass="info" text="24" />
+                  <Text fx:id="round" styleClass="info" text="0" />
                   </children>
               </HBox>
               <HBox>
                   <children>
                       <Text styleClass="info" text="Phase: " />
-                      <Text styleClass="info" text="Blue Operative" />
+                      <Text fx:id="phase" styleClass="info" text="---" />
                   </children>
               </HBox>
           </children>
@@ -71,13 +71,13 @@
           <HBox>
               <children>
                   <Text styleClass="info" text="Red: " />
-                  <Text styleClass="info" text="1/8" />
+                  <Text fx:id="red" styleClass="info" text="-/-" />
               </children>
           </HBox>
           <HBox>
               <children>
                   <Text styleClass="info" text="Blue: " />
-                  <Text styleClass="info" text="1/9" />
+                  <Text fx:id="blue" styleClass="info" text="-/-" />
               </children>
           </HBox>
       </children>
@@ -87,13 +87,13 @@
               <HBox>
                   <children>
                       <Text styleClass="info" text="Guesses: " />
-                      <Text styleClass="info" text="1/4" />
+                      <Text fx:id="guesses" styleClass="info" text="-/-" />
                   </children>
               </HBox>
               <HBox>
                   <children>
                       <Text styleClass="info" text="Clue: " />
-                      <Text styleClass="info" text="Hypnosis 4" />
+                      <Text fx:id="clue" styleClass="info" text="---" />
                   </children>
               </HBox>
           </children>
