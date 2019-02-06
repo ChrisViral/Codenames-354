@@ -233,7 +233,14 @@
               <Text styleClass="word" text="Word" />
           </children>
        </HBox>
+
+       <!--Bottom buttons-->
        <HBox alignment="CENTER" GridPane.columnIndex="5" GridPane.rowIndex="6">
+           <children>
+               <Button fx:id="nextButton" disable="false" onAction="#onUndo" styleClass="buttonNext" text="Next Move" />
+           </children>
+       </HBox>
+       <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="6">
           <children>
               <Button fx:id="undoButton" disable="true" onAction="#onUndo" styleClass="button" text="Undo" />
               <Button fx:id="redoButton" disable="true" onAction="#onRedo" styleClass="button" text="Redo">
