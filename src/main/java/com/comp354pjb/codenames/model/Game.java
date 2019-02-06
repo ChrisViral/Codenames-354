@@ -11,7 +11,6 @@
 
 package com.comp354pjb.codenames.model;
 
-import com.comp354pjb.codenames.Controller;
 import com.comp354pjb.codenames.model.board.Board;
 import com.comp354pjb.codenames.model.board.CardType;
 import com.comp354pjb.codenames.model.player.*;
@@ -26,10 +25,11 @@ public class Game
     /**
      * The following are fields for statistics
      */
-    private String currentHint = "";
-    private int hintNum = 0, roundCount=1, redTilesRevealed=0, blueTilesRevealed=0;
+    private String currentClue = "", phase="";
+    private int clueNum = 0, roundCount=1, redCardsRevealed=0, blueCardsRevealed=0, guessesLeft=0, index=0;
     private PlayerType startTeam, winner, loser;
     private boolean assassinRevealed =false;
+    private ArrayList<IPlayer> players = new ArrayList<>();
 
     private Board board;
     public Board getBoard()
@@ -57,70 +57,94 @@ public class Game
         return RANDOM.nextBoolean() ? PlayerType.RED : PlayerType.BLUE;
     }
 
-    public void decideFirstRoll(CardType red, CardType blue)
+    /**
+     * This method is used to start the game with the correct player order
+     * by passing an array of player to the enterGameLoop
+     */
+    public void decideFirstRoll()
     {
-        ArrayList<IPlayer> bluePlayers = new ArrayList<IPlayer>();
-        bluePlayers.add(new SpyMasterAI(PlayerType.BLUE));
-        bluePlayers.add( new OperativeAI(PlayerType.BLUE));
-        ArrayList<IPlayer> redPlayers = new ArrayList<IPlayer>();
-        redPlayers.add(new SpyMasterAI(PlayerType.RED));
-        redPlayers.add(new OperativeAI(PlayerType.RED));
-
         if (this.startTeam == PlayerType.BLUE)
         {
             System.out.println("Blue Team will start, which means they must guess 9 cards");
             System.out.println("Red Team will go second, which means they must guess 8 cards");
-            enterGameLoop(bluePlayers, redPlayers);
+            ArrayList<IPlayer> bluePlayers = new ArrayList<IPlayer>();
+            players.add(new SpyMasterAI(PlayerType.BLUE));
+            players.add(new OperativeAI(PlayerType.BLUE));
+            players.add(new SpyMasterAI(PlayerType.RED));
+            players.add(new OperativeAI(PlayerType.RED));
+            enterNextGameTurn();
         }
         else
         {
             System.out.println("Red Team will start, which means they must guess 9 cards");
             System.out.println("Blue Team will go second, which means they must guess 8 cards");
-            enterGameLoop(redPlayers, bluePlayers);
+            ArrayList<IPlayer> redPlayers = new ArrayList<IPlayer>();
+            players.add(new SpyMasterAI(PlayerType.RED));
+            players.add(new OperativeAI(PlayerType.RED));
+            players.add(new SpyMasterAI(PlayerType.BLUE));
+            players.add( new OperativeAI(PlayerType.BLUE));
+            enterNextGameTurn();
         }
     }
 
+    /**
+     * @return true if a winning game condition has been met
+     */
     public boolean checkWinner()
     {
         if(startTeam == PlayerType.BLUE)
         {
-            if(redTilesRevealed == 8 || blueTilesRevealed==9 || assassinRevealed==true )
+            if(redCardsRevealed == 8 || blueCardsRevealed==9 || assassinRevealed==true )
                 return true;
         }
         else
         {
-            if(redTilesRevealed == 9 || blueTilesRevealed==8 || assassinRevealed==true )
+            if(redCardsRevealed == 9 || blueCardsRevealed==8 || assassinRevealed==true )
                 return true;
         }
         return false;
 
     }
 
-    private void enterGameLoop(ArrayList<IPlayer> players1,ArrayList<IPlayer> players2)
+    /**
+     * This method plays the next turn of the game
+     */
+    private void enterNextGameTurn()
     {
-        //create Players
-        boolean play =true;
-        while(play)
+        if(index % 2 ==0)
         {
-            for(int i=0;i<players1.size(); i++)
+            players.get(index).playTurn(this);
+            index++;
+        }
+        else
+        {
+            players.get(index).playTurn(this);
+            if(guessesLeft==0)
             {
-                players1.get(i).playTurn(this );
+                if(index ==3)
+                    setRoundCount(roundCount+1);
+                index= ++index % 4;
             }
-            if(checkWinner())
-                play=false;
-
-            for(int i=0;i<players2.size(); i++)
-            {
-                players2.get(i).playTurn(this );
-            }
-            if(checkWinner())
-                play=false;
         }
     }
 
-    public void setHintNum(int hintNum)
+    /**
+     * The following lnes are all getters/setters
+     */
+
+    public int getGuessesLeft()
     {
-        this.hintNum = hintNum;
+        return guessesLeft;
+    }
+
+    public void setGuessesLeft(int guessesLeft)
+    {
+        this.guessesLeft = guessesLeft;
+    }
+
+    public void setClueNum(int clueNum)
+    {
+        this.clueNum = clueNum;
     }
 
     public void setRoundCount(int roundCount)
@@ -128,14 +152,14 @@ public class Game
         this.roundCount = roundCount;
     }
 
-    public void setRedTilesRevealed(int redTilesRevealed)
+    public void setRedCardsRevealed(int redTilesRevealed)
     {
-        this.redTilesRevealed = redTilesRevealed;
+        this.redCardsRevealed = redTilesRevealed;
     }
 
-    public void setBlueTilesRevealed(int blueTilesRevealed)
+    public void setBlueCardsRevealed(int blueTilesRevealed)
     {
-        this.blueTilesRevealed = blueTilesRevealed;
+        this.blueCardsRevealed = blueTilesRevealed;
     }
 
 
@@ -144,29 +168,29 @@ public class Game
         return roundCount;
     }
 
-    public int getRedTilesRevealed()
+    public int getRedCardsRevealed()
     {
-        return redTilesRevealed;
+        return redCardsRevealed;
     }
 
-    public int getBlueTilesRevealed()
+    public int getBlueCardsRevealed()
     {
-        return blueTilesRevealed;
+        return blueCardsRevealed;
     }
 
-    public String getCurrentHint()
+    public String getCurrentClue()
     {
-        return currentHint;
+        return currentClue;
     }
 
-    public int getHintNum()
+    public int getClueNum()
     {
-        return hintNum;
+        return clueNum;
     }
 
-    public void setCurrentHint(String currentHint)
+    public void setCurrentClue(String currentClue)
     {
-        this.currentHint = currentHint;
+        this.currentClue = currentClue;
     }
 
     public boolean isAssassinRevealed()
@@ -199,7 +223,13 @@ public class Game
         this.loser = loser;
     }
 
+    public String getPhase()
+    {
+        return phase;
+    }
 
-
-
+    public void setPhase(String phase)
+    {
+        this.phase = phase;
+    }
 }
