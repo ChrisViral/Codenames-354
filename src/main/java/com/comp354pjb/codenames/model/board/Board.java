@@ -49,7 +49,7 @@ public class Board
      * @param words          Array containing the 25 words to be displayed on the cards
      * @param startingPlayer Player starting the game
      */
-    public Board(String[] words, CardType startingPlayer)
+    public Board(String[] words, PlayerType startingPlayer)
     {
         //Create the cards
         this.cards = Board.createCards(words, startingPlayer);
@@ -63,7 +63,7 @@ public class Board
      * @param startingPlayer Starting player (will have extra card of it's colour)
      * @return The created 5 by 5 array of cards
      */
-    public static Card[][] createCards(String[] words, CardType startingPlayer)
+    public static Card[][] createCards(String[] words, PlayerType startingPlayer)
     {
         Card[][] cards = new Card[5][5];
         ArrayList<CardType> types = new ArrayList<>(Arrays.asList(PRESET));
