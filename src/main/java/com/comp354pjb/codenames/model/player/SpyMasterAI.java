@@ -41,7 +41,6 @@ public class SpyMasterAI implements IPlayer
     public void playTurn(Game game)
     {
         game.setPhase(name);
-        game.setCurrentClue("random");
-        game.setClueNum(3);
+        game.setCurrentClue("random", 3);
     }
 }

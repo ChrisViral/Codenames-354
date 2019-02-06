@@ -9,10 +9,10 @@
  */
 
 package com.comp354pjb.codenames.model.player;
+
 import com.comp354pjb.codenames.model.Game;
 import com.comp354pjb.codenames.model.board.CardType;
 import java.lang.*;
-
 
 /**
  * Implementation  of IPlayer for the AI class

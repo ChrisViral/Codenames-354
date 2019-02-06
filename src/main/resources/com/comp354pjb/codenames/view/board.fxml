@@ -237,7 +237,7 @@
        <!--Bottom buttons-->
        <HBox alignment="CENTER" GridPane.columnIndex="5" GridPane.rowIndex="6">
            <children>
-               <Button fx:id="nextButton" disable="false" onAction="#onUndo" styleClass="buttonNext" text="Next Move" />
+               <Button fx:id="nextMoveButton" disable="false" onAction="#onNextMove" styleClass="buttonNext" text="Next Move" />
            </children>
        </HBox>
        <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="6">

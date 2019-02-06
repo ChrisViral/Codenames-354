@@ -12,224 +12,243 @@
 package com.comp354pjb.codenames.model;
 
 import com.comp354pjb.codenames.model.board.Board;
-import com.comp354pjb.codenames.model.board.CardType;
 import com.comp354pjb.codenames.model.player.*;
 
 import java.util.*;
 
 public class Game
 {
-    // creating random object.
-    private static final Random RANDOM = new Random();
-
+    //region Constants
     /**
-     * The following are fields for statistics
+     * Random number generator for the Game
      */
-    private String currentClue = "", phase="";
-    private int clueNum = 0, roundCount=1, redCardsRevealed=0, blueCardsRevealed=0, guessesLeft=0, index=0;
-    private PlayerType startTeam, winner, loser;
-    private boolean assassinRevealed =false;
-    private ArrayList<IPlayer> players = new ArrayList<>();
+    private static final Random RANDOM = new Random();
+    //endregion
 
-    private Board board;
+    //region Fields
+    private PlayerType startTeam;
+    private int playerIndex;
+    private ArrayList<IPlayer> players = new ArrayList<>();
+    //endregion
+
+    //region Properties
+    private final Board board;
+    /**
+     * Gets this game's Board
+     */
     public Board getBoard()
     {
         return this.board;
     }
 
+    private int guessesLeft;
     /**
-     * Default constructor, selection of 25 words, sets main controller and creates a new board with the selected 25 cards
+     * The amount of guesses left
      */
-    public Game()
-    {
-        String[] words = DatabaseHelper.selectWords(25);
-        this.startTeam = chooseStartingPlayer();
-        this.board = new Board(words, this.startTeam);
-    }
-
-    
-    /**
-     * decide what team starts first, red or blue
-     * @return returns whether the starting player type will be red or blue.
-     */
-    private static PlayerType chooseStartingPlayer()
-    {
-        return RANDOM.nextBoolean() ? PlayerType.RED : PlayerType.BLUE;
-    }
-
-    /**
-     * This method is used to start the game with the correct player order
-     * by passing an array of player to the enterGameLoop
-     */
-    public void decideFirstRoll()
-    {
-        if (this.startTeam == PlayerType.BLUE)
-        {
-            System.out.println("Blue Team will start, which means they must guess 9 cards");
-            System.out.println("Red Team will go second, which means they must guess 8 cards");
-            ArrayList<IPlayer> bluePlayers = new ArrayList<IPlayer>();
-            players.add(new SpyMasterAI(PlayerType.BLUE));
-            players.add(new OperativeAI(PlayerType.BLUE));
-            players.add(new SpyMasterAI(PlayerType.RED));
-            players.add(new OperativeAI(PlayerType.RED));
-            enterNextGameTurn();
-        }
-        else
-        {
-            System.out.println("Red Team will start, which means they must guess 9 cards");
-            System.out.println("Blue Team will go second, which means they must guess 8 cards");
-            ArrayList<IPlayer> redPlayers = new ArrayList<IPlayer>();
-            players.add(new SpyMasterAI(PlayerType.RED));
-            players.add(new OperativeAI(PlayerType.RED));
-            players.add(new SpyMasterAI(PlayerType.BLUE));
-            players.add( new OperativeAI(PlayerType.BLUE));
-            enterNextGameTurn();
-        }
-    }
-
-    /**
-     * @return true if a winning game condition has been met
-     */
-    public boolean checkWinner()
-    {
-        if(startTeam == PlayerType.BLUE)
-        {
-            if(redCardsRevealed == 8 || blueCardsRevealed==9 || assassinRevealed==true )
-                return true;
-        }
-        else
-        {
-            if(redCardsRevealed == 9 || blueCardsRevealed==8 || assassinRevealed==true )
-                return true;
-        }
-        return false;
-
-    }
-
-    /**
-     * This method plays the next turn of the game
-     */
-    private void enterNextGameTurn()
-    {
-        if(index % 2 ==0)
-        {
-            players.get(index).playTurn(this);
-            index++;
-        }
-        else
-        {
-            players.get(index).playTurn(this);
-            if(guessesLeft==0)
-            {
-                if(index ==3)
-                    setRoundCount(roundCount+1);
-                index= ++index % 4;
-            }
-        }
-    }
-
-    /**
-     * The following lnes are all getters/setters
-     */
-
     public int getGuessesLeft()
     {
-        return guessesLeft;
+        return this.guessesLeft;
     }
-
+    /**
+     * Sets the amount of guesses left
+     */
     public void setGuessesLeft(int guessesLeft)
     {
         this.guessesLeft = guessesLeft;
     }
 
-    public void setClueNum(int clueNum)
-    {
-        this.clueNum = clueNum;
-    }
-
+    private int roundCount;
+    /**
+     * Sets the round count
+     */
     public void setRoundCount(int roundCount)
     {
         this.roundCount = roundCount;
     }
 
+    private int redCardsRevealed;
+    /**
+     * Gets the amount of red cards revealed
+     */
+    public int getRedCardsRevealed()
+    {
+        return this.redCardsRevealed;
+    }
+    /**
+     * Sets the amount of red cards revealed
+     */
     public void setRedCardsRevealed(int redTilesRevealed)
     {
         this.redCardsRevealed = redTilesRevealed;
     }
 
+    private int blueCardsRevealed;
+    /**
+     * Gets the amount of blue cards revealed
+     */
+    public int getBlueCardsRevealed()
+    {
+        return this.blueCardsRevealed;
+    }
+    /**
+     * Sets the amount of blue cards revealed
+     */
     public void setBlueCardsRevealed(int blueTilesRevealed)
     {
         this.blueCardsRevealed = blueTilesRevealed;
     }
 
-
-    public int getRoundCount()
-    {
-        return roundCount;
-    }
-
-    public int getRedCardsRevealed()
-    {
-        return redCardsRevealed;
-    }
-
-    public int getBlueCardsRevealed()
-    {
-        return blueCardsRevealed;
-    }
-
-    public String getCurrentClue()
-    {
-        return currentClue;
-    }
-
-    public int getClueNum()
-    {
-        return clueNum;
-    }
-
-    public void setCurrentClue(String currentClue)
+    private int clueNum;
+    private String currentClue;
+    /**
+     * Sets the current clue
+     */
+    public void setCurrentClue(String currentClue, int clueNum)
     {
         this.currentClue = currentClue;
+        this.clueNum = clueNum;
     }
 
-    public boolean isAssassinRevealed()
-    {
-        return assassinRevealed;
-    }
-
+    private boolean assassinRevealed;
+    /**
+     * Sets if the assassin card has been revealed
+     */
     public void setAssassinRevealed(boolean assassinRevealed)
     {
         this.assassinRevealed = assassinRevealed;
     }
 
+    private PlayerType winner;
+    /**
+     * Gets the game's winner
+     */
     public PlayerType getWinner()
     {
-        return winner;
+        return this.winner;
     }
-
+    /**
+     * Sets the game's winner
+     */
     public void setWinner(PlayerType winner)
     {
         this.winner = winner;
     }
 
+    private PlayerType loser;
+    /**
+     * Gets the game's loser
+     */
     public PlayerType getLoser()
     {
         return loser;
     }
-
+    /**
+     * Sets the game's loser
+     */
     public void setLoser(PlayerType loser)
     {
         this.loser = loser;
     }
 
+    private String phase;
+    /**
+     * Gets the game's phase
+     */
     public String getPhase()
     {
-        return phase;
+        return this.phase;
     }
-
+    /**
+     * Sets the game's phase
+     */
     public void setPhase(String phase)
     {
         this.phase = phase;
     }
+    //endregion
+
+    //region Constructors
+    /**
+     * Creates a new Game object and correctly sets up the board and cards, as well as players
+     */
+    public Game()
+    {
+        chooseStartingPlayer();
+        this.board = new Board(DatabaseHelper.selectWords(25), this.startTeam);
+    }
+    //endregion
+
+    //region Methods
+    /**
+     * Decides starting team and creates the necessary players for the game
+     */
+    private void chooseStartingPlayer()
+    {
+        if (RANDOM.nextBoolean())
+        {
+            this.startTeam = PlayerType.BLUE;
+            System.out.println("Blue Team will start, which means they must guess 9 cards");
+            System.out.println("Red Team will go second, which means they must guess 8 cards");
+            this.players.add(new SpyMasterAI(PlayerType.BLUE));
+            this.players.add(new OperativeAI(PlayerType.BLUE));
+            this.players.add(new SpyMasterAI(PlayerType.RED));
+            this.players.add(new OperativeAI(PlayerType.RED));
+        }
+        else
+        {
+            this.startTeam = PlayerType.RED;
+            System.out.println("Red Team will start, which means they must guess 9 cards");
+            System.out.println("Blue Team will go second, which means they must guess 8 cards");
+            this.players.add(new SpyMasterAI(PlayerType.RED));
+            this.players.add(new OperativeAI(PlayerType.RED));
+            this.players.add(new SpyMasterAI(PlayerType.BLUE));
+            this.players.add( new OperativeAI(PlayerType.BLUE));
+        }
+    }
+
+    /**
+     * Checks if the game must end
+     * @return True if a winning game condition has been met
+     */
+    public boolean checkWinner()
+    {
+        //Game ends as soon as the Assassin is revealed
+        if (this.assassinRevealed)
+        {
+            return true;
+        }
+        else
+        {
+             //Check the starting team for correct card numbers
+            switch (this.startTeam)
+            {
+                case RED:
+                    return this.redCardsRevealed == 9 || this.blueCardsRevealed == 8;
+
+                case BLUE:
+                    return this.redCardsRevealed == 8 || this.blueCardsRevealed == 9;
+
+                default:
+                    return false;
+            }
+        }
+    }
+
+    /**
+     * This method plays the next turn of the game
+     */
+    public void enterNextGameTurn()
+    {
+        //Play the current player's turn
+        IPlayer current = this.players.get(this.playerIndex);
+        current.playTurn(this);
+
+        //If a SpyMaster, pass the next turn to the Operative
+        //If an Operative, pass the next turn only if you have no more guesses
+        if (current instanceof SpyMasterAI || this.guessesLeft == 0)
+        {
+            playerIndex = (playerIndex + 1) % this.players.size();
+        }
+    }
+    //endregion
 }

@@ -33,7 +33,7 @@ public class Controller implements CardFlippedObserver
     @FXML
     private GridPane grid;
     @FXML
-    private Button undoButton, redoButton;
+    private Button undoButton, redoButton, nextMoveButton;
 
     //Data
     private HBox[][] boxes;
@@ -93,6 +93,15 @@ public class Controller implements CardFlippedObserver
         int x = GridPane.getRowIndex(box) - 1;
         int y = GridPane.getColumnIndex(box) - 1;
         this.game.getBoard().revealAt(x, y);
+    }
+
+    /**
+     * Plays the next AI game turn
+     */
+    @FXML
+    private void onNextMove()
+    {
+        this.game.enterNextGameTurn();
     }
 
     /**
