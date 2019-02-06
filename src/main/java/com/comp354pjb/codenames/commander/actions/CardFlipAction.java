@@ -10,6 +10,7 @@
 package com.comp354pjb.codenames.commander.actions;
 
 import com.comp354pjb.codenames.Controller;
+import com.comp354pjb.codenames.Utils;
 import com.comp354pjb.codenames.model.board.Card;
 
 /**
@@ -54,6 +55,20 @@ public class CardFlipAction implements Action
     {
         card.setRevealed(true);
         this.controller.onFlip(card);
+    }
+
+    /**
+     * Informative message to be printed to the log related to the Card being flipped
+     * @return String info of the action
+     */
+    @Override
+    public String info()
+    {
+        return String.format("%s card \"%s\" flipped at (%d, %d)",
+                              Utils.toCamelCase(card.getType().name()),
+                              card.getWord(),
+                              card.getX(),
+                              card.getY());
     }
     //endregion
 }

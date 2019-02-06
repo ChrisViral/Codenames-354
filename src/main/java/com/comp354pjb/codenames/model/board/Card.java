@@ -40,7 +40,7 @@ public class Card
         return this.isRevealed;
     }
     /**
-     * Sets the revealed status of this card
+     * Sets the revealed info of this card
      */
     public void setRevealed(boolean revealed)
     {
