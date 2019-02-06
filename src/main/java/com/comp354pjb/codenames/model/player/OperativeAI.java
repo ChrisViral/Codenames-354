@@ -19,17 +19,17 @@ import java.lang.*;
  */
 public class OperativeAI implements IPlayer
 {
-    private CardType teamColor;
+    private PlayerType teamColor;
 
-    public OperativeAI(CardType team)
+    public OperativeAI(PlayerType team)
     {
         teamColor = team;
     }
 
-    @Override
     /**
      * The following method uses a randomizer to determine which card to pick
      */
+    @Override
     public void playTurn(Game game)
     {
 
@@ -52,9 +52,9 @@ public class OperativeAI implements IPlayer
                         game.setAssassinRevealed(true);
                         game.setLoser(teamColor);
                     }
-                    else if(game.getBoard().getCard(row, col).getType() != teamColor)
+                    else if(game.getBoard().getCard(row, col).getType() != teamColor.getCardType())
                     {
-                        if(teamColor==CardType.BLUE)
+                        if(teamColor == PlayerType.BLUE)
                             ;
 
                     }

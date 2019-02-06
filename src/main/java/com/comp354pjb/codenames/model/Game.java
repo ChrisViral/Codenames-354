@@ -28,7 +28,7 @@ public class Game
      */
     private String currentHint = "";
     private int hintNum = 0, roundCount=1, redTilesRevealed=0, blueTilesRevealed=0;
-    private CardType startTeam, winner, loser;
+    private PlayerType startTeam, winner, loser;
     private boolean assassinRevealed =false;
 
     private Board board;
@@ -43,7 +43,8 @@ public class Game
     public Game()
     {
         String[] words = DatabaseHelper.selectWords(25);
-        this.board = new Board(words, chooseStartingPlayer());
+        this.startTeam = chooseStartingPlayer();
+        this.board = new Board(words, this.startTeam);
     }
 
     
@@ -51,30 +52,28 @@ public class Game
      * decide what team starts first, red or blue
      * @return returns whether the starting player type will be red or blue.
      */
-    private static CardType chooseStartingPlayer()
+    private static PlayerType chooseStartingPlayer()
     {
-        return RANDOM.nextBoolean() ? CardType.RED : CardType.BLUE;
+        return RANDOM.nextBoolean() ? PlayerType.RED : PlayerType.BLUE;
     }
 
     public void decideFirstRoll(CardType red, CardType blue)
     {
         ArrayList<IPlayer> bluePlayers = new ArrayList<IPlayer>();
-        bluePlayers.add(new SpyMasterAI(CardType.BLUE));
-        bluePlayers.add( new OperativeAI(CardType.BLUE));
+        bluePlayers.add(new SpyMasterAI(PlayerType.BLUE));
+        bluePlayers.add( new OperativeAI(PlayerType.BLUE));
         ArrayList<IPlayer> redPlayers = new ArrayList<IPlayer>();
-        redPlayers.add(new SpyMasterAI(CardType.RED));
-        redPlayers.add(new OperativeAI(CardType.RED));
+        redPlayers.add(new SpyMasterAI(PlayerType.RED));
+        redPlayers.add(new OperativeAI(PlayerType.RED));
 
-        if (RANDOM.nextBoolean())
+        if (this.startTeam == PlayerType.BLUE)
         {
-            startTeam = CardType.BLUE;
             System.out.println("Blue Team will start, which means they must guess 9 cards");
             System.out.println("Red Team will go second, which means they must guess 8 cards");
             enterGameLoop(bluePlayers, redPlayers);
         }
         else
         {
-            startTeam = CardType.RED;
             System.out.println("Red Team will start, which means they must guess 9 cards");
             System.out.println("Blue Team will go second, which means they must guess 8 cards");
             enterGameLoop(redPlayers, bluePlayers);
@@ -83,7 +82,7 @@ public class Game
 
     public boolean checkWinner()
     {
-        if(startTeam == CardType.BLUE)
+        if(startTeam == PlayerType.BLUE)
         {
             if(redTilesRevealed == 8 || blueTilesRevealed==9 || assassinRevealed==true )
                 return true;
@@ -180,22 +179,22 @@ public class Game
         this.assassinRevealed = assassinRevealed;
     }
 
-    public CardType getWinner()
+    public PlayerType getWinner()
     {
         return winner;
     }
 
-    public void setWinner(CardType winner)
+    public void setWinner(PlayerType winner)
     {
         this.winner = winner;
     }
 
-    public CardType getLoser()
+    public PlayerType getLoser()
     {
         return loser;
     }
 
-    public void setLoser(CardType loser)
+    public void setLoser(PlayerType loser)
     {
         this.loser = loser;
     }
