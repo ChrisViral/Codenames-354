@@ -41,6 +41,8 @@
 \normalbaselineskip=12pt
 
 \begin{document}
+
+
 	
 \hrulefill
 \begin{flushright}
@@ -56,30 +58,17 @@
 
 
 \begin{table}[htbp]
+	
 \begin{center}
     \begin{center}
 	    Team Members\\
     \end{center}
-	\begin{tabular}{| c | c |}
-	\hline
-	Name & ID Number \\
-	\hline\hline
-	Ashesh Patel & 40018519 \\
-	Christophe Savard & 40017812\\
-	Benjamin Th\'erien & 40034572\\
-	Daniel Thibault-Shea & 40073133\\
-	Shereece Victor & 40105094\\
-	Michael Wilgus & 29206388 \\
-	Rezza-Zairan Zaharin & 40003377 \\
-	Steven Zanga & 40000797\\
-	Mottel Zirkind & 27206151\\
-	\hline
-	\end{tabular}
-	\end{center}
-\end{table}
 
-\newpage
+	\begin{tabular}{| c | c |}
+		\hline
+		Name & ID Number \\c
 \tableofcontents
+
 \newpage
 
 \section{Project Analysis and Development Plan}
@@ -92,7 +81,7 @@
 	
 	\subsection{Purpose}
 	
-	This document will describe the specifications entailed by the development of Codenames in compliance with the requirements of COMP 354. It will outline the high-level requirements encompassing user interfaces, product functions, user descriptions, assumptions and dependancies, constraints, specific requirements and an analysis model. The analysis model will hold use case diagrams, class diagrams, sequence diagrams and state transition diagrams.
+	This document will describe the specifications entailed by the development of Codenames in compliance with the requirements of COMP 354. It will outline the high-level requirements encompassing user interfaces, product functions, user descriptions, assumptions and dependencies, constraints, specific requirements and an analysis model. The analysis model will hold use case diagrams, class diagrams, sequence diagrams and state transition diagrams.
 	
 	\subsection{Scope}
 	
@@ -110,8 +99,7 @@
 	
 		\textbf{Card} \\
 		\\
-		The card will hold two values indicative of it's state: unrevealed
-		and revealed. In it's unrevealed state, it will present a word taken from the game. In it's revealed state, it can either be a blue or red team's \textit{Spy} card, a \textit{Civillian} card or the \textbf{Assassin} card.\\
+		The card will hold two values indicative of it's state: hidden or revealed. In its hidden state, it will present a word taken from the game. In its revealed state, it can either be a blue or red team's \textit{Spy} card, a \textit{Civilian} card or the \textbf{Assassin} card.\\
 		
 		\textbf{Assassin} \\
 		The Assassin is a card type that when revealed, it would cause the team that revealed it to lose.\\
@@ -120,9 +108,9 @@
 		\\
 		The Spy is a card type that belongs to either the red or blue team. Once all spy cards of a team are revealed, the team wins.
 		
-		\textbf{Civillian}\\
+		\textbf{Civilian}\\
 		\\
-		The Civillian is a card type that occupies leftover space on the board that is not occupied by \textit{Spy} cards or the \textit{Assassin} card. When revealed, it only skips the revealing team's turn. \\
+		The Civilian is a card type that occupies leftover space on the board that is not occupied by \textit{Spy} cards or the \textit{Assassin} card. When revealed, it only skips the revealing team's turn. \\
 	
 	
 	\subsection{Overview}
@@ -138,7 +126,7 @@
 	\subsection{Project Purpose, Scope, and Objectives}
 	
 	% Update for each iteration
-	The objective of this project is to simulate a multi-user tabletop game named Codenames game by by Vlada Chv\'atil and published by Czech games. The rules of the game will intimately follow Vlada Chv\'atil with slight variations to accomodate the digital conversion. This project will be a multi-user game of up to four players; these players can be either human or computer players.\\
+	The objective of this project is to simulate a multi-user tabletop game named Codenames game by by Vlada Chv\'atil and published by Czech games. The rules of the game will intimately follow Vlada Chv\'atil with slight variations to accommodate the digital conversion. This project will be a multi-user game of up to four players; these players can be either human or computer players.\\
 	
 	By working on this project, Team PJ-b can experience the software engineering process entailing the difficulties in managing a group project.\\
 	
@@ -149,9 +137,9 @@
 		%Update by later iterations
 		As this is the requirement phase, we are keeping the interface to a minimum design. They will not preface any visual grace but present the most useful information at the time. The visual representation of the game is as shown below:\\
 		
-		\begin{center}
-			\includegraphics[scale=0.4]{"Game Interface".png}
-		\end{center}
+%		\begin{center}
+%			\includegraphics[scale=0.4]{"Game Interface".png}
+%		\end{center}
 	
 		\textbf{Board}\\
 		\\
@@ -160,8 +148,8 @@
 		        \item Red is a red spy.
 		        \item Blue is a blue spy.
 		        \item Black is \textit{the Assassin}.
-		        \item Peach is a Civillian.
-		    \end{itemize}\\
+		        \item Peach is a Civilian.
+		    \end{itemize}
 		    
 	    \textbf{Round}\\
 	    \\
@@ -175,7 +163,7 @@
 	            \item Blue Operative
 	            \item Red Spymaster
 	            \item Red Operative
-	        \end{itemize}\\
+	        \end{itemize}
 	   
 	   \textbf{Scorekeeping}\\
 	   \\
@@ -209,26 +197,26 @@
 	
 		\subsubsection{Introduction}
 		
-		The user is first introduced to the game. Since human playes are currently not being implemented into the game, only the "Start Game" button is visible. \\
+		The user is first introduced to the game. Since human players are currently not being implemented into the game, only the "Start Game" button is visible. \\
 		
 		Input:
 		    \begin{itemize}
 		        \item The user clicks the "\textit{Start Game}" button.
 		    \end{itemize}
-	    \\
+	    
 		Action:
 		    \begin{itemize}
 		        \item 4 computer players are created: 2 for each team with each either being a \textit{Spymaster} or \textit{Operative}.
 		        \item 25 words are randomly picked from a database.
 		        \item The starting team is randomly picked.
-		    \end{itemize}\\
+		    \end{itemize}
 		
 		Output:
 		    \begin{itemize}
 		        \item The teams are defined.
 		        \item A pool of words in use for the game are kept in an array.
 		        \item A turn order is decided.
-		    \end{itemize}\\
+		    \end{itemize}
 		    
 		Validity Check:
 		    \begin{itemize}
@@ -265,7 +253,7 @@
 	
 	\subsection{Constraints}
 	
-	Assuming that a majority of player's PCs will run by the Windows OS, the project must be written in this platform that suports GUI.Thus, the decision has been made touse :
+	Assuming that a majority of player's PCs will run by the Windows OS, the project must be written in this platform that supports GUI.Thus, the decision has been made to use :
 	\begin{itemize}
 		\item[--] JAVA as the programming language.
 		\item[--] SQLite as chosen for data storage.
@@ -485,7 +473,7 @@
 			\hline 
 			Alternative Paths & Alternative 1:
 				\begin{enumerate}
-					\item After step 1, if the clue not considered valid by the system (i.e. One or more words contains the clue word), the turn is passed for the Spymaster.
+					\item After step 1, if the clue not considered valid by the system (i.e. One or more words contains the clue word), the turn is passed to the Spymaster.
 					\item The turn is also passed for the team Operative as detailed in the use case, "End Turn"
 				\end{enumerate}\\
 			\hline 
@@ -570,12 +558,12 @@
 	\newpage
 	
 		\subsubsection{Class Diagrams}
-		
+		a couple letters
 			\paragraph{Full Class Diagram}
-			
+			a couple letters
 			\paragraph{Simplified View}
-			
+			a couple letters
 			\paragraph{Hierarchical View}
-
+			a couple letters
 	
 \end{document}
