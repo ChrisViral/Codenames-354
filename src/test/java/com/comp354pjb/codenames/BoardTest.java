@@ -1,3 +1,12 @@
+/*
+ * BoardTest.java
+ * Created by: Michael Wilgus
+ * Created on: 03/02/19
+ *
+ * Contributors:
+ * Michael Wilgus
+ */
+
 package com.comp354pjb.codenames;
 
 import com.comp354pjb.codenames.model.board.*;
