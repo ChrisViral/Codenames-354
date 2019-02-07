@@ -13,6 +13,7 @@ package com.comp354pjb.codenames.model;
 
 import com.comp354pjb.codenames.model.board.Board;
 import com.comp354pjb.codenames.model.player.*;
+import com.comp354pjb.codenames.observer.events.ClueGivenEvent;
 
 import java.util.*;
 
@@ -22,7 +23,14 @@ public class Game
     /**
      * Random number generator for the Game
      */
-    private static final Random RANDOM = new Random();
+    public static final Random RANDOM = new Random();
+    //endregion
+
+    //region Events
+    /**
+     * Clue given event
+     */
+    public final ClueGivenEvent onClueGiven = new ClueGivenEvent();
     //endregion
 
     //region Fields
@@ -105,6 +113,7 @@ public class Game
     public void setCurrentClue(Clue clue)
     {
         this.clue = clue;
+        this.onClueGiven.invoke(clue);
     }
 
     private boolean assassinRevealed;

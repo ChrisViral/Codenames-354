@@ -13,7 +13,9 @@ import com.comp354pjb.codenames.commander.Commander;
 import com.comp354pjb.codenames.model.board.Board;
 import com.comp354pjb.codenames.model.board.Card;
 import com.comp354pjb.codenames.model.Game;
+import com.comp354pjb.codenames.model.player.Clue;
 import com.comp354pjb.codenames.observer.events.CardFlippedObserver;
+import com.comp354pjb.codenames.observer.events.ClueGivenObserver;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -26,7 +28,7 @@ import javafx.scene.text.Text;
 /**
  * Controller object, interacts between the View (FXML) and the Model
  */
-public class Controller implements CardFlippedObserver
+public class Controller implements CardFlippedObserver, ClueGivenObserver
 {
     //region Fields
     //FXML Fields
@@ -41,6 +43,7 @@ public class Controller implements CardFlippedObserver
     private HBox[][] boxes;
     private Game game;
     private Commander commander;
+    private int maxGuesses;
     //endregion
 
     //region FXML Methods
@@ -67,6 +70,7 @@ public class Controller implements CardFlippedObserver
         this.game = new Game();
 
         //Register to all events
+        this.game.onClueGiven.register(this);
         this.game.getBoard().onFlip.register(this);
 
         //Create the Commander object
@@ -156,6 +160,18 @@ public class Controller implements CardFlippedObserver
         ObservableList<String> styles = box.getStyleClass();
         styles.remove(from);
         styles.add(to);
+    }
+
+    /**
+     * Gets the new given clue
+     * @param clue Clue given
+     */
+    @Override
+    public void getClue(Clue clue)
+    {
+        this.clue.setText(clue.toString());
+        this.maxGuesses = clue.value;
+        this.guesses.setText("0/" + clue.value);
     }
 
     /**
