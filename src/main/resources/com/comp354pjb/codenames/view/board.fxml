@@ -54,7 +54,7 @@
               <HBox>
                   <children>
                   <Text styleClass="info" text="Round: " />
-                  <Text fx:id="round" styleClass="info" text="0" />
+                  <Text fx:id="round" styleClass="info" text="1" />
                   </children>
               </HBox>
               <HBox>

@@ -19,6 +19,6 @@ public interface RoundObserver
      * Gets the new updated game round
      * @param round New game round
      */
-    void updateRound(int round);
+    void updateRound(Integer round);
     //endregion
 }

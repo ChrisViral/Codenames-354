@@ -17,6 +17,7 @@ import com.comp354pjb.codenames.model.player.Clue;
 import com.comp354pjb.codenames.observer.events.CardFlippedObserver;
 import com.comp354pjb.codenames.observer.events.ClueGivenObserver;
 import com.comp354pjb.codenames.observer.events.PhaseObserver;
+import com.comp354pjb.codenames.observer.events.RoundObserver;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -29,7 +30,7 @@ import javafx.scene.text.Text;
 /**
  * Controller object, interacts between the View (FXML) and the Model
  */
-public class Controller implements CardFlippedObserver, ClueGivenObserver, PhaseObserver
+public class Controller implements CardFlippedObserver, ClueGivenObserver, PhaseObserver, RoundObserver
 {
     //region Fields
     //FXML Fields
@@ -73,6 +74,7 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
         //Register to all events
         this.game.onClueGiven.register(this);
         this.game.onPhaseChange.register(this);
+        this.game.onRoundChange.register(this);
         this.game.getBoard().onFlip.register(this);
 
         //Create the Commander object
@@ -210,6 +212,16 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     public void close()
     {
         this.commander.close();
+    }
+
+    /**
+     * Gets the new updated game round
+     * @param round New game round
+     */
+    @Override
+    public void updateRound(Integer round)
+    {
+        this.round.setText(round.toString());
     }
     //endregion
 }

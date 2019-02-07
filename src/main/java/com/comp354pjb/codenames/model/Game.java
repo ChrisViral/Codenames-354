@@ -15,6 +15,7 @@ import com.comp354pjb.codenames.model.board.Board;
 import com.comp354pjb.codenames.model.player.*;
 import com.comp354pjb.codenames.observer.events.ClueGivenEvent;
 import com.comp354pjb.codenames.observer.events.PhaseEvent;
+import com.comp354pjb.codenames.observer.events.RoundEvent;
 
 import java.util.*;
 
@@ -36,11 +37,15 @@ public class Game
      * Phase change event
      */
     public final PhaseEvent onPhaseChange = new PhaseEvent();
+    /**
+     * Round change event
+     */
+    public final RoundEvent onRoundChange = new RoundEvent();
     //endregion
 
     //region Fields
     private PlayerType startTeam;
-    private int playerIndex;
+    private int playerIndex, round;
     private ArrayList<IPlayer> players = new ArrayList<>();
     //endregion
 
@@ -68,15 +73,6 @@ public class Game
     public void setGuessesLeft(int guessesLeft)
     {
         this.guessesLeft = guessesLeft;
-    }
-
-    private int roundCount;
-    /**
-     * Sets the round count
-     */
-    public void setRoundCount(int roundCount)
-    {
-        this.roundCount = roundCount;
     }
 
     private int redCardsRevealed;
@@ -260,8 +256,15 @@ public class Game
         //If an Operative, pass the next turn only if you have no more guesses
         if (current instanceof SpyMasterAI || this.guessesLeft == 0)
         {
-            playerIndex = (playerIndex + 1) % this.players.size();
+            this.playerIndex = (this.playerIndex + 1) % this.players.size();
+
+            if (this.playerIndex == 0)
+            {
+                this.round++;
+                this.onRoundChange.invoke(this.round);
+            }
         }
+
     }
     //endregion
 }
