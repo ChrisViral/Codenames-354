@@ -11,6 +11,7 @@
 package com.comp354pjb.codenames.model.player;
 
 import com.comp354pjb.codenames.model.Game;
+import com.comp354pjb.codenames.model.board.Card;
 import com.comp354pjb.codenames.model.board.CardType;
 import java.lang.*;
 
@@ -57,40 +58,38 @@ public class OperativeAI implements IPlayer
     public void playTurn(Game game)
     {
         game.setPhase(name);
-        boolean isComplete= false;
+        boolean isComplete = false;
         while (!isComplete)
         {
-            int row = (int)(5 * Math.random()), col = (int)(5 * Math.random());
-            if (!game.getBoard().getCard(row, col).isRevealed())
+            int row = Game.RANDOM.nextInt(5), col = Game.RANDOM.nextInt(5);
+            Card card = game.getBoard().getCard(row, col);
+            if (!card.isRevealed())
             {
+                game.getBoard().revealCard(card);
                 //actions for revealing a civilian card
-                if(game.getBoard().getCard(row, col).getType() == CardType.CIVILIAN)
+                if(card.getType() == CardType.CIVILIAN)
                 {
-                    game.getBoard().revealAt(row,col);
                     game.setGuessesLeft(0);
                 }
                 //actions for revealing an assassin card
-                else if(game.getBoard().getCard(row, col).getType() == CardType.ASSASSIN)
+                else if(card.getType() == CardType.ASSASSIN)
                 {
-                    game.getBoard().revealAt(row,col);
                     game.setGuessesLeft(0);
                     game.setLoser(teamColor);
                     game.setAssassinRevealed(true);
                 }
                 //actions for revealing a blue or red card
-                else if(game.getBoard().getCard(row, col).getType() != teamColor.getCardType())
+                else if(card.getType() != teamColor.getCardType())
                 {
-                    if(teamColor==PlayerType.BLUE)
+                    if(teamColor == PlayerType.BLUE)
                     {
-                        game.getBoard().revealAt(row,col);
-                        game.setRedCardsRevealed(game.getRedCardsRevealed()+1);
-                        game.setGuessesLeft(game.getGuessesLeft()-1);
+                        game.setRedCardsRevealed(game.getRedCardsRevealed() + 1);
+                        game.setGuessesLeft(game.getGuessesLeft() - 1);
                     }
                     else
                     {
-                        game.getBoard().revealAt(row,col);
-                        game.setBlueCardsRevealed(game.getBlueCardsRevealed()+1);
-                        game.setGuessesLeft(game.getGuessesLeft()-1);
+                        game.setBlueCardsRevealed(game.getBlueCardsRevealed() + 1);
+                        game.setGuessesLeft(game.getGuessesLeft() - 1);
                     }
                 }
                 isComplete = true;

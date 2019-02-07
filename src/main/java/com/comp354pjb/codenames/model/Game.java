@@ -44,7 +44,6 @@ public class Game
     //endregion
 
     //region Fields
-    private PlayerType startTeam;
     private int playerIndex, round;
     private ArrayList<IPlayer> players = new ArrayList<>();
     //endregion
@@ -57,6 +56,15 @@ public class Game
     public Board getBoard()
     {
         return this.board;
+    }
+
+    private PlayerType startTeam;
+    /**
+     * Gets the starting team colour
+     */
+    public PlayerType getStartTeam()
+    {
+        return this.startTeam;
     }
 
     private int guessesLeft;
@@ -114,6 +122,7 @@ public class Game
     public void setCurrentClue(Clue clue)
     {
         this.clue = clue;
+        this.guessesLeft = clue.value;
         this.onClueGiven.invoke(clue);
     }
 

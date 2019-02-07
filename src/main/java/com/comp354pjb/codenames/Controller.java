@@ -14,10 +14,8 @@ import com.comp354pjb.codenames.model.board.Board;
 import com.comp354pjb.codenames.model.board.Card;
 import com.comp354pjb.codenames.model.Game;
 import com.comp354pjb.codenames.model.player.Clue;
-import com.comp354pjb.codenames.observer.events.CardFlippedObserver;
-import com.comp354pjb.codenames.observer.events.ClueGivenObserver;
-import com.comp354pjb.codenames.observer.events.PhaseObserver;
-import com.comp354pjb.codenames.observer.events.RoundObserver;
+import com.comp354pjb.codenames.model.player.PlayerType;
+import com.comp354pjb.codenames.observer.events.*;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -45,7 +43,8 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     private HBox[][] boxes;
     private Game game;
     private Commander commander;
-    private int maxGuesses;
+    private int maxGuesses, currentGuesses;
+    private int currentBlue, maxBlue = 8, currentRed, maxRed = 8;
     //endregion
 
     //region FXML Methods
@@ -80,6 +79,20 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
         //Create the Commander object
         this.commander = new Commander(this, this.game);
 
+        //Setup the starting player
+        switch (this.game.getStartTeam())
+        {
+            case RED:
+                this.maxRed++;
+                break;
+
+            case BLUE:
+                this.maxBlue++;
+                break;
+        }
+        this.red.setText("0/" + this.maxRed);
+        this.blue.setText("0/" + this.maxBlue);
+
         //Setup all the text boxes in the view to their correct word
         Board board = this.game.getBoard();
         for (int i = 0; i < 5; i++)
@@ -112,6 +125,10 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     private void onNextMove()
     {
         this.game.enterNextGameTurn();
+        if (this.game.checkWinner())
+        {
+            this.nextMoveButton.setDisable(true);
+        }
     }
 
     /**
@@ -142,6 +159,19 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     public void onFlip(Card card)
     {
         switchStyles(this.boxes[card.getX()][card.getY()], "unknown", card.getType().name().toLowerCase());
+        switch (card.getType())
+        {
+            case BLUE:
+                this.currentBlue++;
+                this.blue.setText(String.format("%d/%d", this.currentBlue, this.maxBlue));
+
+            case RED:
+                this.currentRed++;
+                this.red.setText(String.format("%d/%d", this.currentRed, this.maxRed));
+        }
+
+        this.currentGuesses++;
+        this.guesses.setText(String.format("%d/%d", this.currentGuesses, this.maxGuesses));
     }
 
     /**
@@ -151,6 +181,19 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     public void unFlip(Card card)
     {
         switchStyles(this.boxes[card.getX()][card.getY()], card.getType().name().toLowerCase(), "unknown");
+        switch (card.getType())
+        {
+            case BLUE:
+                this.currentBlue--;
+                this.blue.setText(String.format("%d/%d", this.currentBlue, this.maxBlue));
+
+            case RED:
+                this.currentRed--;
+                this.red.setText(String.format("%d/%d", this.currentRed, this.maxRed));
+        }
+
+        this.currentGuesses--;
+        this.guesses.setText(String.format("%d/%d", this.currentGuesses, this.maxGuesses));
     }
 
     /**
@@ -174,6 +217,7 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     public void getClue(Clue clue)
     {
         this.clue.setText(clue.toString());
+        this.currentGuesses = 0;
         this.maxGuesses = clue.value;
         this.guesses.setText("0/" + clue.value);
     }
