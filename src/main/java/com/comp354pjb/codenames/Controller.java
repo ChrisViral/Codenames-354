@@ -16,6 +16,7 @@ import com.comp354pjb.codenames.model.Game;
 import com.comp354pjb.codenames.model.player.Clue;
 import com.comp354pjb.codenames.observer.events.CardFlippedObserver;
 import com.comp354pjb.codenames.observer.events.ClueGivenObserver;
+import com.comp354pjb.codenames.observer.events.PhaseObserver;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -28,7 +29,7 @@ import javafx.scene.text.Text;
 /**
  * Controller object, interacts between the View (FXML) and the Model
  */
-public class Controller implements CardFlippedObserver, ClueGivenObserver
+public class Controller implements CardFlippedObserver, ClueGivenObserver, PhaseObserver
 {
     //region Fields
     //FXML Fields
@@ -71,6 +72,7 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver
 
         //Register to all events
         this.game.onClueGiven.register(this);
+        this.game.onPhaseChange.register(this);
         this.game.getBoard().onFlip.register(this);
 
         //Create the Commander object
@@ -172,6 +174,16 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver
         this.clue.setText(clue.toString());
         this.maxGuesses = clue.value;
         this.guesses.setText("0/" + clue.value);
+    }
+
+    /**
+     * Gets the updated game phase
+     * @param phase New phase
+     */
+    @Override
+    public void updatePhase(String phase)
+    {
+        this.phase.setText(phase);
     }
 
     /**

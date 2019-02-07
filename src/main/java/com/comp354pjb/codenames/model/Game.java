@@ -14,6 +14,7 @@ package com.comp354pjb.codenames.model;
 import com.comp354pjb.codenames.model.board.Board;
 import com.comp354pjb.codenames.model.player.*;
 import com.comp354pjb.codenames.observer.events.ClueGivenEvent;
+import com.comp354pjb.codenames.observer.events.PhaseEvent;
 
 import java.util.*;
 
@@ -31,6 +32,10 @@ public class Game
      * Clue given event
      */
     public final ClueGivenEvent onClueGiven = new ClueGivenEvent();
+    /**
+     * Phase change event
+     */
+    public final PhaseEvent onPhaseChange = new PhaseEvent();
     //endregion
 
     //region Fields
@@ -171,6 +176,7 @@ public class Game
     public void setPhase(String phase)
     {
         this.phase = phase;
+        this.onPhaseChange.invoke(phase);
     }
     //endregion
 
