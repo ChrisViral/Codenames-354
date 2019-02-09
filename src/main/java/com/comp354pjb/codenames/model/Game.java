@@ -44,7 +44,7 @@ public class Game
     //endregion
 
     //region Fields
-    private int playerIndex, round;
+    private int playerIndex, round = 1;
     private ArrayList<Player> players = new ArrayList<>();
     //endregion
 
@@ -94,9 +94,9 @@ public class Game
     /**
      * Sets the amount of red cards revealed
      */
-    public void setRedCardsRevealed(int redTilesRevealed)
+    public void setRedCardsRevealed(int redCardsRevealed)
     {
-        this.redCardsRevealed = redTilesRevealed;
+        this.redCardsRevealed = redCardsRevealed;
     }
 
     private int blueCardsRevealed;
@@ -110,9 +110,9 @@ public class Game
     /**
      * Sets the amount of blue cards revealed
      */
-    public void setBlueCardsRevealed(int blueTilesRevealed)
+    public void setBlueCardsRevealed(int blueCardsRevealed)
     {
-        this.blueCardsRevealed = blueTilesRevealed;
+        this.blueCardsRevealed = blueCardsRevealed;
     }
 
     private Clue clue;
@@ -137,44 +137,39 @@ public class Game
 
     private PlayerType winner;
     /**
-     * Gets the game's winner
-     */
-    public PlayerType getWinner()
-    {
-        return this.winner;
-    }
-    /**
-     * Sets the game's winner
+     * Sets the winning player
      */
     public void setWinner(PlayerType winner)
     {
         this.winner = winner;
+        switch (this.winner)
+        {
+            case RED:
+                this.loser = PlayerType.BLUE;
+                break;
+            case BLUE:
+                this.loser = PlayerType.RED;
+        }
     }
 
     private PlayerType loser;
-    /**
-     * Gets the game's loser
-     */
-    public PlayerType getLoser()
-    {
-        return loser;
-    }
     /**
      * Sets the game's loser
      */
     public void setLoser(PlayerType loser)
     {
         this.loser = loser;
+        switch (this.loser)
+        {
+            case RED:
+                this.winner = PlayerType.BLUE;
+                break;
+            case BLUE:
+                this.winner = PlayerType.RED;
+        }
     }
 
     private String phase;
-    /**
-     * Gets the game's phase
-     */
-    public String getPhase()
-    {
-        return this.phase;
-    }
     /**
      * Sets the game's phase
      */
@@ -236,17 +231,29 @@ public class Game
         else
         {
              //Check the starting team for correct card numbers
+            int redTarget = 8, blueTarget = 8;
             switch (this.startTeam)
             {
                 case RED:
-                    return this.redCardsRevealed == 9 || this.blueCardsRevealed == 8;
-
+                    redTarget++;
+                    break;
                 case BLUE:
-                    return this.redCardsRevealed == 8 || this.blueCardsRevealed == 9;
-
-                default:
-                    return false;
+                    blueTarget++;
+                    break;
             }
+
+            //Check for a winner
+            if (this.redCardsRevealed == redTarget)
+            {
+                setWinner(PlayerType.RED);
+                return true;
+            }
+            if (this.blueCardsRevealed == blueTarget)
+            {
+                setWinner(PlayerType.BLUE);
+                return true;
+            }
+            return false;
         }
     }
 
@@ -267,8 +274,7 @@ public class Game
 
             if (this.playerIndex == 0)
             {
-                this.round++;
-                this.onRoundChange.invoke(this.round);
+                this.onRoundChange.invoke(++this.round);
             }
         }
 

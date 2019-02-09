@@ -168,10 +168,12 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
             case BLUE:
                 this.currentBlue++;
                 this.blue.setText(String.format("%d/%d", this.currentBlue, this.maxBlue));
+                break;
 
             case RED:
                 this.currentRed++;
                 this.red.setText(String.format("%d/%d", this.currentRed, this.maxRed));
+                break;
         }
 
         this.currentGuesses++;
@@ -190,10 +192,12 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
             case BLUE:
                 this.currentBlue--;
                 this.blue.setText(String.format("%d/%d", this.currentBlue, this.maxBlue));
+                break;
 
             case RED:
                 this.currentRed--;
                 this.red.setText(String.format("%d/%d", this.currentRed, this.maxRed));
+                break;
         }
 
         this.currentGuesses--;

@@ -21,6 +21,7 @@ import java.lang.*;
  */
 public class OperativeAI implements IPlayer
 {
+    //region Methods
     /**
      * Plays the dumb Operative AI's turn
      * Randomly determine which card to pick, checking that that card has not been revealed before it is chosen
@@ -38,37 +39,39 @@ public class OperativeAI implements IPlayer
             Card card = game.getBoard().getCard(row, col);
             if (!card.isRevealed())
             {
+                //Reveal card
                 game.getBoard().revealCard(card);
-                //actions for revealing a civilian card
-                if(card.getType() == CardType.CIVILIAN)
+
+                //Take according actions
+                switch (card.getType())
                 {
-                    game.setGuessesLeft(0);
-                }
-                //actions for revealing an assassin card
-                else if(card.getType() == CardType.ASSASSIN)
-                {
-                    game.setGuessesLeft(0);
-                    game.setLoser(player.team);
-                    game.setAssassinRevealed(true);
-                }
-                //actions for revealing a blue or red card
-                else if(card.getType() != player.team.getCardType())
-                {
-                    if(player.team == PlayerType.BLUE)
-                    {
+                    //Actions for revealing an assassin card
+                    case ASSASSIN:
+                        game.setLoser(player.team);
+                        game.setAssassinRevealed(true);
+                    //Actions for revealing a civilian card
+                    case CIVILIAN:
+                        game.setGuessesLeft(0);
+                        break;
+
+                    //Actions for revealing a red card
+                    case RED:
                         game.setRedCardsRevealed(game.getRedCardsRevealed() + 1);
                         game.setGuessesLeft(game.getGuessesLeft() - 1);
-                    }
-                    else
-                    {
+                        break;
+
+                    //Actions for revealing a red card
+                    case BLUE:
                         game.setBlueCardsRevealed(game.getBlueCardsRevealed() + 1);
                         game.setGuessesLeft(game.getGuessesLeft() - 1);
-                    }
+                        break;
+
                 }
                 isComplete = true;
             }
         }
     }
+    //endregion
 }
 
 

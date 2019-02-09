@@ -23,7 +23,17 @@ public class SpyMasterAI implements IPlayer
     public void playTurn(Player player)
     {
         player.game.setPhase(player.teamName + " SpyMaster");
+        //Get a random hint that is *not* a word in the board
+        String hint;
+        do
+        {
+            hint = DatabaseHelper.getRandomWord();
+        }
+        while(player.game.getBoard().hasWord(hint));
+        //Give out the clue
         player.game.setCurrentClue(new Clue(DatabaseHelper.getRandomWord(), Game.RANDOM.nextInt(3) + 1));
+
+
     }
     //endregion
 }
