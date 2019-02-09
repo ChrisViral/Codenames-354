@@ -38,44 +38,61 @@ public class Commander implements CardFlippedObserver
     private static final String NEWLINE = System.lineSeparator();
     //endregion
 
+    //region Instance
+    private final static Commander INSTANCE = new Commander();
+    /**
+     * Current instance of the Commander Singleton
+     * @return The current instance
+     */
+    public static Commander instance()
+    {
+        return INSTANCE;
+    }
+    //endregion
+
     //region Fields
-    private final Controller controller;
-    private final FileWriter writer;
+    private Controller controller;
+    private FileWriter writer;
     private final Stack<Action> undoStack = new Stack<>();
     private final Stack<Action> redoStack = new Stack<>();
     //endregion
 
     //region Constructors
     /**
-     * Creates a new Commander listening to the actions happening in the given Game
-     * @param controller The Controller object associated to the Game and View
-     * @param game       Game to listen to
+     * Creates a new Commander, limits instantiation to Singleton
      */
-    public Commander(Controller controller, Game game)
+    private Commander()
     {
-        //Set the controller
-        this.controller = controller;
-
-        //Listen to all events
-        game.getBoard().onFlip.register(this);
-
         //Create the Log file
-        System.out.println("=== Codenames Log ===");
         FileWriter writer = null;
         try
         {
             writer = new FileWriter("log.txt");
-            writer.write("=== Codenames Log ===" + NEWLINE);
         }
         catch (IOException e)
         {
             e.printStackTrace();
         }
         this.writer = writer;
+        log("=== Codenames Log ===");
     }
     //endregion
 
     //region Methods
+    /**
+     * Sets up the Commander to work with the given Controller and Game
+     * @param controller Controller to use
+     * @param game       Game to listen to
+     */
+    public void setup(Controller controller, Game game)
+    {
+        //Set the controller
+        this.controller = controller;
+
+        //Listen to all events
+        game.getBoard().onFlip.register(this);
+    }
+
     /**
      * Undoes the last action
      */
@@ -159,12 +176,12 @@ public class Commander implements CardFlippedObserver
     /**
      * Closes the handle to the file and writes the final messages
      */
-    public void close()
+    @Override
+    public void finalize()
     {
-        System.out.println("=== Terminating Application ===");
         try
         {
-            this.writer.write("=== Terminating Application ===");
+            log("=== Terminating Application ===");
             this.writer.close();
         }
         catch (Exception e)

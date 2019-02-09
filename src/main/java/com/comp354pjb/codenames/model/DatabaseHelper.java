@@ -11,6 +11,8 @@
 
 package com.comp354pjb.codenames.model;
 
+import com.comp354pjb.codenames.commander.Commander;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.*;
@@ -30,7 +32,7 @@ public final class DatabaseHelper
     private static final String SQLITE_HEADER = "jdbc:sqlite:";
     //endregion
 
-    //region Fields
+    //region Static fields
     private static String[] database;
     //endregion
 
@@ -67,11 +69,11 @@ public final class DatabaseHelper
         {
             //Create a connection to the database
             conn = DriverManager.getConnection(url);
-            System.out.println("Connection to SQLite has been established.");
+            Commander.instance().log("Connection to SQLite has been established.");
         }
         catch (SQLException e)
         {
-            System.out.println(e.getMessage());
+            Commander.instance().log(e.getMessage());
             e.printStackTrace();
             success = false;
         }
@@ -86,7 +88,7 @@ public final class DatabaseHelper
             }
             catch (SQLException e)
             {
-                System.out.println(e.getMessage());
+                Commander.instance().log(e.getMessage());
                 e.printStackTrace();
                 success = false;
             }
@@ -120,7 +122,7 @@ public final class DatabaseHelper
             }
             catch (SQLException e)
             {
-                System.out.println(e.getMessage());
+                Commander.instance().log(e.getMessage());
                 database = new String[0];
             }
         }

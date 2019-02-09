@@ -11,6 +11,7 @@
 
 package com.comp354pjb.codenames.model;
 
+import com.comp354pjb.codenames.commander.Commander;
 import com.comp354pjb.codenames.model.board.Board;
 import com.comp354pjb.codenames.model.player.*;
 import com.comp354pjb.codenames.observer.events.ClueGivenEvent;
@@ -115,17 +116,6 @@ public class Game
         this.blueCardsRevealed = blueCardsRevealed;
     }
 
-    private Clue clue;
-    /**
-     * Sets the current clue
-     */
-    public void setCurrentClue(Clue clue)
-    {
-        this.clue = clue;
-        this.guessesLeft = clue.value;
-        this.onClueGiven.invoke(clue);
-    }
-
     private boolean assassinRevealed;
     /**
      * Sets if the assassin card has been revealed
@@ -168,16 +158,6 @@ public class Game
                 this.winner = PlayerType.RED;
         }
     }
-
-    private String phase;
-    /**
-     * Sets the game's phase
-     */
-    public void setPhase(String phase)
-    {
-        this.phase = phase;
-        this.onPhaseChange.invoke(phase);
-    }
     //endregion
 
     //region Constructors
@@ -209,8 +189,8 @@ public class Game
             second = PlayerType.BLUE;
         }
 
-        System.out.println(this.startTeam.niceName() + " Team will start, which means they must guess 9 cards");
-        System.out.println(second.niceName() + " Team will go second, which means they must guess 8 cards");
+        Commander.instance().log(this.startTeam.niceName() + " Team will start, which means they must guess 9 cards");
+        Commander.instance().log(second.niceName() + " Team will go second, which means they must guess 8 cards");
         this.players.add(new Player(this, this.startTeam, new SpyMasterAI()));
         this.players.add(new Player(this, this.startTeam, new OperativeAI()));
         this.players.add(new Player(this, second, new SpyMasterAI()));
@@ -278,6 +258,25 @@ public class Game
             }
         }
 
+    }
+
+    /**
+     * Sets the current clue
+     * @param clue New clue
+     */
+    public void setCurrentClue(Clue clue)
+    {
+        this.guessesLeft = clue.value;
+        this.onClueGiven.invoke(clue);
+    }
+
+    /**
+     * Sets the game's phase
+     * @param phase New game phase
+     */
+    public void setPhase(String phase)
+    {
+        this.onPhaseChange.invoke(phase);
     }
     //endregion
 }

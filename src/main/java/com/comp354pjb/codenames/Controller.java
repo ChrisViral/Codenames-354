@@ -76,8 +76,8 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
         this.game.onRoundChange.register(this);
         this.game.getBoard().onFlip.register(this);
 
-        //Create the Commander object
-        this.commander = new Commander(this, this.game);
+        //Setup the commander object
+        Commander.instance().setup(this, this.game);
 
         //Setup the starting player
         switch (this.game.getStartTeam())
@@ -113,7 +113,7 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     @FXML
     private void onClicked(MouseEvent data)
     {
-        /* Chris - Commented out because no longer necessary
+        /* Chris - Commented out because no longer necessary for now
         //Pass on the clicked card to the Model
         Node box = (Node)data.getSource();
         int x = GridPane.getRowIndex(box) - 1;
