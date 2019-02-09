@@ -6,6 +6,7 @@
  * Contributors:
  * Benjamin Therrien
  * Steven Zanga
+ * Christophe Savard
  */
 
 package com.comp354pjb.codenames.model.player;
@@ -20,44 +21,16 @@ import java.lang.*;
  */
 public class OperativeAI implements IPlayer
 {
-    private PlayerType teamColor;
-    private String name;
-
     /**
-     * initializes OperativeAI
-     * @param team is the team association for this player
+     * Plays the dumb Operative AI's turn
+     * Randomly determine which card to pick, checking that that card has not been revealed before it is chosen
+     * @param player The player to play this turn on
      */
-    public OperativeAI(PlayerType team)
-    {
-        if(team == PlayerType.BLUE)
-        {
-            name = "Blue Operative";
-        }
-        else
-        {
-            name = "Red Operative";
-        }
-        teamColor = team;
-    }
-
-    public String getName()
-    {
-        return name;
-    }
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-
     @Override
-    /**
-     * The following method uses a randomizer to determine which card to pick
-     * checking that that card has not been revealed before it is chosen
-     * @param the game in which this turn us being played
-     */
-    public void playTurn(Game game)
+    public void playTurn(Player player)
     {
-        game.setPhase(name);
+        Game game = player.game;
+        player.game.setPhase(player.teamName + " Operative");
         boolean isComplete = false;
         while (!isComplete)
         {
@@ -75,13 +48,13 @@ public class OperativeAI implements IPlayer
                 else if(card.getType() == CardType.ASSASSIN)
                 {
                     game.setGuessesLeft(0);
-                    game.setLoser(teamColor);
+                    game.setLoser(player.team);
                     game.setAssassinRevealed(true);
                 }
                 //actions for revealing a blue or red card
-                else if(card.getType() != teamColor.getCardType())
+                else if(card.getType() != player.team.getCardType())
                 {
-                    if(teamColor == PlayerType.BLUE)
+                    if(player.team == PlayerType.BLUE)
                     {
                         game.setRedCardsRevealed(game.getRedCardsRevealed() + 1);
                         game.setGuessesLeft(game.getGuessesLeft() - 1);
@@ -96,8 +69,7 @@ public class OperativeAI implements IPlayer
             }
         }
     }
-
-    }
+}
 
 
 

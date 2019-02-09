@@ -99,7 +99,9 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
         {
             for (int j = 0; j < 5; j++)
             {
-                ((Text)this.boxes[i][j].getChildren().get(0)).setText(board.getCard(i, j).getWord());
+                //Get child text component
+                Text text = (Text)this.boxes[i][j].getChildren().get(0);
+                text.setText(board.getCard(i, j).getWord());
             }
         }
     }
@@ -111,11 +113,13 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     @FXML
     private void onClicked(MouseEvent data)
     {
+        /* Chris - Commented out because no longer necessary
         //Pass on the clicked card to the Model
         Node box = (Node)data.getSource();
         int x = GridPane.getRowIndex(box) - 1;
         int y = GridPane.getColumnIndex(box) - 1;
         this.game.getBoard().revealAt(x, y);
+        */
     }
 
     /**
@@ -248,14 +252,6 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     public void setRedoDisabled(boolean disabled)
     {
         this.redoButton.setDisable(disabled);
-    }
-
-    /**
-     * Performs all cleanup actions as the app closes
-     */
-    public void close()
-    {
-        this.commander.close();
     }
 
     /**

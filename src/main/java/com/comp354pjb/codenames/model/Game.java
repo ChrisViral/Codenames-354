@@ -45,7 +45,7 @@ public class Game
 
     //region Fields
     private int playerIndex, round;
-    private ArrayList<IPlayer> players = new ArrayList<>();
+    private ArrayList<Player> players = new ArrayList<>();
     //endregion
 
     //region Properties
@@ -202,26 +202,24 @@ public class Game
      */
     private void chooseStartingPlayer()
     {
+        PlayerType second;
         if (RANDOM.nextBoolean())
         {
             this.startTeam = PlayerType.BLUE;
-            System.out.println("Blue Team will start, which means they must guess 9 cards");
-            System.out.println("Red Team will go second, which means they must guess 8 cards");
-            this.players.add(new SpyMasterAI(PlayerType.BLUE));
-            this.players.add(new OperativeAI(PlayerType.BLUE));
-            this.players.add(new SpyMasterAI(PlayerType.RED));
-            this.players.add(new OperativeAI(PlayerType.RED));
+            second = PlayerType.RED;
         }
         else
         {
             this.startTeam = PlayerType.RED;
-            System.out.println("Red Team will start, which means they must guess 9 cards");
-            System.out.println("Blue Team will go second, which means they must guess 8 cards");
-            this.players.add(new SpyMasterAI(PlayerType.RED));
-            this.players.add(new OperativeAI(PlayerType.RED));
-            this.players.add(new SpyMasterAI(PlayerType.BLUE));
-            this.players.add( new OperativeAI(PlayerType.BLUE));
+            second = PlayerType.BLUE;
         }
+
+        System.out.println(this.startTeam.niceName() + " Team will start, which means they must guess 9 cards");
+        System.out.println(second.niceName() + " Team will go second, which means they must guess 8 cards");
+        this.players.add(new Player(this, this.startTeam, new SpyMasterAI()));
+        this.players.add(new Player(this, this.startTeam, new OperativeAI()));
+        this.players.add(new Player(this, second, new SpyMasterAI()));
+        this.players.add(new Player(this, second, new OperativeAI()));
     }
 
     /**
@@ -258,12 +256,12 @@ public class Game
     public void enterNextGameTurn()
     {
         //Play the current player's turn
-        IPlayer current = this.players.get(this.playerIndex);
-        current.playTurn(this);
+        Player current = this.players.get(this.playerIndex);
+        current.play();
 
         //If a SpyMaster, pass the next turn to the Operative
         //If an Operative, pass the next turn only if you have no more guesses
-        if (current instanceof SpyMasterAI || this.guessesLeft == 0)
+        if (current.getStrategy() instanceof SpyMasterAI || this.guessesLeft == 0)
         {
             this.playerIndex = (this.playerIndex + 1) % this.players.size();
 

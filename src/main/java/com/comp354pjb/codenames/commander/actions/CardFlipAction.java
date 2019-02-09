@@ -10,7 +10,7 @@
 package com.comp354pjb.codenames.commander.actions;
 
 import com.comp354pjb.codenames.Controller;
-import com.comp354pjb.codenames.Utils;
+import com.comp354pjb.codenames.model.DatabaseHelper;
 import com.comp354pjb.codenames.model.board.Card;
 
 /**
@@ -65,7 +65,7 @@ public class CardFlipAction implements Action
     public String info()
     {
         return String.format("%s card \"%s\" flipped at (%d, %d)",
-                              Utils.toCamelCase(card.getType().name()),
+                              DatabaseHelper.toCamelCase(card.getType().name()),
                               card.getWord(),
                               card.getX(),
                               card.getY());
