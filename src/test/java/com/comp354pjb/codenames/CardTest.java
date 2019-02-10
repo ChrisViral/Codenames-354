@@ -76,7 +76,6 @@ public class CardTest {
             case 0:
                 type = CardType.BLUE;
                 break;
-
             case 1:
                 type = CardType.RED;
                 break;
