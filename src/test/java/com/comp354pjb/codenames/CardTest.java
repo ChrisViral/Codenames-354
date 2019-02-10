@@ -9,53 +9,89 @@
 
 package com.comp354pjb.codenames;
 
+import com.comp354pjb.codenames.model.DatabaseHelper;
 import com.comp354pjb.codenames.model.board.Card;
 import com.comp354pjb.codenames.model.board.CardType;
 
-import org.junit.After;
+
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import java.util.Random;
+
 public class CardTest {
-    private static Card card = new Card("table", CardType.RED, 0, 0);
+    private static final char[] TOKENS = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
+                                        'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
+                                        'x', 'y', 'z'};
+
+    private static final Random RAND = new Random();
 
     @Test
-    public void getCardTypeShouldReturnRed() {
-        assertEquals(CardType.RED, card.getType());
-    }
-
-    @Test
-    public void getWordShouldReturnTable() {
-        assertEquals("table", card.getWord());
-    }
-
-    @Test
-    public void isRevealedShouldReturnFalse() {
-        assertFalse(card.isRevealed());
+    public void onlyCardsShouldEqualCards() {
+        Card card = generateCard();
+        assertNotEquals(null, card);
+        assertNotEquals(generateRandomString(), card);
+        assertNotEquals(new Random().nextInt(), card);
     }
 
     @Test
-    public void setRevealedShouldRevealCard() {
-        // Precondition: card is not revealed
-        assertFalse(card.isRevealed());
+    public void differentCardsShouldNotBeEqual() {
 
-        card.setRevealed(true);
-        assertTrue(card.isRevealed());
-    }
-
-    @After
-    public void resetRevealed() {
-        card.setRevealed(false);
+        Card card = generateCard();
+        Card dummy = new Card(generateRandomString(), CardType.BLUE, RAND.nextInt(5), RAND.nextInt(5));
+        assertNotEquals(dummy, card);
     }
 
     @Test
-    public void coordinatesShouldBeZero() {
-        assertEquals(0, card.getX());
-        assertEquals(0, card.getY());
+    public void cardsWithTheSameWordShouldBeEqual() {
+        Card card = generateCard();
+        Card dummy = new Card(card.getWord(), getRandomCardType(), RAND.nextInt(5), RAND.nextInt(5));
+        assertEquals(dummy, card);
     }
 
-    @Test
-    public void equalsShouldDetectDifferentWords() {
-        assertNotEquals(new Card("plum", CardType.RED, 0, 0), card);
+    private Card generateCard() {
+        int row, col;
+        CardType type = getRandomCardType();
+        row = RAND.nextInt(5);
+        col = RAND.nextInt(5);
+        String word = DatabaseHelper.getRandomWord();
+
+        return new Card(word, type, row, col);
     }
+
+    // Guaranteed to not be in the database
+    private String generateRandomString() {
+        int length  = RAND.nextInt(29) + 1;
+        StringBuffer buf = new StringBuffer();
+        for(int i = 0; i < length; i++) {
+            buf.append(TOKENS[RAND.nextInt(TOKENS.length)]);
+        }
+        buf.append(RAND.nextInt(9));
+        return buf.toString();
+    }
+
+    private CardType getRandomCardType() {
+        CardType type;
+        switch(RAND.nextInt(4)) {
+            case 0:
+                type = CardType.BLUE;
+                break;
+
+            case 1:
+                type = CardType.RED;
+                break;
+            case 2:
+                type = CardType.CIVILIAN;
+                break;
+            case 3:
+                type = CardType.ASSASSIN;
+                break;
+            default: // Keep the compiler happy
+                type = CardType.BLUE;
+                break;
+        }
+
+        return type;
+    }
+
 }
