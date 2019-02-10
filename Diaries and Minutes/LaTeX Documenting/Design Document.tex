@@ -97,7 +97,7 @@
 	
 	\subsection{Purpose}
 	
-	This document will describe the specifications entailed by the development of Codenames in compliance with the requirements of COMP 354. It will outline the high-level requirements encompassing user interfaces, product functions, user descriptions, assumptions, dependencies, constraints, specific requirements, and an analysis model. The analysis model will hold use case diagrams, class diagrams, sequence diagrams and state transition diagrams.
+	This document will describe the specifications entailed by the development of Codenames in compliance with the requirements of COMP 354. It will outline the high-level requirements encompassing user interfaces, product functions, user descriptions, assumptions and dependencies, constraints, specific requirements, and an analysis model. The analysis model will hold use case diagrams, class diagrams, sequence diagrams, and state transition diagrams.
 	
 	\subsection{Scope}
 	
@@ -111,23 +111,38 @@
 	
 		\textbf{Board} \\
 		\\
-		The main playing area will be composed of a 5 by 5 grid of words. Each cell of the grid are representative of Codenames of agents. Each cell in the grid will be defined in this document as a \textit{Card}.\\
+		The main playing area will be composed of a 5 by 5 grid of cells with words. Each cell of the grid represents the codename of an agent. Each cell in the grid will be defined in this document as a \textit{Card}.\\
 	
 		\textbf{Card} \\
 		\\
-		The card will hold two values indicative of it's state: hidden or revealed. In its hidden state, it will present a word taken from the game. In its revealed state, it can either be a blue or red team's \textit{Spy} card, a \textit{Civilian} card or the \textbf{Assassin} card.\\
+		The card will hold two values and can be in one of two states: hidden or revealed. In its hidden state the card will present a word. In its revealed state the card can either be a blue or red team's \textit{Spy} card, a \textit{Civilian} card or the \textbf{Assassin} card.\\
 		
 		\textbf{Assassin} \\
-		The Assassin is a card type that when revealed, it would cause the team that revealed it to lose.\\
+		The Assassin is a card type that when revealed causes the team that revealed it to lose.\\
 		
 		\textbf{Spy}\\
 		\\
-		The Spy is a card type that belongs to either the red or blue team. Once all spy cards of a team are revealed, the team wins.
+		The Spy is a card type that belongs to either the red or blue team. Once all spy cards of a team are revealed, that team wins.
 		
 		\textbf{Civilian}\\
 		\\
-		The Civilian is a card type that occupies leftover space on the board that is not occupied by \textit{Spy} cards or the \textit{Assassin} card. When revealed, it only skips the revealing team's turn. \\
+		The Civilian is a card type that occupies spaces on the board that not occupied by \textit{Spy} cards or the \textit{Assassin} card. When revealed, they cause the revealing team's turn to end. \\
 	
+	\textbf{Round}\\
+		\\
+	A round is a phase of the game during which each team has a turn to both give a hint and guess. A round is made up of four \textit{Phases}.\\
+	
+	\textbf{Phase}\\
+		\\
+		A phase is a part of a round during which either the \textit{Operative} or \textit{Spy Master} of a particular team do what they're supposed to.\\
+		
+		\textbf{Spy Master}\\
+		\\
+		The Spy Master is the player whose job it is to give hints to their team's \textit{Operatives}. Both the red and blue teams have a Spy Master.\\
+		
+		\textbf{Operative}\\
+		\\
+		An Operative is a team member who uses the hints given by the Spy Master to try and determine where their team's Spies are located. Both the red and blue teams have operatives.\\
 	
 	\subsection{Overview}
 	
@@ -142,70 +157,65 @@
 	\subsection{Project Purpose, Scope, and Objectives}
 	
 	% Update for each iteration
-	The objective of this project is to simulate a multi-user tabletop game named Codenames game by by Vlada Chv\'atil and published by Czech games. The rules of the game will intimately follow Vlada Chv\'atil with slight variations to accommodate the digital conversion. This project will be a multi-user game of up to four players; these players can be either human or computer players.\\
+	The objective of this project is to simulate a multi-user tabletop game named Codenames game by Vlada Chv\'atil and published by Czech games. The rules of the game will follow Vlada Chv\'atil with slight variations to accommodate the digital conversion. This project will be a multi-user game of up to four players. These players can be either humans or AIs.\\
 	
-	By working on this project, Team PJ-b can experience the software engineering process entailing the difficulties in managing a group project.\\
+	By working on this project, Team PJ-b can experience the software engineering process and the difficulties that arise when managing a group project.\\
 	
-	The project will be worked on over 3 iterations whereby they are the requirement phase, the design phase, and the test phase.
+	The project will be worked on over 3 iterative phases: the requirement phase, the design phase, and the test phase.
 	
 		\subsubsection{User interface}
 		
 		%Update by later iterations
-		As this is the requirement phase, we are keeping the interface to a minimum design. They will not preface any visual grace but present the most useful information at the time. The visual representation of the game is as shown below:\\
+		As this is the requirement phase, we are keeping the interface to a minimum. With only a single screen that displays the information required for a game. The visual representation of the game is as shown below:\\
 		
 		\begin{center}
-			Figure 1:The playable menu of the current game version
-			\includegraphics[scale=0.2]{Images/game_interface.png}
-			
+			\includegraphics[scale=0.37]{Images/01_game_interface.png}
+			\textit{\\Figure 1: The playable menu of the current game version}			
 		\end{center}
 	
 		\textbf{Board}\\
 		\\
-		The board is represented by a 5 by 5 set of cards, each possessing a word that when revealed, it will change in color to present what is the card type. When revealed, the card will be of a specific color to determine its value:  
+		The board is represented by a 5 by 5 set of cards, each possessing a word that, when revealed, will change in color to present what is the card type:  
 		    \begin{itemize}
-		        \item Red is a red spy.
-		        \item Blue is a blue spy.
-		        \item Black is \textit{the Assassin}.
-		        \item Peach is a Civilian.
+		        \item Red is a Red Spy.
+		        \item Blue is a Blue Spy.
+		        \item Black is the Assassin.
+		        \item Beige is a Civilian.
 		    \end{itemize}
 		    
 	    \textbf{Round}\\
 	    \\
-	    On the top left, the "\textit{Round}" text represents the number of rounds that have passed in the game in accordance to the numerical value next to it.\\
+	    On the top left, the "\textit{Round}" text represents the number of rounds that have passed in the game.\\
 	    
 	    \textbf{Phase}\\
 	    \\
-	    On the top left, the "\textit{Phase}" text details the current player in action. This value would be either one of these at a time:
+	    On the top left, the "\textit{Phase}" text details the current player. This value would be either one of these at a time:
 	        \begin{itemize}
-	            \item Blue Spymaster
+	            \item Blue Spy Master
 	            \item Blue Operative
-	            \item Red Spymaster
+	            \item Red Spy Master
 	            \item Red Operative
 	        \end{itemize}
 	   
 	   \textbf{Score-Keeping}\\
 	   \\
-	   In the middle top, Two sections with the text "\textit{Red}" and "\textit{Blue}" denotes the number of spies revealed for each team to the number of cards left to revealed. This is done in the format of:\\
-	   
-	   "Number of spies revealed / Total Number of spies"\\
+	   In the middle top, Two sections with the text "\textit{Red}" and "\textit{Blue}" denotes the number of spies revealed for each team to the number of cards left to revealed. This is done in the format of: "Number of spies revealed / Total Number of spies"\\
 	   
 	   \textbf{Guesses}\\
 	   \\
-	    On the top right, the text "\textit{Guesses}" denotes the number of guesses left to be made by the \textit{Operative} given to by the \textit{Spymaster}. The value is formatted in: \\
-	    
-	   " Number of Guesses Left / Maximum Number of Guesses "\\
+	    On the top right, the text "\textit{Guesses}" denotes the number of guesses left to be made by the \textit{Operative} given to by the \textit{Spy Master}. The value is formatted in: "Number of Guesses Left / Maximum Number of Guesses"\\
 	   
 	   \textbf{Clue}\\
 	   \\
-	   On the top right, the clue given by the \textit{Spymaster} will be displayed here.\\
+	   On the top right, below the guesses, the clue given by the \textit{Spy Master} is displayed.\\
 	   
-	   \textbf{Undo/Redo}\\
-	   \\
-	   On the bottom left, Two buttons of "\textit{Undo}" and "\textit{Redo}" functions as a point to click to control the turns elapsed. The \textit{Undo} button reverses a turn so long as it is made. The \textit{Redo} button replays a turn that was affected by \textit{Undo}.\\
+	   %\textbf{Undo/Redo}\\
+	   %\\
+	  % On the bottom left, Two buttons of "\textit{Undo}" and "\textit{Redo}" functions as a point to click to control the turns elapsed. The \textit{Undo} button reverses a turn so long as it is made. The \textit{Redo} button replays a turn that was affected by \textit{Undo}.\\
 	   
 	   \textbf{Next Move}\\
 	   \\
-	   On the bottom right, the "\textit{Next Move}" button serves as a platform to click to progress the game forward by a turn.\\
+	   On the bottom right is "\textit{Next Move}" button. This is how the human watching the game played by two AIs makes the game progress.\\
 	   
 	 
 	
@@ -224,7 +234,7 @@
 %	    
 %		Action:
 %		    \begin{itemize}
-%		        \item 4 computer players are created: 2 for each team with each either being a \textit{Spymaster} or \textit{Operative}.
+%		        \item 4 computer players are created: 2 for each team with each either being a \textit{Spy Master} or \textit{Operative}.
 %		        \item 25 words are randomly picked from a database.
 %		        \item The starting team is randomly picked.
 %		    \end{itemize}
@@ -247,13 +257,13 @@
 %		
 %		\subsubsection{Game}
 %		
-%		There will be two teams of \textbf{red} and \textbf{blue}. Each team possesses a pair of players each playing either the role of Spymaster of Operative. Since each team follows the same path:\\
+%		There will be two teams of \textbf{red} and \textbf{blue}. Each team possesses a pair of players each playing either the role of Spy Master of Operative. Since each team follows the same path:\\
 %		
 %		\begin{itemize}
-%			\item [--] Team \textit{Spymaster} reveals clue.
+%			\item [--] Team \textit{Spy Master} reveals clue.
 %			\item [--] Turn passes to Team's \textit{Operative}
 %			\item [--] Team \textit{Operative} makes guesses based on clue given.
-%			\item [--] Turn passes to opposing team's \textit{Spymaster}
+%			\item [--] Turn passes to opposing team's \textit{Spy Master}
 %		\end{itemize}
 %	
 %		\textbf{Input:}\\
@@ -271,19 +281,19 @@
 	
 	\subsection{Constraints}
 	
-	Assuming that a majority of player's PCs will run by the Windows OS, the project must be written in this platform that supports GUI.Thus, the decision has been made to use :
+	Given that some members of our team use Macs and others use Windows machines, the game must compile and run on both. Due to class requirements we are using the following technologies:
 	\begin{itemize}
 		\item[--] JAVA as the programming language.
 		\item[--] SQLite as chosen for data storage.
 		\item[--] JUnit for unit testing.
-		\item[--] Eclipse as the integrated development environment(IDE).
+		\item[--] JavaFX for the GUI.
 	\end{itemize}
 	
 	\subsection{Analysis Models}
 	
 		\subsubsection{Use Case Diagrams}
 		
-		The following diagarams will help provide an overview of the functions in the game. They describe the action that a player can perform, as well as the interaction between some of the system functions which are not directly controlled by the player.\\
+		The following diagrams will help provide an overview of the functions in the game. They describe the action that a player can perform, as well as the interaction between some of the system functions which are not directly controlled by the player.\\
 		
 		These use case diagrams are included due to their importance in defining the user-to-software interactions, the requirements, and the scope of the system.\\
 		
@@ -291,30 +301,30 @@
 		    
 		    \textbf{User} \\
 		    \\
-		    The User represents the human player. For this iteration there is only one User. The User is able to control the chronological flow of the game via the use cases detailed below which are "\textit{Undo}", "\textit{Redo}", "\textit{Next Turn}", and "\textit{Start Game}".\\
+		    The User represents the human player. For this iteration there is only one User. The User is able to control the chronological flow of the game via the "\textit{Start Game}" use case detailed below.\\
 		    
-		    \textbf{Spymaster}\\
+		    \textbf{Spy Master}\\
 		    \\
-		    The Spymaster is involved in the game by doling out clues. As there are only two teams, there will only be two Spymasters in the game. The Spymaster hands out clues via the "\textit{Reveal Clue}" use case detailed below.\\
+		    The Spy Master is involved in the game by doling out clues. As there are only two teams, there will only be two Spymasters in the game. The Spy Master hands out clues via the "\textit{Reveal Clue}" use case detailed below.\\
 		    
 		    \textbf{Operative}\\
 		    \\
-		    The Operative is involved in the game by revealing cards in accordance to the clue and number of guesses given to by the Spymaster actor. As there are two teams, there will be only two Operatives in the game. The operative reveals cards through the use case "\textit{Reveal CARD}" use case as detailed below.\\
+		    The Operative is involved in the game by revealing cards in accordance to the clue and number of guesses given to by the Spy Master actor. As there are two teams, there will be only two Operatives in the game. The operative reveals cards through the use case "\textit{Reveal CARD}" use case as detailed below.\\
 		    
 		    \clearpage
 		
 			\paragraph{User Use Case}
 			
-			\begin{center}
-				Figure 2: A use case diagram showing the use case concerning the actor "User"
-				\includegraphics[scale=1.0]{"Images/User UC".png}
+			\begin{center}	
+				\includegraphics[scale=2.0]{Images/02_uc_user.png}
+				\textit{\\Figure 2: A use case diagram showing the use case concerning the actor "User"}
 			\end{center} 
 			
-			\paragraph{Spymaster and Operative Use Case}
+			\paragraph{Spy Master and Operative Use Case}
 			
 			\begin{center}
-				Figure 3: A use case diagram showing the use case concerning the actors "Spymaster" and "Operative"
-				\includegraphics[scale=0.4]{"Images/Spymaster & Operative UC".png}
+				\includegraphics[scale=0.4]{Images/03_uc_spymaster_and_operative.png}
+				\textit{\\Figure 3: A use case diagram showing the use case concerning the actors "Spy Master" and "Operative"}
 			\end{center}
 		\pagebreak
 		\subsubsection{Use Cases Details}
@@ -324,7 +334,7 @@
 			\begin{center}
 				\begin{tabular}{ |c|p{10cm}| } 
 					\hline
-					Description & The Player commences the game  \\
+					Description & The Player starts the game  \\
 					\hline 
 					Actors & User \\
 					\hline  
@@ -341,7 +351,7 @@
 							\item The board is initialized.
 							\item The card layout is randomized.
 							\item The team turn order is randomized.
-							\item The first turn order is given to the leading team's Spymaster.
+							\item The first turn order is given to the leading team's Spy Master.
 						\end{enumerate}\\
 					\hline
 					Alternative Paths & None \\
@@ -349,11 +359,11 @@
 					Post-Conditions & 
 						\begin{itemize}[noitemsep,topsep=0pt]
 							\item The board has been initialized.
-							\item 4 Dummy players are generated with their own team and role.
-							\item The first player can play his/her turn.
+							\item Four AI players are generated with their own team and role.
+							\item The first player can play their turn.
 						\end{itemize}\\
 					\hline 
-					Related Use Cases & \\
+					Related Use Cases &\\
 					\hline 
 					Used Use Cases & None\\
 					\hline 
@@ -381,13 +391,13 @@
 					Basic Path & 
 					\begin{enumerate}
 						\item The user clicks the button, "Next Turn".
-						\item The current acting player plays his/her turn.
+						\item The current acting player plays their turn.
 						\item The turn passes to the next acting player.
 					\end{enumerate}\\
 					\hline
 					Alternative Paths & None \\
 					\hline
-					Post-Conditions & A player has acted on his/her turn.\\
+					Post-Conditions & A player has acted on their turn.\\
 					\hline 
 					Related Use Cases & \\
 					\hline 
@@ -398,109 +408,108 @@
 				\end{tabular}
 			\end{center}
 		
-			\paragraph{Use Case 3: Undo}
+			%\paragraph{Use Case : Undo}
 			
-			\begin{center}
-				\begin{tabular}{ |c|p{10cm}| } 
-					\hline
-					Description & The game reverses to a state before the current turn. \\
-					\hline 
-					Actors & User \\
-					\hline  
-					Pre-Conditions & \begin{itemize}[noitemsep,topsep=0pt]
-						\item The user clicks the button,"Undo".
-						\item The Board is initialized.
-						\item At least a turn has been made.
-					\end{itemize} \\
-					\hline  
-					Basic Path & 
-					\begin{enumerate}
-						\item The game reverses the actions done for the current turn.
-						\item The turn is passed to the previously acting player.
-					\end{enumerate}\\
-					\hline
-					Alternative Paths & None \\
-					\hline
-					Post-Conditions & A player has has his/her turn redacted.\\
-					\hline 
-					Related Use Cases & \\
-					\hline 
-					Used Use Cases & None\\
-					\hline 
-					Extending Use Cases & Redo \\
-					\hline 
-				\end{tabular}
-			\end{center}
+%			\begin{center}
+%				\begin{tabular}{ |c|p{10cm}| } 
+%					\hline
+%					Description & The game reverses to a state before the current turn. \\
+%					\hline 
+%					Actors & User \\
+%					\hline  
+%					Pre-Conditions & \begin{itemize}[noitemsep,topsep=0pt]
+%						\item The user clicks the button,"Undo".
+%						\item The Board is initialized.
+%						\item At least a turn has been made.
+%					\end{itemize} \\
+%					\hline  
+%					Basic Path & 
+%					\begin{enumerate}
+%						\item The game reverses the actions done for the current turn.
+%						\item The turn is passed to the previously acting player.
+%					\end{enumerate}\\
+%					\hline
+%					Alternative Paths & None \\
+%					\hline
+%					Post-Conditions & A player has has their turn redacted.\\
+%					\hline 
+%					Related Use Cases & \\
+%					\hline 
+%					Used Use Cases & None\\
+%					\hline 
+%					Extending Use Cases & Redo \\
+%					\hline 
+%				\end{tabular}
+%			\end{center}
 			
-			\newpage
-			
-			\paragraph{Use Case 4: Redo}
-			
-			\begin{center}
-				\begin{tabular}{ |c|p{10cm}| } 
-					\hline
-					Description & The game repeats action redacted by the "Undo" use case. \\
-					\hline 
-					Actors & User \\
-					\hline  
-					Pre-Conditions & \begin{itemize}[noitemsep,topsep=0pt]
-						\item The user clicks the button "Redo"
-						\item The Board is initialized.
-						\item The "Undo" use case has been used at least once.
-					\end{itemize} \\
-					\hline  
-					Basic Path & 
-					\begin{enumerate}
-						\item The game proceeds a turn with action undone by the use case "Undo".
-						\item The turn is passed to the next acting player.
-					\end{enumerate}\\
-					\hline
-					Alternative Paths & None \\
-					\hline
-					Post-Conditions & A player has has his/her turn redone.\\
-					\hline 
-					Related Use Cases & \\
-					\hline 
-					Used Use Cases & None\\
-					\hline 
-					Extending Use Cases & None \\
-					\hline 
-				\end{tabular}
-			\end{center}
+%			\newpage
+%			
+%			\paragraph{Use Case : Redo}
+%			
+%			\begin{center}
+%				\begin{tabular}{ |c|p{10cm}| } 
+%					\hline
+%					Description & The game repeats action redacted by the "Undo" use case. \\
+%					\hline 
+%					Actors & User \\
+%					\hline  
+%					Pre-Conditions & \begin{itemize}[noitemsep,topsep=0pt]
+%						\item The user clicks the button "Redo"
+%						\item The Board is initialized.
+%						\item The "Undo" use case has been used at least once.
+%					\end{itemize} \\
+%					\hline  
+%					Basic Path & 
+%					\begin{enumerate}
+%						\item The game proceeds a turn with action undone by the use case "Undo".
+%						\item The turn is passed to the next acting player.
+%					\end{enumerate}\\
+%					\hline
+%					Alternative Paths & None \\
+%					\hline
+%					Post-Conditions & A player has has their turn redone.\\
+%					\hline 
+%					Related Use Cases & \\
+%					\hline 
+%					Used Use Cases & None\\
+%					\hline 
+%					Extending Use Cases & None \\
+%					\hline 
+%				\end{tabular}
+%			\end{center}
 		
 		\newpage
 		
-	\paragraph{Use Case 5: Reveal Clue}
+	\paragraph{Use Case 3: Reveal Clue}
 		\begin{center}
 		\begin{tabular}{ |c|p{10cm}| } 
 			\hline
-			Description & The Spymaster issues a clue \\ 
+			Description & The Spy Master gives a clue. \\ 
 			\hline
-			Actors & Spymaster \\
+			Actors & Spy Master \\
 			\hline 
 			Pre-Conditions & \begin{itemize}[noitemsep,topsep=0pt]
 				\item The Board is initialized.
-				\item The turn belongs to the Spymaster.
-				\item The team Operative has not started his/her turn.
+				\item The turn phase belongs to the Spy Master.
+				\item The team Operative has not started their turn.
 				\item There are still cards on the board to reveal.
 			\end{itemize} \\
 			\hline
 			Basic Path & 
 				\begin{enumerate}
-					\item The Spymaster issues a clue with a number of guesses.
+					\item The Spy Master issues a clue with a number of guesses.
 					\item The turn is passed to the team's Operative as detailed in the use case, "Reveal Card". 
 				\end{enumerate} \\
 			\hline 
 			Alternative Paths & Alternative 1:
 				\begin{enumerate}
-					\item After step 1, if the clue not considered valid by the system (i.e. One or more words contains the clue word), the turn is passed to the Spymaster.
-					\item The turn is also passed for the team Operative as detailed in the use case, "End Turn"
+					\item After step 1, if the clue not considered valid by the system (e.g. a word visible on the board contain the clue word), play passed to the alternate team as detailed in the "End Turn" use case.
 				\end{enumerate}\\
 			\hline 
 			Post-Conditions & 
 				\begin{itemize}[noitemsep,topsep=0pt]
-					\item A clue has been revealed
-					\item The Spymaster’s turn has ended 
+					\item A clue has been revealed.
+					\item The Spy Master's turn has ended.
 					\item The turn is passed to the team's Operative.
 				\end{itemize} \\
 			\hline 
@@ -515,21 +524,21 @@
 
 	\newpage
 		
-	\paragraph{Use Case 6: Reveal Card}
+	\paragraph{Use Case 4: Reveal Card}
 	\begin{center}
 		\begin{tabular}{ |c|p{10cm}| } 
 			\hline
 			Description & The Operative reveals a card \\ 
 			\hline
-			Actors & Spymaster \\
+			Actors & Spy Master \\
 			\hline 
 			Pre-Conditions & \begin{itemize}[noitemsep,topsep=0pt]
 				\item The Board is initialized.
-				\item The team's Spymaster 
+				\item The team's Spy Master has given a clue.
 				\item The turn belongs to the Operative.
-				\item The team Operative has not started his/her turn.
+				\item The team Operative has not started their turn.
 				\item There are still cards on the board to reveal.
-				\item The number of guesses given by Spymaster is at least one.
+				\item The number of guesses given by Spy Master is at least one.
 			\end{itemize} \\
 			\hline
 			Basic Path & 
@@ -537,18 +546,18 @@
 				\item The Operative chooses to either:
 				\begin{itemize}
 					\item Continue to make guesses, proceed to step 2.
-					\item End his/her turn, proceed to step 4.
+					\item End their turn, proceed to step 4.
 				\end{itemize}
 				\item The Operative reveals a card on the board.
 				\item The number of guesses for the Operative is depleted by one.
 				\item If there are still more than one guess left and there are cards to be revealed, repeat step 1.
-				\item The turn is passed to the enemy Spymaster detailed in the use case, "Reveal clue". 
+				\item The turn is passed to the enemy Spy Master detailed in the "Reveal Clue" use case. 
 			\end{enumerate} \\
 			\hline 
 			Alternative Paths & 
 			Alternative 1:
 				\begin{itemize}[noitemsep,topsep=0pt]
-					\item After step 2, If card revealed is an \textit{Enemy Spy} or \textit{Civilian}, the turn is passed to the enemy Spymaster detailed in the use case, "Reveal clue".
+					\item After step 2, if the card revealed is an \textit{Enemy Spy} or \textit{Civilian}, the turn is passed to the enemy Spy Master detailed in the "Reveal clue" use case.
 					\item If all of the enemy team's \textit{Spy} cards are revealed, the game ends with the enemy team winning.
 				\end{itemize}
 			Alternative 2:
@@ -581,29 +590,29 @@
 		
 		\paragraph{Simplified Domain Model}
 			\begin{center}
-				Figure 5: A domain model of the Codenames game. 
-				\includegraphics[scale=.90]{Images/domain_model_final.png}
-				
+				\includegraphics[scale=0.9]{Images/04_uml_domain_model.png}
+				\textit{\\Figure 4: A domain model of the Codenames game. }				
 			\end{center}
-		The Game consists of a game board with cards which can either be revealed or unrevealed during the game. When cards are not yet revealed they show a word. Each card has a type, it is either a spy, a civilian or the Assassin. When cards are revealed they show their type. There can only be one assassin card per game. Each spy belongs to a team, red or blue. 
+		The Game consists of a game board with cards which can either be revealed or hidden during play. When cards are hidden they show a word. Each card has a type: spy, civilian, the Assassin. When cards are revealed they show their type. There is only one assassin card per game. Each spy belongs to a team, red or blue. 
 		
 		The game also contains players which interact with the game. Each player, like the spies, belong to either the red or blue team. 
 			\pagebreak
 			\paragraph{Class Diagram}
 				\begin{center}
-				Figure 6: A class diagram of the Codenames game. 
-				\includegraphics[scale=.60]{Images/class_diagram_final.png}
-				
+				\includegraphics[scale=.60]{Images/05_uml_class_diagram.png}
+				\textit{\\Figure 5: A class diagram of the Codenames game.}				
 			\end{center}
 			
 			This class diagram for the Codenames game does not show all the components of the final classes and interfaces. Instead it shows how some of the concepts presented in the domain model can be implemented.  
 			
-			The commander contains most of the functions the user interacts with, the controller carries out those functions by triggering methods in other parts of the system. The card flipped event for example, can  be triggered when the user presses the 'undo' button. This is received by the commander, which passes it to the controller, which triggers the card flipped event, revealing or hiding a crad on the game board within the game. 
+			The commander contains most of the functions the user interacts with. The controller carries out those functions by triggering methods in other parts of the system. The card flipped event for example, can  be triggered when the user presses the 'next move' button. This is received by the commander, which passes it to the controller, which triggers the card flipped event, revealing or hiding a card on the game board within the game. 
 			
 			
 			\pagebreak 
 			
 			\section{Team Meeting Minutes}
+			As we are unsure where to put these, we're including them here.			
+			
 			\subsection{Meeting 0}
 			
 			\subsubsection{Administrative}
