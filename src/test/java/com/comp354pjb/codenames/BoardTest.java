@@ -32,8 +32,18 @@ public class BoardTest
     @Test(expected = ArrayIndexOutOfBoundsException.class)
     public void revealAtShouldNotAcceptBadCoords() {
         Board board = new Board(DatabaseHelper.selectWords(25), getRandomPlayerType());
-        int x = RAND.nextInt();
-        int y = RAND.nextInt();
+        int x = RAND.nextInt(5);
+        int y = RAND.nextInt(5);
+        switch(RAND.nextInt(2)) {
+            case 0:
+                x += RAND.nextInt();
+                break;
+            case 1:
+                y += RAND.nextInt();
+            default:
+                x += RAND.nextInt();
+                y += RAND.nextInt();
+        }
         board.revealAt(x, y);
     }
 
