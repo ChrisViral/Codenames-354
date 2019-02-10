@@ -41,11 +41,11 @@
 				\hline
 				BR - Bilal Rana & 40034572 \\
 				\hline
-				BT - Benjamin Therien & 40013408 \\
+				BT - Benjamin Th\'erien & 40013408 \\
 				\hline
 				CS - Christophe Savard & 40017812 \\
 				\hline
-				DS – Daniel Thibault-Shea & 40073133 \\
+				DT – Daniel Thibault-Shea & 40073133 \\
 				\hline
 				MW - Michael Wilgus & 29206388 \\
 				\hline
@@ -63,96 +63,356 @@
 	
 	\clearpage
 	
-	\section{10-01-2019 - First Group Meeting}
+	\section{Meeting 0}
 	
 	\subsection{Administrative}
-	Daniel, Mottle, Sheneece, Leo, Brian, Reza, Benjamin, (missing 1 anonymous).
+	Wednesday, 10th January 2019 \textbar  8:15pm – 8:45pm \textbar  H Building (Lab near COMP 354 classroom)  
+	\subsubsection{Attendees:}
+		\begin{itemize}
+		\item BT - Benjamin Th\'erien
+		\item DT – Daniel Thibault-Shea
+		\item Leo (No longer a team memeber)
+		\item MZ - Mordechai Zirkind 
+		\item RZ - Rezza-Zairan Zaharin
+		\item SV - Shereece Victor
+		\item SZ – Steven Zanga
+	\end{itemize}
+	    
 	
-	Meeting from: 20:15 to 20:45\\
-	Git tutorial: 20:45 to 21:20 (Thanks Mottle!)
+	\subsection{Summary of Discussion }
+		\begin{itemize}
+		\item We met and introduced ourselves. 
+		\item We decided which roles we will play for the first iteration. 
+			  BT, SZ, and a new unknown team member would be coders. 
+			  Leo, RZ and SV would be documenters; and MZ, and DS would be organizers. 
+		\item We discussed the areas we have experience in and what we're confident in. 
+		\item We discussed Maven and the different software tools which can be used to great a game.
+		\item We agreed that Discord would be the messaging application of choice.   
+		\item We agreed to have a meeting before the lab the following week. 
+	\end{itemize}
 	
-	\subsection{Summary}
-	We all met after class in another smaller room. We started by introducing ourselves and then went on to deciding who would do what role for the first iteration of the project. Ben, Brian, and the anonymous guy would handle coding. Leo, Sheneece, and Reza would be on documentation. Sheneece is from abroad and is catching up in Java by doing COMP 249 (she knows C++ though) so she wanted to sit out the coding part to give her time to learn the syntax of Java. Mottle seems to have the most industry experience so I decided to pair up with him so that I could learn the ropes (Git, SQLite, Maven, etc.). Leo and I are meeting tomorrow and he will show me what he knows about making a GUI in Eclipse using Window Builder.
-	
-	Encouraged by the quality and skill in the team. I am hoping that I can learn a lot from them as I am clearly not at their level. I need to get up to speed fast.
-	
+
 	\subsection{Agreed upon goals}
 	\begin{itemize}
 		\item Read the project outline.
-		\item Take a look at all the tools we're gonna use over the project.
+		\item Review and get to know all the tools to be used for the project.
 		\item Confirm time for next meeting.
 		\item Think through how you would do the project on your own. 
-		\item Make sure you have access to the repo and Discord server. 
-		\item Say hello to the rest of the team.
-		\item Tentatively agree to a second meeting at 18:00 on 16-01-2019.
+		\item Ensure we each have access to the GitHub repository and Discord server. 
 	\end{itemize}
-	
-	\subsection{Miscellaneous}
-	I really feel like I need to catch up to the other team members. I think most of them are much farther into their degrees than I. Regardless, I will do my best to pull my weight.
 	
 	\pagebreak
 	
-	\section{11-01-2019 - Tutorial with Leo}
+	\section{Meeting 1a }
 	
 	\subsection{Administrative}
-	Daniel Thibault-Shea, Leo Sudama.
-	Tutorial: 13:00 to 17:00
+	Wednesday, 16th January, 2019 \textbar 8:15pm – 9:15pm \textbar H Building 7th Floor Common Area 
+	\subsubsection{Attendees:}
+	\begin{itemize}
+	\item BT - Benjamin Th\'erien
+	\item DT – Daniel Thibault-Shea
+	\item MZ - Mordechai Zirkind 
+	\item RZ - Rezza-Zairan Zaharin
+	\item SV - Shereece Victor
+	\item SZ – Steven Zanga
+	\end{itemize}
+
+	\subsection{Summary of Discussion }
+		\subsubsection{Play Codenames }
+			\begin{itemize}
+				\item We played Code Names the card game. DT (Blue Team) and MZ (Red Team) were the Spy Masters. RZ and SZ comprised the Red Team. BT and SV comprised the Blue Team. 
+				\item During play the rules, were clarified and discussed. We also confirmed and questioned what taunts and interactions are allowed by players.   
+			\end{itemize}
+			The game is quite fun. We understand the game play better now. 
 	
-	\subsection{Summary}
-	Started by setting up SQLite, getting the driver. Most of the time was spent setting things up in Leo's specific way. He has a really neat way of organizing code - ex. he'll put the DB connection String into a config file and use a Property object to call it. This avoids hard-coding it in the program so if you need to change the DB then you simply change the config file and don't need to recompile. Following that, he showed me how to work with Maven to get dependencies from public repositories. We then made a simple GUI using the Eclipse WindowBuilder plugin that allows you to "drag and drop" Swing objects and set up the your GUI. This will save me hours in the future and will definitely result in better GUIs. We then implemented a simple 'add player to DB' functionality to the button. All the while, Leo gave me tips on how to organize the packages so that the project is structured intelligently from the beginning.
-	
-	Big thanks to Leo. He really caught me up with regards to coding. Thanks to him, I can check off quite a few things from the list of "to-do's" from our last meeting.
-	
-	As discussed in our first meeting on 10-01-2019, I read the project instructions attentively. I also reviewed \LaTeX to the point where I can make a basic document as long as i have access to the internet to search for commands. I don't think I want to gum up my brain with \LaTeX -specific commands right now.
-	
-	The only thing left on my "to-do" from our first meeting is to learn Git. I have gone through a few tutorials but I don't think it will gel until I do it for real.
+	\subsubsection{Approaches to Game Architecture  }
+	\begin{itemize}
+		\item SV presented a possible method using a 2x2 matrix for the game board representation, assigning each block a number from 1 to 25 and using random functions to assign red and blue card placement along with other cards on the board. 
+		\item MZ lead a discussion of the logical design of the game using objects.
+		\item SZ and BT explained the concept of MVC (Model View Controller)
+		\item We discussed whether the Controller or the Model contains the logic of the system.
+		\item Discovered that the group was expanded and thus we proceeded to the lab to meet the rest of the group. 
+	\end{itemize}
+	We need to ask the lecturer to clarify MVC. 
 	
 	\subsection{Agreed upon goals}
 	\begin{itemize}
-		\item I will continue work on the code to try to get Leo's buttons to work in tandem.
-		\item Read up on SQLite and practice some SQL queries.
+		\item Ask the lecturer about MVC in class. 
 	\end{itemize}
-	
-	\subsection{Miscellaneous}
-	I have a lot to learn. Every class reminds me how incompetent I am. Lots of ups and downs in learning software - just have to trust that the overall trend in my development has an upward trajectory.
 	
 	\pagebreak
 	
-	\section{16-01-2019 - Second team meeting (team grows}
+	\section{Meeting 1b}
 	
 	\subsection{Administrative}
-	Before lab meeting: Daniel, Mottel, Ben, Shereece, Anthony, Rezza
+	Wednesday, 16th January 2019 \textbar 9:30 pm – 10:40pm (approx.) \textbar H 903 Lab
+	\subsubsection{Attendees:} 
+	\begin{itemize}
+		\item AP – Ashesh Patel*
+		\item BT - Benjamin Th\'erien
+		\item CS - Christophe Savard*
+		\item DT – Daniel Thibault-Shea
+		\item MW – Micheal Wilgus*  
+		\item MZ - Mordechai Zirkind 
+		\item RZ - Rezza-Zairan Zaharin
+		\item SP – Saad Patel* 	
+		\item SV - Shereece Victor
+		\item SZ – Steven Zanga
+	\end{itemize}
+	* - New team members 
 	
-	Lab meeting: As above plus new members: Ashash, Chris, Mike, Patel, (Leo dropped class)
 	
-	\subsection{Summary}
-	Our first order of business was a tutorial on the Model View Controller pattern expertly given by Anthony. I learned a lot in the. It was highlighted that there were some differences between his model (which was familiar to other team members) and the MVC model presented by the professor - we will clarify in class.
+	\subsection{Summary of Discussion }
+		\subsubsection{Re-introductions }
+			\begin{itemize}
+				\item Met the new members of our group AP, SP, CS, MW, 
+				\item Met and spoke to the TA. 
+				\item	Discussed the different roles: Coders, Documenters, Organizers, Quality Assurance and the importance of keeping track of everyone’s tasks within their roles. 
+				\item Established that everyone will be involved in testing and coding. 
+				\item Established the skill sets of team members: Who’s familiar with Java, Unit testing with JUnit GitHub, SQL, Latex, Maven, Package Mangers, Discord.
+				\item Discussed how to get all these tools.
+			\end{itemize}
+	We need to all get familiar with the tools we will be using for the project.
 	
-	We played a round of the game that Mottel had on hand. Apart from being fun we learned a lot. Good ideas for how to implement strategies etc. It was a super idea.
-	
+		\subsubsection{Iteration 1 Roles}
+			\begin{itemize}
+			\item We grouped into the different teams
+			\item Coders: CS, SZ, BT
+			\item Documenters: RZ, SP, SV
+			\item Organizers: DT, MZ, 
+			\item Quality Assurance: AP, MW 
+			\end{itemize}
+
+		\subsubsection{Work to be done }
+			\begin{itemize}
+			\item Recap of MVC 
+			\item Listed all the documents to be hosted on GitHub, code, diaries, testing.
+			\item What are we storing in our database? Words, hints, game boards, game states, game statistics 
+			\item Should the game boards be saved or randomly generated at the beginning of each game
+			\item Game Stats will include: Game history, Number or rounds, number of each colour spy revealed, innocent bystanders revealed, winners, losers, whether the assassin was revealed 
+			\item Data structure of the words, their hints and their associations; graph, database, do we need a bridge table, how many tables?
+			\item How intelligent would the interactions with the word database be?
+			\item Should we have user names? Player 1 and 2, or Bot 1 and 2
+			\item We’ll be treating team players in the game as one single entity per team, plus another entity for the spy master.
+			\item Our user controls a player guessing.
+			\item The Spy Masters are programmed. 
+			\item Ways to map word associations, storing meanings with each word? Graphs?
+			\item Game cycle. 
+			\item Initial loop: Choose players and identities, create board, arranging board.
+			\item For iteration 1, guessers should be an array of random words 
+			\item How do the spy masters see the game board? Toggle view?
+			\item Assigned tasks due next week 
+			
+			\end{itemize}
 	
 	\subsection{Agreed upon goals}
 	\begin{itemize}
-		\item random stuff.
+		\item Download the Java version used in the lab (8.161) 
+		\item Download JetBrains 
+		\item Sign up for GitHub Education Pack 
+		\item Install SQLite 
+		\item Download Latex 
+		\item Coders: Do a rough sketch of UML and ER diagrams, set up objects and program structures, discuss plans on Discord, Bare bones of the project, and record the logic 
+		\item Documenters: Prepare and share minutes, ER diagrams from coders, Get Familiar with Latex, Table of contents 
+		\item Record meeting in personal diaries, get familiar with GitHub, add personal diaries to GitHub, Read over the project description 
+		\item Looking to Unit Testing 
 	\end{itemize}
 	
 	\subsection{Miscellaneous}
-	
+		Labs aren’t mandatory. They’re only a scheduled meeting time for teams. We need to be there for demos, however.
 	\pagebreak
 	
-	\section{DD-MM-YYYY - Journal Entry Description}
+	\section{Meeting 2}
 	
 	\subsection{Administrative}
+	Wednesday, 23rd January 2019 \textbar 9:30 pm – 10:40pm (approx.) \textbar Capstone Project room 
+	\subsubsection{Attendees:}
+		Via Discord:
+		\begin{itemize}
+		\item BR - Bilal Rana
+		\item CS – Christophe Savard 
+		\item SZ - Steven Zanga
+		\end{itemize}
+		Present: 
+		\begin{itemize}
+		\item AP – Ashesh Patel
+		\item BT - Benjamin Th\'erien
+		\item DT - Daniel Thibault-Shea
+		\item MW – Micheal Wilgus
+		\item MZ - Mordechai Zirkind  
+		\item RZ - Rezza Zairan 
+		\item SV - Shereece Victor 
+		
+		\end{itemize}
 	
-	\subsection{Summary}
+	\subsection{Summary of Discussion }
+	\subsubsection{Recap }
+	\begin{itemize}
+		\item What did each person do this week?
+		\item Organizers, pestered people for code, scheduled meetings 
+		\item Documenters: Learned Latex, 
+		\item SP is no longer a part of the documenters team and team in general 
+		\item Quality Assurance: Read up on unit testing, and JUnit 
+		\item Coders: Set up repo, and GitHub tools;	Formatted MVC, made classes, some of the UML, some ER 
+	  
+	\end{itemize}
+	We need to plan before coding too much so that we’re all on the same page
+	
+	\subsubsection{Discussion of Game play }
+	\begin{itemize}
+		\item We discussed the creation of the following objects: Board (2d array), Card (Type, State-Overturned or not, Word)
+		\item Strategy Framework
+		\item The MVC basically consists of three java packages
+		\item Game Controller contains: ‘start()’ and the ‘main\_loop()’ 
+		\item When someone clicks something in the view, which contains the cards, board, it (the event) gets sent to the controller as a request translates it to an operation and passes that to the model 
+		\item JavaFX has been added to our toolset
+		\item What do we want the game to look like? 
+		\item Java Fx has been added to our toolset. 
+		 
+	\end{itemize}
+	The basic code ‘skeleton’ has been set up by the coders. 
+	
+	\subsubsection{Miscellaneous }
+	\begin{itemize}
+		\item What data structure show we use for the words and their hints? Or do we do a database? 
+		\item How much does each member need to know? SV raised an issue with a lack of communication of tasks accomplished among the various task groups.  
+		\item A story/ use case is what we expect to happen when we objects 
+				
+	\end{itemize}
+	The basic code ‘skeleton’ has been set up by the coders. 
 	
 	\subsection{Agreed upon goals}
 	\begin{itemize}
-		\item random stuff.
+		\item Documenters: Do a detailed UML of the classes to be created. 
+		\item Coders: Set up database, JUnit tests 
+		\item Quality Assurance: JUnit tests
+	\end{itemize}
+	\pagebreak
+	
+	\section{Meeting 3}
+	
+	\subsection{Administrative}
+	Wednesday, 30th January 2019 \textbar 9:30 pm – 10:30 pm \textbar H 903 Lab 
+	\subsubsection{Attendees:}
+
+	\begin{itemize}
+		\item AP – Ashesh Patel
+		\item BR - Bilal Rana
+		\item CS – Christophe Savard 
+		\item BT - Benjamin Th\'erien
+		\item DT - Daniel Thibault-Shea
+		\item MW – Micheal Wilgus
+		\item MZ - Mordechai Zirkind  
+		\item RZ - Rezza Zairan 
+		\item SV - Shereece Victor 
+		\item SZ - Steven Zanga
+		
 	\end{itemize}
 	
-	\subsection{Miscellaneous}
+	\subsection{Summary of Discussion }
+	\subsubsection{Pre-Demo - Requirements for Iteration 1}
+	\begin{itemize}
+		\item The TA reviewed our progress and listed the things we were missing or needed to fix.
+		\item These became our goals for the coming week. 
+			
+	\end{itemize}
 	
+	\subsection{Agreed upon goals}
+	To be done: 
+	\begin{itemize}
+		\item Table of contents.
+		\item Domain model before use cases 
+		\item Diagrams for each use cases
+		\item A MVC diagram 
+		\item Glossary of key terms 
+		\item Format the document properly 
+		\item State what relationships exist between objects
+		\item Make sure there's a latex version of documents 
+		\item Code should be structured, remove unnecessary code, have an jar file in addition
+		\item Note who created each class, and method 
+		\item Comments comments comments!
+		\item Make sure code works
+		\item Complete unit tests, comment, check 
+		\item Diaries, minutes etc
+		\item Evidence of individual effort. 
+		\item Submit, documents and diaries as pdf 
+		\item Submit Individual diaries.
+			
+	\end{itemize}
+	\pagebreak
+	
+	\section{Meeting 4}
+	
+	\subsection{Administrative}
+	Wednesday, 6th February 2019 \textbar 9:46 pm – 10:33 pm \textbar Capstone Rm 961-03
+	\subsubsection{Attendees:}
+	
+	\begin{itemize}
+		\item AP – Ashesh Patel
+		\item BT - Benjamin Th\'erien
+		\item DT - Daniel Thibault-Shea
+		\item MW – Micheal Wilgus
+		\item MZ - Mordechai Zirkind  
+		\item RZ - Rezza Zairan 
+		\item SV - Shereece Victor 
+	\end{itemize}
+
+	Via Discord:
+	\begin{itemize}
+		\item BR - Bilal Rana
+		\item CS – Christophe Savard 
+		\item SZ - Steven Zanga
+	\end{itemize}
+
+	\subsection{Summary of Discussion }
+
+	\subsubsection{Demo Status}
+	\begin{itemize}
+		\item Recapped the events in the lab leading up to the cancellation of the days demo
+	\end{itemize}
+
+	\subsubsection{Recap }
+	\begin{itemize}
+		\item What have we done this week: 
+		\item AP: Has been trying to get familiar with GitHub 
+		\item MW: Understanding codes, wrote tests, code looks great, had questions about testing the GUI and undo, Answered by CS 
+		\item RZ: Use cases, formatting Latex 
+		\item SV: Model diagram, minutes;  To do: class diagram, edit latex, create Latex version of minutes 
+		\item BT: Observers, game loop, method in each players, play turn, showed the game, already working, and demoed it to us, explained the next play button, 
+		\item CS: enforced standards, maintained GitHub repository, cleaned up the code, linked to gui, 
+		\item SZ: Commenting, Javadocs
+		\item MZ: GUI 
+		\item BR: Coordinated with MZ to motivate the team  
+	\end{itemize}
+	
+	\subsubsection{Work to be done }
+	\begin{itemize}
+		\item Documenters: Proper error-free latex, images, annotations, diagrams, stylize documents, convert minutes to latex docs
+		\item Coders: Cleaning out, making sure it runs smoothly, finish commander module so that it reaches the model, testing  
+		\item QA: user experience testing, model unit tests, 
+	\end{itemize}
+
+	\subsubsection{Things to be Learned:}
+	\begin{itemize}
+		\item What do we need to learn by the completion of the project: 
+		\item MW: Latex 
+		\item BT: Unit tests, Latex 
+		\item RZ: Latex, code, 
+		\item AP: Git Kraken, JUnit 
+		\item MZ: Become familiar with the code, the document and UML 
+		\item SV: GUI,JUnit
+		\item DT: JUnit, GitHub, become familiar with the code
+		\item BR: Git Kraken, code base, Latex, JUnit 
+		\item CS: JUnit, Use cases,
+		\item SZ: Latex 
+	\end{itemize}
+	
+	\subsection{Agreed upon goals}
+
+	\begin{itemize}
+		\item Think possible roles for the next iteration 
+		
+	\end{itemize}
 	\pagebreak
 	
 \end{document}
