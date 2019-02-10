@@ -154,7 +154,9 @@
 		As this is the requirement phase, we are keeping the interface to a minimum design. They will not preface any visual grace but present the most useful information at the time. The visual representation of the game is as shown below:\\
 		
 		\begin{center}
+			Figure 1:The playable menu of the current game version
 			\includegraphics[scale=0.2]{game_interface.png}
+			
 		\end{center}
 	
 		\textbf{Board}\\
@@ -205,7 +207,7 @@
 	   \\
 	   On the bottom right, the "\textit{Next Move}" button serves as a platform to click to progress the game forward by a turn.\\
 	   
-	   \clearpage
+	 
 	
 %	\subsection{Product Functions}
 %	
@@ -304,15 +306,17 @@
 			\paragraph{User Use Case}
 			
 			\begin{center}
+				Figure 2: A use case diagram showing the use case concerning the actor "User"
 				\includegraphics[scale=1.0]{"User UC".png}
 			\end{center} 
 			
 			\paragraph{Spymaster and Operative Use Case}
 			
 			\begin{center}
+				Figure 3: A use case diagram showing the use case concerning the actors "Spymaster" and "Operative"
 				\includegraphics[scale=0.4]{"Spymaster & Operative UC".png}
 			\end{center}
-		
+		\pagebreak
 		\subsubsection{Use Cases Details}
 		
 			\paragraph{Use Case 1: Start Game }
@@ -544,7 +548,7 @@
 			Alternative Paths & 
 			Alternative 1:
 				\begin{itemize}[noitemsep,topsep=0pt]
-					\item After step 2, If card revealed is an \textit{Enemy Spy} or \textit{Civillian}, the turn is passed to the enemy Spymaster detailed in the use case, "Reveal clue".
+					\item After step 2, If card revealed is an \textit{Enemy Spy} or \textit{Civilian}, the turn is passed to the enemy Spymaster detailed in the use case, "Reveal clue".
 					\item If all of the enemy team's \textit{Spy} cards are revealed, the game ends with the enemy team winning.
 				\end{itemize}
 			Alternative 2:
@@ -574,14 +578,31 @@
 	\newpage
 	
 		\subsubsection{Class Diagrams}
-		a couple letters
-			\paragraph{Full Class Diagram}
-			a couple letters
-			\paragraph{Simplified View}
-			a couple letters
-			\paragraph{Hierarchical View}
-			a couple letters
+		
+		\paragraph{Simplified Domain Model}
+			\begin{center}
+				Figure 5: A domain model of the Codenames game. 
+				\includegraphics[scale=.90]{domain_model_final.png}
 				
+			\end{center}
+		The Game consists of a game board with cards which can either be revealed or unrevealed during the game. When cards are not yet revealed they show a word. Each card has a type, it is either a spy, a civilian or the Assassin. When cards are revealed they show their type. There can only be one assassin card per game. Each spy belongs to a team, red or blue. 
+		
+		The game also contains players which interact with the game. Each player, like the spies, belong to either the red or blue team. 
+			\pagebreak
+			\paragraph{Class Diagram}
+				\begin{center}
+				Figure 6: A class diagram of the Codenames game. 
+				\includegraphics[scale=.60]{class_diagram_final.png}
+				
+			\end{center}
+			
+			This class diagram for the Codenames game does not show all the components of the final classes and interfaces. Instead it shows how some of the concepts presented in the domain model can be implemented.  
+			
+			The commander contains most of the functions the user interacts with, the controller carries out those functions by triggering methods in other parts of the system. The card flipped event for example, can  be triggered when the user presses the 'undo' button. This is received by the commander, which passes it to the controller, which triggers the card flipped event, revealing or hiding a crad on the game board within the game. 
+			
+			
+			\pagebreak 
+			
 			\section{Team Meeting Minutes}
 			\subsection{Meeting 0}
 			
