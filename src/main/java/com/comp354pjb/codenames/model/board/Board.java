@@ -13,7 +13,6 @@ package com.comp354pjb.codenames.model.board;
 
 import com.comp354pjb.codenames.model.player.PlayerType;
 import com.comp354pjb.codenames.observer.events.CardFlippedEvent;
-
 import java.util.*;
 
 /**
@@ -40,6 +39,9 @@ public class Board
     //endregion
 
     //region Events
+    /**
+     * Single card flipped event
+     */
     public final CardFlippedEvent onFlip = new CardFlippedEvent();
     //endregion
 
