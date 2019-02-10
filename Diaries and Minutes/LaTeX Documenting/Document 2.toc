@@ -8,23 +8,19 @@
 \contentsline {section}{\numberline {2}Problem Description}{5}% 
 \contentsline {subsection}{\numberline {2.1}Project Purpose, Scope, and Objectives}{5}% 
 \contentsline {subsubsection}{\numberline {2.1.1}User interface}{5}% 
-\contentsline {subsection}{\numberline {2.2}Product Functions}{7}% 
-\contentsline {subsubsection}{\numberline {2.2.1}Introduction}{7}% 
-\contentsline {subsubsection}{\numberline {2.2.2}Board}{7}% 
-\contentsline {subsubsection}{\numberline {2.2.3}Game}{7}% 
-\contentsline {subsection}{\numberline {2.3}Constraints}{8}% 
-\contentsline {subsection}{\numberline {2.4}Analysis Models}{8}% 
-\contentsline {subsubsection}{\numberline {2.4.1}Use Case Diagrams}{8}% 
-\contentsline {paragraph}{User Use Case}{10}% 
-\contentsline {paragraph}{Spymaster and Operative Use Case}{10}% 
-\contentsline {subsubsection}{\numberline {2.4.2}Use Cases Details}{10}% 
-\contentsline {paragraph}{Use Case 1: Start Game }{10}% 
-\contentsline {paragraph}{Use Case 2: Next Turn}{12}% 
-\contentsline {paragraph}{Use Case 3: Undo}{12}% 
-\contentsline {paragraph}{Use Case 4: Redo}{13}% 
-\contentsline {paragraph}{Use Case 5: Reveal Clue}{14}% 
-\contentsline {paragraph}{Use Case 6: Reveal Card}{15}% 
-\contentsline {subsubsection}{\numberline {2.4.3}Class Diagrams}{16}% 
-\contentsline {paragraph}{Full Class Diagram}{16}% 
-\contentsline {paragraph}{Simplified View}{16}% 
-\contentsline {paragraph}{Hierarchical View}{16}% 
+\contentsline {subsection}{\numberline {2.2}Constraints}{7}% 
+\contentsline {subsection}{\numberline {2.3}Analysis Models}{7}% 
+\contentsline {subsubsection}{\numberline {2.3.1}Use Case Diagrams}{7}% 
+\contentsline {paragraph}{User Use Case}{8}% 
+\contentsline {paragraph}{Spymaster and Operative Use Case}{8}% 
+\contentsline {subsubsection}{\numberline {2.3.2}Use Cases Details}{8}% 
+\contentsline {paragraph}{Use Case 1: Start Game }{8}% 
+\contentsline {paragraph}{Use Case 2: Next Turn}{10}% 
+\contentsline {paragraph}{Use Case 3: Undo}{10}% 
+\contentsline {paragraph}{Use Case 4: Redo}{11}% 
+\contentsline {paragraph}{Use Case 5: Reveal Clue}{12}% 
+\contentsline {paragraph}{Use Case 6: Reveal Card}{13}% 
+\contentsline {subsubsection}{\numberline {2.3.3}Class Diagrams}{14}% 
+\contentsline {paragraph}{Full Class Diagram}{14}% 
+\contentsline {paragraph}{Simplified View}{14}% 
+\contentsline {paragraph}{Hierarchical View}{14}% 

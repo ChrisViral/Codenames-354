@@ -46,7 +46,7 @@
 	
 \hrulefill
 \begin{flushright}
-\textbf{Team PB-J}
+\textbf{Team PJ-b}
 \end{flushright}
 \hrulefill
 
@@ -57,25 +57,41 @@
 \vspace*{1.5in}
 
 
-\begin{table}[htbp]
-	
-\begin{center}
-    \begin{center}
-	    Team Members\\
-    \end{center}
+\begin{table}[htbp] 
+\begin{center} 
+	\begin{center} 
+		Team Members\\
+		
+	\end{center} 
+	\begin{tabular}{| c | c |} 
+		\hline 
+		Name & ID Number \\ 
+		\hline\hline 
+		Ashesh Patel & 40018519 \\ 
+		Benjamin Th\'erien & 40034572\\ 
+		Bilal Rana & 40013408 \\
+		Christophe Savard & 40017812\\
+		Daniel Thibault-Shea & 40073133\\ 
+		Michael Wilgus & 29206388 \\ 
+		Mordechai Zirkind & 27206151\\
+		Rezza-Zairan Zaharin & 40003377 \\
+		Shereece Victor & 40105094\\ 
+		Steven Zanga & 40000797\\ 
+		 
+		\hline 
+	\end{tabular} 
+\end{center} 
+\end{table} 
 
-	\begin{tabular}{| c | c |}
-		\hline
-		Name & ID Number \\c
-\tableofcontents
-
-\newpage
+\newpage 
+\tableofcontents 
+\newpage 
 
 \section{Project Analysis and Development Plan}
 
 	\subsection{Introduction}
 	
-	 The purpose of this document is to detail the high-level requirements and features of the Codenames Game developed by team PJ-B. The Codenames Game is a game of 2 to 8 human and AI players. This project is an adaptation of the Codenames Game designed by Vlada Chv\'atil and published by Czech games.\\
+	 The purpose of this document is to detail the high-level requirements and features of the Codenames Game developed by team PJ-B. The Codenames Game is a game of 4 human and AI players. This project is an adaptation of the Codenames Game designed by Vlada Chv\'atil and published by Czech games.\\
 	 \\
 	 The specifics of how the Codenames Game fulfills these needs will be detailed in the use cases which more will be detailed in the upcoming design phase\\
 	
@@ -95,7 +111,7 @@
 	
 		\textbf{Board} \\
 		\\
-		The main playing area will be composed of a 5 by 5 grid of words. Each cell of the grid are representative of codenames of agents. Each cell in the grid will be defined in this document as a \textit{Card}.\\
+		The main playing area will be composed of a 5 by 5 grid of words. Each cell of the grid are representative of Codenames of agents. Each cell in the grid will be defined in this document as a \textit{Card}.\\
 	
 		\textbf{Card} \\
 		\\
@@ -137,9 +153,9 @@
 		%Update by later iterations
 		As this is the requirement phase, we are keeping the interface to a minimum design. They will not preface any visual grace but present the most useful information at the time. The visual representation of the game is as shown below:\\
 		
-%		\begin{center}
-%			\includegraphics[scale=0.4]{"Game Interface".png}
-%		\end{center}
+		\begin{center}
+			\includegraphics[scale=0.2]{game_interface.png}
+		\end{center}
 	
 		\textbf{Board}\\
 		\\
@@ -165,7 +181,7 @@
 	            \item Red Operative
 	        \end{itemize}
 	   
-	   \textbf{Scorekeeping}\\
+	   \textbf{Score-Keeping}\\
 	   \\
 	   In the middle top, Two sections with the text "\textit{Red}" and "\textit{Blue}" denotes the number of spies revealed for each team to the number of cards left to revealed. This is done in the format of:\\
 	   
@@ -190,66 +206,66 @@
 	   On the bottom right, the "\textit{Next Move}" button serves as a platform to click to progress the game forward by a turn.\\
 	   
 	   \clearpage
-			
-	\subsection{Product Functions}
 	
-	Every function below has to support system  functions, such as a click of a button or revealing images when necessary. The following functions will be a part of the Codenames game.\\
-	
-		\subsubsection{Introduction}
-		
-		The user is first introduced to the game. Since human players are currently not being implemented into the game, only the "Start Game" button is visible. \\
-		
-		Input:
-		    \begin{itemize}
-		        \item The user clicks the "\textit{Start Game}" button.
-		    \end{itemize}
-	    
-		Action:
-		    \begin{itemize}
-		        \item 4 computer players are created: 2 for each team with each either being a \textit{Spymaster} or \textit{Operative}.
-		        \item 25 words are randomly picked from a database.
-		        \item The starting team is randomly picked.
-		    \end{itemize}
-		
-		Output:
-		    \begin{itemize}
-		        \item The teams are defined.
-		        \item A pool of words in use for the game are kept in an array.
-		        \item A turn order is decided.
-		    \end{itemize}
-		    
-		Validity Check:
-		    \begin{itemize}
-		        \item 
-		    \end{itemize}
-		
-		\subsubsection{Board}
-		
-		To be updated.\\
-		
-		\subsubsection{Game}
-		
-		There will be two teams of \textbf{red} and \textbf{blue}. Each team possesses a pair of players each playing either the role of Spymaster of Operative. Since each team follows the same path:\\
-		
-		\begin{itemize}
-			\item [--] Team \textit{Spymaster} reveals clue.
-			\item [--] Turn passes to Team's \textit{Operative}
-			\item [--] Team \textit{Operative} makes guesses based on clue given.
-			\item [--] Turn passes to opposing team's \textit{Spymaster}
-		\end{itemize}
-	
-		\textbf{Input:}\\
-		To be updated.\\
-		\\
-		\textbf{Action:}
-		To be updated.\\
-		\\
-		\textbf{Output:}\\
-		To be updated.\\
-		\\
-		\textbf{Validity Check:}\\
-		Sequence of the players is to be followed according to the order set earlier established. When a team finishes their turn, the next team's turn becomes active.\\
-		
+%	\subsection{Product Functions}
+%	
+%	Every function below has to support system  functions, such as a click of a button or revealing images when necessary. The following functions will be a part of the Codenames game.\\
+%	
+%		\subsubsection{Introduction}
+%		
+%		The user is first introduced to the game. Since human players are currently not being implemented into the game, only the "Start Game" button is visible. \\
+%		
+%		Input:
+%		    \begin{itemize}
+%		        \item The user clicks the "\textit{Start Game}" button.
+%		    \end{itemize}
+%	    
+%		Action:
+%		    \begin{itemize}
+%		        \item 4 computer players are created: 2 for each team with each either being a \textit{Spymaster} or \textit{Operative}.
+%		        \item 25 words are randomly picked from a database.
+%		        \item The starting team is randomly picked.
+%		    \end{itemize}
+%		
+%		Output:
+%		    \begin{itemize}
+%		        \item The teams are defined.
+%		        \item A pool of words in use for the game are kept in an array.
+%		        \item A turn order is decided.
+%		    \end{itemize}
+%		    
+%		Validity Check:
+%		    \begin{itemize}
+%		        \item 
+%		    \end{itemize}
+%		
+%		\subsubsection{Board}
+%		
+%		To be updated.\\
+%		
+%		\subsubsection{Game}
+%		
+%		There will be two teams of \textbf{red} and \textbf{blue}. Each team possesses a pair of players each playing either the role of Spymaster of Operative. Since each team follows the same path:\\
+%		
+%		\begin{itemize}
+%			\item [--] Team \textit{Spymaster} reveals clue.
+%			\item [--] Turn passes to Team's \textit{Operative}
+%			\item [--] Team \textit{Operative} makes guesses based on clue given.
+%			\item [--] Turn passes to opposing team's \textit{Spymaster}
+%		\end{itemize}
+%	
+%		\textbf{Input:}\\
+%		To be updated.\\
+%		\\
+%		\textbf{Action:}
+%		To be updated.\\
+%		\\
+%		\textbf{Output:}\\
+%		To be updated.\\
+%		\\
+%		\textbf{Validity Check:}\\
+%		Sequence of the players is to be followed according to the order set earlier established. When a team finishes their turn, the next team's turn becomes active.\\
+%		
 	
 	\subsection{Constraints}
 	

@@ -1,0 +1,158 @@
+\documentclass[12pt]{article}
+
+\pagestyle{empty}
+\setcounter{secnumdepth}{2}
+
+\topmargin=0cm
+\oddsidemargin=0cm
+\textheight=22.0cm
+\textwidth=16cm
+\parindent=0cm
+\parskip=0.15cm
+\topskip=0truecm
+\raggedbottom
+\abovedisplayskip=3mm
+\belowdisplayskip=3mm
+\abovedisplayshortskip=0mm
+\belowdisplayshortskip=2mm
+\normalbaselineskip=12pt
+\normalbaselines
+
+\begin{document}
+	
+	\vspace*{0.5in}
+	\centerline{\bf\Large Meeting Minutes }
+	
+	\vspace*{0.5in}
+	\centerline{\bf\Large Team PJ-b}
+	\vspace*{0.25in}
+	\centerline{\bf\Large Iteration 1}
+	
+	
+	\vspace*{1.5in}
+	\begin{table}[htbp]
+		\caption{Team PJ-b}
+		\begin{center}
+			\begin{tabular}{|l | c|}
+				\hline
+				Name: & ID Number \\
+				\hline
+				AP - Ashesh Patel & 40018519 \\
+				\hline
+				BR - Bilal Rana & 40034572 \\
+				\hline
+				BT - Benjamin Therien & 40013408 \\
+				\hline
+				CS - Christophe Savard & 40017812 \\
+				\hline
+				DS – Daniel Thibault-Shea & 40073133 \\
+				\hline
+				MW - Michael Wilgus & 29206388 \\
+				\hline
+				MZ - Mordechai Zirkind & 27206151 \\
+				\hline
+				RZ - Rezza-Zairan Zaharin & 40003377 \\
+				\hline
+				SV - Shereece Victor & 40105094 \\
+				\hline
+				SZ – Steven Zanga & 40000797 \\
+				\hline
+			\end{tabular}
+		\end{center}
+	\end{table}
+	
+	\clearpage
+	
+	\section{10-01-2019 - First Group Meeting}
+	
+	\subsection{Administrative}
+	Daniel, Mottle, Sheneece, Leo, Brian, Reza, Benjamin, (missing 1 anonymous).
+	
+	Meeting from: 20:15 to 20:45\\
+	Git tutorial: 20:45 to 21:20 (Thanks Mottle!)
+	
+	\subsection{Summary}
+	We all met after class in another smaller room. We started by introducing ourselves and then went on to deciding who would do what role for the first iteration of the project. Ben, Brian, and the anonymous guy would handle coding. Leo, Sheneece, and Reza would be on documentation. Sheneece is from abroad and is catching up in Java by doing COMP 249 (she knows C++ though) so she wanted to sit out the coding part to give her time to learn the syntax of Java. Mottle seems to have the most industry experience so I decided to pair up with him so that I could learn the ropes (Git, SQLite, Maven, etc.). Leo and I are meeting tomorrow and he will show me what he knows about making a GUI in Eclipse using Window Builder.
+	
+	Encouraged by the quality and skill in the team. I am hoping that I can learn a lot from them as I am clearly not at their level. I need to get up to speed fast.
+	
+	\subsection{Agreed upon goals}
+	\begin{itemize}
+		\item Read the project outline.
+		\item Take a look at all the tools we're gonna use over the project.
+		\item Confirm time for next meeting.
+		\item Think through how you would do the project on your own. 
+		\item Make sure you have access to the repo and Discord server. 
+		\item Say hello to the rest of the team.
+		\item Tentatively agree to a second meeting at 18:00 on 16-01-2019.
+	\end{itemize}
+	
+	\subsection{Miscellaneous}
+	I really feel like I need to catch up to the other team members. I think most of them are much farther into their degrees than I. Regardless, I will do my best to pull my weight.
+	
+	\pagebreak
+	
+	\section{11-01-2019 - Tutorial with Leo}
+	
+	\subsection{Administrative}
+	Daniel Thibault-Shea, Leo Sudama.
+	Tutorial: 13:00 to 17:00
+	
+	\subsection{Summary}
+	Started by setting up SQLite, getting the driver. Most of the time was spent setting things up in Leo's specific way. He has a really neat way of organizing code - ex. he'll put the DB connection String into a config file and use a Property object to call it. This avoids hard-coding it in the program so if you need to change the DB then you simply change the config file and don't need to recompile. Following that, he showed me how to work with Maven to get dependencies from public repositories. We then made a simple GUI using the Eclipse WindowBuilder plugin that allows you to "drag and drop" Swing objects and set up the your GUI. This will save me hours in the future and will definitely result in better GUIs. We then implemented a simple 'add player to DB' functionality to the button. All the while, Leo gave me tips on how to organize the packages so that the project is structured intelligently from the beginning.
+	
+	Big thanks to Leo. He really caught me up with regards to coding. Thanks to him, I can check off quite a few things from the list of "to-do's" from our last meeting.
+	
+	As discussed in our first meeting on 10-01-2019, I read the project instructions attentively. I also reviewed \LaTeX to the point where I can make a basic document as long as i have access to the internet to search for commands. I don't think I want to gum up my brain with \LaTeX -specific commands right now.
+	
+	The only thing left on my "to-do" from our first meeting is to learn Git. I have gone through a few tutorials but I don't think it will gel until I do it for real.
+	
+	\subsection{Agreed upon goals}
+	\begin{itemize}
+		\item I will continue work on the code to try to get Leo's buttons to work in tandem.
+		\item Read up on SQLite and practice some SQL queries.
+	\end{itemize}
+	
+	\subsection{Miscellaneous}
+	I have a lot to learn. Every class reminds me how incompetent I am. Lots of ups and downs in learning software - just have to trust that the overall trend in my development has an upward trajectory.
+	
+	\pagebreak
+	
+	\section{16-01-2019 - Second team meeting (team grows}
+	
+	\subsection{Administrative}
+	Before lab meeting: Daniel, Mottel, Ben, Shereece, Anthony, Rezza
+	
+	Lab meeting: As above plus new members: Ashash, Chris, Mike, Patel, (Leo dropped class)
+	
+	\subsection{Summary}
+	Our first order of business was a tutorial on the Model View Controller pattern expertly given by Anthony. I learned a lot in the. It was highlighted that there were some differences between his model (which was familiar to other team members) and the MVC model presented by the professor - we will clarify in class.
+	
+	We played a round of the game that Mottel had on hand. Apart from being fun we learned a lot. Good ideas for how to implement strategies etc. It was a super idea.
+	
+	
+	\subsection{Agreed upon goals}
+	\begin{itemize}
+		\item random stuff.
+	\end{itemize}
+	
+	\subsection{Miscellaneous}
+	
+	\pagebreak
+	
+	\section{DD-MM-YYYY - Journal Entry Description}
+	
+	\subsection{Administrative}
+	
+	\subsection{Summary}
+	
+	\subsection{Agreed upon goals}
+	\begin{itemize}
+		\item random stuff.
+	\end{itemize}
+	
+	\subsection{Miscellaneous}
+	
+	\pagebreak
+	
+\end{document}
