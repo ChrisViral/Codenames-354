@@ -11,6 +11,7 @@
 
 package com.comp354pjb.codenames.model;
 
+import com.comp354pjb.codenames.commander.Commander;
 import com.comp354pjb.codenames.model.board.Board;
 import com.comp354pjb.codenames.model.player.*;
 import com.comp354pjb.codenames.observer.events.ClueGivenEvent;
@@ -44,8 +45,8 @@ public class Game
     //endregion
 
     //region Fields
-    private int playerIndex, round;
-    private ArrayList<IPlayer> players = new ArrayList<>();
+    private int playerIndex, round = 1;
+    private ArrayList<Player> players = new ArrayList<>();
     //endregion
 
     //region Properties
@@ -94,9 +95,9 @@ public class Game
     /**
      * Sets the amount of red cards revealed
      */
-    public void setRedCardsRevealed(int redTilesRevealed)
+    public void setRedCardsRevealed(int redCardsRevealed)
     {
-        this.redCardsRevealed = redTilesRevealed;
+        this.redCardsRevealed = redCardsRevealed;
     }
 
     private int blueCardsRevealed;
@@ -110,20 +111,9 @@ public class Game
     /**
      * Sets the amount of blue cards revealed
      */
-    public void setBlueCardsRevealed(int blueTilesRevealed)
+    public void setBlueCardsRevealed(int blueCardsRevealed)
     {
-        this.blueCardsRevealed = blueTilesRevealed;
-    }
-
-    private Clue clue;
-    /**
-     * Sets the current clue
-     */
-    public void setCurrentClue(Clue clue)
-    {
-        this.clue = clue;
-        this.guessesLeft = clue.value;
-        this.onClueGiven.invoke(clue);
+        this.blueCardsRevealed = blueCardsRevealed;
     }
 
     private boolean assassinRevealed;
@@ -137,51 +127,43 @@ public class Game
 
     private PlayerType winner;
     /**
-     * Gets the game's winner
+     * Gets the winning player
      */
     public PlayerType getWinner()
     {
         return this.winner;
     }
     /**
-     * Sets the game's winner
+     * Sets the winning player
      */
     public void setWinner(PlayerType winner)
     {
         this.winner = winner;
+        switch (this.winner)
+        {
+            case RED:
+                this.loser = PlayerType.BLUE;
+                break;
+            case BLUE:
+                this.loser = PlayerType.RED;
+        }
     }
 
     private PlayerType loser;
-    /**
-     * Gets the game's loser
-     */
-    public PlayerType getLoser()
-    {
-        return loser;
-    }
     /**
      * Sets the game's loser
      */
     public void setLoser(PlayerType loser)
     {
         this.loser = loser;
-    }
-
-    private String phase;
-    /**
-     * Gets the game's phase
-     */
-    public String getPhase()
-    {
-        return this.phase;
-    }
-    /**
-     * Sets the game's phase
-     */
-    public void setPhase(String phase)
-    {
-        this.phase = phase;
-        this.onPhaseChange.invoke(phase);
+        switch (this.loser)
+        {
+            case RED:
+                this.winner = PlayerType.BLUE;
+                break;
+            case BLUE:
+                this.winner = PlayerType.RED;
+        }
     }
     //endregion
 
@@ -202,26 +184,24 @@ public class Game
      */
     private void chooseStartingPlayer()
     {
+        PlayerType second;
         if (RANDOM.nextBoolean())
         {
             this.startTeam = PlayerType.BLUE;
-            System.out.println("Blue Team will start, which means they must guess 9 cards");
-            System.out.println("Red Team will go second, which means they must guess 8 cards");
-            this.players.add(new SpyMasterAI(PlayerType.BLUE));
-            this.players.add(new OperativeAI(PlayerType.BLUE));
-            this.players.add(new SpyMasterAI(PlayerType.RED));
-            this.players.add(new OperativeAI(PlayerType.RED));
+            second = PlayerType.RED;
         }
         else
         {
             this.startTeam = PlayerType.RED;
-            System.out.println("Red Team will start, which means they must guess 9 cards");
-            System.out.println("Blue Team will go second, which means they must guess 8 cards");
-            this.players.add(new SpyMasterAI(PlayerType.RED));
-            this.players.add(new OperativeAI(PlayerType.RED));
-            this.players.add(new SpyMasterAI(PlayerType.BLUE));
-            this.players.add( new OperativeAI(PlayerType.BLUE));
+            second = PlayerType.BLUE;
         }
+
+        Commander.log(this.startTeam.niceName() + " Team will start, which means they must guess 9 cards");
+        Commander.log(second.niceName() + " Team will go second, which means they must guess 8 cards");
+        this.players.add(new Player(this, this.startTeam, new SpyMasterAI()));
+        this.players.add(new Player(this, this.startTeam, new OperativeAI()));
+        this.players.add(new Player(this, second, new SpyMasterAI()));
+        this.players.add(new Player(this, second, new OperativeAI()));
     }
 
     /**
@@ -238,17 +218,29 @@ public class Game
         else
         {
              //Check the starting team for correct card numbers
+            int redTarget = 8, blueTarget = 8;
             switch (this.startTeam)
             {
                 case RED:
-                    return this.redCardsRevealed == 9 || this.blueCardsRevealed == 8;
-
+                    redTarget++;
+                    break;
                 case BLUE:
-                    return this.redCardsRevealed == 8 || this.blueCardsRevealed == 9;
-
-                default:
-                    return false;
+                    blueTarget++;
+                    break;
             }
+
+            //Check for a winner
+            if (this.redCardsRevealed == redTarget)
+            {
+                setWinner(PlayerType.RED);
+                return true;
+            }
+            if (this.blueCardsRevealed == blueTarget)
+            {
+                setWinner(PlayerType.BLUE);
+                return true;
+            }
+            return false;
         }
     }
 
@@ -258,22 +250,40 @@ public class Game
     public void enterNextGameTurn()
     {
         //Play the current player's turn
-        IPlayer current = this.players.get(this.playerIndex);
-        current.playTurn(this);
+        Player current = this.players.get(this.playerIndex);
+        current.play();
 
         //If a SpyMaster, pass the next turn to the Operative
         //If an Operative, pass the next turn only if you have no more guesses
-        if (current instanceof SpyMasterAI || this.guessesLeft == 0)
+        if (current.getStrategy() instanceof SpyMasterAI || this.guessesLeft == 0)
         {
             this.playerIndex = (this.playerIndex + 1) % this.players.size();
 
             if (this.playerIndex == 0)
             {
-                this.round++;
-                this.onRoundChange.invoke(this.round);
+                this.onRoundChange.invoke(++this.round);
             }
         }
 
+    }
+
+    /**
+     * Sets the current clue
+     * @param clue New clue
+     */
+    public void setCurrentClue(Clue clue)
+    {
+        this.guessesLeft = clue.value;
+        this.onClueGiven.invoke(clue);
+    }
+
+    /**
+     * Sets the game's phase
+     * @param phase New game phase
+     */
+    public void setPhase(String phase)
+    {
+        this.onPhaseChange.invoke(phase);
     }
     //endregion
 }

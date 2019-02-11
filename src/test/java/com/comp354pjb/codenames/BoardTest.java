@@ -9,29 +9,59 @@
 
 package com.comp354pjb.codenames;
 
+import com.comp354pjb.codenames.model.DatabaseHelper;
 import com.comp354pjb.codenames.model.board.*;
 import com.comp354pjb.codenames.model.player.PlayerType;
+
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
+
+import java.util.HashSet;
+import java.util.Random;
 
 public class BoardTest
 {
+    private static final Random RAND = new Random();
+
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void createCardsShouldNotAcceptSmallArray() {
+        String[] words = DatabaseHelper.selectWords(RAND.nextInt(24));
+        Card[][] cards = Board.createCards(words, getRandomPlayerType(), new HashSet<>());
+    }
+
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void revealAtShouldNotAcceptBadCoords() {
+        Board board = new Board(DatabaseHelper.selectWords(25), getRandomPlayerType());
+
+        // valid indices
+        int x = RAND.nextInt(5);
+        int y = RAND.nextInt(5);
+
+        // make at least one dimension out of bounds
+        switch(RAND.nextInt(2)) {
+            case 0:
+                x += RAND.nextInt() + 5;
+                break;
+            case 1:
+                y += RAND.nextInt() + 5;
+            default:
+                x += RAND.nextInt() + 5;
+                y += RAND.nextInt() + 5;
+        }
+        board.revealAt(x, y);
+    }
+
     @Test
-    public void createCardsShouldGiveAllCardsAWord() {
-        String[] words = new String[25];
-        for(int i = 0; i < words.length; i++)
-        {
-            words[i] = "test";
-        }
+    public void boardShouldNotContainNullOrEmpty() {
+        Board board = new Board(DatabaseHelper.selectWords(25), getRandomPlayerType());
+        assertFalse(board.hasWord(null));
+        assertFalse(board.hasWord(""));
+    }
 
-        // Created a mock board
-        Card[][] cards = Board.createCards(words, PlayerType.RED);
-
-        // Do all the cards have a word?
-        for(int i = 0; i < cards.length; i++) {
-            for(int j = 0; j < cards[i].length; j++) {
-                assertEquals("test", cards[i][j].getWord());
-            }
+    private PlayerType getRandomPlayerType() {
+        if(RAND.nextInt() % 2 == 0) {
+            return PlayerType.RED;
         }
+        return PlayerType.BLUE;
     }
 }

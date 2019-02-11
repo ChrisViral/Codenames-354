@@ -1,46 +1,39 @@
+/*
+ * SpyMasterAI.java
+ * Created by: Benjamin Therrien
+ * Created on: 29/01/19
+ *
+ * Contributors:
+ * Benjamin Therrien
+ * Christophe Savard
+ */
+
 package com.comp354pjb.codenames.model.player;
 
+import com.comp354pjb.codenames.model.DatabaseHelper;
 import com.comp354pjb.codenames.model.Game;
 
 public class SpyMasterAI implements IPlayer
 {
-    private PlayerType teamColor;
-    private String name;
-
+    //region Methods
     /**
-     * initializes SpyMasterAI
-     * @param team is the team association for this player
+     * Plays the dumb SpyMaster AI turn
+     * @param player Player to play the turn on
      */
-    public SpyMasterAI(PlayerType team)
+    public void playTurn(Player player)
     {
-        if(team == PlayerType.BLUE)
+        player.game.setPhase(player.teamName + " SpyMaster");
+        //Get a random hint that is *not* a word in the board
+        String hint;
+        do
         {
-            name = "Blue Spymaster";
+            hint = DatabaseHelper.getRandomWord();
         }
-        else
-        {
-            name = "Red Spymaster";
-        }
-        teamColor = team;
-    }
+        while(player.game.getBoard().hasWord(hint));
+        //Give out the clue
+        player.game.setCurrentClue(new Clue(DatabaseHelper.getRandomWord(), Game.RANDOM.nextInt(3) + 1));
 
-    public String getName()
-    {
-        return name;
-    }
 
-    public void setName(String name)
-    {
-        this.name = name;
     }
-
-    /**
-     * the following method sets the necessary from a spymasters turn
-     * @param game
-     */
-    public void playTurn(Game game)
-    {
-        game.setPhase(name);
-        game.setCurrentClue(new Clue("random", Game.RANDOM.nextInt(3) + 1));
-    }
+    //endregion
 }

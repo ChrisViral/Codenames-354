@@ -9,6 +9,7 @@
 
 package com.comp354pjb.codenames.model.player;
 
+import com.comp354pjb.codenames.model.DatabaseHelper;
 import com.comp354pjb.codenames.model.board.CardType;
 
 /**
@@ -29,6 +30,16 @@ public enum PlayerType
     {
         return this.cardType;
     }
+
+    private final String camelCasedName;
+    /**
+     * Nicely formatted String version of the name of this enum member
+     * @return Enum member name
+     */
+    public String niceName()
+    {
+        return this.camelCasedName;
+    }
     //endregion
 
     //region Constructors
@@ -39,6 +50,7 @@ public enum PlayerType
     PlayerType(CardType cardType)
     {
         this.cardType = cardType;
+        this.camelCasedName = DatabaseHelper.toCamelCase(name());
     }
     //endregion
 }
