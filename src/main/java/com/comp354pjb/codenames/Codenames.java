@@ -11,6 +11,7 @@
 
 package com.comp354pjb.codenames;
 
+import com.comp354pjb.codenames.commander.Commander;
 import com.comp354pjb.codenames.model.DatabaseHelper;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -74,6 +75,15 @@ public class Codenames extends Application
         stage.setTitle(getClass().getSimpleName());
         stage.setScene(scene);
         stage.show();
+    }
+
+    /**
+     * Terminates the App
+     */
+    @Override
+    public void stop()
+    {
+        Commander.instance().close();
     }
     //endregion
 }

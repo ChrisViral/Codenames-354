@@ -127,6 +127,13 @@ public class Game
 
     private PlayerType winner;
     /**
+     * Gets the winning player
+     */
+    public PlayerType getWinner()
+    {
+        return this.winner;
+    }
+    /**
      * Sets the winning player
      */
     public void setWinner(PlayerType winner)
@@ -189,8 +196,8 @@ public class Game
             second = PlayerType.BLUE;
         }
 
-        Commander.instance().log(this.startTeam.niceName() + " Team will start, which means they must guess 9 cards");
-        Commander.instance().log(second.niceName() + " Team will go second, which means they must guess 8 cards");
+        Commander.log(this.startTeam.niceName() + " Team will start, which means they must guess 9 cards");
+        Commander.log(second.niceName() + " Team will go second, which means they must guess 8 cards");
         this.players.add(new Player(this, this.startTeam, new SpyMasterAI()));
         this.players.add(new Player(this, this.startTeam, new OperativeAI()));
         this.players.add(new Player(this, second, new SpyMasterAI()));

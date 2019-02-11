@@ -132,6 +132,7 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
         if (this.game.checkWinner())
         {
             this.nextMoveButton.setDisable(true);
+            Commander.log(this.game.getWinner().niceName() + " team has won the game");
         }
     }
 

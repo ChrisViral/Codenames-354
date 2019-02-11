@@ -53,6 +53,7 @@ public class Commander implements CardFlippedObserver
     //region Fields
     private Controller controller;
     private FileWriter writer;
+    private boolean closed;
     private final Stack<Action> undoStack = new Stack<>();
     private final Stack<Action> redoStack = new Stack<>();
     //endregion
@@ -74,7 +75,27 @@ public class Commander implements CardFlippedObserver
             e.printStackTrace();
         }
         this.writer = writer;
-        log("=== Codenames Log ===");
+        logMessage("=== Codenames Log ===");
+    }
+    //endregion
+
+    //region Static methods
+    /**
+     * Logs a message to the log file
+     * @param message Object to log, uses the built in toString() function
+     */
+    public static void log(Object message)
+    {
+        log(message.toString());
+    }
+
+    /**
+     * Logs a message to the log file
+     * @param message Message to log
+     */
+    public static void log(String message)
+    {
+        INSTANCE.logMessage(message);
     }
     //endregion
 
@@ -90,7 +111,7 @@ public class Commander implements CardFlippedObserver
         this.controller = controller;
 
         //Listen to all events
-        game.getBoard().onFlip.register(this);
+        //game.getBoard().onFlip.register(this);  // Chris - Not currently listening to undo event
     }
 
     /**
@@ -102,7 +123,7 @@ public class Commander implements CardFlippedObserver
         action.undo();
         this.redoStack.push(action);
         checkButtonStates();
-        log("Undo " + action.info());
+        logMessage("Undo " + action.info());
     }
 
     /**
@@ -114,7 +135,7 @@ public class Commander implements CardFlippedObserver
         action.redo();
         this.undoStack.push(action);
         checkButtonStates();
-        log("Redo " + action.info());
+        logMessage("Redo " + action.info());
     }
 
     /**
@@ -152,10 +173,10 @@ public class Commander implements CardFlippedObserver
     {
         Action action = new CardFlipAction(this.controller, card);
         pushNewAction(action);
-        log(action.info());
+        logMessage(action.info());
     }
 
-    public void log(String message)
+    public void logMessage(String message)
     {
         //Get time and format message, then print to standard output
         String logMessage = String.format("[%s] %s", LocalDateTime.now().format(FORMAT), message);
@@ -174,20 +195,32 @@ public class Commander implements CardFlippedObserver
     }
 
     /**
-     * Closes the handle to the file and writes the final messages
+     * Closes all handles to files held by this object
+     */
+    public void close()
+    {
+        if (!this.closed)
+        {
+            try
+            {
+                logMessage("=== Terminating Application ===");
+                this.writer.close();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            this.closed = true;
+        }
+    }
+
+    /**
+     * Finalizes this object for garbage collection
      */
     @Override
     public void finalize()
     {
-        try
-        {
-            log("=== Terminating Application ===");
-            this.writer.close();
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+        close();
     }
     //endregion
 }

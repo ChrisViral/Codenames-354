@@ -69,11 +69,11 @@ public final class DatabaseHelper
         {
             //Create a connection to the database
             conn = DriverManager.getConnection(url);
-            Commander.instance().log("Connection to SQLite has been established.");
+            Commander.log("Connection to SQLite has been established.");
         }
         catch (SQLException e)
         {
-            Commander.instance().log(e.getMessage());
+            Commander.log(e.getMessage());
             e.printStackTrace();
             success = false;
         }
@@ -88,7 +88,7 @@ public final class DatabaseHelper
             }
             catch (SQLException e)
             {
-                Commander.instance().log(e.getMessage());
+                Commander.log(e.getMessage());
                 e.printStackTrace();
                 success = false;
             }
@@ -122,7 +122,7 @@ public final class DatabaseHelper
             }
             catch (SQLException e)
             {
-                Commander.instance().log(e.getMessage());
+                Commander.log(e.getMessage());
                 database = new String[0];
             }
         }
