@@ -11,6 +11,7 @@
 
 package com.comp354pjb.codenames;
 
+import com.comp354pjb.codenames.commander.Commander;
 import com.comp354pjb.codenames.model.DatabaseHelper;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -29,25 +30,21 @@ public class Codenames extends Application
     /**
      * Width of the App's window
      */
-    public static final int WIDTH = 1280;
+    private static final int WIDTH = 1280;
     /**
      * Height of the App's window
      */
-    public static final int HEIGHT = 800;
+    private static final int HEIGHT = 800;
     /**
      * Board FXML file location
      */
     private static final String BOARD_FXML = "view/board.fxml";
     //endregion
 
-    //region Fields
-    private Controller controller;
-    //endregion
-
     //region Initialization
     /**
      * Application entry point
-     * @param args Codenames arguments
+     * @param args Application arguments
      */
     public static void main(String[] args)
     {
@@ -78,17 +75,15 @@ public class Codenames extends Application
         stage.setTitle(getClass().getSimpleName());
         stage.setScene(scene);
         stage.show();
-
-        this.controller = loader.getController();
     }
 
     /**
-     * Sends the app closing message down to the MVC
+     * Terminates the App
      */
     @Override
     public void stop()
     {
-        this.controller.close();
+        Commander.instance().close();
     }
     //endregion
 }

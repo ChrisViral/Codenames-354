@@ -36,6 +36,7 @@ public class Board
 
     //region Fields
     private final Card[][] cards;
+    private final HashSet<String> words = new HashSet<>();
     //endregion
 
     //region Events
@@ -54,7 +55,7 @@ public class Board
     public Board(String[] words, PlayerType startingPlayer)
     {
         //Create the cards
-        this.cards = Board.createCards(words, startingPlayer);
+        this.cards = Board.createCards(words, startingPlayer, this.words);
     }
     //endregion
 
@@ -65,9 +66,10 @@ public class Board
      * @param startingPlayer Starting player (will have extra card of it's colour)
      * @return The created 5 by 5 array of cards
      */
-    public static Card[][] createCards(String[] words, PlayerType startingPlayer)
+    public static Card[][] createCards(String[] words, PlayerType startingPlayer, HashSet<String> wordSet)
     {
         Card[][] cards = new Card[5][5];
+        wordSet.addAll(Arrays.asList(words));
         ArrayList<CardType> types = new ArrayList<>(Arrays.asList(PRESET));
         switch (startingPlayer)
         {
@@ -81,6 +83,7 @@ public class Board
         }
         Collections.shuffle(types);
 
+        //Add the cards to the set and array
         for (int i = 0; i < 5; i++)
         {
             int stride = i * 5;
@@ -133,6 +136,16 @@ public class Board
             //Fire card flipped event
             this.onFlip.invoke(card);
         }
+    }
+
+    /**
+     * Sees if the board contains a card with the given word
+     * @param word Word to look for
+     * @return True if the word is in the board, false otherwise
+     */
+    public boolean hasWord(String word)
+    {
+        return this.words.contains(word);
     }
     //endregion
 }

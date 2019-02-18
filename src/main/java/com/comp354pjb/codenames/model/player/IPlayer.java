@@ -5,15 +5,21 @@
  *
  * Contributors:
  * Benjamin Therrien
+ * Christophe Savard
  */
-package com.comp354pjb.codenames.model.player;
 
-import com.comp354pjb.codenames.model.Game;
+package com.comp354pjb.codenames.model.player;
 
 /**
  * Interface for the type of Player
  */
 public interface IPlayer
 {
-    void playTurn(Game game);
+    //region Methods
+    /**
+     * Plays a given player's turn
+     * @param player Player who's using this strategy
+     */
+    void playTurn(Player player);
+    //endregion
 }

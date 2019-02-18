@@ -6,6 +6,7 @@
  * Contributors:
  * Benjamin Therrien
  * Steven Zanga
+ * Christophe Savard
  */
 
 package com.comp354pjb.codenames.model.player;
@@ -20,44 +21,17 @@ import java.lang.*;
  */
 public class OperativeAI implements IPlayer
 {
-    private PlayerType teamColor;
-    private String name;
-
+    //region Methods
     /**
-     * initializes OperativeAI
-     * @param team is the team association for this player
+     * Plays the dumb Operative AI's turn
+     * Randomly determine which card to pick, checking that that card has not been revealed before it is chosen
+     * @param player The player to play this turn on
      */
-    public OperativeAI(PlayerType team)
-    {
-        if(team == PlayerType.BLUE)
-        {
-            name = "Blue Operative";
-        }
-        else
-        {
-            name = "Red Operative";
-        }
-        teamColor = team;
-    }
-
-    public String getName()
-    {
-        return name;
-    }
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-
     @Override
-    /**
-     * The following method uses a randomizer to determine which card to pick
-     * checking that that card has not been revealed before it is chosen
-     * @param the game in which this turn us being played
-     */
-    public void playTurn(Game game)
+    public void playTurn(Player player)
     {
-        game.setPhase(name);
+        Game game = player.game;
+        player.game.setPhase(player.teamName + " Operative");
         boolean isComplete = false;
         while (!isComplete)
         {
@@ -65,39 +39,40 @@ public class OperativeAI implements IPlayer
             Card card = game.getBoard().getCard(row, col);
             if (!card.isRevealed())
             {
+                //Reveal card
                 game.getBoard().revealCard(card);
-                //actions for revealing a civilian card
-                if(card.getType() == CardType.CIVILIAN)
+
+                //Take according actions
+                switch (card.getType())
                 {
-                    game.setGuessesLeft(0);
-                }
-                //actions for revealing an assassin card
-                else if(card.getType() == CardType.ASSASSIN)
-                {
-                    game.setGuessesLeft(0);
-                    game.setLoser(teamColor);
-                    game.setAssassinRevealed(true);
-                }
-                //actions for revealing a blue or red card
-                else if(card.getType() != teamColor.getCardType())
-                {
-                    if(teamColor == PlayerType.BLUE)
-                    {
+                    //Actions for revealing an assassin card
+                    case ASSASSIN:
+                        game.setLoser(player.team);
+                        game.setAssassinRevealed(true);
+                    //Actions for revealing a civilian card
+                    case CIVILIAN:
+                        game.setGuessesLeft(0);
+                        break;
+
+                    //Actions for revealing a red card
+                    case RED:
                         game.setRedCardsRevealed(game.getRedCardsRevealed() + 1);
                         game.setGuessesLeft(game.getGuessesLeft() - 1);
-                    }
-                    else
-                    {
+                        break;
+
+                    //Actions for revealing a red card
+                    case BLUE:
                         game.setBlueCardsRevealed(game.getBlueCardsRevealed() + 1);
                         game.setGuessesLeft(game.getGuessesLeft() - 1);
-                    }
+                        break;
+
                 }
                 isComplete = true;
             }
         }
     }
-
-    }
+    //endregion
+}
 
 
 

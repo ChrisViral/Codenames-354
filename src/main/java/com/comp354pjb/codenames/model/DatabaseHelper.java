@@ -11,7 +11,7 @@
 
 package com.comp354pjb.codenames.model;
 
-import com.comp354pjb.codenames.Utils;
+import com.comp354pjb.codenames.commander.Commander;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -20,21 +20,38 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class DatabaseHelper
+/**
+ * SQLite Database helper class, cannot be instantiated
+ */
+public final class DatabaseHelper
 {
+    //region Constants
     /**
      * SQLite Header ID
      */
     private static final String SQLITE_HEADER = "jdbc:sqlite:";
+    //endregion
 
+    //region Static fields
+    private static String[] database;
+    //endregion
+
+    //region Constructors
+    /**
+     * Prevents class instantiation
+     */
+    private DatabaseHelper() { }
+    //endregion
+
+    //region Static methods
     /**
      * get URL of Database
      * @return returns the header + absolute path to DB
      */
     private static String getURL()
     {
-        //get path to you current root directory, then appends db/codenames.db at the back, and
-        //jbdc:sqlite at the front to complete a correct
+        //Get path to you current root directory, then appends db/codenames.db at the back, and
+        //jdbc:sqlite at the front to complete a correct
         Path currentDir = Paths.get("db/codenames.db").toAbsolutePath();
         return SQLITE_HEADER + currentDir.toString();
     }
@@ -50,13 +67,13 @@ public class DatabaseHelper
         boolean success = true;
         try
         {
-            // create a connection to the database
+            //Create a connection to the database
             conn = DriverManager.getConnection(url);
-            System.out.println("Connection to SQLite has been established.");
+            Commander.log("Connection to SQLite has been established.");
         }
         catch (SQLException e)
         {
-            System.out.println(e.getMessage());
+            Commander.log(e.getMessage());
             e.printStackTrace();
             success = false;
         }
@@ -71,7 +88,7 @@ public class DatabaseHelper
             }
             catch (SQLException e)
             {
-                System.out.println(e.getMessage());
+                Commander.log(e.getMessage());
                 e.printStackTrace();
                 success = false;
             }
@@ -80,36 +97,51 @@ public class DatabaseHelper
     }
 
     /**
-     * fetch information from database. Specifically the words and hints.
-     * @return Words stored in DB
+     * Fetches information from database. Specifically the words and hints.
+     * The results from this operation are cached and will be returned again on next method call
+     * @return Words stored in the DB
      */
     public static String[] fetchDatabase()
     {
-        String url = getURL();
-        try (Connection conn = DriverManager.getConnection(url); Statement stmt = conn.createStatement())
+        //Only fetch the database if it isn't already cached
+        if (database == null)
         {
-            //getting the size of the array
-            ResultSet size = stmt.executeQuery("select count(wordValue) as size from word;");
-            String[] words = new String[size.getInt("size")];
-            //getting all the words in the database
-            ResultSet query = stmt.executeQuery("select * from word;");
-            int count = 0;
-            while (query.next())
+            String url = getURL();
+            try (Connection conn = DriverManager.getConnection(url); Statement stmt = conn.createStatement())
             {
-                words[count] = query.getString("wordValue");
-                count++;
+                //Getting the size of the array
+                ResultSet size = stmt.executeQuery("select count(wordValue) as size from word;");
+                database = new String[size.getInt("size")];
+                //Getting all the words in the database
+                ResultSet query = stmt.executeQuery("select * from word;");
+                int i = 0;
+                while (query.next())
+                {
+                    database[i++] = toCamelCase(query.getString("wordValue"));
+                }
             }
-            return words;
+            catch (SQLException e)
+            {
+                Commander.log(e.getMessage());
+                database = new String[0];
+            }
         }
-        catch (SQLException e)
-        {
-            System.out.println(e.getMessage());
-        }
-        return new String[0];
+        //Return the database
+        return database;
     }
 
     /**
-     * select 25 words to be created into cards, they are randomly selected.
+     * Returns a single random word from the database
+     * @return One word picked from the Database
+     */
+    public static String getRandomWord()
+    {
+        String[] database = fetchDatabase();
+        return database[(int)(Math.random() * database.length)];
+    }
+
+    /**
+     * Select 25 words to be created into cards, they are randomly selected.
      * @param n
      * @return selected words
      */
@@ -125,9 +157,27 @@ public class DatabaseHelper
         String[] result = new String[n];
         for (int i = 0; i < n; i++)
         {
-            String word = words.get(i);
-            result[i] = Utils.toCamelCase(word);
+            result[i] = words.get(i);
         }
         return result;
     }
+
+    /**
+     * Transforms any dash, underscore, or space separated string into a CamelCased string
+     * @param s String to transform
+     * @return  CamelCased string
+     */
+    public static String toCamelCase(String s)
+    {
+        //Split on dashes, underscores, or spaces
+        String[] splits = s.split("[-_ ]");
+        for (int i = 0; i < splits.length; i++)
+        {
+            String split = splits[i];
+            splits[i] = Character.toUpperCase(split.charAt(0)) + split.substring(1).toLowerCase();
+        }
+
+        return String.join(" ", splits);
+    }
+    //endregion
 }

@@ -81,6 +81,38 @@ public class Card
         this.isRevealed = false;
     }
     //endregion
+
+    //region Methods
+    /**
+     * Tests if a given object is a card equal to this one
+     * @param o Object to compare to
+     * @return  True if the object is a card equal to this one
+     */
+    @Override
+    public boolean equals(Object o)
+    {
+        return o instanceof Card && equals((Card)o);
+    }
+
+    /**
+     * Cards are considered equal if they have the same word on them
+     * @param card Card to compare to
+     * @return True if both cards are equal, false otherwise
+     */
+    public boolean equals(Card card)
+    {
+        return this.word.equals(card.word);
+    }
+
+    /**
+     * Hashcode of the card, returns the hashcode of it's word, as cards should be classed by word
+     * @return The hashcode of the word of this card
+     */
+    public int hashCode()
+    {
+        return this.word.hashCode();
+    }
+    //endregion
 }
 
 
