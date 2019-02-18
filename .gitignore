@@ -39,7 +39,6 @@ Thumbs.db
 .DS_STORE
 desktop.ini
 log.txt
-out/
 
 # IntelliJ
 # .idea/	# We actually need this to enforce code style
@@ -47,3 +46,7 @@ workspace.xml
 misc.xml
 .idea/dictionaries/
 .idea/inspectionProfiles/
+
+# LaTeX
+*.synctex.gz
+*.log
