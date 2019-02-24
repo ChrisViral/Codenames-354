@@ -32,8 +32,7 @@ public class OperativeAI implements IPlayer
     {
         Game game = player.game;
         player.game.setPhase(player.teamName + " Operative");
-        boolean isComplete = false;
-        while (!isComplete)
+        while (true)
         {
             int row = Game.RANDOM.nextInt(5), col = Game.RANDOM.nextInt(5);
             Card card = game.getBoard().getCard(row, col);
@@ -52,22 +51,23 @@ public class OperativeAI implements IPlayer
                     //Actions for revealing a civilian card
                     case CIVILIAN:
                         game.setGuessesLeft(0);
-                        break;
+                        return;
 
                     //Actions for revealing a red card
                     case RED:
                         game.setRedCardsRevealed(game.getRedCardsRevealed() + 1);
-                        game.setGuessesLeft(player.team != PlayerType.RED ? 0 : game.getGuessesLeft() - 1);
+//                        game.setGuessesLeft(player.team != PlayerType.RED ? 0 : game.getGuessesLeft() - 1);
                         break;
 
                     //Actions for revealing a red card
                     case BLUE:
                         game.setBlueCardsRevealed(game.getBlueCardsRevealed() + 1);
-                        game.setGuessesLeft(player.team != PlayerType.BLUE ? 0 : game.getGuessesLeft() - 1);
+//                        game.setGuessesLeft(player.team != PlayerType.BLUE ? 0 : game.getGuessesLeft() - 1);
                         break;
 
                 }
-                isComplete = true;
+                game.setGuessesLeft(player.team.getCardType() != card.getType() ? 0 : game.getGuessesLeft() - 1);
+                return;
             }
         }
     }
