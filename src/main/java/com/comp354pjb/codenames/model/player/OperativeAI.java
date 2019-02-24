@@ -57,13 +57,13 @@ public class OperativeAI implements IPlayer
                     //Actions for revealing a red card
                     case RED:
                         game.setRedCardsRevealed(game.getRedCardsRevealed() + 1);
-                        game.setGuessesLeft(game.getGuessesLeft() - 1);
+                        game.setGuessesLeft(player.team != PlayerType.RED ? 0 : game.getGuessesLeft() - 1);
                         break;
 
                     //Actions for revealing a red card
                     case BLUE:
                         game.setBlueCardsRevealed(game.getBlueCardsRevealed() + 1);
-                        game.setGuessesLeft(game.getGuessesLeft() - 1);
+                        game.setGuessesLeft(player.team != PlayerType.BLUE ? 0 : game.getGuessesLeft() - 1);
                         break;
 
                 }

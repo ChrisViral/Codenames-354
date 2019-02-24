@@ -31,7 +31,7 @@ public class SpyMasterAI implements IPlayer
         }
         while(player.game.getBoard().hasWord(hint));
         //Give out the clue
-        player.game.setCurrentClue(new Clue(DatabaseHelper.getRandomWord(), Game.RANDOM.nextInt(3) + 1));
+        player.game.setCurrentClue(new Clue(hint, Game.RANDOM.nextInt(3) + 1));
 
 
     }
