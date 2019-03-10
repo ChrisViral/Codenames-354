@@ -27,7 +27,7 @@ public class SpyMasterAI implements IPlayer
         String hint;
         do
         {
-            hint = DatabaseHelper.getRandomWord();
+            hint = DatabaseHelper.getRandomClue();
         }
         while(player.game.getBoard().hasWord(hint));
         //Give out the clue

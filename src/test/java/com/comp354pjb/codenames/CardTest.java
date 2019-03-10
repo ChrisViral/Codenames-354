@@ -54,7 +54,7 @@ public class CardTest {
         CardType type = getRandomCardType();
         row = RAND.nextInt(5);
         col = RAND.nextInt(5);
-        String word = DatabaseHelper.getRandomWord();
+        String word = DatabaseHelper.getRandomCodename();
 
         return new Card(word, type, row, col);
     }

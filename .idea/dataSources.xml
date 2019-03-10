@@ -1,20 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="codenames" uuid="4d98e7ea-c270-41e3-85f0-3543b9b77a66">
+    <data-source source="LOCAL" name="codenames" uuid="0b5e3426-7af1-40d4-9e33-7027d3ee98a4">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\Benjamin Therien\Documents\github\Codenames-354\db\codenames.db</jdbc-url>
-      <driver-properties>
-        <property name="enable_load_extension" value="true" />
-      </driver-properties>
-    </data-source>
-    <data-source source="LOCAL" name="codenames [2]" uuid="c61bb48e-7156-4ee7-9b6f-c384a0734c61">
-      <driver-ref>sqlite.xerial</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:D:\Chris\Documents\Repositories\Codenames-354\db\codenames.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/out/db/codenames.db</jdbc-url>
       <driver-properties>
         <property name="enable_load_extension" value="true" />
       </driver-properties>
