@@ -16,9 +16,6 @@ import com.comp354pjb.codenames.commander.Commander;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.*;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * SQLite Database helper class, cannot be instantiated
@@ -176,6 +173,38 @@ public final class DatabaseHelper
     {
         String query = String.format("SELECT codename FROM Suggest WHERE clue='%s'", clue);
         return runSingleValQuery(query, "codename");
+    }
+
+    public static boolean addGameToStats(String redTeam, String blueTeam, int numOfRounds, String winner, boolean assassinRevealed, int civilianRevealed, int redTilesRevealed, int blueTilesRevealed)
+    {
+        String url = getURL();
+        //raw sql
+        String sql = "INSERT INTO GameHistory(blueTeamName, redTeamName, numberOfRounds, winner, civilianRevealed, assassinRevealed, redTilesRevealed, blueTilesRevealed) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = DriverManager.getConnection(url); PreparedStatement stmt = conn.prepareStatement(sql))
+        {
+            //Prepare the statement
+            stmt.setString(1, blueTeam);
+            stmt.setString(2, redTeam);
+            stmt.setInt(3, numOfRounds);
+            stmt.setString(4, winner);
+            stmt.setInt(5, civilianRevealed);
+            stmt.setBoolean(6, assassinRevealed);
+            stmt.setInt(7, redTilesRevealed);
+            stmt.setInt(8, blueTilesRevealed);
+
+            //Execute
+            stmt.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            //False if there's an error
+            Commander.log(e.getMessage());
+            return false;
+        }
+
+        //True if it worked.
+        return true;
     }
 
 
