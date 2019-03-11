@@ -16,9 +16,6 @@ import com.comp354pjb.codenames.commander.Commander;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.*;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * SQLite Database helper class, cannot be instantiated
@@ -32,10 +29,6 @@ public final class DatabaseHelper
     private static final String SQLITE_HEADER = "jdbc:sqlite:";
     //endregion
 
-    //region Static fields
-    private static String[] database;
-    //endregion
-
     //region Constructors
     /**
      * Prevents class instantiation
@@ -44,6 +37,7 @@ public final class DatabaseHelper
     //endregion
 
     //region Static methods
+    //region Support methods
     /**
      * get URL of Database
      * @return returns the header + absolute path to DB
@@ -97,70 +91,122 @@ public final class DatabaseHelper
     }
 
     /**
-     * Fetches information from database. Specifically the words and hints.
-     * The results from this operation are cached and will be returned again on next method call
+     * Run queries that return an array of a single value.
+     * @param  q The query you want to run on the database. Expected to be in SQLite3.
+     * @param  colName The name of the column you're accessing.
      * @return Words stored in the DB
      */
-    public static String[] fetchDatabase()
+    public static String[] runSingleValQuery(String q, String colName)
     {
-        //Only fetch the database if it isn't already cached
-        if (database == null)
+        String url = getURL();
+        String[] toReturn;
+
+        try (Connection conn = DriverManager.getConnection(url); Statement stmt = conn.createStatement())
         {
-            String url = getURL();
-            try (Connection conn = DriverManager.getConnection(url); Statement stmt = conn.createStatement())
+            //Getting the size of the array
+            ResultSet size = stmt.executeQuery("select count(*) as size from ("+q+");");
+            toReturn = new String[size.getInt("size")];
+            //Getting all the words in the database
+            ResultSet query = stmt.executeQuery(q+";");
+            int i = 0;
+            while (query.next())
             {
-                //Getting the size of the array
-                ResultSet size = stmt.executeQuery("select count(wordValue) as size from word;");
-                database = new String[size.getInt("size")];
-                //Getting all the words in the database
-                ResultSet query = stmt.executeQuery("select * from word;");
-                int i = 0;
-                while (query.next())
-                {
-                    database[i++] = toCamelCase(query.getString("wordValue"));
-                }
+                toReturn[i++] = toCamelCase(query.getString(colName));
             }
-            catch (SQLException e)
-            {
-                Commander.log(e.getMessage());
-                database = new String[0];
-            }
+        }
+        catch (SQLException e)
+        {
+            Commander.log(e.getMessage());
+            toReturn = new String[0];
         }
         //Return the database
-        return database;
+        return toReturn;
     }
+    //endregion
 
     /**
-     * Returns a single random word from the database
+     * Returns a single random codename from the database
      * @return One word picked from the Database
      */
-    public static String getRandomWord()
+    public static String getRandomCodename()
     {
-        String[] database = fetchDatabase();
-        return database[(int)(Math.random() * database.length)];
+        return runSingleValQuery("SELECT * FROM Codenames ORDER BY Random() LIMIT 1", "Codename")[0];
     }
 
     /**
-     * Select 25 words to be created into cards, they are randomly selected.
-     * @param n
+     * Returns n codenames to be created into cards, they are randomly selected.
+     * @param n the number of codenames you want.
      * @return selected words
      */
-    public static String[] selectWords(int n)
+    public static String[] getRandomCodenames(int n)
     {
-        List<String> words = Arrays.asList(fetchDatabase());
-        if (words.size() < n)
+        String query = String.format("SELECT * FROM Codenames ORDER BY Random() LIMIT %d", n);
+        return runSingleValQuery(query, "Codename");
+    }
+
+    /**
+     * Returns a single random clue from the database
+     * @return One word picked from the Database
+     */
+    public static String getRandomClue()
+    {
+        return runSingleValQuery("SELECT * FROM Clues ORDER BY Random() LIMIT 1", "Clue")[0];
+    }
+
+    /**
+     * Returns all of the clues for a given codename.
+     * @param codename the codename you want the clues to.
+     * @return related clues.
+     */
+    public static String[] getCluesForCodename(String codename)
+    {
+        String query = String.format("SELECT clue FROM Suggest WHERE codename='%s'", codename);
+        return runSingleValQuery(query, "clue");
+    }
+
+    /**
+     * Returns all of the codenames for a given clue.
+     * @param clue Clue to test against
+     * @return related codenames.
+     */
+    public static String[] getCodenamesForClue(String clue)
+    {
+        String query = String.format("SELECT codename FROM Suggest WHERE clue='%s'", clue);
+        return runSingleValQuery(query, "codename");
+    }
+
+    public static boolean addGameToStats(String redTeam, String blueTeam, int numOfRounds, String winner, boolean assassinRevealed, int civilianRevealed, int redTilesRevealed, int blueTilesRevealed)
+    {
+        String url = getURL();
+        //raw sql
+        String sql = "INSERT INTO GameHistory(blueTeamName, redTeamName, numberOfRounds, winner, civilianRevealed, assassinRevealed, redTilesRevealed, blueTilesRevealed) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = DriverManager.getConnection(url); PreparedStatement stmt = conn.prepareStatement(sql))
         {
-            return new String[0];
+            //Prepare the statement
+            stmt.setString(1, blueTeam);
+            stmt.setString(2, redTeam);
+            stmt.setInt(3, numOfRounds);
+            stmt.setString(4, winner);
+            stmt.setInt(5, civilianRevealed);
+            stmt.setBoolean(6, assassinRevealed);
+            stmt.setInt(7, redTilesRevealed);
+            stmt.setInt(8, blueTilesRevealed);
+
+            //Execute
+            stmt.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            //False if there's an error
+            Commander.log(e.getMessage());
+            return false;
         }
 
-        Collections.shuffle(words);
-        String[] result = new String[n];
-        for (int i = 0; i < n; i++)
-        {
-            result[i] = words.get(i);
-        }
-        return result;
+        //True if it worked.
+        return true;
     }
+
 
     /**
      * Transforms any dash, underscore, or space separated string into a CamelCased string

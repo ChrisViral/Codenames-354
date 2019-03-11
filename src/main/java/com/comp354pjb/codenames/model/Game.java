@@ -174,7 +174,7 @@ public class Game
     public Game()
     {
         chooseStartingPlayer();
-        this.board = new Board(DatabaseHelper.selectWords(25), this.startTeam);
+        this.board = new Board(DatabaseHelper.getRandomCodenames(25), this.startTeam);
     }
     //endregion
 

@@ -24,9 +24,10 @@ public class DatabaseHelperTest
         assertTrue(DatabaseHelper.checkConnection());
     }
 
-    @Test
-    public void getWordsShouldReturnAllWords()
-    {
-        assertEquals(260, DatabaseHelper.fetchDatabase().length);
-    }
+    //TODO: Replace this test
+//    @Test
+//    public void getWordsShouldReturnAllWords()
+//    {
+//        assertEquals(260, DatabaseHelper.fetchDatabase().length);
+//    }
 }

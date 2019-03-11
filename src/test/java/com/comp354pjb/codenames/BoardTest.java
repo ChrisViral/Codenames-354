@@ -25,13 +25,13 @@ public class BoardTest
 
     @Test(expected = ArrayIndexOutOfBoundsException.class)
     public void createCardsShouldNotAcceptSmallArray() {
-        String[] words = DatabaseHelper.selectWords(RAND.nextInt(24));
+        String[] words = DatabaseHelper.getRandomCodenames(RAND.nextInt(24));
         Card[][] cards = Board.createCards(words, getRandomPlayerType(), new HashSet<>());
     }
 
     @Test(expected = ArrayIndexOutOfBoundsException.class)
     public void revealAtShouldNotAcceptBadCoords() {
-        Board board = new Board(DatabaseHelper.selectWords(25), getRandomPlayerType());
+        Board board = new Board(DatabaseHelper.getRandomCodenames(25), getRandomPlayerType());
 
         // valid indices
         int x = RAND.nextInt(5);
@@ -53,7 +53,7 @@ public class BoardTest
 
     @Test
     public void boardShouldNotContainNullOrEmpty() {
-        Board board = new Board(DatabaseHelper.selectWords(25), getRandomPlayerType());
+        Board board = new Board(DatabaseHelper.getRandomCodenames(25), getRandomPlayerType());
         assertFalse(board.hasWord(null));
         assertFalse(board.hasWord(""));
     }
