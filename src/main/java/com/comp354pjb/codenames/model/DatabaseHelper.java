@@ -7,6 +7,7 @@
  * Benjamin Therrien
  * Steven Zanga
  * Christophe Savard
+ * Mordechai Zirkind
  */
 
 package com.comp354pjb.codenames.model;
