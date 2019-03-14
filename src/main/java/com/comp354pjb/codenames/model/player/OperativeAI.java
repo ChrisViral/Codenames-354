@@ -32,42 +32,13 @@ public class OperativeAI implements IPlayer
     {
         Game game = player.game;
         player.game.setPhase(player.teamName + " Operative");
-        while (true)
-        {
+        while(true) {
             int row = Game.RANDOM.nextInt(5), col = Game.RANDOM.nextInt(5);
             Card card = game.getBoard().getCard(row, col);
-            if (!card.isRevealed())
-            {
+            if (!card.isRevealed()) {
                 //Reveal card
-                game.getBoard().revealCard(card);
-
-                //Take according actions
-                switch (card.getType())
-                {
-                    //Actions for revealing an assassin card
-                    case ASSASSIN:
-                        game.setLoser(player.team);
-                        game.setAssassinRevealed(true);
-                    //Actions for revealing a civilian card
-                    case CIVILIAN:
-                        game.setGuessesLeft(0);
-                        return;
-
-                    //Actions for revealing a red card
-                    case RED:
-                        game.setRedCardsRevealed(game.getRedCardsRevealed() + 1);
-//                        game.setGuessesLeft(player.team != PlayerType.RED ? 0 : game.getGuessesLeft() - 1);
-                        break;
-
-                    //Actions for revealing a red card
-                    case BLUE:
-                        game.setBlueCardsRevealed(game.getBlueCardsRevealed() + 1);
-//                        game.setGuessesLeft(player.team != PlayerType.BLUE ? 0 : game.getGuessesLeft() - 1);
-                        break;
-
-                }
-                game.setGuessesLeft(player.team.getCardType() != card.getType() ? 0 : game.getGuessesLeft() - 1);
-                return;
+                game.revealCard(card);
+                break;
             }
         }
     }

@@ -148,4 +148,18 @@ public class Board
         return this.words.contains(word);
     }
     //endregion
+
+    public ArrayList<Card>getCards()
+    {
+        ArrayList<Card> cards = new ArrayList<>();
+        for(int i = 0; i < 5; i++)
+        {
+            for(int j = 0; j < 5; j++)
+            {
+                Card card = getCard(i, j);
+                cards.add(card);
+            }
+        }
+        return cards;
+    }
 }
