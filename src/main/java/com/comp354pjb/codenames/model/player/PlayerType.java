@@ -53,4 +53,27 @@ public enum PlayerType
         this.camelCasedName = DatabaseHelper.toCamelCase(name());
     }
     //endregion
+
+    //region Static methods
+    /**
+     * Parses a char value to the corresponding CardType member
+     * @param name Name of the team to parse
+     * @throws EnumConstantNotPresentException If the supplied team name is invalid
+     * @return The corresponding PlayerType
+     */
+    public static PlayerType parse(String name)
+    {
+        //Switch over the parameter, case insensitive
+        switch(name.toUpperCase())
+        {
+            case "RED":
+                return RED;
+            case "BLUE":
+                return BLUE;
+        }
+
+        //If nothing is found, throw
+        throw new EnumConstantNotPresentException(CardType.class, name);
+    }
+    //endregion
 }
