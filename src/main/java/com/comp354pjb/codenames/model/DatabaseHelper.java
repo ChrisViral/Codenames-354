@@ -176,6 +176,10 @@ public final class DatabaseHelper
         return runSingleValQuery(query, "codename");
     }
 
+    /**
+     * Function to give the board layout.
+     * @return An array of strings of length two. The first is effectively a char either R or B representing the first team. The second is a string of the chars CARB of length 25 each representing one card on the board.
+     */
     public static String[] getBoardLayout() {
 
         String url = getURL();
