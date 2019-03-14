@@ -66,9 +66,9 @@ public enum PlayerType
         //Switch over the parameter, case insensitive
         switch(name.toUpperCase())
         {
-            case "RED":
+            case "R":
                 return RED;
-            case "BLUE":
+            case "B":
                 return BLUE;
         }
 
