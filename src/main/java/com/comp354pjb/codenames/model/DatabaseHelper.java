@@ -176,6 +176,33 @@ public final class DatabaseHelper
         return runSingleValQuery(query, "codename");
     }
 
+    public static String[] getBoardLayout() {
+
+        String url = getURL();
+        String[] toReturn;
+
+        try (Connection conn = DriverManager.getConnection(url); Statement stmt = conn.createStatement())
+        {
+            //Getting the size of the array
+            toReturn = new String[2];
+            //Getting all the words in the database
+            ResultSet query = stmt.executeQuery("SELECT firstTeam, layout FROM BoardLayouts ORDER BY random() LIMIT 1;");
+            int i = 0;
+            while (query.next())
+            {
+                toReturn[0] = query.getString("firstTeam");
+                toReturn[1] = query.getString("layout");
+            }
+        }
+        catch (SQLException e)
+        {
+            Commander.log(e.getMessage());
+            toReturn = new String[0];
+        }
+        //Return the database
+        return toReturn;
+    }
+
     public static boolean addGameToStats(String redTeam, String blueTeam, int numOfRounds, String winner, boolean assassinRevealed, int civilianRevealed, int redTilesRevealed, int blueTilesRevealed)
     {
         String url = getURL();
