@@ -6,9 +6,14 @@
  * Contributors:
  * Steven Zanga
  * Benjamin Therrien
+ * Michael Wilgus
  */
 
 package com.comp354pjb.codenames.model.board;
+
+import com.comp354pjb.codenames.model.player.Clue;
+
+import java.util.HashSet;
 
 public class Card
 {
@@ -64,6 +69,12 @@ public class Card
     }
     //endregion
 
+    public HashSet<String> clues;
+
+    public HashSet<String> getClues() { return clues; }
+
+    public boolean addClue(String clue) { return clues.add(clue); }
+
     //region Constructors
     /**
      * Card Parameterized Constructor
@@ -79,6 +90,7 @@ public class Card
         this.x = x;
         this.y = y;
         this.isRevealed = false;
+        this.clues = new HashSet<>();
     }
     //endregion
 

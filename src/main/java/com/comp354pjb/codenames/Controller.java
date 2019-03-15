@@ -14,7 +14,6 @@ import com.comp354pjb.codenames.model.board.Board;
 import com.comp354pjb.codenames.model.board.Card;
 import com.comp354pjb.codenames.model.Game;
 import com.comp354pjb.codenames.model.player.Clue;
-import com.comp354pjb.codenames.model.player.PlayerType;
 import com.comp354pjb.codenames.observer.events.*;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

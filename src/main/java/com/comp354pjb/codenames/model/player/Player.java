@@ -58,5 +58,10 @@ public class Player
     {
         this.strategy.playTurn(this);
     }
+
+    public PlayerType getTeam()
+    {
+        return team;
+    }
     //endregion
 }
