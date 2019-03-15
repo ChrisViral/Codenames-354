@@ -7,6 +7,7 @@
  * Benjamin Therrien
  * Steven Zanga
  * Christophe Savard
+ * Michael Wilgus
  */
 
 package com.comp354pjb.codenames.model.player;

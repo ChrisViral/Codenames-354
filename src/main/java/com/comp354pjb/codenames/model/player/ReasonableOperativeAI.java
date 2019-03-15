@@ -1,3 +1,12 @@
+/*
+ * ReasonableOperativeAI.java
+ * Created by: Michael Wilgus
+ * Created on: 14/03/19
+ *
+ * Contributors:
+ * Michael Wilgus
+ */
+
 package com.comp354pjb.codenames.model.player;
 
 import com.comp354pjb.codenames.model.Game;
@@ -18,9 +27,9 @@ public class ReasonableOperativeAI implements IPlayer {
         player.game.setPhase(player.teamName + " Operative");
         Clue clue = game.getCurrentClue();
         ArrayList<Card> cards = clue.getCards();
-        int i = 0;
+        int i = Game.RANDOM.nextInt(cards.size());
         int x = cards.get(i).getX();
-        int y = cards.get(i++).getY();
+        int y = cards.get(i).getY();
         Card card = game.getBoard().getCard(x, y);
         game.revealCard(card);
     }

@@ -7,6 +7,7 @@
  * Benjamin Therrien
  * Steven Zanga
  * Christophe Savard
+ * Michael Wilgus
  */
 
 package com.comp354pjb.codenames.model.board;
@@ -149,6 +150,10 @@ public class Board
     }
     //endregion
 
+    /**
+     * TODO
+     * @return
+     */
     public ArrayList<Card>getCards()
     {
         ArrayList<Card> cards = new ArrayList<>();

@@ -1,6 +1,16 @@
+/*
+ * SafeSpyMasterAI.java
+ * Created by: Michael Wilgus
+ * Created on: 12/03/19
+ *
+ * Contributors:
+ * Michael Wilgus
+ */
+
 package com.comp354pjb.codenames.model.player;
 
-import java.util.ArrayList;
+import com.comp354pjb.codenames.model.SuggestionGraph;
+
 import java.util.Comparator;
 
 public class SafeSpyMasterAI implements IPlayer {
@@ -40,7 +50,7 @@ public class SafeSpyMasterAI implements IPlayer {
     public void playTurn(Player player) {
         player.game.setPhase(player.teamName + " SpyMaster");
 
-        SuggestionMap map = player.game.getSuggestionMap();
+        SuggestionGraph map = player.game.getSuggestionMap();
 
         ClueComparator comparator = new ClueComparator(player.team);
 
@@ -54,7 +64,7 @@ public class SafeSpyMasterAI implements IPlayer {
         {
             guesses = clue.blueSuggested - (clue.redSuggested + clue.civilianSuggested + (clue.assassinSuggested ? 1 : 0));
         }
-        clue.value = Math.max(guesses, 0);
+        clue.value = Math.max(guesses, 1);
         player.game.setCurrentClue(clue);
     }
 }

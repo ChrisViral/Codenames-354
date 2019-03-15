@@ -1,4 +1,15 @@
+/*
+ * RiskySpyMasterAI.java
+ * Created by: Michael Wilgus
+ * Created on: 14/03/19
+ *
+ * Contributors:
+ * Michael Wilgus
+ */
+
 package com.comp354pjb.codenames.model.player;
+
+import com.comp354pjb.codenames.model.SuggestionGraph;
 
 import java.util.Comparator;
 
@@ -34,7 +45,7 @@ public class RiskySpyMasterAI implements IPlayer {
     public void playTurn(Player player) {
         player.game.setPhase(player.teamName + " SpyMaster");
 
-        SuggestionMap map = player.game.getSuggestionMap();
+        SuggestionGraph map = player.game.getSuggestionMap();
 
         RiskySpyMasterAI.ClueComparator comparator = new RiskySpyMasterAI.ClueComparator(player.team);
 

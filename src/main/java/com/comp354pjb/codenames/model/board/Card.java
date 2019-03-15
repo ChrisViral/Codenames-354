@@ -6,6 +6,7 @@
  * Contributors:
  * Steven Zanga
  * Benjamin Therrien
+ * Michael Wilgus
  */
 
 package com.comp354pjb.codenames.model.board;

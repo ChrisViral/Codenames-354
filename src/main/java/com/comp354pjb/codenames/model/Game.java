@@ -7,6 +7,7 @@
  * Steven Zanga
  * Benjamin Therien
  * Christophe Savard
+ * Michael Wilgus
  */
 
 package com.comp354pjb.codenames.model;
@@ -71,58 +72,12 @@ public class Game
 
     private Player currentPlayer;
 
-    public Player getCurrentPlayer()
-    {
-        return currentPlayer;
-    }
-
+    //score keeping members
     private int guessesLeft;
-    /**
-     * The amount of guesses left
-     */
-    public int getGuessesLeft()
-    {
-        return this.guessesLeft;
-    }
-    /**
-     * Sets the amount of guesses left
-     */
-    public void setGuessesLeft(int guessesLeft)
-    {
-        this.guessesLeft = guessesLeft;
-    }
 
     private int redCardsRevealed;
-    /**
-     * Gets the amount of red cards revealed
-     */
-    public int getRedCardsRevealed()
-    {
-        return this.redCardsRevealed;
-    }
-    /**
-     * Sets the amount of red cards revealed
-     */
-    public void setRedCardsRevealed(int redCardsRevealed)
-    {
-        this.redCardsRevealed = redCardsRevealed;
-    }
 
     private int blueCardsRevealed;
-    /**
-     * Gets the amount of blue cards revealed
-     */
-    public int getBlueCardsRevealed()
-    {
-        return this.blueCardsRevealed;
-    }
-    /**
-     * Sets the amount of blue cards revealed
-     */
-    public void setBlueCardsRevealed(int blueCardsRevealed)
-    {
-        this.blueCardsRevealed = blueCardsRevealed;
-    }
 
     private boolean assassinRevealed;
     /**
@@ -174,11 +129,14 @@ public class Game
         }
     }
 
-    private SuggestionMap map;
-
-    public SuggestionMap getSuggestionMap()
+    private SuggestionGraph graph;
+    /**
+     *
+     * @return
+     */
+    public SuggestionGraph getSuggestionMap()
     {
-        return map;
+        return graph;
     }
     //endregion
 
@@ -190,7 +148,7 @@ public class Game
     {
         chooseStartingPlayer();
         this.board = new Board(DatabaseHelper.getRandomCodenames(25), this.startTeam);
-        this.map = createSuggestionMap();
+        this.graph = createSuggestionMap();
     }
     //endregion
 
@@ -214,10 +172,10 @@ public class Game
 
         Commander.log(this.startTeam.niceName() + " Team will start, which means they must guess 9 cards");
         Commander.log(second.niceName() + " Team will go second, which means they must guess 8 cards");
-        this.players.add(new Player(this, this.startTeam, new RiskySpyMasterAI()));
+        this.players.add(new SpyMaster(this, this.startTeam, new RiskySpyMasterAI()));
         this.players.add(new Player(this, this.startTeam, new ReasonableOperativeAI()));
-        this.players.add(new Player(this, second, new SpyMasterAI()));
-        this.players.add(new Player(this, second, new OperativeAI()));
+        this.players.add(new SpyMaster(this, second, new SafeSpyMasterAI()));
+        this.players.add(new Player(this, second, new ReasonableOperativeAI()));
     }
 
     /**
@@ -266,14 +224,13 @@ public class Game
     public void enterNextGameTurn()
     {
         //Play the current player's turn
-        Player current = this.players.get(this.playerIndex);
-        this.currentPlayer = current;
+        this.currentPlayer = this.players.get(this.playerIndex);
 
-        current.play();
+        this.currentPlayer.play();
 
         //If a SpyMaster, pass the next turn to the Operative
         //If an Operative, pass the next turn only if you have no more guesses
-        if (current.getStrategy() instanceof SpyMasterAI || current.getStrategy() instanceof SafeSpyMasterAI || current.getStrategy() instanceof RiskySpyMasterAI || this.guessesLeft == 0)
+        if (this.currentPlayer.getClass().equals(SpyMaster.class) || this.guessesLeft == 0)
         {
             this.playerIndex = (this.playerIndex + 1) % this.players.size();
 
@@ -303,10 +260,14 @@ public class Game
         this.onClueGiven.invoke(clue);
     }
 
+    /**
+     * Reveal a card on this games board
+     * @param card The card to reveal
+     */
     public void revealCard(Card card)
     {
         this.board.revealCard(card);
-        this.map.pickCard(card.getWord());
+        this.graph.pickCard(card.getWord());
 
         switch (card.getType()) {
             //Actions for revealing an assassin card
@@ -315,24 +276,22 @@ public class Game
                 this.setAssassinRevealed(true);
                 //Actions for revealing a civilian card
             case CIVILIAN:
-                this.setGuessesLeft(0);
+                this.guessesLeft = 0;
                 return;
 
             //Actions for revealing a red card
             case RED:
-                this.setRedCardsRevealed(this.getRedCardsRevealed() + 1);
-//                        game.setGuessesLeft(player.team != PlayerType.RED ? 0 : game.getGuessesLeft() - 1);
+                this.redCardsRevealed++;
                 break;
 
             //Actions for revealing a red card
             case BLUE:
-                this.setBlueCardsRevealed(this.getBlueCardsRevealed() + 1);
-//                        game.setGuessesLeft(player.team != PlayerType.BLUE ? 0 : game.getGuessesLeft() - 1);
+                this.blueCardsRevealed++;
                 break;
 
         }
         //Take according actions
-        this.setGuessesLeft(this.currentPlayer.getTeam().getCardType() != card.getType() ? 0 : this.getGuessesLeft() - 1);
+        this.guessesLeft = (this.currentPlayer.getTeam().getCardType().equals(card.getType())) ? this.guessesLeft - 1 : 0;
     }
 
     /**
@@ -345,7 +304,9 @@ public class Game
     }
     //endregion
 
-    private SuggestionMap createSuggestionMap()
+    //region Helpers
+    //
+    private SuggestionGraph createSuggestionMap()
     {
         ArrayList<Card> names = board.getCards();
         for(Card c : names)
@@ -372,6 +333,7 @@ public class Game
             }
         }
 
-        return new SuggestionMap(clues, cards);
+        return new SuggestionGraph(clues, cards);
     }
+    //endregion
 }

@@ -6,6 +6,7 @@
  * Contributors:
  * Benjamin Therrien
  * Christophe Savard
+ * Michael Wilgus
  */
 
 package com.comp354pjb.codenames.model.player;
