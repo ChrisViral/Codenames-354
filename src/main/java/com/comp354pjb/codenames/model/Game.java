@@ -71,6 +71,7 @@ public class Game
     }
 
     private Player currentPlayer;
+    public void setCurrentPlayer(Player player) { this.currentPlayer = player; }
 
     //score keeping members
     private int guessesLeft;
