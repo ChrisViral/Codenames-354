@@ -147,29 +147,22 @@ public class Game
      */
     public Game()
     {
-        chooseStartingPlayer();
-        this.board = new Board(DatabaseHelper.getRandomCodenames(25), this.startTeam);
+        String[] setup = DatabaseHelper.getBoardLayout();
+        setPlayers(setup[0]);
+        this.board = new Board(DatabaseHelper.getRandomCodenames(25), setup[1]);
         this.graph = createSuggestionMap();
     }
     //endregion
 
     //region Methods
     /**
-     * Decides starting team and creates the necessary players for the game
+     * Sets the starting player for the game and initializes the AIs correctly
+     * @param startingPlayer Starting team name
      */
-    private void chooseStartingPlayer()
+    private void setPlayers(String startingPlayer)
     {
-        PlayerType second;
-        if (RANDOM.nextBoolean())
-        {
-            this.startTeam = PlayerType.BLUE;
-            second = PlayerType.RED;
-        }
-        else
-        {
-            this.startTeam = PlayerType.RED;
-            second = PlayerType.BLUE;
-        }
+        this.startTeam = PlayerType.parse(startingPlayer);
+        PlayerType second = this.startTeam == PlayerType.RED ? PlayerType.BLUE : PlayerType.RED;
 
         Commander.log(this.startTeam.niceName() + " Team will start, which means they must guess 9 cards");
         Commander.log(second.niceName() + " Team will go second, which means they must guess 8 cards");
