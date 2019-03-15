@@ -145,10 +145,10 @@ public class Game
     /**
      * Creates a new Game object and correctly sets up the board and cards, as well as players
      */
-    public Game()
+    public Game(PlayerStrategy strats[])
     {
         String[] setup = DatabaseHelper.getBoardLayout();
-        setPlayers(setup[0]);
+        setPlayers(setup[0], strats);
         this.board = new Board(DatabaseHelper.getRandomCodenames(25), setup[1]);
         this.graph = createSuggestionMap();
     }
@@ -159,17 +159,37 @@ public class Game
      * Sets the starting player for the game and initializes the AIs correctly
      * @param startingPlayer Starting team name
      */
-    private void setPlayers(String startingPlayer)
+    private void setPlayers(String startingPlayer, PlayerStrategy strats[])
     {
+        if ((strats[0] == (PlayerStrategy.DUMB)
+                || (strats[0] == PlayerStrategy.SMART)))
+            System.out.println("WORKS!");
+
         this.startTeam = PlayerType.parse(startingPlayer);
         PlayerType second = this.startTeam == PlayerType.RED ? PlayerType.BLUE : PlayerType.RED;
 
+        //Rearranging AI according to who starts first
+        PlayerStrategy confirmedStrategyOrder[] = new PlayerStrategy[4];
+        confirmedStrategyOrder = strats;
+
+        if (this.startTeam != PlayerType.RED)
+        {
+            confirmedStrategyOrder[0] = strats[2];
+            confirmedStrategyOrder[1] = strats[3];
+            confirmedStrategyOrder[2] = strats[0];
+            confirmedStrategyOrder[3] = strats[1];
+        }
+
+        if ((confirmedStrategyOrder[0] == (PlayerStrategy.DUMB)
+                || (confirmedStrategyOrder[0] == PlayerStrategy.SMART)))
+            System.out.println("WORKS!");
+
         Commander.log(this.startTeam.niceName() + " Team will start, which means they must guess 9 cards");
         Commander.log(second.niceName() + " Team will go second, which means they must guess 8 cards");
-        this.players.add(new SpyMaster(this, this.startTeam, new RiskySpyMasterAI()));
-        this.players.add(new Player(this, this.startTeam, new ReasonableOperativeAI()));
-        this.players.add(new SpyMaster(this, second, new SafeSpyMasterAI()));
-        this.players.add(new Player(this, second, new ReasonableOperativeAI()));
+        this.players.add(new SpyMaster(this, this.startTeam, new RiskySpyMasterAI(), confirmedStrategyOrder[0]));
+        this.players.add(new Player(this, this.startTeam, new ReasonableOperativeAI(), confirmedStrategyOrder[1]));
+        this.players.add(new SpyMaster(this, second, new SafeSpyMasterAI(), confirmedStrategyOrder[2]));
+        this.players.add(new Player(this, second, new ReasonableOperativeAI(), confirmedStrategyOrder[3]));
     }
 
     /**

@@ -10,6 +10,7 @@
 package com.comp354pjb.codenames;
 
 import com.comp354pjb.codenames.model.Game;
+import com.comp354pjb.codenames.model.player.PlayerStrategy;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
@@ -18,7 +19,8 @@ public class GameTest {
     @Test
     public void PickingAssassinShouldEndTheGame()
     {
-        Game game = new Game();
+        PlayerStrategy strats[] = {PlayerStrategy.DUMB, PlayerStrategy.DUMB, PlayerStrategy.DUMB, PlayerStrategy.DUMB};
+        Game game = new Game(strats);
         game.setAssassinRevealed(true);
         assertTrue(game.checkWinner());
     }

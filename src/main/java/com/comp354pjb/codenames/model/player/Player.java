@@ -23,6 +23,18 @@ public class Player
     //endregion
 
     //region Properties
+    protected final PlayerStrategy playerStrategy;
+    /**
+     * Gets the strategy associated to this player
+     * @return The currently used Strategy
+     */
+    public PlayerStrategy getPlayerStrategy()
+    {
+        return this.playerStrategy;
+    }
+    //endregion
+
+    //region Properties
     protected final IPlayer strategy;
     /**
      * Gets the strategy associated to this player
@@ -41,12 +53,13 @@ public class Player
      * @param team     Team this player is on
      * @param strategy Strategy and type of player
      */
-    public Player(Game game, PlayerType team, IPlayer strategy)
+    public Player(Game game, PlayerType team, IPlayer strategy, PlayerStrategy playerStrategy)
     {
         this.game = game;
         this.team = team;
         this.strategy = strategy;
         this.teamName = this.team.niceName();
+        this.playerStrategy = playerStrategy;
     }
     //endregion
 

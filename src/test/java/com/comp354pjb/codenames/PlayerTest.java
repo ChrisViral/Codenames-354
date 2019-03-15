@@ -14,6 +14,7 @@ import com.comp354pjb.codenames.model.board.Board;
 import com.comp354pjb.codenames.model.player.OperativeAI;
 import com.comp354pjb.codenames.model.player.Player;
 import com.comp354pjb.codenames.model.player.PlayerType;
+import com.comp354pjb.codenames.model.player.PlayerStrategy;
 
 import org.junit.Test;
 import static org.junit.Assert.assertThat;
@@ -27,8 +28,9 @@ public class PlayerTest {
 
     @Test
     public void operativePlayTurnShouldRevealACard() {
-        Game game = new Game();
-        Player player = new Player(game, PlayerType.RED, new OperativeAI());
+        PlayerStrategy strats[] = {PlayerStrategy.SMART, PlayerStrategy.SMART, PlayerStrategy.SMART, PlayerStrategy.SMART};
+        Game game = new Game(strats);
+        Player player = new Player(game, PlayerType.RED, new OperativeAI(), PlayerStrategy.SMART);
         game.setCurrentPlayer(player);
 
         // A card should be revealed when an operative plays

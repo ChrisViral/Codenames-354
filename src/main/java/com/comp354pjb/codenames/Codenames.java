@@ -7,6 +7,7 @@
  * Christophe Savard
  * Steven Zanga
  * Benjamin Therrien
+ * Rezza-Zairan Zaharin
  */
 
 package com.comp354pjb.codenames;
@@ -38,6 +39,7 @@ public class Codenames extends Application
     /**
      * Board FXML file location
      */
+    private static final String START_MENU_FXML = "view/startMenu.fxml";
     private static final String BOARD_FXML = "view/board.fxml";
     //endregion
 
@@ -67,9 +69,16 @@ public class Codenames extends Application
     @Override
     public void start(Stage stage) throws IOException
     {
+        Controller controller = new Controller();
+
         //Loading FXML file
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(BOARD_FXML));
-        Scene scene = new Scene(loader.<Parent>load(), WIDTH, HEIGHT);
+        FXMLLoader startMenuLoader = new FXMLLoader(getClass().getResource(START_MENU_FXML));
+        startMenuLoader.setController(controller);
+        Scene scene = new Scene(startMenuLoader.<Parent>load(), WIDTH, HEIGHT);
+
+        FXMLLoader boardLoader = new FXMLLoader(getClass().getResource(BOARD_FXML));
+        boardLoader.setController(controller);
+        Scene scene2 = new Scene(boardLoader.<Parent>load(), WIDTH, HEIGHT);
 
         //Showing GUI
         stage.setTitle(getClass().getSimpleName());
