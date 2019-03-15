@@ -239,6 +239,31 @@ public final class DatabaseHelper
         return true;
     }
 
+    /**
+     * Removes all entries from the game history that have a number of Rounds equal to -25
+     * */
+    public static boolean deleteTestEntry()
+    {
+    String url = getURL();
+    //raw sql
+    String sql = "DELETE FROM GameHistory WHERE GameHistory.numberOfRounds = ?;";
+
+    try (Connection conn = DriverManager.getConnection(url); PreparedStatement stmt = conn.prepareStatement(sql))
+    {
+        stmt.setInt(1,-25);
+        stmt.executeUpdate();
+    }
+    catch (SQLException e)
+    {
+        //False if there's an error
+        Commander.log(e.getMessage());
+        return false;
+    }
+
+    //True if it worked.
+    return true;
+    }
+
 
     /**
      * Transforms any dash, underscore, or space separated string into a CamelCased string

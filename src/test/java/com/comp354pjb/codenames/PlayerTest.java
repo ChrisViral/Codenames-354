@@ -47,4 +47,19 @@ public class PlayerTest {
 
         assertThat(cardStatus, hasItem(true));
     }
+
+    @Test
+    public void cautiousAIShouldAvoidASS()
+    {
+
+    }
+
+    @Test
+    public void cautiousAIShouldAvoidOpposingTeam()
+    {
+
+    }
+
+
+
 }
