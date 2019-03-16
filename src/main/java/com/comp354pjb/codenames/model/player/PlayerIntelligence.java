@@ -1,6 +1,6 @@
 package com.comp354pjb.codenames.model.player;
 
-public enum PlayerStrategy
+public enum PlayerIntelligence
 {
     DUMB,
     SMART

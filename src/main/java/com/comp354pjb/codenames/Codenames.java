@@ -69,20 +69,23 @@ public class Codenames extends Application
     @Override
     public void start(Stage stage) throws IOException
     {
+        //Main controller for the two FXML files below
         Controller controller = new Controller();
 
         //Loading FXML file
+        //Start Menu
         FXMLLoader startMenuLoader = new FXMLLoader(getClass().getResource(START_MENU_FXML));
         startMenuLoader.setController(controller);
-        Scene scene = new Scene(startMenuLoader.<Parent>load(), WIDTH, HEIGHT);
+        Scene startMenuScene = new Scene(startMenuLoader.<Parent>load(), WIDTH, HEIGHT);
 
+        //Board
         FXMLLoader boardLoader = new FXMLLoader(getClass().getResource(BOARD_FXML));
         boardLoader.setController(controller);
-        Scene scene2 = new Scene(boardLoader.<Parent>load(), WIDTH, HEIGHT);
+        Scene boardScene = new Scene(boardLoader.<Parent>load(), WIDTH, HEIGHT);
 
         //Showing GUI
         stage.setTitle(getClass().getSimpleName());
-        stage.setScene(scene);
+        stage.setScene(startMenuScene);
         stage.show();
     }
 

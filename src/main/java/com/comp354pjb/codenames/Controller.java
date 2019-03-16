@@ -15,7 +15,7 @@ import com.comp354pjb.codenames.model.board.Board;
 import com.comp354pjb.codenames.model.board.Card;
 import com.comp354pjb.codenames.model.Game;
 import com.comp354pjb.codenames.model.player.Clue;
-import com.comp354pjb.codenames.model.player.PlayerStrategy;
+import com.comp354pjb.codenames.model.player.PlayerIntelligence;
 import com.comp354pjb.codenames.observer.events.*;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -39,13 +39,11 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     @FXML
     private GridPane grid;
     @FXML
-    private Button undoButton, redoButton, nextMoveButton;
+    private Button undoButton, redoButton, nextMoveButton, startGameBtn;
     @FXML
     private Text round, phase, red, blue, guesses, clue;
     @FXML
     private ComboBox<String> redSpymaster, redOperative, blueSpymaster, blueOperative;
-    @FXML
-    private Button startGameBtn;
 
     //Data
     private HBox[][] boxes;
@@ -83,29 +81,29 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
            stage.setScene(gameScene);
 
            //Collect data from start menu
-           PlayerStrategy array[] = new PlayerStrategy[4];
+           PlayerIntelligence passInt[] = new PlayerIntelligence[4];
 
            if (redSpymaster.getValue() != "DUMB")
-               array[0] = PlayerStrategy.SMART;
+               passInt[0] = PlayerIntelligence.SMART;
            else
-               array[0] = PlayerStrategy.DUMB;
+               passInt[0] = PlayerIntelligence.DUMB;
 
            if (redOperative.getValue() != "DUMB")
-               array[1] = PlayerStrategy.SMART;
+               passInt[1] = PlayerIntelligence.SMART;
            else
-               array[1] = PlayerStrategy.DUMB;
+               passInt[1] = PlayerIntelligence.DUMB;
 
            if (blueSpymaster.getValue() != "DUMB")
-               array[2] = PlayerStrategy.SMART;
+               passInt[2] = PlayerIntelligence.SMART;
            else
-               array[2] = PlayerStrategy.DUMB;
+               passInt[2] = PlayerIntelligence.DUMB;
 
            if (blueOperative.getValue() != "DUMB")
-               array[3] = PlayerStrategy.SMART;
+               passInt[3] = PlayerIntelligence.SMART;
            else
-               array[3] = PlayerStrategy.DUMB;
+               passInt[3] = PlayerIntelligence.DUMB;
 
-           System.out.println(array.length);
+           System.out.println(passInt.length);
 
 
            //Fetch all the card boxes
@@ -122,7 +120,7 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
            }
 
            //Create game object
-           this.game = new Game(array);
+           this.game = new Game(passInt);
 
            //Register to all events
            this.game.onClueGiven.register(this);
