@@ -361,9 +361,7 @@ public class Game
         {
             clues.remove(key);
             assassin.removeClue(key);
-            System.out.println("removing " + key);
         }
-        System.out.println(assassin.getClues().size() + " assassin clues");
 
         return new SuggestionGraph(clues, cards);
     }

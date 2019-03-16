@@ -39,7 +39,6 @@ public class MemoryOperativeAI implements Strategy {
                 game.setEndCurrentTurn(true);
                 return;
             }
-            System.out.println("Using " + previousClue + " if it makes sense");
             clue = player.game.getSuggestionMap().getClue(previousClue);
             if(clue == null)
             {
@@ -68,7 +67,6 @@ public class MemoryOperativeAI implements Strategy {
         {
             // Our turn is over and we didn't succeed in guessing all of the right codenames;
             previousClue = clue.word;
-            System.out.println("Remembering " + previousClue);
             game.setEndCurrentTurn(true);
         }
     }
