@@ -14,7 +14,7 @@ import com.comp354pjb.codenames.model.board.Card;
 
 import java.util.ArrayList;
 
-public class ReasonableOperativeAI implements IPlayer {
+public class ReasonableOperativeAI implements Strategy {
     //region Methods
 
     /**
@@ -22,7 +22,7 @@ public class ReasonableOperativeAI implements IPlayer {
      * @param player Player who's using this strategy
      */
     @Override
-    public void playTurn(Player player) {
+    public void execute(Player player) {
         Game game = player.game;
         player.game.setPhase(player.teamName + " Operative");
         Clue clue = game.getCurrentClue();
@@ -32,5 +32,6 @@ public class ReasonableOperativeAI implements IPlayer {
         // int y = cards.get(i).getY();
         Card card = cards.get(i);
         game.revealCard(card);
+        if(game.getGuessesLeft() == 0) player.game.setEndCurrentTurn(true);
     }
 }

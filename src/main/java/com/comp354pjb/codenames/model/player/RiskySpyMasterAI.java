@@ -13,7 +13,7 @@ import com.comp354pjb.codenames.model.SuggestionGraph;
 
 import java.util.Comparator;
 
-public class RiskySpyMasterAI implements IPlayer {
+public class RiskySpyMasterAI implements Strategy {
     private class ClueComparator implements Comparator<Clue>
     {
         private PlayerType type;
@@ -42,7 +42,7 @@ public class RiskySpyMasterAI implements IPlayer {
     }
 
     @Override
-    public void playTurn(Player player) {
+    public void execute(Player player) {
         player.game.setPhase(player.teamName + " SpyMaster");
 
         SuggestionGraph map = player.game.getSuggestionMap();
@@ -61,5 +61,6 @@ public class RiskySpyMasterAI implements IPlayer {
         }
         clue.value = guesses;
         player.game.setCurrentClue(clue);
+        player.game.setEndCurrentTurn(true);
     }
 }

@@ -23,12 +23,12 @@ public class Player
     //endregion
 
     //region Properties
-    protected final IPlayer strategy;
+    protected final Strategy strategy;
     /**
      * Gets the strategy associated to this player
      * @return The currently used Strategy
      */
-    public IPlayer getStrategy()
+    public Strategy getStrategy()
     {
         return this.strategy;
     }
@@ -41,7 +41,7 @@ public class Player
      * @param team     Team this player is on
      * @param strategy Strategy and type of player
      */
-    public Player(Game game, PlayerType team, IPlayer strategy)
+    public Player(Game game, PlayerType team, Strategy strategy)
     {
         this.game = game;
         this.team = team;
@@ -56,7 +56,7 @@ public class Player
      */
     public void play()
     {
-        this.strategy.playTurn(this);
+        this.strategy.execute(this);
     }
 
     public PlayerType getTeam()

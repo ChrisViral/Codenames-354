@@ -13,13 +13,13 @@ package com.comp354pjb.codenames.model.player;
 /**
  * Interface for the type of Player
  */
-public interface IPlayer
+public interface Strategy
 {
     //region Methods
     /**
      * Plays a given player's turn
      * @param player Player who's using this strategy
      */
-    void playTurn(Player player);
+    void execute(Player player);
     //endregion
 }

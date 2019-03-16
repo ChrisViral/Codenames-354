@@ -14,14 +14,14 @@ package com.comp354pjb.codenames.model.player;
 import com.comp354pjb.codenames.model.DatabaseHelper;
 import com.comp354pjb.codenames.model.Game;
 
-public class SpyMasterAI implements IPlayer
+public class SpyMasterAI implements Strategy
 {
     //region Methods
     /**
      * Plays the dumb SpyMaster AI turn
      * @param player Player to play the turn on
      */
-    public void playTurn(Player player)
+    public void execute(Player player)
     {
         player.game.setPhase(player.teamName + " SpyMaster");
         //Get a random hint that is *not* a word in the board

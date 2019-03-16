@@ -74,6 +74,9 @@ public class Game
     private Player currentPlayer;
     public void setCurrentPlayer(Player player) { this.currentPlayer = player; }
 
+    private boolean endCurrentTurn = false;
+    public void setEndCurrentTurn(boolean end) { this.endCurrentTurn = end; }
+
     //score keeping members
     private int guessesLeft;
 
@@ -175,7 +178,7 @@ public class Game
         this.players.add(new SpyMaster(this, this.startTeam, new SafeSpyMasterAI()));
         this.players.add(new Player(this, this.startTeam, new ReasonableOperativeAI()));
         this.players.add(new SpyMaster(this, second, new RiskySpyMasterAI()));
-        this.players.add(new Player(this, second, new ReasonableOperativeAI()));
+        this.players.add(new Player(this, second, new MemoryOperativeAI()));
     }
 
     /**
@@ -228,10 +231,9 @@ public class Game
 
         this.currentPlayer.play();
 
-        //If a SpyMaster, pass the next turn to the Operative
-        //If an Operative, pass the next turn only if you have no more guesses
-        if (this.currentPlayer.getClass().equals(SpyMaster.class) || this.guessesLeft == 0)
+        if (endCurrentTurn)
         {
+            endCurrentTurn = false;
             this.playerIndex = (this.playerIndex + 1) % this.players.size();
 
             if (this.playerIndex == 0)
@@ -277,6 +279,7 @@ public class Game
                 //Actions for revealing a civilian card
             case CIVILIAN:
                 this.guessesLeft = 0;
+                endCurrentTurn = true;
                 return;
 
             //Actions for revealing a red card
@@ -291,7 +294,12 @@ public class Game
 
         }
         //Take according actions
-        this.guessesLeft = (this.currentPlayer.getTeam().getCardType().equals(card.getType())) ? this.guessesLeft - 1 : 0;
+        if(this.currentPlayer.getTeam().getCardType().equals(card.getType())) {
+            this.guessesLeft--;
+        } else {
+            this.guessesLeft = 0;
+            endCurrentTurn = true;
+        }
     }
 
     /**

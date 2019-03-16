@@ -14,13 +14,13 @@ package com.comp354pjb.codenames.model.player;
 
 import com.comp354pjb.codenames.model.Game;
 import com.comp354pjb.codenames.model.board.Card;
-import com.comp354pjb.codenames.model.board.CardType;
+
 import java.lang.*;
 
 /**
- * Implementation  of IPlayer for the AI class
+ * Implementation  of Strategy for the AI class
  */
-public class OperativeAI implements IPlayer
+public class OperativeAI implements Strategy
 {
     //region Methods
     /**
@@ -29,7 +29,7 @@ public class OperativeAI implements IPlayer
      * @param player The player to play this turn on
      */
     @Override
-    public void playTurn(Player player)
+    public void execute(Player player)
     {
         Game game = player.game;
         player.game.setPhase(player.teamName + " Operative");

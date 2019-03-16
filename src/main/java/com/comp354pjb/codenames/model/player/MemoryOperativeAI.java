@@ -14,7 +14,7 @@ import com.comp354pjb.codenames.model.board.Card;
 
 import java.util.ArrayList;
 
-public class MemoryOperativeAI implements IPlayer {
+public class MemoryOperativeAI implements Strategy {
     private String previousClue;
 
     //region Methods
@@ -24,32 +24,52 @@ public class MemoryOperativeAI implements IPlayer {
      * @param player Player who's using this strategy
      */
     @Override
-    public void playTurn(Player player) {
+    public void execute(Player player) {
         Game game = player.game;
         player.game.setPhase(player.teamName + " Operative");
-        Clue clue = game.getCurrentClue();
-        ArrayList<Card> cards = clue.getCards();
-        int i = Game.RANDOM.nextInt(cards.size());
-        Card card = cards.get(i);
-        game.revealCard(card);
-        // We've made our choice so we can look at the card now
-        if(!player.getTeam().getCardType().equals(card.getType()))
-        {
-            // Our turn is over and we didn't succeed in guessing all the right codenames;
-            previousClue = clue.word;
-        }
-        else
-        {
-            previousClue = null;
-        }
 
-        if(previousClue != null && game.getGuessesLeft() == clue.value)
-        {
+        Clue clue = game.getCurrentClue();
+        ArrayList<Card> cards;
+        int i;
+        Card card;
+
+        if(previousClue != null && game.getGuessesLeft() == 0) {
+            if(previousClue.equals(clue.word))
+            {
+                game.setEndCurrentTurn(true);
+                return;
+            }
+            System.out.println("Using " + previousClue + " if it makes sense");
             clue = player.game.getSuggestionMap().getClue(previousClue);
+            if(clue == null)
+            {
+                game.setEndCurrentTurn(true);
+                return;
+            }
             cards = clue.getCards();
             i = Game.RANDOM.nextInt(cards.size());
             card = cards.get(i);
-            game.revealCard(card);
+            previousClue = null;
+            game.setEndCurrentTurn(true);
+        } else {
+            cards = clue.getCards();
+            i = Game.RANDOM.nextInt(cards.size());
+            card = cards.get(i);
+        }
+
+        game.revealCard(card);
+
+        if(game.getGuessesLeft() <= 0 && previousClue == null) {
+            game.setEndCurrentTurn(true);
+        }
+
+        // We've made our choice so we can look at the card now
+        if(!player.getTeam().getCardType().equals(card.getType()))
+        {
+            // Our turn is over and we didn't succeed in guessing all of the right codenames;
+            previousClue = clue.word;
+            System.out.println("Remembering " + previousClue);
+            game.setEndCurrentTurn(true);
         }
     }
 }
