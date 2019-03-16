@@ -29,6 +29,7 @@ public class PlayerTest {
     public void operativePlayTurnShouldRevealACard() {
         Game game = new Game();
         Player player = new Player(game, PlayerType.RED, new OperativeAI());
+        game.setCurrentPlayer(player);
 
         // A card should be revealed when an operative plays
         player.play();
@@ -46,4 +47,19 @@ public class PlayerTest {
 
         assertThat(cardStatus, hasItem(true));
     }
+
+    @Test
+    public void cautiousAIShouldAvoidASS()
+    {
+
+    }
+
+    @Test
+    public void cautiousAIShouldAvoidOpposingTeam()
+    {
+
+    }
+
+
+
 }

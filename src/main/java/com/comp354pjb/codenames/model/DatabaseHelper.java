@@ -7,6 +7,7 @@
  * Benjamin Therrien
  * Steven Zanga
  * Christophe Savard
+ * Mordechai Zirkind
  */
 
 package com.comp354pjb.codenames.model;
@@ -175,6 +176,37 @@ public final class DatabaseHelper
         return runSingleValQuery(query, "codename");
     }
 
+    /**
+     * Function to give the board layout.
+     * @return An array of strings of length two. The first is effectively a char either R or B representing the first team. The second is a string of the chars CARB of length 25 each representing one card on the board.
+     */
+    public static String[] getBoardLayout() {
+
+        String url = getURL();
+        String[] toReturn;
+
+        try (Connection conn = DriverManager.getConnection(url); Statement stmt = conn.createStatement())
+        {
+            //Getting the size of the array
+            toReturn = new String[2];
+            //Getting all the words in the database
+            ResultSet query = stmt.executeQuery("SELECT firstTeam, layout FROM BoardLayouts ORDER BY random() LIMIT 1;");
+            int i = 0;
+            while (query.next())
+            {
+                toReturn[0] = query.getString("firstTeam");
+                toReturn[1] = query.getString("layout");
+            }
+        }
+        catch (SQLException e)
+        {
+            Commander.log(e.getMessage());
+            toReturn = new String[0];
+        }
+        //Return the database
+        return toReturn;
+    }
+
     public static boolean addGameToStats(String redTeam, String blueTeam, int numOfRounds, String winner, boolean assassinRevealed, int civilianRevealed, int redTilesRevealed, int blueTilesRevealed)
     {
         String url = getURL();
@@ -205,6 +237,31 @@ public final class DatabaseHelper
 
         //True if it worked.
         return true;
+    }
+
+    /**
+     * Removes all entries from the game history that have a number of Rounds equal to -25
+     * */
+    public static boolean deleteTestEntry()
+    {
+    String url = getURL();
+    //raw sql
+    String sql = "DELETE FROM GameHistory WHERE GameHistory.numberOfRounds = ?;";
+
+    try (Connection conn = DriverManager.getConnection(url); PreparedStatement stmt = conn.prepareStatement(sql))
+    {
+        stmt.setInt(1,-25);
+        stmt.executeUpdate();
+    }
+    catch (SQLException e)
+    {
+        //False if there's an error
+        Commander.log(e.getMessage());
+        return false;
+    }
+
+    //True if it worked.
+    return true;
     }
 
 
