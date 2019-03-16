@@ -28,6 +28,11 @@ public class SuggestionGraph {
         this.cards = cards;
     }
 
+    public Clue getClue(String clue)
+    {
+        return clues.get(clue);
+    }
+
     public Clue getBestClue(Comparator<Clue> comparator)
     {
         Random rand = new Random();
@@ -38,6 +43,7 @@ public class SuggestionGraph {
         while(comparator.compare(bestClue, list.get(i)) == 0)
         {
             i++;
+            if(i == list.size()) break;
         }
         int j = rand.nextInt(i);
         return list.get(j);

@@ -16,10 +16,10 @@ import java.util.ArrayList;
 
 public class ReasonableOperativeAI implements IPlayer {
     //region Methods
+
     /**
-     * Plays the dumb Operative AI's turn
-     * Randomly determine which card to pick, checking that that card has not been revealed before it is chosen
-     * @param player The player to play this turn on
+     * TODO
+     * @param player Player who's using this strategy
      */
     @Override
     public void playTurn(Player player) {
@@ -28,9 +28,9 @@ public class ReasonableOperativeAI implements IPlayer {
         Clue clue = game.getCurrentClue();
         ArrayList<Card> cards = clue.getCards();
         int i = Game.RANDOM.nextInt(cards.size());
-        int x = cards.get(i).getX();
-        int y = cards.get(i).getY();
-        Card card = game.getBoard().getCard(x, y);
+        // int x = cards.get(i).getX();
+        // int y = cards.get(i).getY();
+        Card card = cards.get(i);
         game.revealCard(card);
     }
 }

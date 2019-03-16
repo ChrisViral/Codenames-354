@@ -15,6 +15,7 @@ package com.comp354pjb.codenames.model;
 import com.comp354pjb.codenames.commander.Commander;
 import com.comp354pjb.codenames.model.board.Board;
 import com.comp354pjb.codenames.model.board.Card;
+import com.comp354pjb.codenames.model.board.CardType;
 import com.comp354pjb.codenames.model.player.*;
 import com.comp354pjb.codenames.observer.events.ClueGivenEvent;
 import com.comp354pjb.codenames.observer.events.PhaseEvent;
@@ -74,6 +75,11 @@ public class Game
 
     //score keeping members
     private int guessesLeft;
+
+    /**
+     * Gets the number of guesses left given the current clue
+     */
+    public int getGuessesLeft() { return this.guessesLeft; }
 
     private int redCardsRevealed;
 
@@ -172,9 +178,9 @@ public class Game
 
         Commander.log(this.startTeam.niceName() + " Team will start, which means they must guess 9 cards");
         Commander.log(second.niceName() + " Team will go second, which means they must guess 8 cards");
-        this.players.add(new SpyMaster(this, this.startTeam, new RiskySpyMasterAI()));
+        this.players.add(new SpyMaster(this, this.startTeam, new SafeSpyMasterAI()));
         this.players.add(new Player(this, this.startTeam, new ReasonableOperativeAI()));
-        this.players.add(new SpyMaster(this, second, new SafeSpyMasterAI()));
+        this.players.add(new SpyMaster(this, second, new RiskySpyMasterAI()));
         this.players.add(new Player(this, second, new ReasonableOperativeAI()));
     }
 
@@ -308,8 +314,8 @@ public class Game
     //
     private SuggestionGraph createSuggestionMap()
     {
-        ArrayList<Card> names = board.getCards();
-        for(Card c : names)
+        ArrayList<Card> codenames = board.getCards();
+        for(Card c : codenames)
         {
             String[] clues = DatabaseHelper.getCluesForCodename(c.getWord().toLowerCase());
             for(int i = 0; i < clues.length; i++)
@@ -321,8 +327,14 @@ public class Game
 
         HashMap<String, Clue> clues = new HashMap<>();
         HashMap<String, Card> cards = new HashMap<>();
-        for(Card c : names)
+        Card assassin = null;
+        for(Card c : codenames)
         {
+            if(c.getType() == CardType.ASSASSIN)
+            {
+                assassin = c;
+            }
+
             cards.put(c.getWord(), c);
             HashSet<String> suggestions = c.getClues();
             for(String s : suggestions)
@@ -332,6 +344,24 @@ public class Game
                 clues.put(s, clue);
             }
         }
+
+        ArrayList<String> onlySuggestsAssassin = new ArrayList<>();
+        for(Clue clue : clues.values())
+        {
+            if(clue.getCards().size() == 1 && clue.assassinSuggested)
+            {
+                onlySuggestsAssassin.add(clue.word);
+
+            }
+        }
+
+        for(String key : onlySuggestsAssassin)
+        {
+            clues.remove(key);
+            assassin.removeClue(key);
+            System.out.println("removing " + key);
+        }
+        System.out.println(assassin.getClues().size() + " assassin clues");
 
         return new SuggestionGraph(clues, cards);
     }
