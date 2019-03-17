@@ -14,25 +14,30 @@ package com.comp354pjb.codenames.model.player;
 
 import com.comp354pjb.codenames.model.Game;
 import com.comp354pjb.codenames.model.board.Card;
-import com.comp354pjb.codenames.model.board.CardType;
+
 import java.lang.*;
 
 /**
- * Implementation  of IPlayer for the AI class
+ * Implementation  of Strategy for the AI class
  */
-public class OperativeAI implements IPlayer
+public class OperativeAI extends Strategy
 {
+    private Game game;
+
+    public OperativeAI(Game game)
+    {
+        this.game = game;
+    }
+
     //region Methods
     /**
      * Plays the dumb Operative AI's turn
      * Randomly determine which card to pick, checking that that card has not been revealed before it is chosen
-     * @param player The player to play this turn on
      */
     @Override
-    public void playTurn(Player player)
+    public void execute()
     {
-        Game game = player.game;
-        player.game.setPhase(player.teamName + " Operative");
+        game.setPhase(this.team.niceName() + " Operative");
         while(true) {
             int row = Game.RANDOM.nextInt(5), col = Game.RANDOM.nextInt(5);
             Card card = game.getBoard().getCard(row, col);
@@ -42,6 +47,7 @@ public class OperativeAI implements IPlayer
                 break;
             }
         }
+        if(game.getGuessesLeft() == 0) finished = true;
     }
     //endregion
 }

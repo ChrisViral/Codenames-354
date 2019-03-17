@@ -75,6 +75,8 @@ public class Card
 
     public boolean addClue(String clue) { return clues.add(clue); }
 
+    public boolean removeClue(String clue) { return clues.remove(clue); }
+
     //region Constructors
     /**
      * Card Parameterized Constructor
