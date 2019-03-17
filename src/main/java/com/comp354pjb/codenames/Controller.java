@@ -36,7 +36,7 @@ import javafx.stage.Stage;
 public class Controller implements CardFlippedObserver, ClueGivenObserver, PhaseObserver, RoundObserver
 {
     //region Fields
-    //FXML Fields
+    //FXML Fields - Contain various components of the Graphical user Interface (GUI)
     @FXML
     private GridPane grid;
     @FXML
@@ -67,15 +67,15 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     /**
      * Update by Rezza-Zairan
      * ----------------------
-     * Initializes the FXML as everything in initialize() was pushed towards this function so that it responds to the
-     * start game button being clicked.
+     * Initializes the FXML as everything in initialize() was pushed towards this function
+     * so that it responds to the start game button being clicked.
      *
      * This function also passes PlayerIntelligence to the instancing of Game()
      */
     @FXML
     private void setup()
     {
-        //Only runs if every option has value
+        //Only runs if every option has a value
        if ((redSpymaster.getValue() != null ) &&
                (redOperative.getValue() != null) &&
                (blueSpymaster.getValue() != null) &&
@@ -90,6 +90,9 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
            PlayerIntelligence passInt[] = new PlayerIntelligence[4];
 
            // Updated by Michael Wilgus (Added more options to reflect the number of strategies I wrote)
+           /*   Assigns the level of player intelligence to the
+                red Spymaster as chosen by the user
+            */
            switch(redSpymaster.getValue())
            {
                case "DUMB":
@@ -104,6 +107,9 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
            }
 
            // Updated by Michael Wilgus (Added more options to reflect the number of strategies I wrote)
+           /*   Assigns the level of player intelligence to the
+                red Operative as chosen by the user
+            */
            switch(redOperative.getValue())
            {
                case "DUMB":
@@ -118,6 +124,9 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
            }
 
            // Updated by Michael Wilgus (Added more options to reflect the number of strategies I wrote)
+           /*   Assigns the level of player intelligence to the
+                blue Spymaster as chosen by the user
+            */
            switch(blueSpymaster.getValue())
            {
                case "DUMB":
@@ -132,6 +141,9 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
            }
 
            // Updated by Michael Wilgus (Added more options to reflect the number of strategies I wrote)
+           /*   Assigns the level of player intelligence to the
+                blue Operative as chosen by the user
+            */
            switch(blueOperative.getValue())
            {
                case "DUMB":

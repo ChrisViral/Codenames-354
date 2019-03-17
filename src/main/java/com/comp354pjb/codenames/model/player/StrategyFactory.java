@@ -20,6 +20,7 @@ import com.comp354pjb.codenames.model.Game;
 
 /**
  * Creates a new Strategy given parameters
+ * (See above for full description)
  */
 public class StrategyFactory
 {

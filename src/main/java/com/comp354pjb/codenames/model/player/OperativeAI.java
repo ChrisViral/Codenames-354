@@ -23,11 +23,18 @@ import java.lang.*;
 
 /**
  * Implementation  of Strategy for the AI class
+ * (See above for full description)
  */
 public class OperativeAI extends Strategy
 {
+    /**
+     * Changes the intelligence level of this operative to dumb
+     */
     public static final PlayerIntelligence STRATEGY_CLASS = PlayerIntelligence.DUMB;
 
+    /**
+     *
+     */
     private Game game;
 
     public OperativeAI(Game game)

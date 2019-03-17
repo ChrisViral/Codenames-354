@@ -1,5 +1,5 @@
 /*
- * Game.java
+ * Clue.java
  * Created by: Christophe Savard
  * Created on: 06/02/19
  *
@@ -22,12 +22,21 @@ import java.util.ArrayList;
 
 /**
  * Wrapper around word/number pair for a clue
+ * (See above for full description)
  */
 public class Clue
 {
     //region Fields
+    /**
+     * The clue word
+     */
     public final String word;
+
+    /**
+     * The number of cards on the board associated with that clue word
+     */
     public int value;
+
     // Added by Michael Wilgus
     // Bookkeeping variables for AI descision making
     private int redSuggested = 0;
@@ -37,7 +46,9 @@ public class Clue
     public boolean isActiveCodename = false;
 
     // Added by Michael Wilgus
-    // List of cards that are suggested by this clue
+    /**
+     * List of cards that are suggested by this clue
+     */
     private ArrayList<Card> cards;
     //endregion
 

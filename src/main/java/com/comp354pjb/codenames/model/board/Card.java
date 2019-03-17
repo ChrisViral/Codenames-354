@@ -9,7 +9,7 @@
  * Michael Wilgus
  *
  * Description:
- * Represents a card in the Codenmaes game.
+ * Represents a card in the Codenames game.
  * Additionally it stores information about clues that can
  * be used to suggest the card so that AI players can give
  * intelligent suggestions.
@@ -22,27 +22,42 @@ import java.util.HashSet;
 public class Card
 {
     //region Properties
-    private CardType type;
     /**
      * Type of this card
+     */
+    private CardType type;
+
+    /**
+     * Accessor for Card Type
+     * @return type, The type of this card
      */
     public CardType getType()
     {
         return this.type;
     }
 
-    private String word;
     /**
      * The word displayed on this card
+     */
+    private String word;
+
+    /**
+     * Accessor for word
+     * @return word, The word displayed by the card
      */
     public String getWord()
     {
         return this.word;
     }
 
-    private boolean isRevealed;
     /**
      * If this card is revealed on the board or not
+     */
+    private boolean isRevealed;
+
+    /**
+     * Accessor for isRevealed
+     * @return isRevealed, whether the card type has been revealed or not
      */
     public boolean isRevealed()
     {

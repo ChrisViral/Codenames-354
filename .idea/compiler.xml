@@ -9,8 +9,5 @@
         <module name="codenames" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="codenames" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>

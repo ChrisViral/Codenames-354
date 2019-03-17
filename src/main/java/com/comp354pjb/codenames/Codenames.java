@@ -77,17 +77,17 @@ public class Codenames extends Application
         Controller controller = new Controller();
 
         //Loading FXML file
-        //Start Menu
+        //Loading GUI for the Start Menu
         FXMLLoader startMenuLoader = new FXMLLoader(getClass().getResource(START_MENU_FXML));
         startMenuLoader.setController(controller);
         Scene startMenuScene = new Scene(startMenuLoader.<Parent>load(), WIDTH, HEIGHT);
 
-        //Board
+        //Loading GUI for the Game Board
         FXMLLoader boardLoader = new FXMLLoader(getClass().getResource(BOARD_FXML));
         boardLoader.setController(controller);
         Scene boardScene = new Scene(boardLoader.<Parent>load(), WIDTH, HEIGHT);
 
-        //Showing GUI
+        //Showing GUI (user Interface)
         stage.setTitle(getClass().getSimpleName());
         stage.setScene(startMenuScene);
         stage.show();

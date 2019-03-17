@@ -8,7 +8,8 @@
  *
  * Description:
  * Intelligent but brazen implementation of a SpyMaster AI. Will always give the clue that suggests
- * the most correctly colored cards no matter how many other cards it also suggests.
+ * the most correctly colored cards no matter how many of the opposing teams or civilian cards it suggests
+ * or regardless of if it suggests the assassin card.
  */
 
 package com.comp354pjb.codenames.model.player;
@@ -18,12 +19,18 @@ import com.comp354pjb.codenames.model.SuggestionGraph;
 
 import java.util.Comparator;
 
+/**
+ * Implements risky AI strategy which always picks the clue that suggests the most cards.
+ * (See full description above)
+ */
 public class RiskySpyMasterAI extends Strategy {
     public static final PlayerIntelligence STRATEGY_CLASS = PlayerIntelligence.MEDIUM;
 
     private Game game;
 
-    // This comparator will be used to sort all the clues in the game according to the strategy
+    /**
+     * This comparator will be used to sort all the clues in the game according to the strategy
+     */
     private class ClueComparator implements Comparator<Clue>
     {
         private PlayerType team;

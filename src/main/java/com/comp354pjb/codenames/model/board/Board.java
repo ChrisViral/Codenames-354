@@ -16,12 +16,19 @@ import com.comp354pjb.codenames.observer.events.CardFlippedEvent;
 import java.util.*;
 
 /**
- * Board class, represents the 5 by 5 grid of cards on which the game happens
+ * Board class, represents the 5X5 grid of cards on which the game happens
  */
 public class Board
 {
     //region Fields
+    /**
+     * Cards to be displayed on the board
+     */
     private final Card[][] cards;
+
+    /**
+     * Words to be displayed on the cards
+     */
     private final HashSet<String> words = new HashSet<>();
     //endregion
 

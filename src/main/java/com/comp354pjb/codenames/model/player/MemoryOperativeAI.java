@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 /**
  * Smartest implementation of an Operative AI. Has a memory of previous clues.
+ * (See above for full description)
  */
 public class MemoryOperativeAI extends Strategy {
     public static final PlayerIntelligence STRATEGY_CLASS = PlayerIntelligence.SMART;

@@ -5,6 +5,11 @@
  *
  * Contributors:
  * Michael Wilgus
+ *
+ * Description:
+ * The safest implementation of a SpyMaster AI. Considers not only how many of the correct
+ * colored cards a clue suggests but also penalizes a clue if it suggests the opposing teams cards,
+ * the assassin or a civilian card.
  */
 
 package com.comp354pjb.codenames.model.player;
@@ -17,6 +22,7 @@ import java.util.Comparator;
 /**
  * The safest implementation of a SpyMaster AI. Considers not only how many of the correct
  * colored cards a clue suggests but also penalizes a clue if it suggests incorrect cards
+ * (See full description above)
  */
 public class SafeSpyMasterAI extends Strategy {
     public static final PlayerIntelligence STRATEGY_CLASS = PlayerIntelligence.SMART;
