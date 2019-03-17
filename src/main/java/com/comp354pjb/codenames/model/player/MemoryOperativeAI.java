@@ -14,60 +14,86 @@ import com.comp354pjb.codenames.model.board.Card;
 
 import java.util.ArrayList;
 
-public class MemoryOperativeAI implements Strategy {
-    private String previousClue;
+public class MemoryOperativeAI extends Strategy {
+    private Game game;
+
+    private String previousClue = null;
+    private  boolean useExtraTurn = false;
+
+    public MemoryOperativeAI(Game game)
+    {
+        this.game = game;
+    }
 
     //region Methods
 
     /**
      * TODO
-     * @param player Player who's using this strategy
      */
     @Override
-    public void execute(Player player) {
-        Game game = player.game;
-        player.game.setPhase(player.teamName + " Operative");
+    public void execute() {
+        game.setPhase(this.team.niceName() + " Operative");
 
         Clue clue = game.getCurrentClue();
-        ArrayList<Card> cards;
-        int i;
-        Card card;
 
-        if(previousClue != null && game.getGuessesLeft() == 0) {
-            if(previousClue.equals(clue.word))
+        if(useExtraTurn) {
+            useExtraTurn = false;
+            finished = true;
+            clue = game.getSuggestionMap().getClue(previousClue);
+            System.out.println("Using " + previousClue);
+            boolean foundExtraCard = pickCard(clue);
+            if(foundExtraCard)
             {
-                game.setEndCurrentTurn(true);
-                return;
+                previousClue = null;
             }
-            clue = player.game.getSuggestionMap().getClue(previousClue);
-            if(clue == null)
-            {
-                game.setEndCurrentTurn(true);
-                return;
-            }
-            cards = clue.getCards();
-            i = Game.RANDOM.nextInt(cards.size());
-            card = cards.get(i);
-            previousClue = null;
-            game.setEndCurrentTurn(true);
-        } else {
-            cards = clue.getCards();
-            i = Game.RANDOM.nextInt(cards.size());
-            card = cards.get(i);
+            return;
         }
 
-        game.revealCard(card);
-
-        if(game.getGuessesLeft() <= 0 && previousClue == null) {
-            game.setEndCurrentTurn(true);
-        }
+        boolean foundAGoodCard = pickCard(clue);
 
         // We've made our choice so we can look at the card now
-        if(!player.getTeam().getCardType().equals(card.getType()))
+        if(foundAGoodCard)
+        {
+            if(game.getGuessesLeft() == 0)
+            {
+                // Check to see if we missed a codename previously
+                if(previousClue != null)
+                {
+                    // Can we use the extra turn with the previous clue?
+                    if(previousClue.equals(clue.word) || game.getSuggestionMap().getClue(previousClue) == null)
+                    {
+                        // We can't so forget the clue and end the turn
+                        previousClue = null;
+                        finished = true;
+                        return;
+                    }
+                    // We can so indicate that
+                    useExtraTurn = true;
+                }
+                else
+                {
+                    // We got everything last turn so we can end this turn now
+                    finished = true;
+                }
+            }
+        }
+        else
         {
             // Our turn is over and we didn't succeed in guessing all of the right codenames;
             previousClue = clue.word;
-            game.setEndCurrentTurn(true);
+            finished = true;
+            return;
         }
+    }
+
+    private boolean pickCard(Clue clue)
+    {
+        ArrayList<Card> cards = clue.getCards();
+        cards = clue.getCards();
+        int i = Game.RANDOM.nextInt(cards.size());
+        Card card = cards.get(i);
+        game.revealCard(card);
+
+        return  card.getType().equals(team.getCardType());
     }
 }

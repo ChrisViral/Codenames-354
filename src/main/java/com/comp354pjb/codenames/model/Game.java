@@ -74,9 +74,6 @@ public class Game
     private Player currentPlayer;
     public void setCurrentPlayer(Player player) { this.currentPlayer = player; }
 
-    private boolean endCurrentTurn = false;
-    public void setEndCurrentTurn(boolean end) { this.endCurrentTurn = end; }
-
     //score keeping members
     private int guessesLeft;
 
@@ -175,10 +172,10 @@ public class Game
 
         Commander.log(this.startTeam.niceName() + " Team will start, which means they must guess 9 cards");
         Commander.log(second.niceName() + " Team will go second, which means they must guess 8 cards");
-        this.players.add(new SpyMaster(this, this.startTeam, new SafeSpyMasterAI()));
-        this.players.add(new Player(this, this.startTeam, new ReasonableOperativeAI()));
-        this.players.add(new SpyMaster(this, second, new RiskySpyMasterAI()));
-        this.players.add(new Player(this, second, new MemoryOperativeAI()));
+        this.players.add(new Player(this.startTeam, new SafeSpyMasterAI(this)));
+        this.players.add(new Player(this.startTeam, new ReasonableOperativeAI(this)));
+        this.players.add(new Player(second, new RiskySpyMasterAI(this)));
+        this.players.add(new Player(second, new MemoryOperativeAI(this)));
     }
 
     /**
@@ -231,9 +228,9 @@ public class Game
 
         this.currentPlayer.play();
 
-        if (endCurrentTurn)
+        if (currentPlayer.isFinished())
         {
-            endCurrentTurn = false;
+            currentPlayer.setFinished(false);
             this.playerIndex = (this.playerIndex + 1) % this.players.size();
 
             if (this.playerIndex == 0)
@@ -279,7 +276,6 @@ public class Game
                 //Actions for revealing a civilian card
             case CIVILIAN:
                 this.guessesLeft = 0;
-                endCurrentTurn = true;
                 return;
 
             //Actions for revealing a red card
@@ -298,7 +294,6 @@ public class Game
             this.guessesLeft--;
         } else {
             this.guessesLeft = 0;
-            endCurrentTurn = true;
         }
     }
 
@@ -347,17 +342,21 @@ public class Game
             }
         }
 
-        ArrayList<String> onlySuggestsAssassin = new ArrayList<>();
+        ArrayList<String> badClues = new ArrayList<>();
         for(Clue clue : clues.values())
         {
-            if(clue.getCards().size() == 1 && clue.assassinSuggested)
+            if(clue.onlySuggestsAssassinOrCivilian())
             {
-                onlySuggestsAssassin.add(clue.word);
+                badClues.add(clue.word);
 
+            }
+            if(cards.containsKey(clue.word))
+            {
+                clue.isActiveCodename = true;
             }
         }
 
-        for(String key : onlySuggestsAssassin)
+        for(String key : badClues)
         {
             clues.remove(key);
             assassin.removeClue(key);

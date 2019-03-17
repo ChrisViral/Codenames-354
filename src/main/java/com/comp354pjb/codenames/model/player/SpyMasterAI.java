@@ -14,27 +14,32 @@ package com.comp354pjb.codenames.model.player;
 import com.comp354pjb.codenames.model.DatabaseHelper;
 import com.comp354pjb.codenames.model.Game;
 
-public class SpyMasterAI implements Strategy
+public class SpyMasterAI extends Strategy
 {
+    private Game game;
+
+    public SpyMasterAI(Game game)
+    {
+        this.game = game;
+    }
+
     //region Methods
     /**
      * Plays the dumb SpyMaster AI turn
-     * @param player Player to play the turn on
      */
-    public void execute(Player player)
+    public void execute()
     {
-        player.game.setPhase(player.teamName + " SpyMaster");
+        game.setPhase(this.team.niceName() + " SpyMaster");
         //Get a random hint that is *not* a word in the board
         String hint;
         do
         {
             hint = DatabaseHelper.getRandomClue();
         }
-        while(player.game.getBoard().hasWord(hint));
+        while(game.getBoard().hasWord(hint));
         //Give out the clue
-        player.game.setCurrentClue(new Clue(hint, Game.RANDOM.nextInt(3) + 1));
-
-
+        game.setCurrentClue(new Clue(hint, Game.RANDOM.nextInt(3) + 1));
+        finished = true;
     }
     //endregion
 }

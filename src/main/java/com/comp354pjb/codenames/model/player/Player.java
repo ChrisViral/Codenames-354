@@ -17,9 +17,9 @@ import com.comp354pjb.codenames.model.Game;
 public class Player
 {
     //region Fields
-    protected final Game game;
     protected final PlayerType team;
     public final String teamName;
+    private boolean finished = false;
     //endregion
 
     //region Properties
@@ -37,15 +37,14 @@ public class Player
     //region Constructors
     /**
      * Creates a new player for a Codenames game
-     * @param game     Game this player evolves within
      * @param team     Team this player is on
      * @param strategy Strategy and type of player
      */
-    public Player(Game game, PlayerType team, Strategy strategy)
+    public Player(PlayerType team, Strategy strategy)
     {
-        this.game = game;
         this.team = team;
         this.strategy = strategy;
+        this.strategy.setTeam(team);
         this.teamName = this.team.niceName();
     }
     //endregion
@@ -56,12 +55,22 @@ public class Player
      */
     public void play()
     {
-        this.strategy.execute(this);
+        this.strategy.execute();
+        this.finished = this.strategy.isFinished();
     }
 
     public PlayerType getTeam()
     {
         return team;
     }
+
+    public boolean isFinished() { return this.strategy.isFinished(); }
+
+    public void setFinished(boolean finished)
+    {
+        this.finished = finished;
+        this.strategy.setFinished(finished);
+    }
+
     //endregion
 }

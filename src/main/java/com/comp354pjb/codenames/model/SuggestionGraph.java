@@ -19,8 +19,8 @@ import java.util.Random;
 
 
 public class SuggestionGraph {
-    HashMap<String, Clue> clues;
-    HashMap<String, Card> cards;
+    private HashMap<String, Clue> clues;
+    private HashMap<String, Card> cards;
 
     public SuggestionGraph(HashMap<String, Clue> clues, HashMap<String, Card> cards)
     {
@@ -39,14 +39,14 @@ public class SuggestionGraph {
         ArrayList<Clue> list = new ArrayList<>(clues.values());
         list.sort(comparator);
         Clue bestClue = list.get(0);
-        int i = 1;
-        while(comparator.compare(bestClue, list.get(i)) == 0)
+        int ties = 1;
+        while(comparator.compare(bestClue, list.get(ties)) == 0)
         {
-            i++;
-            if(i == list.size()) break;
+            ties++;
+            if(ties == list.size()) break;
         }
-        int j = rand.nextInt(i);
-        return list.get(j);
+        int i = rand.nextInt(ties);
+        return list.get(i);
     }
 
     public boolean pickCard(String codename)
@@ -61,9 +61,11 @@ public class SuggestionGraph {
         for(String relatedClue : card.getClues())
         {
             Clue clue = clues.get(relatedClue);
-            clue.removeCard(card);
-            if(!clue.suggestsSomeCard()) {
-                clues.remove(clue.word);
+            if(clue != null) {
+                clue.removeCard(card);
+                if (!clue.suggestsSomeCard() || clue.onlySuggestsAssassinOrCivilian()) {
+                    clues.remove(clue.word);
+                }
             }
         }
         return true;

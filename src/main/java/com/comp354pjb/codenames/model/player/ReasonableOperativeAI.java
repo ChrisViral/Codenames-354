@@ -14,24 +14,26 @@ import com.comp354pjb.codenames.model.board.Card;
 
 import java.util.ArrayList;
 
-public class ReasonableOperativeAI implements Strategy {
+public class ReasonableOperativeAI extends Strategy {
+    private Game game;
+
+    public ReasonableOperativeAI(Game game)
+    {
+        this.game = game;
+    }
     //region Methods
 
     /**
      * TODO
-     * @param player Player who's using this strategy
      */
     @Override
-    public void execute(Player player) {
-        Game game = player.game;
-        player.game.setPhase(player.teamName + " Operative");
+    public void execute() {
+        game.setPhase(this.team.niceName() + " Operative");
         Clue clue = game.getCurrentClue();
         ArrayList<Card> cards = clue.getCards();
         int i = Game.RANDOM.nextInt(cards.size());
-        // int x = cards.get(i).getX();
-        // int y = cards.get(i).getY();
         Card card = cards.get(i);
         game.revealCard(card);
-        if(game.getGuessesLeft() == 0) player.game.setEndCurrentTurn(true);
+        if(game.getGuessesLeft() == 0) finished = true;
     }
 }

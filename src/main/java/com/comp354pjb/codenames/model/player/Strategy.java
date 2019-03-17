@@ -1,25 +1,21 @@
-/*
- * IPLayer.java
- * Created by: Benjamin Therrien
- * Created on: 29/01/19
- *
- * Contributors:
- * Benjamin Therrien
- * Christophe Savard
- */
-
 package com.comp354pjb.codenames.model.player;
 
-/**
- * Interface for the type of Player
- */
-public interface Strategy
-{
+abstract public class Strategy {
+    protected PlayerType team;
+    protected boolean finished = false;
+
     //region Methods
     /**
-     * Plays a given player's turn
-     * @param player Player who's using this strategy
+     * Plays a given player's turn according to rules defined in the method
      */
-    void execute(Player player);
+    abstract void execute();
+
+    public void setTeam(PlayerType team)
+    {
+        this.team = team;
+    }
+
+    public boolean isFinished() { return finished; }
+    public void setFinished(boolean finished) { this.finished = finished; }
     //endregion
 }

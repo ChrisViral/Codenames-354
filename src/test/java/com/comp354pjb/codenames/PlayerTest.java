@@ -28,7 +28,7 @@ public class PlayerTest {
     @Test
     public void operativePlayTurnShouldRevealACard() {
         Game game = new Game();
-        Player player = new Player(game, PlayerType.RED, new OperativeAI());
+        Player player = new Player(PlayerType.RED, new OperativeAI(game));
         game.setCurrentPlayer(player);
 
         // A card should be revealed when an operative plays

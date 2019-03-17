@@ -9,63 +9,51 @@
 
 package com.comp354pjb.codenames.model.player;
 
+import com.comp354pjb.codenames.model.Game;
 import com.comp354pjb.codenames.model.SuggestionGraph;
 
 import java.util.Comparator;
 
-public class SafeSpyMasterAI implements Strategy {
-    private class ClueComparator implements Comparator<Clue>
-    {
-        private PlayerType type;
+public class SafeSpyMasterAI extends Strategy {
+    private Game game;
 
-        public ClueComparator(PlayerType type)
+    private static class ClueComparator implements Comparator<Clue>
+    {
+        private PlayerType team;
+
+        public ClueComparator(PlayerType team)
         {
-            this.type = type;
+            this.team = team;
         }
 
         @Override
         public int compare(Clue clue1, Clue clue2) {
-            int penalty1, penalty2;
-            int score1, score2;
-            if(type.equals(PlayerType.RED))
-            {
-                penalty1 = clue1.blueSuggested + clue1.civilianSuggested + (clue1.assassinSuggested ? 1 : 0);
-                penalty2 = clue2.blueSuggested + clue2.civilianSuggested + (clue2.assassinSuggested ? 1 : 0);
-                score1 = -clue1.redSuggested + penalty1;
-                score2 = -clue2.redSuggested + penalty2;
-            }
-            else
-            {
-                penalty1 = clue1.redSuggested + clue1.civilianSuggested + (clue1.assassinSuggested ? 1 : 0);
-                penalty2 = clue2.redSuggested + clue2.civilianSuggested + (clue2.assassinSuggested ? 1 : 0);
-                score1 = -clue1.blueSuggested + penalty1;
-                score2 = -clue2.blueSuggested + penalty2;
-            }
+            int penalty1 = clue1.getComplementOfCardsSuggestedForTeam(team);
+            int penalty2 = clue2.getComplementOfCardsSuggestedForTeam(team);
+            int score1 = -clue1.getNumberOfCardsSuggestedForTeam(team) + penalty1;
+            int score2 = -clue2.getNumberOfCardsSuggestedForTeam(team) + penalty2;
 
             return Integer.compare(score1, score2);
         }
     }
 
+    public SafeSpyMasterAI(Game game)
+    {
+        this.game = game;
+    }
+
     @Override
-    public void execute(Player player) {
-        player.game.setPhase(player.teamName + " SpyMaster");
+    public void execute() {
+        game.setPhase(this.team.niceName() + " SpyMaster");
 
-        SuggestionGraph map = player.game.getSuggestionMap();
+        SuggestionGraph map = game.getSuggestionMap();
 
-        ClueComparator comparator = new ClueComparator(player.team);
+        ClueComparator comparator = new ClueComparator(this.team);
 
         Clue clue = map.getBestClue(comparator);
-        int guesses;
-        if(player.team == PlayerType.RED)
-        {
-            guesses = clue.redSuggested - (clue.blueSuggested + clue.civilianSuggested + (clue.assassinSuggested ? 1 : 0));
-        }
-        else
-        {
-            guesses = clue.blueSuggested - (clue.redSuggested + clue.civilianSuggested + (clue.assassinSuggested ? 1 : 0));
-        }
+        int guesses = clue.getNumberOfCardsSuggestedForTeam(team) - clue.getComplementOfCardsSuggestedForTeam(team);
         clue.value = Math.max(guesses, 1);
-        player.game.setCurrentClue(clue);
-        player.game.setEndCurrentTurn(true);
+        game.setCurrentClue(clue);
+        finished = true;
     }
 }
