@@ -5,6 +5,13 @@
  *
  * Contributors:
  * Michael Wilgus
+ *
+ * Description:
+ * This is intended to separate creation of strategies for use with
+ * Players out of the Game module. This is desirable because there
+ * are many combinations (3*3=9 for now but maybe more later...) of
+ * strategies to be used. Keeping this logic here helps future aid
+ * ease of future additions/modifications.
  */
 
 package com.comp354pjb.codenames.model.player;
@@ -25,9 +32,11 @@ public class StrategyFactory
      */
     public static Strategy makeStrategy(String type, Game game, PlayerIntelligence level)
     {
+        // Are we a SpyMaster or an Operative?
         switch(type)
         {
             case "spymaster":
+                // Are we smart or... not?
                 switch(level)
                 {
                     case SMART:

@@ -60,14 +60,23 @@ public class SafeSpyMasterAI extends Strategy {
     public void execute() {
         game.setPhase(this.team.niceName() + " SpyMaster");
 
+        // Consult the game clue/card association information
         SuggestionGraph map = game.getSuggestionGraph();
 
         ClueComparator comparator = new ClueComparator(this.team);
 
         Clue clue = map.getBestClue(comparator);
+
+        // We should be careful how many Cards we will let an Operative pick
+        // If to many incorrectly colored cards are suggested penalize the count
         int guesses = clue.getNumberOfCardsSuggestedForTeam(team) - clue.getComplementOfCardsSuggestedForTeam(team);
+        // We should let an operative pick at least one card though
         clue.value = Math.max(guesses, 1);
+
+        // Give the clue
         game.setCurrentClue(clue);
+
+        // We are done
         finished = true;
     }
 }

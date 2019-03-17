@@ -7,6 +7,10 @@
  * Benjamin Therrien
  * Christophe Savard
  * Michael Wilgus
+ *
+ * Description:
+ * Plays the dumb SpyMaster AI turn.
+ * Simply randomly consults the graph of clues/cards.
  */
 
 package com.comp354pjb.codenames.model.player;
@@ -28,19 +32,20 @@ public class SpyMasterAI extends Strategy
     }
 
     //region Methods
-
-    /**
-     * Plays the dumb SpyMaster AI turn
-     */
+    // Modified by Michael Wilgus
+    @Override
     public void execute()
     {
         game.setPhase(this.team.niceName() + " SpyMaster");
-        //Get a random hint that is *not* a word in the board
+
+        // Get a random hint that is *not* a word in the board
         Clue clue = game.getSuggestionGraph().getRandomClue();
         clue.value = Game.RANDOM.nextInt(clue.getCards().size()) + 1;
 
-        //Give out the clue
+        // Give the clue
         game.setCurrentClue(clue);
+
+        // We are done
         finished = true;
     }
     //endregion

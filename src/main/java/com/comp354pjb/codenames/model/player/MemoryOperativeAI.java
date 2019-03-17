@@ -5,6 +5,13 @@
  *
  * Contributors:
  * Michael Wilgus
+ *
+ * Description:
+ * Continually guesses until it either picks a wrong colored card or it picks as many cards as
+ * was indicated by the SpyMaster. This strategy can remember a previous clue if it failed to
+ * guess all the correct cards. It will use the memory on subsequent turns if it guesses all of
+ * the current cards correctly. It will proceed to use the previous clue and its extra guess to
+ * to attempt to get at most one extra card.
  */
 
 package com.comp354pjb.codenames.model.player;
@@ -32,13 +39,6 @@ public class MemoryOperativeAI extends Strategy {
 
     //region Methods
 
-    /**
-     * Continually guesses until it either picks a wrong colored card or it picks as many cards as
-     * was indicated by the SpyMaster. This strategy can remember a previous clue if it failed to
-     * guess all the correct cards. It will use the memory on subsequent turns if it guesses all of
-     * the current cards correctly. It will proceed to use the previous clue and its extra guess to
-     * to attempt to get at most one extra card
-     */
     @Override
     public void execute() {
         game.setPhase(this.team.niceName() + " Operative");

@@ -5,6 +5,16 @@
  *
  * Contributors:
  * Michael Wilgus
+ *
+ * Description:
+ * Codenames is about associating words. This Class aids
+ * AI players in making intelligent (or not so) associations.
+ * It is important to cache information because these eases the many
+ * lookups that occur during the game. The structure provided is easily
+ * updatable and gives a complete representation of Clue to/from Card
+ * associations given any particular board (i.e., one that has codenames
+ * already). This class therefore provides an abstract representation of
+ * the "mind" of a Player.
  */
 
 package com.comp354pjb.codenames.model;
@@ -96,6 +106,8 @@ public class SuggestionGraph {
      */
     public boolean pickCard(String codename)
     {
+        // Does the structure actually keep track of this Card?
+        // Better check just to be sure
         Card card;
         if(this.cards.containsKey(codename)) {
             card = this.cards.get(codename);
@@ -103,12 +115,18 @@ public class SuggestionGraph {
             return false;
         }
 
+        // Update the bookkeeping information for each clue that was associated with the picked card
         for(String relatedClue : card.getClues())
         {
             Clue clue = clues.get(relatedClue);
             if(clue != null) {
+                // This clue can now be used!
                 if(clue.word.equals(codename)) clue.isActiveCodename = false;
+
+                // No longer associate a clue with a card that is not in play
                 clue.removeCard(card);
+
+                // If a clue only suggests the assassin or civilians or suggests nothing it is useless
                 if (!clue.suggestsSomeCard() || clue.onlySuggestsAssassinOrCivilian()) {
                     clues.remove(clue.word);
                 }
@@ -125,6 +143,7 @@ public class SuggestionGraph {
     // and Cards are distinct so it is in another
     private HashMap<String, Clue> getUseableClues()
     {
+        // Will hold a subset of clues that are not also codenames
         HashMap<String, Clue> useableClues = new HashMap<>();
         for(Clue clue : clues.values())
         {

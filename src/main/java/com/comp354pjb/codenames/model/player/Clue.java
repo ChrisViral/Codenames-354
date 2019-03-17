@@ -6,6 +6,12 @@
  * Contributors:
  * Christophe Savard
  * Michael Wilgus
+ *
+ * Description:
+ * Represents the notion of a clue in the Codenames game.
+ * Clues suggest codenames on the board. For bookkeeping sake,
+ * This object stores information about how many of each type
+ * of card a particular clue suggests.
  */
 
 package com.comp354pjb.codenames.model.player;
@@ -22,11 +28,16 @@ public class Clue
     //region Fields
     public final String word;
     public int value;
+    // Added by Michael Wilgus
+    // Bookkeeping variables for AI descision making
     private int redSuggested = 0;
     private int blueSuggested = 0;
     private int civilianSuggested = 0;
     private boolean assassinSuggested = false;
     public boolean isActiveCodename = false;
+
+    // Added by Michael Wilgus
+    // List of cards that are suggested by this clue
     private ArrayList<Card> cards;
     //endregion
 
@@ -45,6 +56,7 @@ public class Clue
     //region Methods
     /**
      * Get the cards on the board that are suggested by this clue
+     * Added by Michael Wilgus
      * @return A list of cards associated with the clue
      */
     public ArrayList<Card> getCards()
@@ -55,6 +67,7 @@ public class Clue
     /**
      * Method to associate a card object with this clue
      * Indicates that this clue suggests the codename on the card
+     * Added by Michael Wilgus
      * @param card Card to be suggested
      * @return True if the card is successfully added and false otherwise
      */
@@ -85,6 +98,7 @@ public class Clue
 
     /**
      * Disassociate a card with this clue
+     * Added by Michael Wilgus
      * @param card Card to be removed
      * @return True if the card is successfully removed and false otherwise
      */
@@ -115,6 +129,7 @@ public class Clue
 
     /**
      * Answers the question: Does this clue suggest any cards currently in play
+     * Added by Michael Wilgus
      * @return True if this clue suggests at least one unrevealed card and false otherwise
      */
     public boolean suggestsSomeCard()
@@ -124,6 +139,7 @@ public class Clue
 
     /**
      * Answers the question: Does this clue suggest any card besides any civilian or the assassin
+     * Added by Michael Wilgus
      * @return True if this clue only suggests civilians and/or the assassin and false otherwise
      */
     public boolean onlySuggestsAssassinOrCivilian()
@@ -133,6 +149,7 @@ public class Clue
 
     /**
      * Gets the number of cards that are suggested for a particular team
+     * Added by Michael Wilgus
      * @param team The PlayerType to get the number of suggested cards for
      * @return Either the number of RED cards suggested or BLUE cards suggested
      */
@@ -151,6 +168,7 @@ public class Clue
 
     /**
      * Gets the number of cards that are suggested other than cards for a particular team
+     * Added by Michael Wilgus
      * @param team The PlayerType to get the number of suggested cards for
      * @return Either the number BLUE+CIVILIAN+ASSASSIN or RED+CIVILIAN+ASSASSIN cards suggested
      */

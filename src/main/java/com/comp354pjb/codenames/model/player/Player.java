@@ -5,11 +5,16 @@
  *
  * Contributors:
  * Christophe Savard
+ * Michael Wilgus
+ *
+ * Description:
+ * Represents a player in the Codenmaes game.
+ * Players can use different Strategies to either give or guess
+ * clues/cards. This object assumes no particular strategy but can
+ * be assigned one on creation.
  */
 
 package com.comp354pjb.codenames.model.player;
-
-import com.comp354pjb.codenames.model.Game;
 
 /**
  * Game player object
@@ -19,6 +24,9 @@ public class Player
     //region Fields
     protected final PlayerType team;
     public final String teamName;
+
+    // Added by Michael wilgus
+    // Keep track of when a player is done or cannot play any longer for a given turn
     private boolean finished = false;
     //endregion
 
@@ -41,6 +49,7 @@ public class Player
      * @param strategy Strategy and type of player
      *
      * Update by Rezza-Zairan
+     * Modified by Michael Wilgus (decouple from game this is now the responsibility of a Strategy)
      * ----------------------
      */
     public Player(PlayerType team, Strategy strategy)
@@ -59,6 +68,9 @@ public class Player
     public void play()
     {
         this.strategy.execute();
+
+        // Added by Michael Wilgus
+        // Consult our strategy to know if we are done playing
         this.finished = this.strategy.isFinished();
     }
 
@@ -67,8 +79,10 @@ public class Player
         return team;
     }
 
+    // Added by Michael Wilgus
     public boolean isFinished() { return this.strategy.isFinished(); }
 
+    // Added by Michael Wilgus
     public void setFinished(boolean finished)
     {
         this.finished = finished;

@@ -12,7 +12,6 @@
 
 package com.comp354pjb.codenames.model.board;
 
-import com.comp354pjb.codenames.model.player.PlayerType;
 import com.comp354pjb.codenames.observer.events.CardFlippedEvent;
 import java.util.*;
 
@@ -126,6 +125,7 @@ public class Board
 
     /**
      * Get a list of all the Cards on the board
+     * Added by Michael Wilgus
      * @return An ArrayList of all the Cards on the board
      */
     public ArrayList<Card>getCards()

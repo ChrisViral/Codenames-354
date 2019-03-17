@@ -7,6 +7,12 @@
  * Steven Zanga
  * Benjamin Therrien
  * Michael Wilgus
+ *
+ * Description:
+ * Represents a card in the Codenmaes game.
+ * Additionally it stores information about clues that can
+ * be used to suggest the card so that AI players can give
+ * intelligent suggestions.
  */
 
 package com.comp354pjb.codenames.model.board;
@@ -52,6 +58,7 @@ public class Card
 
     /**
      * Clue words that suggest this card
+     * Added by Michael Wilgus
      */
     private HashSet<String> clues;
 
@@ -94,12 +101,14 @@ public class Card
 
     /**
      * Get the clue words that suggest this card
+     * Added by Michael Wilgus
      * @return A set of clue words that a SpyMaster can choose from
      */
     public HashSet<String> getClues() { return clues; }
 
     /**
      * Add a word to the clue word set
+     * Added by Michael Wilgus
      * @param clue The clue to be added
      * @return True if the clue is added and false otherwise
      */
@@ -107,6 +116,7 @@ public class Card
 
     /**
      * Remove a word from the clue word set
+     * Added by Michael Wilgus
      * @param clue The clue to be removed
      * @return True if the clue is removed and false otherwise
      */

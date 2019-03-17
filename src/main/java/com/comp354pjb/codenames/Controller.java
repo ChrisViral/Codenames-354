@@ -89,6 +89,7 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
            //Collect data from start menu
            PlayerIntelligence passInt[] = new PlayerIntelligence[4];
 
+           // Updated by Michael Wilgus (Added more options to reflect the number of strategies I wrote)
            switch(redSpymaster.getValue())
            {
                case "DUMB":
@@ -102,6 +103,7 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
                    break;
            }
 
+           // Updated by Michael Wilgus (Added more options to reflect the number of strategies I wrote)
            switch(redOperative.getValue())
            {
                case "DUMB":
@@ -115,6 +117,7 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
                    break;
            }
 
+           // Updated by Michael Wilgus (Added more options to reflect the number of strategies I wrote)
            switch(blueSpymaster.getValue())
            {
                case "DUMB":
@@ -128,6 +131,7 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
                    break;
            }
 
+           // Updated by Michael Wilgus (Added more options to reflect the number of strategies I wrote)
            switch(blueOperative.getValue())
            {
                case "DUMB":

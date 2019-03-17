@@ -8,6 +8,10 @@
  * Steven Zanga
  * Christophe Savard
  * Michael Wilgus
+ *
+ * Description:
+ * Plays the dumb Operative AI's turn
+ * Randomly determine which card to pick, checking that that card has not been revealed before it is chosen
  */
 
 package com.comp354pjb.codenames.model.player;
@@ -32,14 +36,12 @@ public class OperativeAI extends Strategy
     }
 
     //region Methods
-    /**
-     * Plays the dumb Operative AI's turn
-     * Randomly determine which card to pick, checking that that card has not been revealed before it is chosen
-     */
+    // Modified by Michael Wilgus
     @Override
     public void execute()
     {
         game.setPhase(this.team.niceName() + " Operative");
+        // Keep getting random positions until we get an unrevealed card
         while(true) {
             int row = Game.RANDOM.nextInt(5), col = Game.RANDOM.nextInt(5);
             Card card = game.getBoard().getCard(row, col);

@@ -5,6 +5,10 @@
  *
  * Contributors:
  * Michael Wilgus
+ *
+ * Description:
+ * Intelligent but brazen implementation of a SpyMaster AI. Will always give the clue that suggests
+ * the most correctly colored cards no matter how many other cards it also suggests.
  */
 
 package com.comp354pjb.codenames.model.player;
@@ -14,10 +18,6 @@ import com.comp354pjb.codenames.model.SuggestionGraph;
 
 import java.util.Comparator;
 
-/**
- * Intelligent but brazen implementation of a SpyMaster AI. Will always give the clue that suggests
- * the most correctly colored cards no matter how many other cards it also suggests.
- */
 public class RiskySpyMasterAI extends Strategy {
     public static final PlayerIntelligence STRATEGY_CLASS = PlayerIntelligence.MEDIUM;
 
@@ -56,13 +56,18 @@ public class RiskySpyMasterAI extends Strategy {
     public void execute() {
         this.game.setPhase(this.team.niceName() + " SpyMaster");
 
+        // Consult the game clue/card association information
         SuggestionGraph map = game.getSuggestionGraph();
 
         RiskySpyMasterAI.ClueComparator comparator = new RiskySpyMasterAI.ClueComparator(this.team);
 
         Clue clue = map.getBestClue(comparator);
         clue.value = clue.getNumberOfCardsSuggestedForTeam(this.team);
+
+        // Give the clue
         game.setCurrentClue(clue);
+
+        // We are done
         finished = true;
     }
 }
