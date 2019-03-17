@@ -35,6 +35,7 @@ public class RiskySpyMasterAI extends Strategy {
 
         @Override
         public int compare(Clue clue1, Clue clue2) {
+            // Lower scores are better
             int score1 = -clue1.getNumberOfCardsSuggestedForTeam(team);
             int score2 = -clue2.getNumberOfCardsSuggestedForTeam(team);
 

@@ -39,8 +39,11 @@ public class SafeSpyMasterAI extends Strategy {
          */
         @Override
         public int compare(Clue clue1, Clue clue2) {
+            // Penalties are based on how many incorrectly colored cards a clue suggests
             int penalty1 = clue1.getComplementOfCardsSuggestedForTeam(team);
             int penalty2 = clue2.getComplementOfCardsSuggestedForTeam(team);
+
+            // Lower scores are better so we add the penalty
             int score1 = -clue1.getNumberOfCardsSuggestedForTeam(team) + penalty1;
             int score2 = -clue2.getNumberOfCardsSuggestedForTeam(team) + penalty2;
 
