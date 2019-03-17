@@ -50,3 +50,8 @@ misc.xml
 # LaTeX
 *.synctex.gz
 *.log
+
+
+# Eclipse
+.classpath
+.project
