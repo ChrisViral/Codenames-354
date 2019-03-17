@@ -98,31 +98,37 @@ public final class DatabaseHelper
      * @param  q The query you want to run on the database. Expected to be in SQLite3.
      * @param  colName The name of the column you're accessing.
      * @return Words stored in the DB
+     * -----------
+     * Revised by Mordechai Zirkind
      */
     public static String[] runSingleValQuery(String q, String colName)
     {
+        // Get database address and create the array to return in the correct scope.
         String url = getURL();
         String[] toReturn;
 
+        // Attempt to connect and create an SQL statement
         try (Connection conn = DriverManager.getConnection(url); Statement stmt = conn.createStatement())
         {
             //Getting the size of the array
             ResultSet size = stmt.executeQuery("select count(*) as size from ("+q+");");
             toReturn = new String[size.getInt("size")];
-            //Getting all the words in the database
+            //Run the query and store the result in query
             ResultSet query = stmt.executeQuery(q+";");
-            int i = 0;
+
+            int i = 0; // counter to iterate through the to return array
             while (query.next())
             {
-                toReturn[i++] = toCamelCase(query.getString(colName));
+                toReturn[i++] = toCamelCase(query.getString(colName)); // add everything
             }
         }
         catch (SQLException e)
         {
+            // if there's an error print it and return an empty array
             Commander.log(e.getMessage());
             toReturn = new String[0];
         }
-        //Return the database
+        //Return the query results formatted as an array of strings.
         return toReturn;
     }
     //endregion
@@ -130,6 +136,8 @@ public final class DatabaseHelper
     /**
      * Returns a single random codename from the database
      * @return One word picked from the Database
+     * -----------
+     * Created by Mordechai Zirkind
      */
     public static String getRandomCodename()
     {
@@ -140,6 +148,8 @@ public final class DatabaseHelper
      * Returns n codenames to be created into cards, they are randomly selected.
      * @param n the number of codenames you want.
      * @return selected words
+     * -----------
+     * Created by Mordechai Zirkind
      */
     public static String[] getRandomCodenames(int n)
     {
@@ -150,6 +160,8 @@ public final class DatabaseHelper
     /**
      * Returns a single random clue from the database
      * @return One word picked from the Database
+     * -----------
+     * Created by Mordechai Zirkind
      */
     public static String getRandomClue()
     {
@@ -160,6 +172,8 @@ public final class DatabaseHelper
      * Returns all of the clues for a given codename.
      * @param codename the codename you want the clues to.
      * @return related clues.
+     * -----------
+     * Created by Mordechai Zirkind
      */
     public static String[] getCluesForCodename(String codename)
     {
@@ -171,6 +185,8 @@ public final class DatabaseHelper
      * Returns all of the codenames for a given clue.
      * @param clue Clue to test against
      * @return related codenames.
+     * -----------
+     * Created by Mordechai Zirkind
      */
     public static String[] getCodenamesForClue(String clue)
     {
@@ -179,42 +195,57 @@ public final class DatabaseHelper
     }
 
     /**
-     * Function to give the board layout.
-     * @return An array of strings of length two. The first is effectively a char either R or B representing the first team. The second is a string of the chars CARB of length 25 each representing one card on the board.
+     * Returns the board layout.
+     * @return An array of strings of length two. The first is either R or B representing the first team. The second is a string of made up of the letters C, A, R, and B of length 25 each representing one card on the board.
+     * -----------
+     * Created by Mordechai Zirkind
      */
     public static String[] getBoardLayout() {
 
+        // Get database address and create the array to return in the correct scope.
         String url = getURL();
-        String[] toReturn;
+        String[] toReturn = new String[2];
 
+        // Attempt to connect and create an SQL statement
         try (Connection conn = DriverManager.getConnection(url); Statement stmt = conn.createStatement())
         {
-            //Getting the size of the array
-            toReturn = new String[2];
-            //Getting all the words in the database
+            //Run the query and store the result in query
             ResultSet query = stmt.executeQuery("SELECT firstTeam, layout FROM BoardLayouts ORDER BY random() LIMIT 1;");
-            int i = 0;
-            while (query.next())
-            {
-                toReturn[0] = query.getString("firstTeam");
-                toReturn[1] = query.getString("layout");
-            }
+            //Put the query results where we need them.
+            toReturn[0] = query.getString("firstTeam");
+            toReturn[1] = query.getString("layout");
         }
         catch (SQLException e)
         {
+            // if there's an error print it and return an empty array
             Commander.log(e.getMessage());
             toReturn = new String[0];
         }
-        //Return the database
+        //Return the board layout
         return toReturn;
     }
 
+    /**
+     * Add the record of a completed game to the database.
+     * @param redTeam The name of the red team. Intended to track humans by name.
+     * @param blueTeam The name of the blue team. Intended to track humans by name.
+     * @param numOfRounds The number of rounds it took to finish the game.
+     * @param winner The team that one either red or blue.
+     * @param assassinRevealed True if the assassin was revealed, otherwise false.
+     * @param civilianRevealed The number of civilian cards revealed over the course of the game.
+     * @param redTilesRevealed The number of red team cards revealed over the course of the game.
+     * @param blueTilesRevealed The number of blue team cards revealed over the course of the game.
+     * @return False if there's an SQL error, otherwise true.
+     * -----------
+     * Created by Mordechai Zirkind
+     */
     public static boolean addGameToStats(String redTeam, String blueTeam, int numOfRounds, String winner, boolean assassinRevealed, int civilianRevealed, int redTilesRevealed, int blueTilesRevealed)
     {
+        // Get database address and create the array to return in the correct scope.
         String url = getURL();
-        //raw sql
         String sql = "INSERT INTO GameHistory(blueTeamName, redTeamName, numberOfRounds, winner, civilianRevealed, assassinRevealed, redTilesRevealed, blueTilesRevealed) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
+        // Attempt to connect and create an SQL statement
         try (Connection conn = DriverManager.getConnection(url); PreparedStatement stmt = conn.prepareStatement(sql))
         {
             //Prepare the statement
@@ -242,28 +273,34 @@ public final class DatabaseHelper
     }
 
     /**
-     * Removes all entries from the game history that have a number of Rounds equal to -25
+     * Removes all entries from the game history that have a number of Rounds equal to -25.
+     * Exists exclusively for testing purposes.
+     * -----------
+     * Created by Benjamin Therrien
+     * Revised by Mordechai Zirkind
      * */
     public static boolean deleteTestEntry()
     {
-    String url = getURL();
-    //raw sql
-    String sql = "DELETE FROM GameHistory WHERE GameHistory.numberOfRounds = ?;";
+        //Get the database URL and write the SQL query statement.
+        String url = getURL();
+        String sql = "DELETE FROM GameHistory WHERE GameHistory.numberOfRounds = ?;";
 
-    try (Connection conn = DriverManager.getConnection(url); PreparedStatement stmt = conn.prepareStatement(sql))
-    {
-        stmt.setInt(1,-25);
-        stmt.executeUpdate();
-    }
-    catch (SQLException e)
-    {
-        //False if there's an error
-        Commander.log(e.getMessage());
-        return false;
-    }
+        //Attempt to creat the information and prepare the statement
+        try (Connection conn = DriverManager.getConnection(url); PreparedStatement stmt = conn.prepareStatement(sql))
+        {
+            //Add the values to the prepared statement.
+            stmt.setInt(1,-25);
+            stmt.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            //False if there's an error
+            Commander.log(e.getMessage());
+            return false;
+        }
 
-    //True if it worked.
-    return true;
+        //True if it worked.
+        return true;
     }
 
 

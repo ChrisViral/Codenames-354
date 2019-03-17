@@ -219,7 +219,7 @@ public class Game
         //Game ends as soon as the Assassin is revealed
         if (this.assassinRevealed)
         {
-            recordGame(this.winner, this.loser);
+            recordGame();
             return true;
         }
         else
@@ -240,13 +240,13 @@ public class Game
             if (this.redCardsRevealed == redTarget)
             {
                 setWinner(PlayerType.RED);
-                recordGame(PlayerType.RED, PlayerType.BLUE);
+                recordGame();
                 return true;
             }
             if (this.blueCardsRevealed == blueTarget)
             {
                 setWinner(PlayerType.BLUE);
-                recordGame(PlayerType.BLUE, PlayerType.RED);
+                recordGame();
                 return true;
             }
             return false;
@@ -255,12 +255,12 @@ public class Game
 
     /**
      * Records the game stats in the database.
-     * @param winner the player type of the winning team.
-     * @param loser the player type of the losing team.
+     * -----------
+     * Created by Mordechai Zirkind
      */
-    private void recordGame(PlayerType winner, PlayerType loser)
+    private void recordGame()
     {
-        DatabaseHelper.addGameToStats("Reds", "Blues", this.round, winner.niceName(), this.assassinRevealed, this.civilianCardsRevealed, this.redCardsRevealed, this.redCardsRevealed);
+        DatabaseHelper.addGameToStats("Reds", "Blues", this.round, this.winner.niceName(), this.assassinRevealed, this.civilianCardsRevealed, this.redCardsRevealed, this.redCardsRevealed);
     }
 
     /**
