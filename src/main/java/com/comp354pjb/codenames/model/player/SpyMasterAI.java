@@ -11,11 +11,15 @@
 
 package com.comp354pjb.codenames.model.player;
 
-import com.comp354pjb.codenames.model.DatabaseHelper;
 import com.comp354pjb.codenames.model.Game;
 
+/**
+ * Basic implementation of a SpyMaster AI. Gets a random clue from the suggestion graph to give.
+ */
 public class SpyMasterAI extends Strategy
 {
+    public static final PlayerIntelligence STRATEGY_CLASS = PlayerIntelligence.DUMB;
+
     private Game game;
 
     public SpyMasterAI(Game game)
@@ -24,6 +28,7 @@ public class SpyMasterAI extends Strategy
     }
 
     //region Methods
+
     /**
      * Plays the dumb SpyMaster AI turn
      */
@@ -31,7 +36,7 @@ public class SpyMasterAI extends Strategy
     {
         game.setPhase(this.team.niceName() + " SpyMaster");
         //Get a random hint that is *not* a word in the board
-        Clue clue = game.getSuggestionMap().getRandomClue();
+        Clue clue = game.getSuggestionGraph().getRandomClue();
         clue.value = Game.RANDOM.nextInt(clue.getCards().size()) + 1;
 
         //Give out the clue

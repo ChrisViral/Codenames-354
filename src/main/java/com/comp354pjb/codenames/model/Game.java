@@ -72,6 +72,11 @@ public class Game
     }
 
     private Player currentPlayer;
+
+    /**
+     * Set the player that is currently giving clues or guessing cards
+     * @param player The Player associated with the game whose turn it is
+     */
     public void setCurrentPlayer(Player player) { this.currentPlayer = player; }
 
     //score keeping members
@@ -138,10 +143,10 @@ public class Game
 
     private SuggestionGraph graph;
     /**
-     *
-     * @return
+     * Gets the graph structure that associates clues to words for this game
+     * @return A SuggestionGraph that has the current clue to card relationship information for this game
      */
-    public SuggestionGraph getSuggestionMap()
+    public SuggestionGraph getSuggestionGraph()
     {
         return graph;
     }
@@ -160,7 +165,7 @@ public class Game
         String[] setup = DatabaseHelper.getBoardLayout();
         setPlayers(setup[0], passInt);
         this.board = new Board(DatabaseHelper.getRandomCodenames(25), setup[1]);
-        this.graph = createSuggestionMap();
+        this.graph = createSuggestionGraph();
     }
     //endregion
 
@@ -335,9 +340,12 @@ public class Game
 
     //region Helpers
     //
-    private SuggestionGraph createSuggestionMap()
+    private SuggestionGraph createSuggestionGraph()
     {
+        // Get all the cards on the board
         ArrayList<Card> codenames = board.getCards();
+
+        // Get all the clues for each card and add them to the cards
         for(Card c : codenames)
         {
             String[] clues = DatabaseHelper.getCluesForCodename(c.getWord().toLowerCase());
@@ -348,26 +356,26 @@ public class Game
             }
         }
 
+        // These variables will represent the graph structure from clues to cards (and vise versa)
         HashMap<String, Clue> clues = new HashMap<>();
         HashMap<String, Card> cards = new HashMap<>();
-        Card assassin = null;
+
+        // Add Clues to the graph
         for(Card c : codenames)
         {
-            if(c.getType() == CardType.ASSASSIN)
-            {
-                assassin = c;
-            }
-
             cards.put(c.getWord(), c);
             HashSet<String> suggestions = c.getClues();
             for(String s : suggestions)
             {
-                Clue clue = clues.getOrDefault(s, new Clue(s, 0));
+                Clue clue = clues.getOrDefault(s, new Clue(s));
                 clue.addCard(c);
                 clues.put(s, clue);
             }
         }
 
+        // Remove clues that only suggest the assassin or civilians
+        // NOTE: This must be done here because this information is only
+        // available after all clues have been added
         ArrayList<String> badClues = new ArrayList<>();
         for(Clue clue : clues.values())
         {
@@ -385,7 +393,6 @@ public class Game
         for(String key : badClues)
         {
             clues.remove(key);
-            assassin.removeClue(key);
         }
 
         return new SuggestionGraph(clues, cards, Game.RANDOM);
