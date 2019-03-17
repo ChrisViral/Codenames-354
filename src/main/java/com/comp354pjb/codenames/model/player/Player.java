@@ -17,9 +17,9 @@ import com.comp354pjb.codenames.model.Game;
 public class Player
 {
     //region Fields
-    protected final Game game;
     protected final PlayerType team;
     public final String teamName;
+    private boolean finished = false;
     //endregion
 
     //region Properties
@@ -37,12 +37,12 @@ public class Player
     //endregion
 
     //region Properties
-    protected final IPlayer strategy;
+    protected final Strategy strategy;
     /**
      * Gets the strategy associated to this player
      * @return The currently used Strategy
      */
-    public IPlayer getStrategy()
+    public Strategy getStrategy()
     {
         return this.strategy;
     }
@@ -51,7 +51,6 @@ public class Player
     //region Constructors
     /**
      * Creates a new player for a Codenames game
-     * @param game     Game this player evolves within
      * @param team     Team this player is on
      * @param strategy Strategy and type of player
      *
@@ -59,11 +58,11 @@ public class Player
      * ----------------------
      * @param intelligence to hold the new enum to dictate AI intelligence for Iteration 2
      */
-    public Player(Game game, PlayerType team, IPlayer strategy, PlayerIntelligence intelligence)
+    public Player(Game game, PlayerType team, Strategy strategy, PlayerIntelligence intelligence)
     {
-        this.game = game;
         this.team = team;
         this.strategy = strategy;
+        this.strategy.setTeam(team);
         this.teamName = this.team.niceName();
         this.intelligence = intelligence;
     }
@@ -75,12 +74,22 @@ public class Player
      */
     public void play()
     {
-        this.strategy.playTurn(this);
+        this.strategy.execute();
+        this.finished = this.strategy.isFinished();
     }
 
     public PlayerType getTeam()
     {
         return team;
     }
+
+    public boolean isFinished() { return this.strategy.isFinished(); }
+
+    public void setFinished(boolean finished)
+    {
+        this.finished = finished;
+        this.strategy.setFinished(finished);
+    }
+
     //endregion
 }

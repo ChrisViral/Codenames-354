@@ -9,57 +9,48 @@
 
 package com.comp354pjb.codenames.model.player;
 
+import com.comp354pjb.codenames.model.Game;
 import com.comp354pjb.codenames.model.SuggestionGraph;
 
 import java.util.Comparator;
 
-public class RiskySpyMasterAI implements IPlayer {
+public class RiskySpyMasterAI extends Strategy {
+    private Game game;
+
     private class ClueComparator implements Comparator<Clue>
     {
-        private PlayerType type;
+        private PlayerType team;
 
-        public ClueComparator(PlayerType type)
+        public ClueComparator(PlayerType team)
         {
-            this.type = type;
+            this.team = team;
         }
 
         @Override
         public int compare(Clue clue1, Clue clue2) {
-            int score1, score2;
-            if(type.equals(PlayerType.RED))
-            {
-                score1 = -clue1.redSuggested;
-                score2 = -clue2.redSuggested;
-            }
-            else
-            {
-                score1 = -clue1.blueSuggested;
-                score2 = -clue2.blueSuggested;
-            }
+            int score1 = -clue1.getNumberOfCardsSuggestedForTeam(team);
+            int score2 = -clue2.getNumberOfCardsSuggestedForTeam(team);
 
             return Integer.compare(score1, score2);
         }
     }
 
+    public RiskySpyMasterAI(Game game)
+    {
+        this.game = game;
+    }
+
     @Override
-    public void playTurn(Player player) {
-        player.game.setPhase(player.teamName + " SpyMaster");
+    public void execute() {
+        this.game.setPhase(this.team.niceName() + " SpyMaster");
 
-        SuggestionGraph map = player.game.getSuggestionMap();
+        SuggestionGraph map = game.getSuggestionMap();
 
-        RiskySpyMasterAI.ClueComparator comparator = new RiskySpyMasterAI.ClueComparator(player.team);
+        RiskySpyMasterAI.ClueComparator comparator = new RiskySpyMasterAI.ClueComparator(this.team);
 
         Clue clue = map.getBestClue(comparator);
-        int guesses;
-        if(player.team == PlayerType.RED)
-        {
-            guesses = clue.redSuggested;
-        }
-        else
-        {
-            guesses = clue.blueSuggested;
-        }
-        clue.value = guesses;
-        player.game.setCurrentClue(clue);
+        clue.value = clue.getNumberOfCardsSuggestedForTeam(this.team);
+        game.setCurrentClue(clue);
+        finished = true;
     }
 }

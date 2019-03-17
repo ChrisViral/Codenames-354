@@ -26,6 +26,7 @@ public class Clue
     public int blueSuggested = 0;
     public int civilianSuggested = 0;
     public boolean assassinSuggested = false;
+    public boolean isActiveCodename = false;
     private ArrayList<Card> cards;
     //endregion
 
@@ -116,11 +117,43 @@ public class Clue
 
     /**
      * Answers the question: Does this clue suggest any cards currently in play
-     * @return True if this clue suggests at least one card and false otherwise
+     * @return True if this clue suggests at least one unrevealed card and false otherwise
      */
     public boolean suggestsSomeCard()
     {
         return redSuggested > 0 || blueSuggested > 0 || civilianSuggested > 0 || assassinSuggested == true;
+    }
+
+    public boolean onlySuggestsAssassinOrCivilian()
+    {
+        return redSuggested == 0 && blueSuggested == 0;
+    }
+
+    public int getNumberOfCardsSuggestedForTeam(PlayerType team)
+    {
+        switch(team)
+        {
+            case RED:
+                return redSuggested;
+            case BLUE:
+                return blueSuggested;
+            default:
+                return 0; // Keep the compiler happy
+        }
+    }
+
+    public int getComplementOfCardsSuggestedForTeam(PlayerType team)
+    {
+        int answer = 0;
+        switch(team)
+        {
+            case RED:
+                answer += blueSuggested;
+            case BLUE:
+                answer += redSuggested;
+        }
+        answer += civilianSuggested + (assassinSuggested ? 1 : 0);
+        return answer;
     }
 
     /**
