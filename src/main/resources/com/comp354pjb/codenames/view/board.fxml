@@ -8,6 +8,7 @@
  * Contributors:
  * Mottel Zirkind
  * Christophe Savard
+ * Rezza-Zairan Zaharin
  */
 -->
 
@@ -25,7 +26,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<GridPane fx:id="grid" alignment="CENTER" hgap="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" stylesheets="@board.css" vgap="5.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.comp354pjb.codenames.Controller">
+<GridPane fx:id="grid" alignment="CENTER" hgap="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" stylesheets="@board.css" vgap="5.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <!--A bunch of default config stuff that makes things ugly if I remove it.-->
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -48,208 +49,208 @@
     <padding>
         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
     </padding>
-   <children>
-       <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
-          <children>
-              <HBox>
-                  <children>
-                  <Text styleClass="info" text="Round: " />
-                  <Text fx:id="round" styleClass="info" text="1" />
-                  </children>
-              </HBox>
-              <HBox>
-                  <children>
-                      <Text styleClass="info" text="Phase: " />
-                      <Text fx:id="phase" styleClass="info" text="---" />
-                  </children>
-              </HBox>
-          </children>
-       </VBox>
-   
-       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="0">
-      <children>
-          <HBox>
-              <children>
-                  <Text styleClass="info" text="Red: " />
-                  <Text fx:id="red" styleClass="info" text="-/-" />
-              </children>
-          </HBox>
-          <HBox>
-              <children>
-                  <Text styleClass="info" text="Blue: " />
-                  <Text fx:id="blue" styleClass="info" text="-/-" />
-              </children>
-          </HBox>
-      </children>
-       </VBox>
-       <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="0">
-          <children>
-              <HBox>
-                  <children>
-                      <Text styleClass="info" text="Guesses: " />
-                      <Text fx:id="guesses" styleClass="info" text="-/-" />
-                  </children>
-              </HBox>
-              <HBox>
-                  <children>
-                      <Text styleClass="info" text="Clue: " />
-                      <Text fx:id="clue" styleClass="info" text="---" />
-                  </children>
-              </HBox>
-          </children>
-       </VBox>
-   
-       <!--First row-->
-       <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="1" GridPane.rowIndex="1">
-      <children>
-              <Text styleClass="word" text="Word" />
-      </children>
-       </HBox>
-       <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="2" GridPane.rowIndex="1">
-          <children>
-              <Text styleClass="word" text="Word" />
-          </children>
-       </HBox>
-       <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="3" GridPane.rowIndex="1">
-          <children>
-              <Text styleClass="word" text="Word" />
-          </children>
-       </HBox>
-       <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="4" GridPane.rowIndex="1">
-          <children>
-              <Text styleClass="word" text="Word" />
-          </children>
-       </HBox>
-       <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="5" GridPane.rowIndex="1">
-          <children>
-              <Text styleClass="word" text="Word" />
-          </children>
-       </HBox>
-   
-       <!--Second row-->
-       <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="1" GridPane.rowIndex="2">
-      <children>
-              <Text styleClass="word" text="Word" />
-      </children>
-       </HBox>
-       <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="2" GridPane.rowIndex="2">
-          <children>
-              <Text styleClass="word" text="Word" />
-          </children>
-       </HBox>
-       <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="3" GridPane.rowIndex="2">
-          <children>
-              <Text styleClass="word" text="Word" />
-          </children>
-       </HBox>
-       <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="4" GridPane.rowIndex="2">
-          <children>
-              <Text styleClass="word" text="Word" />
-          </children>
-       </HBox>
-       <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="5" GridPane.rowIndex="2">
-          <children>
-              <Text styleClass="word" text="Word" />
-          </children>
-       </HBox>
-   
-       <!--Third row-->
-       <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="1" GridPane.rowIndex="3">
-      <children>
-              <Text styleClass="word" text="Word" />
-      </children>
-       </HBox>
-       <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="2" GridPane.rowIndex="3">
-          <children>
-              <Text styleClass="word" text="Word" />
-          </children>
-       </HBox>
-       <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="3" GridPane.rowIndex="3">
-          <children>
-              <Text styleClass="word" text="Word" />
-          </children>
-       </HBox>
-       <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="4" GridPane.rowIndex="3">
-          <children>
-              <Text styleClass="word" text="Word" />
-          </children>
-       </HBox>
-       <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="5" GridPane.rowIndex="3">
-          <children>
-              <Text styleClass="word" text="Word" />
-          </children>
-       </HBox>
-   
-       <!--Fourth row-->
-       <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="1" GridPane.rowIndex="4">
-      <children>
-              <Text styleClass="word" text="Word" />
-      </children>
-       </HBox>
-       <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="2" GridPane.rowIndex="4">
-          <children>
-              <Text styleClass="word" text="Word" />
-          </children>
-       </HBox>
-       <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="3" GridPane.rowIndex="4">
-          <children>
-              <Text styleClass="word" text="Word" />
-          </children>
-       </HBox>
-       <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="4" GridPane.rowIndex="4">
-          <children>
-              <Text styleClass="word" text="Word" />
-          </children>
-       </HBox>
-       <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="5" GridPane.rowIndex="4">
-          <children>
-              <Text styleClass="word" text="Word" />
-          </children>
-       </HBox>
-   
-       <!--Fifth row-->
-       <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="1" GridPane.rowIndex="5">
-      <children>
-              <Text styleClass="word" text="Word" />
-      </children>
-       </HBox>
-       <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="2" GridPane.rowIndex="5">
-          <children>
-              <Text styleClass="word" text="Word" />
-          </children>
-       </HBox>
-       <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="3" GridPane.rowIndex="5">
-          <children>
-              <Text styleClass="word" text="Word" />
-          </children>
-       </HBox>
-       <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="4" GridPane.rowIndex="5">
-          <children>
-              <Text styleClass="word" text="Word" />
-          </children>
-       </HBox>
-       <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="5" GridPane.rowIndex="5">
-          <children>
-              <Text styleClass="word" text="Word" />
-          </children>
-       </HBox>
+    <children>
+        <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+            <children>
+                <HBox>
+                    <children>
+                        <Text styleClass="info" text="Round: " />
+                        <Text fx:id="round" styleClass="info" text="1" />
+                    </children>
+                </HBox>
+                <HBox>
+                    <children>
+                        <Text styleClass="info" text="Phase: " />
+                        <Text fx:id="phase" styleClass="info" text="---" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
 
-       <!--Bottom buttons-->
-       <HBox alignment="CENTER" GridPane.columnIndex="5" GridPane.rowIndex="6">
-           <children>
-               <Button fx:id="nextMoveButton" disable="false" onAction="#onNextMove" styleClass="buttonNext" text="Next Move" />
-           </children>
-       </HBox>
-       <!--THIS IS COMMENTED OUT BECAUSE IT'S AN EXTRA FEATURE WE DON'T HAVE IT WORKING PRESENTLY.-->
-       <!--<HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="6">-->
-          <!--<children>-->
-              <!--<Button fx:id="undoButton" disable="true" onAction="#onUndo" styleClass="button" text="Undo" />-->
-              <!--<Button fx:id="redoButton" disable="true" onAction="#onRedo" styleClass="button" text="Redo">-->
-               <!--<HBox.margin>-->
-                   <!--<Insets left="10" />-->
-               <!--</HBox.margin>-->
-              <!--</Button>-->
-          <!--</children>-->
-       <!--</HBox>-->
-   </children>
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="0">
+            <children>
+                <HBox>
+                    <children>
+                        <Text styleClass="info" text="Red: " />
+                        <Text fx:id="red" styleClass="info" text="-/-" />
+                    </children>
+                </HBox>
+                <HBox>
+                    <children>
+                        <Text styleClass="info" text="Blue: " />
+                        <Text fx:id="blue" styleClass="info" text="-/-" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+        <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="0">
+            <children>
+                <HBox>
+                    <children>
+                        <Text styleClass="info" text="Guesses: " />
+                        <Text fx:id="guesses" styleClass="info" text="-/-" />
+                    </children>
+                </HBox>
+                <HBox>
+                    <children>
+                        <Text styleClass="info" text="Clue: " />
+                        <Text fx:id="clue" styleClass="info" text="---" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+
+        <!--First row-->
+        <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <children>
+                <Text styleClass="word" text="Word" />
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <children>
+                <Text styleClass="word" text="Word" />
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="3" GridPane.rowIndex="1">
+            <children>
+                <Text styleClass="word" text="Word" />
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="4" GridPane.rowIndex="1">
+            <children>
+                <Text styleClass="word" text="Word" />
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="5" GridPane.rowIndex="1">
+            <children>
+                <Text styleClass="word" text="Word" />
+            </children>
+        </HBox>
+
+        <!--Second row-->
+        <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <children>
+                <Text styleClass="word" text="Word" />
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <children>
+                <Text styleClass="word" text="Word" />
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="3" GridPane.rowIndex="2">
+            <children>
+                <Text styleClass="word" text="Word" />
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="4" GridPane.rowIndex="2">
+            <children>
+                <Text styleClass="word" text="Word" />
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="5" GridPane.rowIndex="2">
+            <children>
+                <Text styleClass="word" text="Word" />
+            </children>
+        </HBox>
+
+        <!--Third row-->
+        <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <children>
+                <Text styleClass="word" text="Word" />
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="2" GridPane.rowIndex="3">
+            <children>
+                <Text styleClass="word" text="Word" />
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="3" GridPane.rowIndex="3">
+            <children>
+                <Text styleClass="word" text="Word" />
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="4" GridPane.rowIndex="3">
+            <children>
+                <Text styleClass="word" text="Word" />
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="5" GridPane.rowIndex="3">
+            <children>
+                <Text styleClass="word" text="Word" />
+            </children>
+        </HBox>
+
+        <!--Fourth row-->
+        <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <children>
+                <Text styleClass="word" text="Word" />
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="2" GridPane.rowIndex="4">
+            <children>
+                <Text styleClass="word" text="Word" />
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="3" GridPane.rowIndex="4">
+            <children>
+                <Text styleClass="word" text="Word" />
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="4" GridPane.rowIndex="4">
+            <children>
+                <Text styleClass="word" text="Word" />
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="5" GridPane.rowIndex="4">
+            <children>
+                <Text styleClass="word" text="Word" />
+            </children>
+        </HBox>
+
+        <!--Fifth row-->
+        <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <children>
+                <Text styleClass="word" text="Word" />
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="2" GridPane.rowIndex="5">
+            <children>
+                <Text styleClass="word" text="Word" />
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="3" GridPane.rowIndex="5">
+            <children>
+                <Text styleClass="word" text="Word" />
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="4" GridPane.rowIndex="5">
+            <children>
+                <Text styleClass="word" text="Word" />
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" onMouseClicked="#onClicked" prefHeight="200.0" prefWidth="200.0" styleClass="card, unknown" GridPane.columnIndex="5" GridPane.rowIndex="5">
+            <children>
+                <Text styleClass="word" text="Word" />
+            </children>
+        </HBox>
+
+        <!--Bottom buttons-->
+        <HBox alignment="CENTER" GridPane.columnIndex="5" GridPane.rowIndex="6">
+            <children>
+                <Button fx:id="nextMoveButton" disable="false" onAction="#onNextMove" styleClass="buttonNext" text="Next Move" />
+            </children>
+        </HBox>
+        <!--THIS IS COMMENTED OUT BECAUSE IT'S AN EXTRA FEATURE WE DON'T HAVE IT WORKING PRESENTLY.-->
+        <!--<HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="6">-->
+        <!--<children>-->
+        <!--<Button fx:id="undoButton" disable="true" onAction="#onUndo" styleClass="button" text="Undo" />-->
+        <!--<Button fx:id="redoButton" disable="true" onAction="#onRedo" styleClass="button" text="Redo">-->
+        <!--<HBox.margin>-->
+        <!--<Insets left="10" />-->
+        <!--</HBox.margin>-->
+        <!--</Button>-->
+        <!--</children>-->
+        <!--</HBox>-->
+    </children>
 </GridPane>

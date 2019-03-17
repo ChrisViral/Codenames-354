@@ -7,6 +7,7 @@
  * Christophe Savard
  * Steven Zanga
  * Benjamin Therrien
+ * Rezza-Zairan Zaharin
  */
 
 package com.comp354pjb.codenames;
@@ -38,6 +39,7 @@ public class Codenames extends Application
     /**
      * Board FXML file location
      */
+    private static final String START_MENU_FXML = "view/startMenu.fxml";
     private static final String BOARD_FXML = "view/board.fxml";
     //endregion
 
@@ -63,17 +65,31 @@ public class Codenames extends Application
      * Starts the JavaFX GUI
      * @param stage JavaFX Stage
      * @throws IOException FXML file not found
+     *
+     * Update by Rezza-Zairan
+     * ----------------------
+     * With refactoring, this function is modified to accommodate the new FXML file
      */
     @Override
     public void start(Stage stage) throws IOException
     {
+        //Main controller for the two FXML files below
+        Controller controller = new Controller();
+
         //Loading FXML file
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(BOARD_FXML));
-        Scene scene = new Scene(loader.<Parent>load(), WIDTH, HEIGHT);
+        //Start Menu
+        FXMLLoader startMenuLoader = new FXMLLoader(getClass().getResource(START_MENU_FXML));
+        startMenuLoader.setController(controller);
+        Scene startMenuScene = new Scene(startMenuLoader.<Parent>load(), WIDTH, HEIGHT);
+
+        //Board
+        FXMLLoader boardLoader = new FXMLLoader(getClass().getResource(BOARD_FXML));
+        boardLoader.setController(controller);
+        Scene boardScene = new Scene(boardLoader.<Parent>load(), WIDTH, HEIGHT);
 
         //Showing GUI
         stage.setTitle(getClass().getSimpleName());
-        stage.setScene(scene);
+        stage.setScene(startMenuScene);
         stage.show();
     }
 

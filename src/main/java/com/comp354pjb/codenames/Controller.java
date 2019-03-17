@@ -5,6 +5,7 @@
  *
  * Contributors:
  * Christophe Savard
+ * Rezza-Zairan Zaharin
  */
 
 package com.comp354pjb.codenames;
@@ -14,15 +15,19 @@ import com.comp354pjb.codenames.model.board.Board;
 import com.comp354pjb.codenames.model.board.Card;
 import com.comp354pjb.codenames.model.Game;
 import com.comp354pjb.codenames.model.player.Clue;
+import com.comp354pjb.codenames.model.player.PlayerIntelligence;
 import com.comp354pjb.codenames.observer.events.*;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 /**
  * Controller object, interacts between the View (FXML) and the Model
@@ -34,9 +39,11 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     @FXML
     private GridPane grid;
     @FXML
-    private Button undoButton, redoButton, nextMoveButton;
+    private Button undoButton, redoButton, nextMoveButton, startGameBtn;
     @FXML
     private Text round, phase, red, blue, guesses, clue;
+    @FXML
+    private ComboBox<String> redSpymaster, redOperative, blueSpymaster, blueOperative;
 
     //Data
     private HBox[][] boxes;
@@ -48,61 +55,118 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
 
     //region FXML Methods
     /**
-     * Initializes the controller along with the FXML file
+     * Initializes the controller
      */
     @FXML
     private void initialize()
     {
-        //Fetch all the card boxes
-        this.boxes = new HBox[5][5];
-        for (Node node : grid.getChildren())
-        {
-            int x = GridPane.getRowIndex(node);
-            int y = GridPane.getColumnIndex(node);
 
-            if (x >= 1 && x <= 5 && y >= 1 && y <= 5)
-            {
-                this.boxes[x - 1][y - 1] = (HBox)node;
-            }
-        }
+    }
 
-        //Create game object
-        this.game = new Game();
+    /**
+     * Update by Rezza-Zairan
+     * ----------------------
+     * Initializes the FXML as everything in initialize() was pushed towards this function so that it responds to the
+     * start game button being clicked.
+     *
+     * This function also passes PlayerIntelligence to the instancing of Game()
+     */
+    @FXML
+    private void setup()
+    {
+        //Only runs if every option has value
+       if ((redSpymaster.getValue() != null ) &&
+               (redOperative.getValue() != null) &&
+               (blueSpymaster.getValue() != null) &&
+               (blueOperative.getValue() != null))
+       {
+           //Transition to next scene
+           Stage stage = (Stage) startGameBtn.getScene().getWindow();
+           Scene gameScene =  nextMoveButton.getScene();
+           stage.setScene(gameScene);
 
-        //Register to all events
-        this.game.onClueGiven.register(this);
-        this.game.onPhaseChange.register(this);
-        this.game.onRoundChange.register(this);
-        this.game.getBoard().onFlip.register(this);
+           //Collect data from start menu
+           PlayerIntelligence passInt[] = new PlayerIntelligence[4];
 
-        //Setup the commander object
-        Commander.instance().setup(this, this.game);
+           if (redSpymaster.getValue() != "DUMB")
+               passInt[0] = PlayerIntelligence.SMART;
+           else
+               passInt[0] = PlayerIntelligence.DUMB;
 
-        //Setup the starting player
-        switch (this.game.getStartTeam())
-        {
-            case RED:
-                this.maxRed++;
-                break;
+           if (redOperative.getValue() != "DUMB")
+               passInt[1] = PlayerIntelligence.SMART;
+           else
+               passInt[1] = PlayerIntelligence.DUMB;
 
-            case BLUE:
-                this.maxBlue++;
-                break;
-        }
-        this.red.setText("0/" + this.maxRed);
-        this.blue.setText("0/" + this.maxBlue);
+           if (blueSpymaster.getValue() != "DUMB")
+               passInt[2] = PlayerIntelligence.SMART;
+           else
+               passInt[2] = PlayerIntelligence.DUMB;
 
-        //Setup all the text boxes in the view to their correct word
-        Board board = this.game.getBoard();
-        for (int i = 0; i < 5; i++)
-        {
-            for (int j = 0; j < 5; j++)
-            {
-                //Get child text component
-                Text text = (Text)this.boxes[i][j].getChildren().get(0);
-                text.setText(board.getCard(i, j).getWord());
-            }
-        }
+           if (blueOperative.getValue() != "DUMB")
+               passInt[3] = PlayerIntelligence.SMART;
+           else
+               passInt[3] = PlayerIntelligence.DUMB;
+
+           System.out.println(passInt.length);
+
+
+           //Fetch all the card boxes
+           this.boxes = new HBox[5][5];
+           for (Node node : grid.getChildren())
+           {
+               int x = GridPane.getRowIndex(node);
+               int y = GridPane.getColumnIndex(node);
+
+               if (x >= 1 && x <= 5 && y >= 1 && y <= 5)
+               {
+                   this.boxes[x - 1][y - 1] = (HBox)node;
+               }
+           }
+
+           //Create game object
+           this.game = new Game(passInt);
+
+           //Register to all events
+           this.game.onClueGiven.register(this);
+           this.game.onPhaseChange.register(this);
+           this.game.onRoundChange.register(this);
+           this.game.getBoard().onFlip.register(this);
+
+           //Setup the commander object
+           Commander.instance().setup(this, this.game);
+
+           //Setup the starting player
+           switch (this.game.getStartTeam())
+           {
+               case RED:
+                   this.maxRed++;
+                   break;
+
+               case BLUE:
+                   this.maxBlue++;
+                   break;
+           }
+           this.red.setText("0/" + this.maxRed);
+           this.blue.setText("0/" + this.maxBlue);
+
+           //Setup all the text boxes in the view to their correct word
+           Board board = this.game.getBoard();
+           for (int i = 0; i < 5; i++)
+           {
+               for (int j = 0; j < 5; j++)
+               {
+                   //Get child text component
+                   Text text = (Text)this.boxes[i][j].getChildren().get(0);
+                   text.setText(board.getCard(i, j).getWord());
+               }
+           }
+       }
+       //If at least one option fails
+       else
+       {
+           startGameBtn.setText("TRY AGAIN");
+       }
     }
 
     /**
