@@ -31,14 +31,11 @@ public class SpyMasterAI extends Strategy
     {
         game.setPhase(this.team.niceName() + " SpyMaster");
         //Get a random hint that is *not* a word in the board
-        String hint;
-        do
-        {
-            hint = DatabaseHelper.getRandomClue();
-        }
-        while(game.getBoard().hasWord(hint));
+        Clue clue = game.getSuggestionMap().getRandomClue();
+        clue.value = Game.RANDOM.nextInt(clue.getCards().size()) + 1;
+
         //Give out the clue
-        game.setCurrentClue(new Clue(hint, Game.RANDOM.nextInt(3) + 1));
+        game.setCurrentClue(clue);
         finished = true;
     }
     //endregion

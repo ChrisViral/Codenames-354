@@ -22,10 +22,13 @@ public class SuggestionGraph {
     private HashMap<String, Clue> clues;
     private HashMap<String, Card> cards;
 
-    public SuggestionGraph(HashMap<String, Clue> clues, HashMap<String, Card> cards)
+    private Random rand;
+
+    public SuggestionGraph(HashMap<String, Clue> clues, HashMap<String, Card> cards, Random rand)
     {
         this.clues = clues;
         this.cards = cards;
+        this.rand = rand;
     }
 
     public Clue getClue(String clue)
@@ -35,8 +38,8 @@ public class SuggestionGraph {
 
     public Clue getBestClue(Comparator<Clue> comparator)
     {
-        Random rand = new Random();
-        ArrayList<Clue> list = new ArrayList<>(clues.values());
+        HashMap<String, Clue> useableClues = getUseableClues();
+        ArrayList<Clue> list = new ArrayList<>(useableClues.values());
         list.sort(comparator);
         Clue bestClue = list.get(0);
         int ties = 1;
@@ -46,6 +49,14 @@ public class SuggestionGraph {
             if(ties == list.size()) break;
         }
         int i = rand.nextInt(ties);
+        return list.get(i);
+    }
+
+    public Clue getRandomClue()
+    {
+        HashMap<String, Clue> useableClues = getUseableClues();
+        ArrayList<Clue> list = new ArrayList<>(useableClues.values());
+        int i = rand.nextInt(useableClues.size());
         return list.get(i);
     }
 
@@ -70,5 +81,18 @@ public class SuggestionGraph {
             }
         }
         return true;
+    }
+
+    private HashMap<String, Clue> getUseableClues()
+    {
+        HashMap<String, Clue> useableClues = clues;
+        for(Clue clue : useableClues.values())
+        {
+            if(clue.isActiveCodename)
+            {
+                useableClues.remove(clue);
+            }
+        }
+        return useableClues;
     }
 }

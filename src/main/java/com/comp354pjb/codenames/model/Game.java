@@ -388,7 +388,7 @@ public class Game
             assassin.removeClue(key);
         }
 
-        return new SuggestionGraph(clues, cards);
+        return new SuggestionGraph(clues, cards, Game.RANDOM);
     }
     //endregion
 }
