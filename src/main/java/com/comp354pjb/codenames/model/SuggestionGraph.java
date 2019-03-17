@@ -62,6 +62,7 @@ public class SuggestionGraph {
         {
             Clue clue = clues.get(relatedClue);
             if(clue != null) {
+                if(clue.word == codename) clue.isActiveCodename = false;
                 clue.removeCard(card);
                 if (!clue.suggestsSomeCard() || clue.onlySuggestsAssassinOrCivilian()) {
                     clues.remove(clue.word);

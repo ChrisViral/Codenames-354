@@ -84,8 +84,9 @@
                 <ComboBox fx:id="blueOperative" prefHeight="25.0" prefWidth="201.0" promptText="Choose Brain">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="SMART"/>
                             <String fx:value="DUMB"/>
+                            <String fx:value="MEDIUM"/>
+                            <String fx:value="SMART"/>
                         </FXCollections>
                     </items>
                 </ComboBox>
@@ -96,8 +97,9 @@
                 <ComboBox fx:id="blueSpymaster" prefHeight="25.0" prefWidth="201.0" promptText="Choose Brain">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="SMART"/>
                             <String fx:value="DUMB"/>
+                            <String fx:value="RISKY"/>
+                            <String fx:value="SAFE"/>
                         </FXCollections>
                     </items>
                 </ComboBox>
@@ -108,8 +110,9 @@
                 <ComboBox fx:id="redOperative" prefHeight="25.0" prefWidth="201.0" promptText="Choose Brain">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="SMART"/>
                             <String fx:value="DUMB"/>
+                            <String fx:value="MEDIUM"/>
+                            <String fx:value="SMART"/>
                         </FXCollections>
                     </items>
                 </ComboBox>
@@ -120,8 +123,9 @@
                 <ComboBox fx:id="redSpymaster" prefHeight="25.0" prefWidth="201.0" promptText="Choose Brain">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="SMART"/>
                             <String fx:value="DUMB"/>
+                            <String fx:value="RISKY"/>
+                            <String fx:value="SAFE"/>
                         </FXCollections>
                     </items>
                 </ComboBox>

@@ -88,25 +88,57 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
            //Collect data from start menu
            PlayerIntelligence passInt[] = new PlayerIntelligence[4];
 
-           if (redSpymaster.getValue() != "DUMB")
-               passInt[0] = PlayerIntelligence.SMART;
-           else
-               passInt[0] = PlayerIntelligence.DUMB;
+           switch(redSpymaster.getValue())
+           {
+               case "DUMB":
+                   passInt[0] = PlayerIntelligence.DUMB;
+                   break;
+               case "RISKY":
+                   passInt[0] = PlayerIntelligence.MEDIUM;
+                   break;
+               case "SAFE":
+                   passInt[0] = PlayerIntelligence.SMART;
+                   break;
+           }
 
-           if (redOperative.getValue() != "DUMB")
-               passInt[1] = PlayerIntelligence.SMART;
-           else
-               passInt[1] = PlayerIntelligence.DUMB;
+           switch(redOperative.getValue())
+           {
+               case "DUMB":
+                   passInt[1] = PlayerIntelligence.DUMB;
+                   break;
+               case "MEDIUM":
+                   passInt[1] = PlayerIntelligence.MEDIUM;
+                   break;
+               case "SMART":
+                   passInt[1] = PlayerIntelligence.SMART;
+                   break;
+           }
 
-           if (blueSpymaster.getValue() != "DUMB")
-               passInt[2] = PlayerIntelligence.SMART;
-           else
-               passInt[2] = PlayerIntelligence.DUMB;
+           switch(blueSpymaster.getValue())
+           {
+               case "DUMB":
+                   passInt[2] = PlayerIntelligence.DUMB;
+                   break;
+               case "RISKY":
+                   passInt[2] = PlayerIntelligence.MEDIUM;
+                   break;
+               case "SAFE":
+                   passInt[2] = PlayerIntelligence.SMART;
+                   break;
+           }
 
-           if (blueOperative.getValue() != "DUMB")
-               passInt[3] = PlayerIntelligence.SMART;
-           else
-               passInt[3] = PlayerIntelligence.DUMB;
+           switch(blueOperative.getValue())
+           {
+               case "DUMB":
+                   passInt[3] = PlayerIntelligence.DUMB;
+                   break;
+               case "MEDIUM":
+                   passInt[3] = PlayerIntelligence.MEDIUM;
+                   break;
+               case "SMART":
+                   passInt[3] = PlayerIntelligence.SMART;
+                   break;
+           }
 
            System.out.println(passInt.length);
 
