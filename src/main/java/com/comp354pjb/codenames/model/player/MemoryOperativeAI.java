@@ -1,5 +1,5 @@
 /*
- * ReasonableOperativeAI.java
+ * MemoryOperativeAI.java
  * Created by: Michael Wilgus
  * Created on: 15/03/19
  *
@@ -14,7 +14,12 @@ import com.comp354pjb.codenames.model.board.Card;
 
 import java.util.ArrayList;
 
+/**
+ * Smartest implementation of an Operative AI. Has a memory of previous clues.
+ */
 public class MemoryOperativeAI extends Strategy {
+    public static final PlayerIntelligence STRATEGY_CLASS = PlayerIntelligence.SMART;
+
     private Game game;
 
     private String previousClue = null;
@@ -28,7 +33,11 @@ public class MemoryOperativeAI extends Strategy {
     //region Methods
 
     /**
-     * TODO
+     * Continually guesses until it either picks a wrong colored card or it picks as many cards as
+     * was indicated by the SpyMaster. This strategy can remember a previous clue if it failed to
+     * guess all the correct cards. It will use the memory on subsequent turns if it guesses all of
+     * the current cards correctly. It will proceed to use the previous clue and its extra guess to
+     * to attempt to get at most one extra card
      */
     @Override
     public void execute() {
@@ -36,16 +45,19 @@ public class MemoryOperativeAI extends Strategy {
 
         Clue clue = game.getCurrentClue();
 
+        // We are going to use our extra turn
         if(useExtraTurn) {
             useExtraTurn = false;
             finished = true;
-            clue = game.getSuggestionMap().getClue(previousClue);
+            // Remember what cards are suggested by the clue
+            clue = game.getSuggestionGraph().getClue(previousClue);
             System.out.println("Using " + previousClue);
             boolean foundExtraCard = pickCard(clue);
             if(foundExtraCard)
             {
                 previousClue = null;
             }
+            // We still didn't find the suggested card so hold on to our memory
             return;
         }
 
@@ -60,7 +72,7 @@ public class MemoryOperativeAI extends Strategy {
                 if(previousClue != null)
                 {
                     // Can we use the extra turn with the previous clue?
-                    if(previousClue.equals(clue.word) || game.getSuggestionMap().getClue(previousClue) == null)
+                    if(previousClue.equals(clue.word) || game.getSuggestionGraph().getClue(previousClue) == null)
                     {
                         // We can't so forget the clue and end the turn
                         previousClue = null;
@@ -85,7 +97,11 @@ public class MemoryOperativeAI extends Strategy {
             return;
         }
     }
+    //endregion
 
+    //region Helpers
+
+    // pick a card and check if it belonged to our team
     private boolean pickCard(Clue clue)
     {
         ArrayList<Card> cards = clue.getCards();
@@ -96,4 +112,5 @@ public class MemoryOperativeAI extends Strategy {
 
         return  card.getType().equals(team.getCardType());
     }
+    //endregion
 }

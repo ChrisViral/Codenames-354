@@ -11,8 +11,6 @@
 
 package com.comp354pjb.codenames.model.board;
 
-import com.comp354pjb.codenames.model.player.Clue;
-
 import java.util.HashSet;
 
 public class Card
@@ -52,6 +50,11 @@ public class Card
         this.isRevealed = revealed;
     }
 
+    /**
+     * Clue words that suggest this card
+     */
+    private HashSet<String> clues;
+
     private int x, y;
     /**
      * X coordinate on the grid of this card
@@ -62,20 +65,11 @@ public class Card
     }
     /**
      * Y coordinate on the grid of this card
-     * @return
      */
     public int getY() {
         return this.y;
     }
     //endregion
-
-    public HashSet<String> clues;
-
-    public HashSet<String> getClues() { return clues; }
-
-    public boolean addClue(String clue) { return clues.add(clue); }
-
-    public boolean removeClue(String clue) { return clues.remove(clue); }
 
     //region Constructors
     /**
@@ -97,6 +91,27 @@ public class Card
     //endregion
 
     //region Methods
+
+    /**
+     * Get the clue words that suggest this card
+     * @return A set of clue words that a SpyMaster can choose from
+     */
+    public HashSet<String> getClues() { return clues; }
+
+    /**
+     * Add a word to the clue word set
+     * @param clue The clue to be added
+     * @return True if the clue is added and false otherwise
+     */
+    public boolean addClue(String clue) { return clues.add(clue); }
+
+    /**
+     * Remove a word from the clue word set
+     * @param clue The clue to be removed
+     * @return True if the clue is removed and false otherwise
+     */
+    public boolean removeClue(String clue) { return clues.remove(clue); }
+
     /**
      * Tests if a given object is a card equal to this one
      * @param o Object to compare to

@@ -72,6 +72,11 @@ public class Game
     }
 
     private Player currentPlayer;
+
+    /**
+     * Set the player that is currently giving clues or guessing cards
+     * @param player The Player associated with the game whose turn it is
+     */
     public void setCurrentPlayer(Player player) { this.currentPlayer = player; }
 
     //score keeping members
@@ -138,10 +143,10 @@ public class Game
 
     private SuggestionGraph graph;
     /**
-     *
-     * @return
+     * Gets the graph structure that associates clues to words for this game
+     * @return A SuggestionGraph that has the current clue to card relationship information for this game
      */
-    public SuggestionGraph getSuggestionMap()
+    public SuggestionGraph getSuggestionGraph()
     {
         return graph;
     }
@@ -160,7 +165,7 @@ public class Game
         String[] setup = DatabaseHelper.getBoardLayout();
         setPlayers(setup[0], passInt);
         this.board = new Board(DatabaseHelper.getRandomCodenames(25), setup[1]);
-        this.graph = createSuggestionMap();
+        this.graph = createSuggestionGraph();
     }
     //endregion
 
@@ -183,7 +188,7 @@ public class Game
         PlayerIntelligence arrangedInt[] = new PlayerIntelligence[4];
         arrangedInt = passInt;
 
-        if (this.startTeam != PlayerType.RED)
+        if (this.startTeam == PlayerType.BLUE)
         {
             arrangedInt[0] = passInt[2];
             arrangedInt[1] = passInt[3];
@@ -191,12 +196,17 @@ public class Game
             arrangedInt[3] = passInt[1];
         }
 
+        Strategy startSpyMasterStrategy = StrategyFactory.makeStrategy("spymaster", this, arrangedInt[0]);
+        Strategy startOperativeStrategy = StrategyFactory.makeStrategy("operative", this, arrangedInt[1]);
+        Strategy secondSpyMasterStrategy = StrategyFactory.makeStrategy("spymaster", this, arrangedInt[2]);
+        Strategy secondOperativeStrategy = StrategyFactory.makeStrategy("operative", this, arrangedInt[3]);
+
         Commander.log(this.startTeam.niceName() + " Team will start, which means they must guess 9 cards");
         Commander.log(second.niceName() + " Team will go second, which means they must guess 8 cards");
-        this.players.add(new Player(this, this.startTeam, new RiskySpyMasterAI(this), arrangedInt[0]));
-        this.players.add(new Player(this, this.startTeam, new ReasonableOperativeAI(this), arrangedInt[1]));
-        this.players.add(new Player(this, second, new SafeSpyMasterAI(this), arrangedInt[2]));
-        this.players.add(new Player(this, second, new ReasonableOperativeAI(this), arrangedInt[3]));
+        this.players.add(new Player(this.startTeam, startSpyMasterStrategy));
+        this.players.add(new Player(this.startTeam, startOperativeStrategy));
+        this.players.add(new Player(second, secondSpyMasterStrategy));
+        this.players.add(new Player(second, secondOperativeStrategy));
     }
 
     /**
@@ -330,9 +340,12 @@ public class Game
 
     //region Helpers
     //
-    private SuggestionGraph createSuggestionMap()
+    private SuggestionGraph createSuggestionGraph()
     {
+        // Get all the cards on the board
         ArrayList<Card> codenames = board.getCards();
+
+        // Get all the clues for each card and add them to the cards
         for(Card c : codenames)
         {
             String[] clues = DatabaseHelper.getCluesForCodename(c.getWord().toLowerCase());
@@ -343,26 +356,26 @@ public class Game
             }
         }
 
+        // These variables will represent the graph structure from clues to cards (and vise versa)
         HashMap<String, Clue> clues = new HashMap<>();
         HashMap<String, Card> cards = new HashMap<>();
-        Card assassin = null;
+
+        // Add Clues to the graph
         for(Card c : codenames)
         {
-            if(c.getType() == CardType.ASSASSIN)
-            {
-                assassin = c;
-            }
-
             cards.put(c.getWord(), c);
             HashSet<String> suggestions = c.getClues();
             for(String s : suggestions)
             {
-                Clue clue = clues.getOrDefault(s, new Clue(s, 0));
+                Clue clue = clues.getOrDefault(s, new Clue(s));
                 clue.addCard(c);
                 clues.put(s, clue);
             }
         }
 
+        // Remove clues that only suggest the assassin or civilians
+        // NOTE: This must be done here because this information is only
+        // available after all clues have been added
         ArrayList<String> badClues = new ArrayList<>();
         for(Clue clue : clues.values())
         {
@@ -380,10 +393,9 @@ public class Game
         for(String key : badClues)
         {
             clues.remove(key);
-            assassin.removeClue(key);
         }
 
-        return new SuggestionGraph(clues, cards);
+        return new SuggestionGraph(clues, cards, Game.RANDOM);
     }
     //endregion
 }

@@ -125,8 +125,8 @@ public class Board
     //endregion
 
     /**
-     * TODO
-     * @return
+     * Get a list of all the Cards on the board
+     * @return An ArrayList of all the Cards on the board
      */
     public ArrayList<Card>getCards()
     {

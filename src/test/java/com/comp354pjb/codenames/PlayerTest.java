@@ -30,7 +30,7 @@ public class PlayerTest {
     public void operativePlayTurnShouldRevealACard() {
         PlayerIntelligence intelligence[] = {PlayerIntelligence.SMART, PlayerIntelligence.SMART, PlayerIntelligence.SMART, PlayerIntelligence.SMART};
         Game game = new Game(intelligence);
-        Player player = new Player(game, PlayerType.RED, new OperativeAI(game), PlayerIntelligence.SMART);
+        Player player = new Player(PlayerType.RED, new OperativeAI(game));
         game.setCurrentPlayer(player);
 
         // A card should be revealed when an operative plays

@@ -23,20 +23,6 @@ public class Player
     //endregion
 
     //region Properties
-    protected final PlayerIntelligence intelligence;
-    /**
-     * Created by Rezza-Zairan
-     * ------------------------
-     * Gets the strategy associated to this player
-     * @return The currently used Strategy
-     */
-    public PlayerIntelligence getPlayerStrategy()
-    {
-        return this.intelligence;
-    }
-    //endregion
-
-    //region Properties
     protected final Strategy strategy;
     /**
      * Gets the strategy associated to this player
@@ -56,15 +42,13 @@ public class Player
      *
      * Update by Rezza-Zairan
      * ----------------------
-     * @param intelligence to hold the new enum to dictate AI intelligence for Iteration 2
      */
-    public Player(Game game, PlayerType team, Strategy strategy, PlayerIntelligence intelligence)
+    public Player(PlayerType team, Strategy strategy)
     {
         this.team = team;
         this.strategy = strategy;
         this.strategy.setTeam(team);
         this.teamName = this.team.niceName();
-        this.intelligence = intelligence;
     }
     //endregion
 

@@ -22,10 +22,10 @@ public class Clue
     //region Fields
     public final String word;
     public int value;
-    public int redSuggested = 0;
-    public int blueSuggested = 0;
-    public int civilianSuggested = 0;
-    public boolean assassinSuggested = false;
+    private int redSuggested = 0;
+    private int blueSuggested = 0;
+    private int civilianSuggested = 0;
+    private boolean assassinSuggested = false;
     public boolean isActiveCodename = false;
     private ArrayList<Card> cards;
     //endregion
@@ -34,12 +34,10 @@ public class Clue
     /**
      * Creates a new Clue
      * @param word  Word of the clue
-     * @param value Numeric value of the clue
      */
-    public Clue(String word, int value)
+    public Clue(String word)
     {
         this.word = word;
-        this.value = value;
         this.cards = new ArrayList<>();
     }
     //endregion
@@ -124,11 +122,20 @@ public class Clue
         return redSuggested > 0 || blueSuggested > 0 || civilianSuggested > 0 || assassinSuggested == true;
     }
 
+    /**
+     * Answers the question: Does this clue suggest any card besides any civilian or the assassin
+     * @return True if this clue only suggests civilians and/or the assassin and false otherwise
+     */
     public boolean onlySuggestsAssassinOrCivilian()
     {
         return redSuggested == 0 && blueSuggested == 0;
     }
 
+    /**
+     * Gets the number of cards that are suggested for a particular team
+     * @param team The PlayerType to get the number of suggested cards for
+     * @return Either the number of RED cards suggested or BLUE cards suggested
+     */
     public int getNumberOfCardsSuggestedForTeam(PlayerType team)
     {
         switch(team)
@@ -142,6 +149,11 @@ public class Clue
         }
     }
 
+    /**
+     * Gets the number of cards that are suggested other than cards for a particular team
+     * @param team The PlayerType to get the number of suggested cards for
+     * @return Either the number BLUE+CIVILIAN+ASSASSIN or RED+CIVILIAN+ASSASSIN cards suggested
+     */
     public int getComplementOfCardsSuggestedForTeam(PlayerType team)
     {
         int answer = 0;
