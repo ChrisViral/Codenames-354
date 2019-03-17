@@ -8,6 +8,8 @@
  * Steven Zanga
  * Christophe Savard
  * Mordechai Zirkind
+ *
+ * This is the database API, which means it's an important part of the Model of our MVC. The camelCase method is sometimes called by other classes to format strings.
  */
 
 package com.comp354pjb.codenames.model;
@@ -92,7 +94,7 @@ public final class DatabaseHelper
     }
 
     /**
-     * Run queries that return an array of a single value.
+     * Run queries that return a 1D array of strings.
      * @param  q The query you want to run on the database. Expected to be in SQLite3.
      * @param  colName The name of the column you're accessing.
      * @return Words stored in the DB
