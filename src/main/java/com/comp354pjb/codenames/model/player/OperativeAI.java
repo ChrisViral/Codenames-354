@@ -22,6 +22,8 @@ import java.lang.*;
  */
 public class OperativeAI extends Strategy
 {
+    public static final PlayerIntelligence STRATEGY_CLASS = PlayerIntelligence.DUMB;
+
     private Game game;
 
     public OperativeAI(Game game)

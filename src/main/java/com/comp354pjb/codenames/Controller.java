@@ -6,6 +6,7 @@
  * Contributors:
  * Christophe Savard
  * Rezza-Zairan Zaharin
+ * Michael Wilgus
  */
 
 package com.comp354pjb.codenames;
@@ -139,9 +140,6 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
                    passInt[3] = PlayerIntelligence.SMART;
                    break;
            }
-
-           System.out.println(passInt.length);
-
 
            //Fetch all the card boxes
            this.boxes = new HBox[5][5];

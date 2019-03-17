@@ -14,9 +14,16 @@ import com.comp354pjb.codenames.model.SuggestionGraph;
 
 import java.util.Comparator;
 
+/**
+ * The safest implementation of a SpyMaster AI. Considers not only how many of the correct
+ * colored cards a clue suggests but also penalizes a clue if it suggests incorrect cards
+ */
 public class SafeSpyMasterAI extends Strategy {
+    public static final PlayerIntelligence STRATEGY_CLASS = PlayerIntelligence.SMART;
+
     private Game game;
 
+    // This comparator will be used to sort all the clues in the game according to the strategy
     private static class ClueComparator implements Comparator<Clue>
     {
         private PlayerType team;
@@ -26,6 +33,10 @@ public class SafeSpyMasterAI extends Strategy {
             this.team = team;
         }
 
+        /**
+         * Gets the suggestion graph for the current game and passes it a comparator so that it can find
+         * some clue that fits this strategies critera
+         */
         @Override
         public int compare(Clue clue1, Clue clue2) {
             int penalty1 = clue1.getComplementOfCardsSuggestedForTeam(team);
@@ -46,7 +57,7 @@ public class SafeSpyMasterAI extends Strategy {
     public void execute() {
         game.setPhase(this.team.niceName() + " SpyMaster");
 
-        SuggestionGraph map = game.getSuggestionMap();
+        SuggestionGraph map = game.getSuggestionGraph();
 
         ClueComparator comparator = new ClueComparator(this.team);
 
