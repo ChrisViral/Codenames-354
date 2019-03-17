@@ -15,7 +15,6 @@ package com.comp354pjb.codenames.model;
 import com.comp354pjb.codenames.commander.Commander;
 import com.comp354pjb.codenames.model.board.Board;
 import com.comp354pjb.codenames.model.board.Card;
-import com.comp354pjb.codenames.model.board.CardType;
 import com.comp354pjb.codenames.model.player.*;
 import com.comp354pjb.codenames.observer.events.ClueGivenEvent;
 import com.comp354pjb.codenames.observer.events.PhaseEvent;
@@ -91,6 +90,8 @@ public class Game
 
     private int blueCardsRevealed;
 
+    private int civilianCardsRevealed;
+
     private boolean assassinRevealed;
     /**
      * Sets if the assassin card has been revealed
@@ -109,7 +110,7 @@ public class Game
         return this.winner;
     }
     /**
-     * Sets the winning player
+     * Sets the winning player and records a win in the database.
      */
     public void setWinner(PlayerType winner)
     {
@@ -218,6 +219,7 @@ public class Game
         //Game ends as soon as the Assassin is revealed
         if (this.assassinRevealed)
         {
+            recordGame(this.winner, this.loser);
             return true;
         }
         else
@@ -238,15 +240,27 @@ public class Game
             if (this.redCardsRevealed == redTarget)
             {
                 setWinner(PlayerType.RED);
+                recordGame(PlayerType.RED, PlayerType.BLUE);
                 return true;
             }
             if (this.blueCardsRevealed == blueTarget)
             {
                 setWinner(PlayerType.BLUE);
+                recordGame(PlayerType.BLUE, PlayerType.RED);
                 return true;
             }
             return false;
         }
+    }
+
+    /**
+     * Records the game stats in the database.
+     * @param winner the player type of the winning team.
+     * @param loser the player type of the losing team.
+     */
+    private void recordGame(PlayerType winner, PlayerType loser)
+    {
+        DatabaseHelper.addGameToStats("Reds", "Blues", this.round, winner.niceName(), this.assassinRevealed, this.civilianCardsRevealed, this.redCardsRevealed, this.redCardsRevealed);
     }
 
     /**
@@ -304,8 +318,11 @@ public class Game
             case ASSASSIN:
                 this.setLoser(this.currentPlayer.getTeam());
                 this.setAssassinRevealed(true);
+                this.guessesLeft = 0;
+                return;
                 //Actions for revealing a civilian card
             case CIVILIAN:
+                this.civilianCardsRevealed++;
                 this.guessesLeft = 0;
                 return;
 
