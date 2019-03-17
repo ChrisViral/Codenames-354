@@ -25,6 +25,8 @@ public class Player
     //region Properties
     protected final PlayerIntelligence intelligence;
     /**
+     * Created by Rezza-Zairan
+     * ------------------------
      * Gets the strategy associated to this player
      * @return The currently used Strategy
      */
@@ -52,6 +54,10 @@ public class Player
      * @param game     Game this player evolves within
      * @param team     Team this player is on
      * @param strategy Strategy and type of player
+     *
+     * Update by Rezza-Zairan
+     * ----------------------
+     * @param intelligence to hold the new enum to dictate AI intelligence for Iteration 2
      */
     public Player(Game game, PlayerType team, IPlayer strategy, PlayerIntelligence intelligence)
     {

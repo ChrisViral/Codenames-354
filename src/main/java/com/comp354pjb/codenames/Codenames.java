@@ -65,6 +65,10 @@ public class Codenames extends Application
      * Starts the JavaFX GUI
      * @param stage JavaFX Stage
      * @throws IOException FXML file not found
+     *
+     * Update by Rezza-Zairan
+     * ----------------------
+     * With refactoring, this function is modified to accommodate the new FXML file
      */
     @Override
     public void start(Stage stage) throws IOException

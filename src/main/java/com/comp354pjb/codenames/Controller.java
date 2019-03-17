@@ -64,7 +64,12 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     }
 
     /**
-     * Initializes the FXML
+     * Update by Rezza-Zairan
+     * ----------------------
+     * Initializes the FXML as everything in initialize() was pushed towards this function so that it responds to the
+     * start game button being clicked.
+     *
+     * This function also passes PlayerIntelligence to the instancing of Game()
      */
     @FXML
     private void setup()

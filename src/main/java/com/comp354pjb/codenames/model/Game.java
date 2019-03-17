@@ -144,6 +144,10 @@ public class Game
     //region Constructors
     /**
      * Creates a new Game object and correctly sets up the board and cards, as well as players
+     *
+     * Update by Rezza-Zairan
+     * ----------------------
+     * @param passInt is passed by the controller to hold an array of PlayerIntelligence chosen by the user.
      */
     public Game(PlayerIntelligence passInt[])
     {
@@ -158,6 +162,10 @@ public class Game
     /**
      * Sets the starting player for the game and initializes the AIs correctly
      * @param startingPlayer Starting team name
+     *
+     * Update by Rezza-Zairan
+     * ----------------------
+     * @param passInt is passed by the controller to hold an array of PlayerIntelligence chosen by the user.
      */
     private void setPlayers(String startingPlayer, PlayerIntelligence passInt[])
     {
