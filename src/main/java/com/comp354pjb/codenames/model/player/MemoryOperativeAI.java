@@ -52,7 +52,6 @@ public class MemoryOperativeAI extends Strategy {
             finished = true;
             // Remember what cards are suggested by the clue
             clue = game.getSuggestionGraph().getClue(previousClue);
-            System.out.println("Using " + previousClue);
             boolean foundExtraCard = pickCard(clue);
             if(foundExtraCard)
             {
