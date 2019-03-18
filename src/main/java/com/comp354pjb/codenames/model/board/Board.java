@@ -7,81 +7,66 @@
  * Benjamin Therrien
  * Steven Zanga
  * Christophe Savard
+ * Michael Wilgus
  */
 
 package com.comp354pjb.codenames.model.board;
 
-import com.comp354pjb.codenames.model.player.PlayerType;
 import com.comp354pjb.codenames.observer.events.CardFlippedEvent;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 
 /**
- * Board class, represents the 5 by 5 grid of cards on which the game happens
+ * Board class, represents the 5X5 grid of cards on which the game happens
  */
 public class Board
 {
-    //region Constants
-    /**
-     * Sets the preset of card types on the board. All 25 cards are defaulted to a specific type of card, either
-     * RED, BLUE, ASSASSIN or CIVILIAN.
-     */
-    private static final CardType[] PRESET =
-    {
-        CardType.RED, CardType.RED, CardType.RED, CardType.RED, CardType.RED, CardType.RED, CardType.RED, CardType.RED,                      //8 Red cards
-        CardType.BLUE, CardType.BLUE, CardType.BLUE, CardType.BLUE, CardType.BLUE, CardType.BLUE, CardType.BLUE, CardType.BLUE,              //8 Blue cards
-        CardType.CIVILIAN, CardType.CIVILIAN, CardType.CIVILIAN, CardType.CIVILIAN, CardType.CIVILIAN, CardType.CIVILIAN, CardType.CIVILIAN, //7 Civilian cards
-        CardType.ASSASSIN,  //1 Assassin card
-    };
-    //endregion
-
     //region Fields
-    private final Card[][] cards;
-    private final HashSet<String> words = new HashSet<>();
-    //endregion
-
-    //region Events
     /**
      * Single card flipped event
      */
     public final CardFlippedEvent onFlip = new CardFlippedEvent();
+    /**
+     * Cards to be displayed on the board
+     */
+    private final Card[][] cards;
+    //endregion
+
+    //region Events
+    /**
+     * Words to be displayed on the cards
+     */
+    private final HashSet<String> words = new HashSet<>();
     //endregion
 
     //region Constructors
+
     /**
      * Creates a new 5x5 board of cards with the supplied words
-     * @param words          Array containing the 25 words to be displayed on the cards
-     * @param startingPlayer Player starting the game
+     * @param words  The layout string for the board (String of RBCA of length 25)
+     * @param layout Player starting the game
      */
-    public Board(String[] words, PlayerType startingPlayer)
+    public Board(String[] words, String layout)
     {
         //Create the cards
-        this.cards = Board.createCards(words, startingPlayer, this.words);
+        this.cards = Board.createCards(words, layout, this.words);
     }
     //endregion
 
     //region Static methods
+
     /**
      * Creates an array of card with the correct amount of types with the given words
-     * @param words Words to put on the cards
-     * @param startingPlayer Starting player (will have extra card of it's colour)
+     * @param words  Words to put on the cards
+     * @param layout The layout string for the board (String of RBCA of length 25)
      * @return The created 5 by 5 array of cards
      */
-    public static Card[][] createCards(String[] words, PlayerType startingPlayer, HashSet<String> wordSet)
+    public static Card[][] createCards(String[] words, String layout, HashSet<String> wordSet)
     {
         Card[][] cards = new Card[5][5];
         wordSet.addAll(Arrays.asList(words));
-        ArrayList<CardType> types = new ArrayList<>(Arrays.asList(PRESET));
-        switch (startingPlayer)
-        {
-            case RED:
-                types.add(CardType.RED);
-                break;
-
-            case BLUE:
-                types.add(CardType.BLUE);
-                break;
-        }
-        Collections.shuffle(types);
 
         //Add the cards to the set and array
         for (int i = 0; i < 5; i++)
@@ -90,7 +75,7 @@ public class Board
             for (int j = 0; j < 5; j++)
             {
                 int index = stride + j;
-                cards[i][j] = new Card(words[index], types.get(index), i, j);
+                cards[i][j] = new Card(words[index], CardType.parse(layout.charAt(index)), i, j);
             }
         }
         return cards;
@@ -98,9 +83,9 @@ public class Board
     //endregion
 
     //region Accessors
+
     /**
      * Getting a specific card at a specific index on the board.
-     *
      * @param x Index of card on horizontal axis
      * @param y Index of card on vertical axis
      * @return returns specific card on board
@@ -112,11 +97,11 @@ public class Board
     //endregion
 
     //region Methods
+
     /**
      * Reveals the card at a specific index, checks if it was flipped already, if not, it will flip the card.
      * @param x Index horizontal
      * @param y Index vertical
-     *
      */
     public void revealAt(int x, int y)
     {
@@ -148,4 +133,23 @@ public class Board
         return this.words.contains(word);
     }
     //endregion
+
+    /**
+     * Get a list of all the Cards on the board
+     * Added by Michael Wilgus
+     * @return An ArrayList of all the Cards on the board
+     */
+    public ArrayList<Card> getCards()
+    {
+        ArrayList<Card> cards = new ArrayList<>();
+        for (int i = 0; i < 5; i++)
+        {
+            for (int j = 0; j < 5; j++)
+            {
+                Card card = getCard(i, j);
+                cards.add(card);
+            }
+        }
+        return cards;
+    }
 }

@@ -7,6 +7,7 @@
  * Christophe Savard
  * Steven Zanga
  * Benjamin Therrien
+ * Rezza-Zairan Zaharin
  */
 
 package com.comp354pjb.codenames;
@@ -38,10 +39,12 @@ public class Codenames extends Application
     /**
      * Board FXML file location
      */
+    private static final String START_MENU_FXML = "view/startMenu.fxml";
     private static final String BOARD_FXML = "view/board.fxml";
     //endregion
 
     //region Initialization
+
     /**
      * Application entry point
      * @param args Application arguments
@@ -63,17 +66,31 @@ public class Codenames extends Application
      * Starts the JavaFX GUI
      * @param stage JavaFX Stage
      * @throws IOException FXML file not found
+     *                     <p>
+     *                     Update by Rezza-Zairan
+     *                     ----------------------
+     *                     With refactoring, this function is modified to accommodate the new FXML file
      */
     @Override
     public void start(Stage stage) throws IOException
     {
-        //Loading FXML file
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(BOARD_FXML));
-        Scene scene = new Scene(loader.<Parent>load(), WIDTH, HEIGHT);
+        //Main controller for the two FXML files below
+        Controller controller = new Controller();
 
-        //Showing GUI
+        //Loading FXML file
+        //Loading GUI for the Start Menu
+        FXMLLoader startMenuLoader = new FXMLLoader(getClass().getResource(START_MENU_FXML));
+        startMenuLoader.setController(controller);
+        Scene startMenuScene = new Scene(startMenuLoader.load(), WIDTH, HEIGHT);
+
+        //Loading GUI for the Game Board
+        FXMLLoader boardLoader = new FXMLLoader(getClass().getResource(BOARD_FXML));
+        boardLoader.setController(controller);
+        Scene boardScene = new Scene(boardLoader.load(), WIDTH, HEIGHT);
+
+        //Showing GUI (user Interface)
         stage.setTitle(getClass().getSimpleName());
-        stage.setScene(scene);
+        stage.setScene(startMenuScene);
         stage.show();
     }
 

@@ -17,6 +17,7 @@ import com.comp354pjb.codenames.observer.Subject;
 public class PhaseEvent extends Subject<PhaseObserver, String>
 {
     //region Methods
+
     /**
      * Notifies of a phase change
      * @param listener Listener to notify

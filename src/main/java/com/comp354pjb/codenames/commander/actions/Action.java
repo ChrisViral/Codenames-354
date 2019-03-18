@@ -15,6 +15,7 @@ package com.comp354pjb.codenames.commander.actions;
 public interface Action
 {
     //region
+
     /**
      * Undoes the action
      */

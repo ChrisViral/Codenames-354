@@ -6,34 +6,47 @@
  * Contributors:
  * Benjamin Therrien
  * Christophe Savard
+ * Michael Wilgus
+ *
+ * Description:
+ * Plays the dumb SpyMaster AI turn.
+ * Simply randomly consults the graph of clues/cards.
  */
 
 package com.comp354pjb.codenames.model.player;
 
-import com.comp354pjb.codenames.model.DatabaseHelper;
 import com.comp354pjb.codenames.model.Game;
 
-public class SpyMasterAI implements IPlayer
+/**
+ * Basic implementation of a SpyMaster AI. Gets a random clue from the suggestion graph to give.
+ */
+public class SpyMasterAI extends Strategy
 {
-    //region Methods
-    /**
-     * Plays the dumb SpyMaster AI turn
-     * @param player Player to play the turn on
-     */
-    public void playTurn(Player player)
+    public static final PlayerIntelligence STRATEGY_CLASS = PlayerIntelligence.DUMB;
+
+    private Game game;
+
+    public SpyMasterAI(Game game)
     {
-        player.game.setPhase(player.teamName + " SpyMaster");
-        //Get a random hint that is *not* a word in the board
-        String hint;
-        do
-        {
-            hint = DatabaseHelper.getRandomWord();
-        }
-        while(player.game.getBoard().hasWord(hint));
-        //Give out the clue
-        player.game.setCurrentClue(new Clue(DatabaseHelper.getRandomWord(), Game.RANDOM.nextInt(3) + 1));
+        this.game = game;
+    }
 
+    //region Methods
+    // Modified by Michael Wilgus
+    @Override
+    public void execute()
+    {
+        game.setPhase(this.team.niceName() + " SpyMaster");
 
+        // Get a random hint that is *not* a word in the board
+        Clue clue = game.getSuggestionGraph().getRandomClue();
+        clue.value = Game.RANDOM.nextInt(clue.getCards().size()) + 1;
+
+        // Give the clue
+        game.setCurrentClue(clue);
+
+        // We are done
+        finished = true;
     }
     //endregion
 }

@@ -17,6 +17,7 @@ import com.comp354pjb.codenames.observer.Subject;
 public class RoundEvent extends Subject<RoundObserver, Integer>
 {
     //region Methods
+
     /**
      * Notifies of the updated game round
      * @param listener Listener to notify

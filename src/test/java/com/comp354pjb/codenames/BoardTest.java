@@ -5,15 +5,17 @@
  *
  * Contributors:
  * Michael Wilgus
+ * Christophe Savard
  */
 
 package com.comp354pjb.codenames;
 
 import com.comp354pjb.codenames.model.DatabaseHelper;
 import com.comp354pjb.codenames.model.board.*;
-import com.comp354pjb.codenames.model.player.PlayerType;
 
 import org.junit.Test;
+
+
 import static org.junit.Assert.*;
 
 import java.util.HashSet;
@@ -24,21 +26,24 @@ public class BoardTest
     private static final Random RAND = new Random();
 
     @Test(expected = ArrayIndexOutOfBoundsException.class)
-    public void createCardsShouldNotAcceptSmallArray() {
-        String[] words = DatabaseHelper.selectWords(RAND.nextInt(24));
-        Card[][] cards = Board.createCards(words, getRandomPlayerType(), new HashSet<>());
+    public void createCardsShouldNotAcceptSmallArray()
+    {
+        String[] words = DatabaseHelper.getRandomCodenames(RAND.nextInt(24));
+        Card[][] cards = Board.createCards(words, getRandomLayout(), new HashSet<>());
     }
 
     @Test(expected = ArrayIndexOutOfBoundsException.class)
-    public void revealAtShouldNotAcceptBadCoords() {
-        Board board = new Board(DatabaseHelper.selectWords(25), getRandomPlayerType());
+    public void revealAtShouldNotAcceptBadCoords()
+    {
+        Board board = new Board(DatabaseHelper.getRandomCodenames(25), getRandomLayout());
 
         // valid indices
         int x = RAND.nextInt(5);
         int y = RAND.nextInt(5);
 
         // make at least one dimension out of bounds
-        switch(RAND.nextInt(2)) {
+        switch(RAND.nextInt(2))
+        {
             case 0:
                 x += RAND.nextInt() + 5;
                 break;
@@ -52,16 +57,22 @@ public class BoardTest
     }
 
     @Test
-    public void boardShouldNotContainNullOrEmpty() {
-        Board board = new Board(DatabaseHelper.selectWords(25), getRandomPlayerType());
+    public void boardShouldNotContainNullOrEmpty()
+    {
+        Board board = new Board(DatabaseHelper.getRandomCodenames(25), getRandomLayout());
         assertFalse(board.hasWord(null));
         assertFalse(board.hasWord(""));
     }
 
-    private PlayerType getRandomPlayerType() {
-        if(RAND.nextInt() % 2 == 0) {
-            return PlayerType.RED;
-        }
-        return PlayerType.BLUE;
+    @Test
+    public void addStatsShouldActuallyAddStats(){
+        boolean answer = DatabaseHelper.addGameToStats("rt", "bt", -25, "Bt", true, 2, 1, 0 );
+        DatabaseHelper.deleteTestEntry();
+        assertTrue(answer);
+
+    }
+    private String getRandomLayout()
+    {
+        return DatabaseHelper.getBoardLayout()[1];
     }
 }

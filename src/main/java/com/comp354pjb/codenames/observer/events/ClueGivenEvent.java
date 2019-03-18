@@ -18,6 +18,7 @@ import com.comp354pjb.codenames.observer.Subject;
 public class ClueGivenEvent extends Subject<ClueGivenObserver, Clue>
 {
     //region Methods
+
     /**
      * Notifies of a new clue being given by a SpyMaster
      * @param listener Listener to notify
@@ -26,7 +27,7 @@ public class ClueGivenEvent extends Subject<ClueGivenObserver, Clue>
     @Override
     protected void update(ClueGivenObserver listener, Clue clue)
     {
-     listener.getClue(clue);
+        listener.getClue(clue);
     }
     //endregion
 }

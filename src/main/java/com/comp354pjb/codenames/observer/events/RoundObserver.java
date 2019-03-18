@@ -15,6 +15,7 @@ package com.comp354pjb.codenames.observer.events;
 public interface RoundObserver
 {
     //region Methods
+
     /**
      * Gets the new updated game round
      * @param round New game round

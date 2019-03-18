@@ -7,11 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="codenames" />
-        <module name="Codenames-354" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Codenames-354" target="8" />
-    </bytecodeTargetLevel>
   </component>
 </project>

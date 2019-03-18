@@ -5,25 +5,33 @@
  *
  * Contributors:
  * Christophe Savard
+ * Rezza-Zairan Zaharin
+ * Michael Wilgus
  */
 
 package com.comp354pjb.codenames;
 
 import com.comp354pjb.codenames.commander.Commander;
+import com.comp354pjb.codenames.model.Game;
 import com.comp354pjb.codenames.model.board.Board;
 import com.comp354pjb.codenames.model.board.Card;
-import com.comp354pjb.codenames.model.Game;
 import com.comp354pjb.codenames.model.player.Clue;
-import com.comp354pjb.codenames.model.player.PlayerType;
-import com.comp354pjb.codenames.observer.events.*;
+import com.comp354pjb.codenames.model.player.PlayerIntelligence;
+import com.comp354pjb.codenames.observer.events.CardFlippedObserver;
+import com.comp354pjb.codenames.observer.events.ClueGivenObserver;
+import com.comp354pjb.codenames.observer.events.PhaseObserver;
+import com.comp354pjb.codenames.observer.events.RoundObserver;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  * Controller object, interacts between the View (FXML) and the Model
@@ -31,13 +39,15 @@ import javafx.scene.text.Text;
 public class Controller implements CardFlippedObserver, ClueGivenObserver, PhaseObserver, RoundObserver
 {
     //region Fields
-    //FXML Fields
+    //FXML Fields - Contain various components of the Graphical user Interface (GUI)
     @FXML
     private GridPane grid;
     @FXML
-    private Button undoButton, redoButton, nextMoveButton;
+    private Button undoButton, redoButton, nextMoveButton, startGameBtn;
     @FXML
     private Text round, phase, red, blue, guesses, clue;
+    @FXML
+    private ComboBox<String> redSpymaster, redOperative, blueSpymaster, blueOperative;
 
     //Data
     private HBox[][] boxes;
@@ -48,61 +58,164 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     //endregion
 
     //region FXML Methods
+
     /**
-     * Initializes the controller along with the FXML file
+     * Initializes the controller
      */
     @FXML
     private void initialize()
     {
-        //Fetch all the card boxes
-        this.boxes = new HBox[5][5];
-        for (Node node : grid.getChildren())
-        {
-            int x = GridPane.getRowIndex(node);
-            int y = GridPane.getColumnIndex(node);
 
-            if (x >= 1 && x <= 5 && y >= 1 && y <= 5)
+    }
+
+    /**
+     * Update by Rezza-Zairan
+     * ----------------------
+     * Initializes the FXML as everything in initialize() was pushed towards this function
+     * so that it responds to the start game button being clicked.
+     * <p>
+     * This function also passes PlayerIntelligence to the instancing of Game()
+     */
+    @FXML
+    private void setup()
+    {
+        //Only runs if every option has a value
+        if ((redSpymaster.getValue() != null) &&
+            (redOperative.getValue() != null) &&
+            (blueSpymaster.getValue() != null) &&
+            (blueOperative.getValue() != null))
+        {
+            //Transition to next scene
+            Stage stage = (Stage)startGameBtn.getScene().getWindow();
+            Scene gameScene = nextMoveButton.getScene();
+            stage.setScene(gameScene);
+
+            //Collect data from start menu
+            PlayerIntelligence[] passInt = new PlayerIntelligence[4];
+
+            // Updated by Michael Wilgus (Added more options to reflect the number of strategies I wrote)
+           /*   Assigns the level of player intelligence to the
+                red Spymaster as chosen by the user
+            */
+            switch (redSpymaster.getValue())
             {
-                this.boxes[x - 1][y - 1] = (HBox)node;
+                case "DUMB":
+                    passInt[0] = PlayerIntelligence.DUMB;
+                    break;
+                case "RISKY":
+                    passInt[0] = PlayerIntelligence.MEDIUM;
+                    break;
+                case "SAFE":
+                    passInt[0] = PlayerIntelligence.SMART;
+                    break;
+            }
+
+            // Updated by Michael Wilgus (Added more options to reflect the number of strategies I wrote)
+           /*   Assigns the level of player intelligence to the
+                red Operative as chosen by the user
+            */
+            switch (redOperative.getValue())
+            {
+                case "DUMB":
+                    passInt[1] = PlayerIntelligence.DUMB;
+                    break;
+                case "MEDIUM":
+                    passInt[1] = PlayerIntelligence.MEDIUM;
+                    break;
+                case "SMART":
+                    passInt[1] = PlayerIntelligence.SMART;
+                    break;
+            }
+
+            // Updated by Michael Wilgus (Added more options to reflect the number of strategies I wrote)
+           /*   Assigns the level of player intelligence to the
+                blue Spymaster as chosen by the user
+            */
+            switch (blueSpymaster.getValue())
+            {
+                case "DUMB":
+                    passInt[2] = PlayerIntelligence.DUMB;
+                    break;
+                case "RISKY":
+                    passInt[2] = PlayerIntelligence.MEDIUM;
+                    break;
+                case "SAFE":
+                    passInt[2] = PlayerIntelligence.SMART;
+                    break;
+            }
+
+            // Updated by Michael Wilgus (Added more options to reflect the number of strategies I wrote)
+           /*   Assigns the level of player intelligence to the
+                blue Operative as chosen by the user
+            */
+            switch (blueOperative.getValue())
+            {
+                case "DUMB":
+                    passInt[3] = PlayerIntelligence.DUMB;
+                    break;
+                case "MEDIUM":
+                    passInt[3] = PlayerIntelligence.MEDIUM;
+                    break;
+                case "SMART":
+                    passInt[3] = PlayerIntelligence.SMART;
+                    break;
+            }
+
+            //Fetch all the card boxes
+            this.boxes = new HBox[5][5];
+            for (Node node : grid.getChildren())
+            {
+                int x = GridPane.getRowIndex(node);
+                int y = GridPane.getColumnIndex(node);
+
+                if (x >= 1 && x <= 5 && y >= 1 && y <= 5)
+                {
+                    this.boxes[x - 1][y - 1] = (HBox)node;
+                }
+            }
+
+            //Create game object
+            this.game = new Game(passInt);
+
+            //Register to all events
+            this.game.onClueGiven.register(this);
+            this.game.onPhaseChange.register(this);
+            this.game.onRoundChange.register(this);
+            this.game.getBoard().onFlip.register(this);
+
+            //Setup the commander object
+            Commander.instance().setup(this, this.game);
+
+            //Setup the starting player
+            switch (this.game.getStartTeam())
+            {
+                case RED:
+                    this.maxRed++;
+                    break;
+
+                case BLUE:
+                    this.maxBlue++;
+                    break;
+            }
+            this.red.setText("0/" + this.maxRed);
+            this.blue.setText("0/" + this.maxBlue);
+
+            //Setup all the text boxes in the view to their correct word
+            Board board = this.game.getBoard();
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < 5; j++)
+                {
+                    //Get child text component
+                    Text text = (Text)this.boxes[i][j].getChildren().get(0);
+                    text.setText(board.getCard(i, j).getWord());
+                }
             }
         }
-
-        //Create game object
-        this.game = new Game();
-
-        //Register to all events
-        this.game.onClueGiven.register(this);
-        this.game.onPhaseChange.register(this);
-        this.game.onRoundChange.register(this);
-        this.game.getBoard().onFlip.register(this);
-
-        //Setup the commander object
-        Commander.instance().setup(this, this.game);
-
-        //Setup the starting player
-        switch (this.game.getStartTeam())
+        //If at least one option fails
+        else
         {
-            case RED:
-                this.maxRed++;
-                break;
-
-            case BLUE:
-                this.maxBlue++;
-                break;
-        }
-        this.red.setText("0/" + this.maxRed);
-        this.blue.setText("0/" + this.maxBlue);
-
-        //Setup all the text boxes in the view to their correct word
-        Board board = this.game.getBoard();
-        for (int i = 0; i < 5; i++)
-        {
-            for (int j = 0; j < 5; j++)
-            {
-                //Get child text component
-                Text text = (Text)this.boxes[i][j].getChildren().get(0);
-                text.setText(board.getCard(i, j).getWord());
-            }
+            startGameBtn.setText("TRY AGAIN");
         }
     }
 
@@ -156,6 +269,7 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     //endregion
 
     //region Methods
+
     /**
      * Card flipped event listener
      * @param card Card being flipped
