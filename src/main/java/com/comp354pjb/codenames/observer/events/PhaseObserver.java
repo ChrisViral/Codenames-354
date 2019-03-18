@@ -15,6 +15,7 @@ package com.comp354pjb.codenames.observer.events;
 public interface PhaseObserver
 {
     //region Methods
+
     /**
      * Gets the updated game phase
      * @param phase New phase

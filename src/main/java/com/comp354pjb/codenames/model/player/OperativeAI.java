@@ -19,8 +19,6 @@ package com.comp354pjb.codenames.model.player;
 import com.comp354pjb.codenames.model.Game;
 import com.comp354pjb.codenames.model.board.Card;
 
-import java.lang.*;
-
 /**
  * Implementation  of Strategy for the AI class
  * (See above for full description)
@@ -49,16 +47,18 @@ public class OperativeAI extends Strategy
     {
         game.setPhase(this.team.niceName() + " Operative");
         // Keep getting random positions until we get an unrevealed card
-        while(true) {
+        while (true)
+        {
             int row = Game.RANDOM.nextInt(5), col = Game.RANDOM.nextInt(5);
             Card card = game.getBoard().getCard(row, col);
-            if (!card.isRevealed()) {
+            if (!card.isRevealed())
+            {
                 //Reveal card
                 game.revealCard(card);
                 break;
             }
         }
-        if(game.getGuessesLeft() == 0) finished = true;
+        if (game.getGuessesLeft() == 0) { finished = true; }
     }
     //endregion
 }

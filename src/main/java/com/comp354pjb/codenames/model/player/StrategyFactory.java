@@ -26,19 +26,19 @@ public class StrategyFactory
 {
     /**
      * Get a Strategy to be used with a Player
-     * @param type Either "spymaster" or "operative"
-     * @param game The Game the Strategy will be used with
+     * @param type  Either "spymaster" or "operative"
+     * @param game  The Game the Strategy will be used with
      * @param level The strategy class to be created
      * @return A Strategy with the given constraints
      */
     public static Strategy makeStrategy(String type, Game game, PlayerIntelligence level)
     {
         // Are we a SpyMaster or an Operative?
-        switch(type)
+        switch (type)
         {
             case "spymaster":
                 // Are we smart or... not?
-                switch(level)
+                switch (level)
                 {
                     case SMART:
                         return new SafeSpyMasterAI(game);
@@ -48,7 +48,7 @@ public class StrategyFactory
                         return new SpyMasterAI(game);
                 }
             case "operative":
-                switch(level)
+                switch (level)
                 {
                     case SMART:
                         return new MemoryOperativeAI(game);

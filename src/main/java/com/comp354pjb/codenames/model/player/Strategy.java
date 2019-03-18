@@ -22,7 +22,8 @@ package com.comp354pjb.codenames.model.player;
  * Abstract class for the strategy of Player
  * (See above for full description)
  */
-abstract public class Strategy {
+abstract public class Strategy
+{
 
     /**
      * The team being played
@@ -37,6 +38,7 @@ abstract public class Strategy {
     protected boolean finished = false;
 
     //region Methods
+
     /**
      * Plays a given player's turn according to rules defined in the method
      * Modified by Michael Wilgus (Rename to clearly indicate that this conforms to Strategy Pattern)

@@ -33,6 +33,7 @@ public final class DatabaseHelper
     //endregion
 
     //region Constructors
+
     /**
      * Prevents class instantiation
      */
@@ -41,6 +42,7 @@ public final class DatabaseHelper
 
     //region Static methods
     //region Support methods
+
     /**
      * get URL of Database
      * @return returns the header + absolute path to DB
@@ -95,8 +97,8 @@ public final class DatabaseHelper
 
     /**
      * Run queries that return a 1D array of strings.
-     * @param  q The query you want to run on the database. Expected to be in SQLite3.
-     * @param  colName The name of the column you're accessing.
+     * @param q       The query you want to run on the database. Expected to be in SQLite3.
+     * @param colName The name of the column you're accessing.
      * @return Words stored in the DB
      * -----------
      * Revised by Mordechai Zirkind
@@ -111,10 +113,10 @@ public final class DatabaseHelper
         try (Connection conn = DriverManager.getConnection(url); Statement stmt = conn.createStatement())
         {
             //Getting the size of the array
-            ResultSet size = stmt.executeQuery("select count(*) as size from ("+q+");");
+            ResultSet size = stmt.executeQuery("select count(*) as size from (" + q + ");");
             toReturn = new String[size.getInt("size")];
             //Run the query and store the result in query
-            ResultSet query = stmt.executeQuery(q+";");
+            ResultSet query = stmt.executeQuery(q + ";");
 
             int i = 0; // counter to iterate through the to return array
             while (query.next())
@@ -200,7 +202,8 @@ public final class DatabaseHelper
      * -----------
      * Created by Mordechai Zirkind
      */
-    public static String[] getBoardLayout() {
+    public static String[] getBoardLayout()
+    {
 
         // Get database address and create the array to return in the correct scope.
         String url = getURL();
@@ -227,13 +230,13 @@ public final class DatabaseHelper
 
     /**
      * Add the record of a completed game to the database.
-     * @param redTeam The name of the red team. Intended to track humans by name.
-     * @param blueTeam The name of the blue team. Intended to track humans by name.
-     * @param numOfRounds The number of rounds it took to finish the game.
-     * @param winner The team that one either red or blue.
-     * @param assassinRevealed True if the assassin was revealed, otherwise false.
-     * @param civilianRevealed The number of civilian cards revealed over the course of the game.
-     * @param redTilesRevealed The number of red team cards revealed over the course of the game.
+     * @param redTeam           The name of the red team. Intended to track humans by name.
+     * @param blueTeam          The name of the blue team. Intended to track humans by name.
+     * @param numOfRounds       The number of rounds it took to finish the game.
+     * @param winner            The team that one either red or blue.
+     * @param assassinRevealed  True if the assassin was revealed, otherwise false.
+     * @param civilianRevealed  The number of civilian cards revealed over the course of the game.
+     * @param redTilesRevealed  The number of red team cards revealed over the course of the game.
      * @param blueTilesRevealed The number of blue team cards revealed over the course of the game.
      * @return False if there's an SQL error, otherwise true.
      * -----------
@@ -278,7 +281,7 @@ public final class DatabaseHelper
      * -----------
      * Created by Benjamin Therrien
      * Revised by Mordechai Zirkind
-     * */
+     */
     public static boolean deleteTestEntry()
     {
         //Get the database URL and write the SQL query statement.
@@ -289,7 +292,7 @@ public final class DatabaseHelper
         try (Connection conn = DriverManager.getConnection(url); PreparedStatement stmt = conn.prepareStatement(sql))
         {
             //Add the values to the prepared statement.
-            stmt.setInt(1,-25);
+            stmt.setInt(1, -25);
             stmt.executeUpdate();
         }
         catch (SQLException e)
@@ -307,7 +310,7 @@ public final class DatabaseHelper
     /**
      * Transforms any dash, underscore, or space separated string into a CamelCased string
      * @param s String to transform
-     * @return  CamelCased string
+     * @return CamelCased string
      */
     public static String toCamelCase(String s)
     {

@@ -26,74 +26,21 @@ public class Card
      * Type of this card
      */
     private CardType type;
-
-    /**
-     * Accessor for Card Type
-     * @return type, The type of this card
-     */
-    public CardType getType()
-    {
-        return this.type;
-    }
-
     /**
      * The word displayed on this card
      */
     private String word;
-
-    /**
-     * Accessor for word
-     * @return word, The word displayed by the card
-     */
-    public String getWord()
-    {
-        return this.word;
-    }
-
     /**
      * If this card is revealed on the board or not
      */
     private boolean isRevealed;
-
-    /**
-     * Accessor for isRevealed
-     * @return isRevealed, whether the card type has been revealed or not
-     */
-    public boolean isRevealed()
-    {
-        return this.isRevealed;
-    }
-    /**
-     * Sets the revealed info of this card
-     */
-    public void setRevealed(boolean revealed)
-    {
-        this.isRevealed = revealed;
-    }
-
     /**
      * Clue words that suggest this card
      * Added by Michael Wilgus
      */
     private HashSet<String> clues;
-
     private int x, y;
-    /**
-     * X coordinate on the grid of this card
-     */
-    public int getX()
-    {
-        return this.x;
-    }
-    /**
-     * Y coordinate on the grid of this card
-     */
-    public int getY() {
-        return this.y;
-    }
-    //endregion
 
-    //region Constructors
     /**
      * Card Parameterized Constructor
      * @param word The word displayed on the Card
@@ -109,6 +56,60 @@ public class Card
         this.y = y;
         this.isRevealed = false;
         this.clues = new HashSet<>();
+    }
+
+    /**
+     * Accessor for Card Type
+     * @return type, The type of this card
+     */
+    public CardType getType()
+    {
+        return this.type;
+    }
+
+    /**
+     * Accessor for word
+     * @return word, The word displayed by the card
+     */
+    public String getWord()
+    {
+        return this.word;
+    }
+
+    /**
+     * Accessor for isRevealed
+     * @return isRevealed, whether the card type has been revealed or not
+     */
+    public boolean isRevealed()
+    {
+        return this.isRevealed;
+    }
+
+    /**
+     * Sets the revealed info of this card
+     */
+    public void setRevealed(boolean revealed)
+    {
+        this.isRevealed = revealed;
+    }
+
+    /**
+     * X coordinate on the grid of this card
+     */
+    public int getX()
+    {
+        return this.x;
+    }
+    //endregion
+
+    //region Constructors
+
+    /**
+     * Y coordinate on the grid of this card
+     */
+    public int getY()
+    {
+        return this.y;
     }
     //endregion
 
@@ -140,7 +141,7 @@ public class Card
     /**
      * Tests if a given object is a card equal to this one
      * @param o Object to compare to
-     * @return  True if the object is a card equal to this one
+     * @return True if the object is a card equal to this one
      */
     @Override
     public boolean equals(Object o)

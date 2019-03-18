@@ -36,14 +36,13 @@ public class Clue
      * The number of cards on the board associated with that clue word
      */
     public int value;
-
+    public boolean isActiveCodename = false;
     // Added by Michael Wilgus
     // Bookkeeping variables for AI descision making
     private int redSuggested = 0;
     private int blueSuggested = 0;
     private int civilianSuggested = 0;
     private boolean assassinSuggested = false;
-    public boolean isActiveCodename = false;
 
     // Added by Michael Wilgus
     /**
@@ -53,9 +52,10 @@ public class Clue
     //endregion
 
     //region Constructors
+
     /**
      * Creates a new Clue
-     * @param word  Word of the clue
+     * @param word Word of the clue
      */
     public Clue(String word)
     {
@@ -65,6 +65,7 @@ public class Clue
     //endregion
 
     //region Methods
+
     /**
      * Get the cards on the board that are suggested by this clue
      * Added by Michael Wilgus
@@ -86,9 +87,9 @@ public class Clue
     {
         boolean added = cards.add(card);
 
-        if(!added) return false;
+        if (!added) { return false; }
 
-        switch(card.getType())
+        switch (card.getType())
         {
             case RED:
                 redSuggested++;
@@ -117,9 +118,9 @@ public class Clue
     {
         boolean removed = cards.remove(card);
 
-        if(!removed) return false;
+        if (!removed) { return false; }
 
-        switch(card.getType())
+        switch (card.getType())
         {
             case RED:
                 redSuggested--;
@@ -166,7 +167,7 @@ public class Clue
      */
     public int getNumberOfCardsSuggestedForTeam(PlayerType team)
     {
-        switch(team)
+        switch (team)
         {
             case RED:
                 return redSuggested;
@@ -186,7 +187,7 @@ public class Clue
     public int getComplementOfCardsSuggestedForTeam(PlayerType team)
     {
         int answer = 0;
-        switch(team)
+        switch (team)
         {
             case RED:
                 answer += blueSuggested;

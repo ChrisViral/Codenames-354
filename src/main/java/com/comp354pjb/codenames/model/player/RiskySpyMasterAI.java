@@ -23,32 +23,11 @@ import java.util.Comparator;
  * Implements risky AI strategy which always picks the clue that suggests the most cards.
  * (See full description above)
  */
-public class RiskySpyMasterAI extends Strategy {
+public class RiskySpyMasterAI extends Strategy
+{
     public static final PlayerIntelligence STRATEGY_CLASS = PlayerIntelligence.MEDIUM;
 
     private Game game;
-
-    /**
-     * This comparator will be used to sort all the clues in the game according to the strategy
-     */
-    private class ClueComparator implements Comparator<Clue>
-    {
-        private PlayerType team;
-
-        public ClueComparator(PlayerType team)
-        {
-            this.team = team;
-        }
-
-        @Override
-        public int compare(Clue clue1, Clue clue2) {
-            // Lower scores are better
-            int score1 = -clue1.getNumberOfCardsSuggestedForTeam(team);
-            int score2 = -clue2.getNumberOfCardsSuggestedForTeam(team);
-
-            return Integer.compare(score1, score2);
-        }
-    }
 
     public RiskySpyMasterAI(Game game)
     {
@@ -60,7 +39,8 @@ public class RiskySpyMasterAI extends Strategy {
      * some clue that fits this strategies critera
      */
     @Override
-    public void execute() {
+    public void execute()
+    {
         this.game.setPhase(this.team.niceName() + " SpyMaster");
 
         // Consult the game clue/card association information
@@ -76,5 +56,28 @@ public class RiskySpyMasterAI extends Strategy {
 
         // We are done
         finished = true;
+    }
+
+    /**
+     * This comparator will be used to sort all the clues in the game according to the strategy
+     */
+    private class ClueComparator implements Comparator<Clue>
+    {
+        private PlayerType team;
+
+        public ClueComparator(PlayerType team)
+        {
+            this.team = team;
+        }
+
+        @Override
+        public int compare(Clue clue1, Clue clue2)
+        {
+            // Lower scores are better
+            int score1 = -clue1.getNumberOfCardsSuggestedForTeam(team);
+            int score2 = -clue2.getNumberOfCardsSuggestedForTeam(team);
+
+            return Integer.compare(score1, score2);
+        }
     }
 }

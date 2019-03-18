@@ -27,6 +27,7 @@ public abstract class Subject<T, U>
     //endregion
 
     //region Methods
+
     /**
      * Registers a listener
      * @param listener Listener to register
@@ -60,6 +61,7 @@ public abstract class Subject<T, U>
     //endregion
 
     //region Abstract methods
+
     /**
      * Notifies a single listener of the changed data
      * Inheriting subjects should override this class and make it interact with the Observer it is using

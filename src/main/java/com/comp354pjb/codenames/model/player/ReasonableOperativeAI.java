@@ -21,9 +21,8 @@ import java.util.ArrayList;
 /**
  * Medium level implementation of an Operative AI. Makes reasonable guesses given a clue
  */
-public class ReasonableOperativeAI extends Strategy {
-    public static final PlayerIntelligence STRATEGY_CLASS = PlayerIntelligence.MEDIUM;
-
+public class ReasonableOperativeAI extends Strategy
+{
     private Game game;
 
     public ReasonableOperativeAI(Game game)
@@ -33,7 +32,8 @@ public class ReasonableOperativeAI extends Strategy {
     //region Methods
 
     @Override
-    public void execute() {
+    public void execute()
+    {
         game.setPhase(this.team.niceName() + " Operative");
 
         //Get the latest clue given by the SpyMaster
@@ -53,6 +53,6 @@ public class ReasonableOperativeAI extends Strategy {
         game.revealCard(card);
 
         // We used up our guesses so we are done
-        if(game.getGuessesLeft() == 0) finished = true;
+        if (game.getGuessesLeft() == 0) { finished = true; }
     }
 }

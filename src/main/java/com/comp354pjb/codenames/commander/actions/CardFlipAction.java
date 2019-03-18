@@ -24,6 +24,7 @@ public class CardFlipAction implements Action
     //endregion
 
     //region Constructors
+
     /**
      * Creates a new CardFlipAction to enable undo and redo
      * @param controller Controller on which to apply the action
@@ -37,6 +38,7 @@ public class CardFlipAction implements Action
     //endregion
 
     //region Methods
+
     /**
      * Undoes the card flip
      */
@@ -65,10 +67,10 @@ public class CardFlipAction implements Action
     public String info()
     {
         return String.format("%s card \"%s\" flipped at (%d, %d)",
-                              DatabaseHelper.toCamelCase(card.getType().name()),
-                              card.getWord(),
-                              card.getX(),
-                              card.getY());
+                DatabaseHelper.toCamelCase(card.getType().name()),
+                card.getWord(),
+                card.getX(),
+                card.getY());
     }
     //endregion
 }

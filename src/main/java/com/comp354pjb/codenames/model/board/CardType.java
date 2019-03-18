@@ -21,16 +21,17 @@ public enum CardType
     ASSASSIN;
 
     //region Static methods
+
     /**
      * Parses a char value to the corresponding CardType member
      * @param value Char to parse, must be R, B, C, or A
-     * @throws EnumConstantNotPresentException If the supplied character is invalid
      * @return The corresponding CardType
+     * @throws EnumConstantNotPresentException If the supplied character is invalid
      */
     public static CardType parse(char value)
     {
         //Switch over the parameter, case insensitive
-        switch(Character.toUpperCase(value))
+        switch (Character.toUpperCase(value))
         {
             case 'R':
                 return RED;

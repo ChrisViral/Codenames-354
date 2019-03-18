@@ -12,11 +12,9 @@ package com.comp354pjb.codenames;
 
 import com.comp354pjb.codenames.model.DatabaseHelper;
 import com.comp354pjb.codenames.model.board.*;
-import com.comp354pjb.codenames.model.player.PlayerType;
 
 import org.junit.Test;
 
-import javax.print.attribute.standard.DateTimeAtCompleted;
 
 import static org.junit.Assert.*;
 
@@ -68,7 +66,7 @@ public class BoardTest
 
     @Test
     public void addStatsShouldActuallyAddStats(){
-        Boolean answer = DatabaseHelper.addGameToStats("rt", "bt", -25, "Bt", true, 2, 1, 0 );
+        boolean answer = DatabaseHelper.addGameToStats("rt", "bt", -25, "Bt", true, 2, 1, 0 );
         DatabaseHelper.deleteTestEntry();
         assertTrue(answer);
 

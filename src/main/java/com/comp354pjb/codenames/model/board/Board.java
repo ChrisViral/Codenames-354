@@ -13,7 +13,10 @@
 package com.comp354pjb.codenames.model.board;
 
 import com.comp354pjb.codenames.observer.events.CardFlippedEvent;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 
 /**
  * Board class, represents the 5X5 grid of cards on which the game happens
@@ -22,24 +25,24 @@ public class Board
 {
     //region Fields
     /**
+     * Single card flipped event
+     */
+    public final CardFlippedEvent onFlip = new CardFlippedEvent();
+    /**
      * Cards to be displayed on the board
      */
     private final Card[][] cards;
+    //endregion
 
+    //region Events
     /**
      * Words to be displayed on the cards
      */
     private final HashSet<String> words = new HashSet<>();
     //endregion
 
-    //region Events
-    /**
-     * Single card flipped event
-     */
-    public final CardFlippedEvent onFlip = new CardFlippedEvent();
-    //endregion
-
     //region Constructors
+
     /**
      * Creates a new 5x5 board of cards with the supplied words
      * @param words  The layout string for the board (String of RBCA of length 25)
@@ -53,6 +56,7 @@ public class Board
     //endregion
 
     //region Static methods
+
     /**
      * Creates an array of card with the correct amount of types with the given words
      * @param words  Words to put on the cards
@@ -79,9 +83,9 @@ public class Board
     //endregion
 
     //region Accessors
+
     /**
      * Getting a specific card at a specific index on the board.
-     *
      * @param x Index of card on horizontal axis
      * @param y Index of card on vertical axis
      * @return returns specific card on board
@@ -93,11 +97,11 @@ public class Board
     //endregion
 
     //region Methods
+
     /**
      * Reveals the card at a specific index, checks if it was flipped already, if not, it will flip the card.
      * @param x Index horizontal
      * @param y Index vertical
-     *
      */
     public void revealAt(int x, int y)
     {
@@ -135,12 +139,12 @@ public class Board
      * Added by Michael Wilgus
      * @return An ArrayList of all the Cards on the board
      */
-    public ArrayList<Card>getCards()
+    public ArrayList<Card> getCards()
     {
         ArrayList<Card> cards = new ArrayList<>();
-        for(int i = 0; i < 5; i++)
+        for (int i = 0; i < 5; i++)
         {
-            for(int j = 0; j < 5; j++)
+            for (int j = 0; j < 5; j++)
             {
                 Card card = getCard(i, j);
                 cards.add(card);

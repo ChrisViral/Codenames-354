@@ -20,7 +20,10 @@ import com.comp354pjb.codenames.observer.events.ClueGivenEvent;
 import com.comp354pjb.codenames.observer.events.PhaseEvent;
 import com.comp354pjb.codenames.observer.events.RoundEvent;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Random;
 
 public class Game
 {
@@ -45,14 +48,40 @@ public class Game
      */
     public final RoundEvent onRoundChange = new RoundEvent();
     //endregion
-
-    //region Fields
-    private int playerIndex, round = 1;
-    private ArrayList<Player> players = new ArrayList<>();
-    //endregion
-
     //region Properties
     private final Board board;
+    //region Fields
+    private int playerIndex, round = 1;
+    //endregion
+    private ArrayList<Player> players = new ArrayList<>();
+    private PlayerType startTeam;
+    private Player currentPlayer;
+    //score keeping members
+    private int guessesLeft;
+    private int redCardsRevealed;
+    private int blueCardsRevealed;
+    private int civilianCardsRevealed;
+    private boolean assassinRevealed;
+    private PlayerType winner;
+    private PlayerType loser;
+    private SuggestionGraph graph;
+    private Clue currentClue;
+
+    /**
+     * Creates a new Game object and correctly sets up the board and cards, as well as players
+     * <p>
+     * Update by Rezza-Zairan
+     * ----------------------
+     * @param passInt is passed by the controller to hold an array of PlayerIntelligence chosen by the user.
+     */
+    public Game(PlayerIntelligence[] passInt)
+    {
+        String[] setup = DatabaseHelper.getBoardLayout();
+        setPlayers(setup[0], passInt);
+        this.board = new Board(DatabaseHelper.getRandomCodenames(25), setup[1]);
+        this.graph = createSuggestionGraph();
+    }
+
     /**
      * Gets this game's Board
      */
@@ -61,7 +90,6 @@ public class Game
         return this.board;
     }
 
-    private PlayerType startTeam;
     /**
      * Gets the starting team colour
      */
@@ -70,29 +98,17 @@ public class Game
         return this.startTeam;
     }
 
-    private Player currentPlayer;
-
     /**
      * Set the player that is currently giving clues or guessing cards
      * @param player The Player associated with the game whose turn it is
      */
     public void setCurrentPlayer(Player player) { this.currentPlayer = player; }
 
-    //score keeping members
-    private int guessesLeft;
-
     /**
      * Gets the number of guesses left given the current clue
      */
     public int getGuessesLeft() { return this.guessesLeft; }
 
-    private int redCardsRevealed;
-
-    private int blueCardsRevealed;
-
-    private int civilianCardsRevealed;
-
-    private boolean assassinRevealed;
     /**
      * Sets if the assassin card has been revealed
      */
@@ -101,7 +117,6 @@ public class Game
         this.assassinRevealed = assassinRevealed;
     }
 
-    private PlayerType winner;
     /**
      * Gets the winning player
      */
@@ -109,6 +124,7 @@ public class Game
     {
         return this.winner;
     }
+
     /**
      * Sets the winning player and records a win in the database.
      */
@@ -124,8 +140,10 @@ public class Game
                 this.loser = PlayerType.RED;
         }
     }
+    //endregion
 
-    private PlayerType loser;
+    //region Constructors
+
     /**
      * Sets the game's loser
      */
@@ -141,8 +159,10 @@ public class Game
                 this.winner = PlayerType.RED;
         }
     }
+    //endregion
 
-    private SuggestionGraph graph;
+    //region Methods
+
     /**
      * Gets the graph structure that associates clues to words for this game
      * @return A SuggestionGraph that has the current clue to card relationship information for this game
@@ -151,42 +171,23 @@ public class Game
     {
         return graph;
     }
-    //endregion
 
-    //region Constructors
-    /**
-     * Creates a new Game object and correctly sets up the board and cards, as well as players
-     *
-     * Update by Rezza-Zairan
-     * ----------------------
-     * @param passInt is passed by the controller to hold an array of PlayerIntelligence chosen by the user.
-     */
-    public Game(PlayerIntelligence passInt[])
-    {
-        String[] setup = DatabaseHelper.getBoardLayout();
-        setPlayers(setup[0], passInt);
-        this.board = new Board(DatabaseHelper.getRandomCodenames(25), setup[1]);
-        this.graph = createSuggestionGraph();
-    }
-    //endregion
-
-    //region Methods
     /**
      * Sets the starting player for the game and initializes the AIs correctly
      * @param startingPlayer Starting team name
-     *
-     * Update by Rezza-Zairan
-     * ----------------------
-     * @param passInt is passed by the controller to hold an array of PlayerIntelligence chosen by the user.
+     *                       <p>
+     *                       Update by Rezza-Zairan
+     *                       ----------------------
+     * @param passInt        is passed by the controller to hold an array of PlayerIntelligence chosen by the user.
      */
-    private void setPlayers(String startingPlayer, PlayerIntelligence passInt[])
+    private void setPlayers(String startingPlayer, PlayerIntelligence[] passInt)
     {
 
         this.startTeam = PlayerType.parse(startingPlayer);
         PlayerType second = this.startTeam == PlayerType.RED ? PlayerType.BLUE : PlayerType.RED;
 
         //Rearranging AI according to who starts first
-        PlayerIntelligence arrangedInt[] = new PlayerIntelligence[4];
+        PlayerIntelligence[] arrangedInt = new PlayerIntelligence[4];
         arrangedInt = passInt;
 
         if (this.startTeam == PlayerType.BLUE)
@@ -224,7 +225,7 @@ public class Game
         }
         else
         {
-             //Check the starting team for correct card numbers
+            //Check the starting team for correct card numbers
             int redTarget = 8, blueTarget = 8;
             switch (this.startTeam)
             {
@@ -286,8 +287,6 @@ public class Game
 
     }
 
-    private Clue currentClue;
-
     public Clue getCurrentClue()
     {
         return this.currentClue;
@@ -313,14 +312,15 @@ public class Game
         this.board.revealCard(card);
         this.graph.pickCard(card.getWord());
 
-        switch (card.getType()) {
+        switch (card.getType())
+        {
             //Actions for revealing an assassin card
             case ASSASSIN:
                 this.setLoser(this.currentPlayer.getTeam());
                 this.setAssassinRevealed(true);
                 this.guessesLeft = 0;
                 return;
-                //Actions for revealing a civilian card
+            //Actions for revealing a civilian card
             case CIVILIAN:
                 this.civilianCardsRevealed++;
                 this.guessesLeft = 0;
@@ -338,9 +338,12 @@ public class Game
 
         }
         //Take according actions
-        if(this.currentPlayer.getTeam().getCardType().equals(card.getType())) {
+        if (this.currentPlayer.getTeam().getCardType().equals(card.getType()))
+        {
             this.guessesLeft--;
-        } else {
+        }
+        else
+        {
             this.guessesLeft = 0;
         }
     }
@@ -363,10 +366,10 @@ public class Game
         ArrayList<Card> codenames = board.getCards();
 
         // Get all the clues for each card and add them to the cards
-        for(Card c : codenames)
+        for (Card c : codenames)
         {
             String[] clues = DatabaseHelper.getCluesForCodename(c.getWord().toLowerCase());
-            for(int i = 0; i < clues.length; i++)
+            for (int i = 0; i < clues.length; i++)
             {
                 String clue = DatabaseHelper.toCamelCase(clues[i]);
                 c.addClue(clue);
@@ -378,11 +381,11 @@ public class Game
         HashMap<String, Card> cards = new HashMap<>();
 
         // Add Clues to the graph
-        for(Card c : codenames)
+        for (Card c : codenames)
         {
             cards.put(c.getWord(), c);
             HashSet<String> suggestions = c.getClues();
-            for(String s : suggestions)
+            for (String s : suggestions)
             {
                 Clue clue = clues.getOrDefault(s, new Clue(s));
                 clue.addCard(c);
@@ -394,20 +397,20 @@ public class Game
         // NOTE: This must be done here because this information is only
         // available after all clues have been added
         ArrayList<String> badClues = new ArrayList<>();
-        for(Clue clue : clues.values())
+        for (Clue clue : clues.values())
         {
-            if(clue.onlySuggestsAssassinOrCivilian())
+            if (clue.onlySuggestsAssassinOrCivilian())
             {
                 badClues.add(clue.word);
 
             }
-            if(cards.containsKey(clue.word))
+            if (cards.containsKey(clue.word))
             {
                 clue.isActiveCodename = true;
             }
         }
 
-        for(String key : badClues)
+        for (String key : badClues)
         {
             clues.remove(key);
         }

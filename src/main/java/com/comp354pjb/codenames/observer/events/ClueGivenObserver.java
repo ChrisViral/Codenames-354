@@ -17,6 +17,7 @@ import com.comp354pjb.codenames.model.player.Clue;
 public interface ClueGivenObserver
 {
     //region Methods
+
     /**
      * Gets the new given clue
      * @param clue Clue given

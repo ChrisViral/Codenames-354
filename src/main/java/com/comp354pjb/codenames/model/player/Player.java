@@ -21,36 +21,24 @@ package com.comp354pjb.codenames.model.player;
  */
 public class Player
 {
+    public final String teamName;
     //region Fields
     protected final PlayerType team;
-    public final String teamName;
-
+    //region Properties
+    protected final Strategy strategy;
+    //endregion
     // Added by Michael wilgus
     // Keep track of when a player is done or cannot play any longer for a given turn
     private boolean finished = false;
-    //endregion
 
-    //region Properties
-    protected final Strategy strategy;
-    /**
-     * Gets the strategy associated to this player
-     * @return The currently used Strategy
-     */
-    public Strategy getStrategy()
-    {
-        return this.strategy;
-    }
-    //endregion
-
-    //region Constructors
     /**
      * Creates a new player for a Codenames game
      * @param team     Team this player is on
      * @param strategy Strategy and type of player
-     *
-     * Update by Rezza-Zairan
-     * Modified by Michael Wilgus (decouple from game this is now the responsibility of a Strategy)
-     * ----------------------
+     *                 <p>
+     *                 Update by Rezza-Zairan
+     *                 Modified by Michael Wilgus (decouple from game this is now the responsibility of a Strategy)
+     *                 ----------------------
      */
     public Player(PlayerType team, Strategy strategy)
     {
@@ -61,7 +49,20 @@ public class Player
     }
     //endregion
 
+    //region Constructors
+
+    /**
+     * Gets the strategy associated to this player
+     * @return The currently used Strategy
+     */
+    public Strategy getStrategy()
+    {
+        return this.strategy;
+    }
+    //endregion
+
     //region Methods
+
     /**
      * Plays on of the players turns according to it's type and strategy
      */

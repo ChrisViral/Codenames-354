@@ -35,7 +35,8 @@ import java.util.Random;
  * no longer suggests that card. These changes are made so that any Clue might be a better (or worse)
  * for some strategies as the game is played.
  */
-public class SuggestionGraph {
+public class SuggestionGraph
+{
     //region Fileds
     private HashMap<String, Clue> clues;
     private HashMap<String, Card> cards;
@@ -77,10 +78,10 @@ public class SuggestionGraph {
         Clue bestClue = list.get(0);
         // But there might be ties
         int ties = 1;
-        while(comparator.compare(bestClue, list.get(ties)) == 0)
+        while (comparator.compare(bestClue, list.get(ties)) == 0)
         {
             ties++;
-            if(ties == list.size()) break;
+            if (ties == list.size()) { break; }
         }
         // Pick randomly among the ties
         int i = rand.nextInt(ties);
@@ -109,25 +110,30 @@ public class SuggestionGraph {
         // Does the structure actually keep track of this Card?
         // Better check just to be sure
         Card card;
-        if(this.cards.containsKey(codename)) {
+        if (this.cards.containsKey(codename))
+        {
             card = this.cards.get(codename);
-        } else {
+        }
+        else
+        {
             return false;
         }
 
         // Update the bookkeeping information for each clue that was associated with the picked card
-        for(String relatedClue : card.getClues())
+        for (String relatedClue : card.getClues())
         {
             Clue clue = clues.get(relatedClue);
-            if(clue != null) {
+            if (clue != null)
+            {
                 // This clue can now be used!
-                if(clue.word.equals(codename)) clue.isActiveCodename = false;
+                if (clue.word.equals(codename)) { clue.isActiveCodename = false; }
 
                 // No longer associate a clue with a card that is not in play
                 clue.removeCard(card);
 
                 // If a clue only suggests the assassin or civilians or suggests nothing it is useless
-                if (!clue.suggestsSomeCard() || clue.onlySuggestsAssassinOrCivilian()) {
+                if (!clue.suggestsSomeCard() || clue.onlySuggestsAssassinOrCivilian())
+                {
                     clues.remove(clue.word);
                 }
             }
@@ -145,9 +151,9 @@ public class SuggestionGraph {
     {
         // Will hold a subset of clues that are not also codenames
         HashMap<String, Clue> useableClues = new HashMap<>();
-        for(Clue clue : clues.values())
+        for (Clue clue : clues.values())
         {
-            if(!clue.isActiveCodename)
+            if (!clue.isActiveCodename)
             {
                 useableClues.put(clue.word, clue);
             }

@@ -25,13 +25,14 @@ import java.util.ArrayList;
  * Smartest implementation of an Operative AI. Has a memory of previous clues.
  * (See above for full description)
  */
-public class MemoryOperativeAI extends Strategy {
+public class MemoryOperativeAI extends Strategy
+{
     public static final PlayerIntelligence STRATEGY_CLASS = PlayerIntelligence.SMART;
 
     private Game game;
 
     private String previousClue = null;
-    private  boolean useExtraTurn = false;
+    private boolean useExtraTurn = false;
 
     public MemoryOperativeAI(Game game)
     {
@@ -41,19 +42,21 @@ public class MemoryOperativeAI extends Strategy {
     //region Methods
 
     @Override
-    public void execute() {
+    public void execute()
+    {
         game.setPhase(this.team.niceName() + " Operative");
 
         Clue clue = game.getCurrentClue();
 
         // We are going to use our extra turn
-        if(useExtraTurn) {
+        if (useExtraTurn)
+        {
             useExtraTurn = false;
             finished = true;
             // Remember what cards are suggested by the clue
             clue = game.getSuggestionGraph().getClue(previousClue);
             boolean foundExtraCard = pickCard(clue);
-            if(foundExtraCard)
+            if (foundExtraCard)
             {
                 previousClue = null;
             }
@@ -64,15 +67,15 @@ public class MemoryOperativeAI extends Strategy {
         boolean foundAGoodCard = pickCard(clue);
 
         // We've made our choice so we can look at the card now
-        if(foundAGoodCard)
+        if (foundAGoodCard)
         {
-            if(game.getGuessesLeft() == 0)
+            if (game.getGuessesLeft() == 0)
             {
                 // Check to see if we missed a codename previously
-                if(previousClue != null)
+                if (previousClue != null)
                 {
                     // Can we use the extra turn with the previous clue?
-                    if(previousClue.equals(clue.word) || game.getSuggestionGraph().getClue(previousClue) == null)
+                    if (previousClue.equals(clue.word) || game.getSuggestionGraph().getClue(previousClue) == null)
                     {
                         // We can't so forget the clue and end the turn
                         previousClue = null;
@@ -110,7 +113,7 @@ public class MemoryOperativeAI extends Strategy {
         Card card = cards.get(i);
         game.revealCard(card);
 
-        return  card.getType().equals(team.getCardType());
+        return card.getType().equals(team.getCardType());
     }
     //endregion
 }

@@ -12,22 +12,24 @@ package com.comp354pjb.codenames;
 import com.comp354pjb.codenames.model.DatabaseHelper;
 import com.comp354pjb.codenames.model.board.Card;
 import com.comp354pjb.codenames.model.board.CardType;
-
-
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 import java.util.Random;
 
-public class CardTest {
-    private static final char[] TOKENS = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
-                                        'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
-                                        'x', 'y', 'z'};
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
+public class CardTest
+{
+    private static final char[] TOKENS = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
+                                           'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
+                                           'x', 'y', 'z' };
 
     private static final Random RAND = new Random();
 
     @Test
-    public void onlyCardsShouldEqualCards() {
+    public void onlyCardsShouldEqualCards()
+    {
         Card card = generateCard();
         assertNotEquals(null, card);
         assertNotEquals(generateRandomString(), card);
@@ -35,7 +37,8 @@ public class CardTest {
     }
 
     @Test
-    public void differentCardsShouldNotBeEqual() {
+    public void differentCardsShouldNotBeEqual()
+    {
 
         Card card = generateCard();
         Card dummy = new Card(generateRandomString(), CardType.BLUE, RAND.nextInt(5), RAND.nextInt(5));
@@ -43,13 +46,15 @@ public class CardTest {
     }
 
     @Test
-    public void cardsWithTheSameWordShouldBeEqual() {
+    public void cardsWithTheSameWordShouldBeEqual()
+    {
         Card card = generateCard();
         Card dummy = new Card(card.getWord(), getRandomCardType(), RAND.nextInt(5), RAND.nextInt(5));
         assertEquals(dummy, card);
     }
 
-    private Card generateCard() {
+    private Card generateCard()
+    {
         int row, col;
         CardType type = getRandomCardType();
         row = RAND.nextInt(5);
@@ -60,19 +65,23 @@ public class CardTest {
     }
 
     // Guaranteed to not be in the database
-    private String generateRandomString() {
-        int length  = RAND.nextInt(29) + 1;
-        StringBuffer buf = new StringBuffer();
-        for(int i = 0; i < length; i++) {
-            buf.append(TOKENS[RAND.nextInt(TOKENS.length)]);
+    private String generateRandomString()
+    {
+        int length = RAND.nextInt(29) + 1;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++)
+        {
+            sb.append(TOKENS[RAND.nextInt(TOKENS.length)]);
         }
-        buf.append(RAND.nextInt(9));
-        return buf.toString();
+        sb.append(RAND.nextInt(9));
+        return sb.toString();
     }
 
-    private CardType getRandomCardType() {
+    private CardType getRandomCardType()
+    {
         CardType type;
-        switch(RAND.nextInt(4)) {
+        switch (RAND.nextInt(4))
+        {
             case 0:
                 type = CardType.BLUE;
                 break;

@@ -40,25 +40,13 @@ public class Commander implements CardFlippedObserver
 
     //region Instance
     private final static Commander INSTANCE = new Commander();
-    /**
-     * Current instance of the Commander Singleton
-     * @return The current instance
-     */
-    public static Commander instance()
-    {
-        return INSTANCE;
-    }
+    private final Stack<Action> undoStack = new Stack<>();
     //endregion
-
+    private final Stack<Action> redoStack = new Stack<>();
     //region Fields
     private Controller controller;
     private FileWriter writer;
     private boolean closed;
-    private final Stack<Action> undoStack = new Stack<>();
-    private final Stack<Action> redoStack = new Stack<>();
-    //endregion
-
-    //region Constructors
     /**
      * Creates a new Commander, limits instantiation to Singleton
      */
@@ -79,7 +67,20 @@ public class Commander implements CardFlippedObserver
     }
     //endregion
 
+    //region Constructors
+
+    /**
+     * Current instance of the Commander Singleton
+     * @return The current instance
+     */
+    public static Commander instance()
+    {
+        return INSTANCE;
+    }
+    //endregion
+
     //region Static methods
+
     /**
      * Logs a message to the log file
      * @param message Object to log, uses the built in toString() function
@@ -100,6 +101,7 @@ public class Commander implements CardFlippedObserver
     //endregion
 
     //region Methods
+
     /**
      * Sets up the Commander to work with the given Controller and Game
      * @param controller Controller to use
