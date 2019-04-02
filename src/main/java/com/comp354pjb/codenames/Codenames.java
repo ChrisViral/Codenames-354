@@ -15,10 +15,12 @@ package com.comp354pjb.codenames;
 import com.comp354pjb.codenames.commander.Commander;
 import com.comp354pjb.codenames.model.DatabaseHelper;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -29,22 +31,32 @@ public class Codenames extends Application
 {
     //region Constants
     /**
-     * Width of the App's window
+     * Width of the Game Board's window
      */
-    private static final int WIDTH = 1280;
+    private static final int BOARD_WIDTH = 1280;
     /**
-     * Height of the App's window
+     * Height of the Game Board's window
      */
-    private static final int HEIGHT = 800;
+    private static final int BOARD_HEIGHT = 800;
     /**
-     * Board FXML file location
+     * Width of the Start Menu's window
+     */
+    private static final int START_WIDTH = 350;
+    /**
+     * Height of the Start Menu's window
+     */
+    private static final int START_HEIGHT = 250;
+    /**
+     * Game Board FXML file location
+     */
+    private static final String BOARD_FXML = "view/board.fxml";
+    /**
+     * Start Menu FXML file location
      */
     private static final String START_MENU_FXML = "view/startMenu.fxml";
-    private static final String BOARD_FXML = "view/board.fxml";
     //endregion
 
-    //region Initialization
-
+    //region Main
     /**
      * Application entry point
      * @param args Application arguments
@@ -61,37 +73,51 @@ public class Codenames extends Application
         //Launches JavaFX
         launch(args);
     }
+    //endregion
 
+    //region Methods
     /**
      * Starts the JavaFX GUI
-     * @param stage JavaFX Stage
+     * @param board JavaFX Stage
      * @throws IOException FXML file not found
-     *                     <p>
-     *                     Update by Rezza-Zairan
-     *                     ----------------------
-     *                     With refactoring, this function is modified to accommodate the new FXML file
+     * <p>
+     * Update by Rezza-Zairan
+     * ----------------------
+     * With refactoring, this function is modified to accommodate the new FXML file
+     * ----------------------
+     * Christophe Savard
+     * Made the new start menu a popup window
      */
     @Override
-    public void start(Stage stage) throws IOException
+    public void start(Stage board) throws IOException
     {
-        //Main controller for the two FXML files below
+        //Create Controller for both stages
         Controller controller = new Controller();
 
-        //Loading FXML file
-        //Loading GUI for the Start Menu
-        FXMLLoader startMenuLoader = new FXMLLoader(getClass().getResource(START_MENU_FXML));
-        startMenuLoader.setController(controller);
-        Scene startMenuScene = new Scene(startMenuLoader.load(), WIDTH, HEIGHT);
+        //Create game board scene
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(BOARD_FXML));
+        loader.setController(controller);
+        Scene boardScene = new Scene(loader.load(), BOARD_WIDTH, BOARD_HEIGHT);
 
-        //Loading GUI for the Game Board
-        FXMLLoader boardLoader = new FXMLLoader(getClass().getResource(BOARD_FXML));
-        boardLoader.setController(controller);
-        Scene boardScene = new Scene(boardLoader.load(), WIDTH, HEIGHT);
+        //Setup game board stage
+        board.setTitle(getClass().getSimpleName());
+        board.setScene(boardScene);
 
-        //Showing GUI (user Interface)
-        stage.setTitle(getClass().getSimpleName());
-        stage.setScene(startMenuScene);
-        stage.show();
+        //Creating the popup start menu
+        loader = new FXMLLoader(getClass().getResource(START_MENU_FXML));
+        loader.setController(controller);
+        Scene startMenuScene = new Scene(loader.load(), START_WIDTH, START_HEIGHT);
+
+        //Setup the popup stage
+        Stage startMenu = new Stage(StageStyle.UNDECORATED);
+        startMenu.initOwner(board);
+        startMenu.initModality(Modality.APPLICATION_MODAL);
+        startMenu.setTitle("Select the players");
+        startMenu.setScene(startMenuScene);
+
+        //Show the board and start menu
+        board.show();
+        startMenu.show();
     }
 
     /**

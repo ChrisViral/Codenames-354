@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
- * board.fxml
+ * startMenu.fxml
  * Created by: Rezza-Zairan Zaharin
  * Created on: 12/03/19
  *
  * Contributors:
  * Rezza-Zairan Zaharin
  * Michael Wilgus
+ * Christophe Savard
  */
 -->
 
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -22,7 +28,7 @@
 <?import java.lang.String ?>
 <?import javafx.collections.FXCollections?>
 
-<GridPane fx:id="startgrid" alignment="CENTER" hgap="5.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane fx:id="startgrid" alignment="CENTER" hgap="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="0.0" prefWidth="50.0" />
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="0.0" prefWidth="120.0" />
@@ -37,7 +43,7 @@
     <children>
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
             <children>
-                <Button fx:id="startGameBtn" onAction="#setup" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"  prefHeight="25.0" prefWidth="128.0" text="START GAME" textAlignment="CENTER" textOverrun="WORD_ELLIPSIS">
+                <Button fx:id="startGameBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#setup" prefHeight="25.0" prefWidth="128.0" text="START GAME" textAlignment="CENTER" textOverrun="WORD_ELLIPSIS">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
@@ -85,9 +91,10 @@
                 <ComboBox fx:id="blueOperative" prefHeight="25.0" prefWidth="201.0" promptText="Choose Brain">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="DUMB"/>
-                            <String fx:value="MEDIUM"/>
-                            <String fx:value="SMART"/>
+                            <String fx:value="DUMB" />
+                            <String fx:value="MEDIUM" />
+                            <String fx:value="SMART" />
+                            <String fx:value="HUMAN" />
                         </FXCollections>
                     </items>
                 </ComboBox>
@@ -98,9 +105,9 @@
                 <ComboBox fx:id="blueSpymaster" prefHeight="25.0" prefWidth="201.0" promptText="Choose Brain">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="DUMB"/>
-                            <String fx:value="RISKY"/>
-                            <String fx:value="SAFE"/>
+                            <String fx:value="DUMB" />
+                            <String fx:value="RISKY" />
+                            <String fx:value="SAFE" />
                         </FXCollections>
                     </items>
                 </ComboBox>
@@ -111,9 +118,10 @@
                 <ComboBox fx:id="redOperative" prefHeight="25.0" prefWidth="201.0" promptText="Choose Brain">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="DUMB"/>
-                            <String fx:value="MEDIUM"/>
-                            <String fx:value="SMART"/>
+                            <String fx:value="DUMB" />
+                            <String fx:value="MEDIUM" />
+                            <String fx:value="SMART" />
+                            <String fx:value="HUMAN" />
                         </FXCollections>
                     </items>
                 </ComboBox>
@@ -124,13 +132,18 @@
                 <ComboBox fx:id="redSpymaster" prefHeight="25.0" prefWidth="201.0" promptText="Choose Brain">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="DUMB"/>
-                            <String fx:value="RISKY"/>
-                            <String fx:value="SAFE"/>
+                            <String fx:value="DUMB" />
+                            <String fx:value="RISKY" />
+                            <String fx:value="SAFE" />
                         </FXCollections>
                     </items>
                 </ComboBox>
             </children>
         </HBox>
+      <Button fx:id="cancelBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" prefWidth="128.0" text="CANCEL" textAlignment="CENTER" textOverrun="WORD_ELLIPSIS" GridPane.columnIndex="2" GridPane.rowIndex="3">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
     </children>
 </GridPane>

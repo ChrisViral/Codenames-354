@@ -21,6 +21,7 @@ import com.comp354pjb.codenames.observer.events.CardFlippedObserver;
 import com.comp354pjb.codenames.observer.events.ClueGivenObserver;
 import com.comp354pjb.codenames.observer.events.PhaseObserver;
 import com.comp354pjb.codenames.observer.events.RoundObserver;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -58,7 +59,6 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     //endregion
 
     //region FXML Methods
-
     /**
      * Initializes the controller
      */
@@ -217,6 +217,15 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
         {
             startGameBtn.setText("TRY AGAIN");
         }
+    }
+
+    /**
+     * Cancels player selection and closes the game
+     */
+    @FXML
+    private void cancel()
+    {
+        Platform.exit();
     }
 
     /**
