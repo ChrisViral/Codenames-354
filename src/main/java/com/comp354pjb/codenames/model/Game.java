@@ -16,6 +16,7 @@ import com.comp354pjb.codenames.commander.Commander;
 import com.comp354pjb.codenames.model.board.Board;
 import com.comp354pjb.codenames.model.board.Card;
 import com.comp354pjb.codenames.model.player.*;
+import com.comp354pjb.codenames.model.player.StrategyFactory.StrategyType;
 import com.comp354pjb.codenames.observer.events.ClueGivenEvent;
 import com.comp354pjb.codenames.observer.events.PhaseEvent;
 import com.comp354pjb.codenames.observer.events.RoundEvent;
@@ -173,8 +174,7 @@ public class Game
      */
     public void setPlayers(PlayerIntelligence[] passInt)
     {
-        PlayerType second = this.startTeam == PlayerType.RED ? PlayerType.BLUE : PlayerType.RED;
-
+        //Invert strategies if blue is starting
         if (this.startTeam == PlayerType.BLUE)
         {
             PlayerIntelligence temp = passInt[0];
@@ -185,17 +185,18 @@ public class Game
             passInt[3] = temp;
         }
 
-        Strategy startSpyMasterStrategy = StrategyFactory.makeStrategy("spymaster", this, passInt[0]);
-        Strategy startOperativeStrategy = StrategyFactory.makeStrategy("operative", this, passInt[1]);
-        Strategy secondSpyMasterStrategy = StrategyFactory.makeStrategy("spymaster", this, passInt[2]);
-        Strategy secondOperativeStrategy = StrategyFactory.makeStrategy("operative", this, passInt[3]);
+        //Get the second team
+        PlayerType second = this.startTeam == PlayerType.RED ? PlayerType.BLUE : PlayerType.RED;
 
+        //Log the starting team
         Commander.log(this.startTeam.niceName() + " Team will start, which means they must guess 9 cards");
         Commander.log(second.niceName() + " Team will go second, which means they must guess 8 cards");
-        this.players.add(new Player(this.startTeam, startSpyMasterStrategy));
-        this.players.add(new Player(this.startTeam, startOperativeStrategy));
-        this.players.add(new Player(second, secondSpyMasterStrategy));
-        this.players.add(new Player(second, secondOperativeStrategy));
+
+        //Create the players
+        this.players.add(new Player(this.startTeam, StrategyFactory.makeStrategy(this, StrategyType.SPYMASTER,  passInt[0])));
+        this.players.add(new Player(this.startTeam, StrategyFactory.makeStrategy(this, StrategyType.OPERATIVE, passInt[1])));
+        this.players.add(new Player(second, StrategyFactory.makeStrategy(this, StrategyType.SPYMASTER, passInt[2])));
+        this.players.add(new Player(second, StrategyFactory.makeStrategy(this, StrategyType.OPERATIVE, passInt[3])));
     }
 
     /**
