@@ -140,7 +140,7 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
         }
 
         //Collect data from start menu
-        PlayerIntelligence[] passInt = new PlayerIntelligence[]
+        PlayerIntelligence[] passInt =
         {
             PlayerIntelligence.parse(redSpymaster.getValue()),
             PlayerIntelligence.parse(redOperative.getValue()),
