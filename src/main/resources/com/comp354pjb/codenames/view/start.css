@@ -1,0 +1,25 @@
+#startgrid {
+    display: block;
+    -fx-background-color: radial-gradient(center 50% 50% , radius 100% , rgba(16, 191, 16, 0.34), rgba(16, 191, 16, 0.5));
+    /*-fx-background-color: rgb(215, 202, 155);*/
+}
+
+.redTeam {
+    -fx-font-size: 2em;
+    -fx-text-fill: rgb(216, 70, 59);
+
+}
+.blueTeam {
+    -fx-font-size: 2em;
+    -fx-text-fill: rgb(43, 124, 166);
+}
+.info {
+    -fx-font-size: 1.5em;
+    -fx-font-weight: bold;
+    -fx-font-family: monospace;
+}
+
+.header {
+    -fx-font-size: 5em;
+    -fx-font-family: monospace;
+}
