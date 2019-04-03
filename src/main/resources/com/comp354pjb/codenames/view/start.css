@@ -1,7 +1,15 @@
+/*
+* start.css
+* Created by: Mottel Zirkind
+* Created on: 02/04/19
+*
+* Contributors:
+* Mottel Zirkind
+*/
+
 #startgrid {
     display: block;
     -fx-background-color: radial-gradient(center 50% 50% , radius 100% , rgba(16, 191, 16, 0.34), rgba(16, 191, 16, 0.5));
-    /*-fx-background-color: rgb(215, 202, 155);*/
 }
 
 .redTeam {
