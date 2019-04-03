@@ -48,40 +48,33 @@ public class Game
      */
     public final RoundEvent onRoundChange = new RoundEvent();
     //endregion
-    //region Properties
-    private final Board board;
+
     //region Fields
     private int playerIndex, round = 1;
-    //endregion
-    private ArrayList<Player> players = new ArrayList<>();
-    private PlayerType startTeam;
-    private Player currentPlayer;
-    //score keeping members
-    private int guessesLeft;
+    private final ArrayList<Player> players = new ArrayList<>();
+
+    //Score keeping members
     private int redCardsRevealed;
     private int blueCardsRevealed;
     private int civilianCardsRevealed;
-    private boolean assassinRevealed;
-    private PlayerType winner;
-    private PlayerType loser;
-    private SuggestionGraph graph;
     private Clue currentClue;
+    //endregion
 
+    //region Constructors
     /**
      * Creates a new Game object and correctly sets up the board and cards, as well as players
-     * <p>
-     * Update by Rezza-Zairan
-     * ----------------------
-     * @param passInt is passed by the controller to hold an array of PlayerIntelligence chosen by the user.
      */
-    public Game(PlayerIntelligence[] passInt)
+    public Game()
     {
         String[] setup = DatabaseHelper.getBoardLayout();
-        setPlayers(setup[0], passInt);
+        this.startTeam = PlayerType.parse(setup[0]);
         this.board = new Board(DatabaseHelper.getRandomCodenames(25), setup[1]);
         this.graph = createSuggestionGraph();
     }
+    //endregion
 
+    //region Properties
+    private final Board board;
     /**
      * Gets this game's Board
      */
@@ -90,6 +83,7 @@ public class Game
         return this.board;
     }
 
+    private final PlayerType startTeam;
     /**
      * Gets the starting team colour
      */
@@ -98,17 +92,20 @@ public class Game
         return this.startTeam;
     }
 
+    private Player currentPlayer;
     /**
      * Set the player that is currently giving clues or guessing cards
      * @param player The Player associated with the game whose turn it is
      */
     public void setCurrentPlayer(Player player) { this.currentPlayer = player; }
 
+    private int guessesLeft;
     /**
      * Gets the number of guesses left given the current clue
      */
     public int getGuessesLeft() { return this.guessesLeft; }
 
+    private boolean assassinRevealed;
     /**
      * Sets if the assassin card has been revealed
      */
@@ -117,6 +114,7 @@ public class Game
         this.assassinRevealed = assassinRevealed;
     }
 
+    private PlayerType winner;
     /**
      * Gets the winning player
      */
@@ -124,7 +122,6 @@ public class Game
     {
         return this.winner;
     }
-
     /**
      * Sets the winning player and records a win in the database.
      */
@@ -140,10 +137,8 @@ public class Game
                 this.loser = PlayerType.RED;
         }
     }
-    //endregion
 
-    //region Constructors
-
+    private PlayerType loser;
     /**
      * Sets the game's loser
      */
@@ -159,10 +154,8 @@ public class Game
                 this.winner = PlayerType.RED;
         }
     }
-    //endregion
 
-    //region Methods
-
+    private SuggestionGraph graph;
     /**
      * Gets the graph structure that associates clues to words for this game
      * @return A SuggestionGraph that has the current clue to card relationship information for this game
@@ -171,37 +164,31 @@ public class Game
     {
         return graph;
     }
+    //endregion
 
+    //region Methods
     /**
      * Sets the starting player for the game and initializes the AIs correctly
-     * @param startingPlayer Starting team name
-     *                       <p>
-     *                       Update by Rezza-Zairan
-     *                       ----------------------
-     * @param passInt        is passed by the controller to hold an array of PlayerIntelligence chosen by the user.
+     * @param passInt Is passed by the controller to hold an array of PlayerIntelligence chosen by the user.
      */
-    private void setPlayers(String startingPlayer, PlayerIntelligence[] passInt)
+    public void setPlayers(PlayerIntelligence[] passInt)
     {
-
-        this.startTeam = PlayerType.parse(startingPlayer);
         PlayerType second = this.startTeam == PlayerType.RED ? PlayerType.BLUE : PlayerType.RED;
-
-        //Rearranging AI according to who starts first
-        PlayerIntelligence[] arrangedInt = new PlayerIntelligence[4];
-        arrangedInt = passInt;
 
         if (this.startTeam == PlayerType.BLUE)
         {
-            arrangedInt[0] = passInt[2];
-            arrangedInt[1] = passInt[3];
-            arrangedInt[2] = passInt[0];
-            arrangedInt[3] = passInt[1];
+            PlayerIntelligence temp = passInt[0];
+            passInt[0] = passInt[2];
+            passInt[2] = temp;
+            temp = passInt[1];
+            passInt[1] = passInt[3];
+            passInt[3] = temp;
         }
 
-        Strategy startSpyMasterStrategy = StrategyFactory.makeStrategy("spymaster", this, arrangedInt[0]);
-        Strategy startOperativeStrategy = StrategyFactory.makeStrategy("operative", this, arrangedInt[1]);
-        Strategy secondSpyMasterStrategy = StrategyFactory.makeStrategy("spymaster", this, arrangedInt[2]);
-        Strategy secondOperativeStrategy = StrategyFactory.makeStrategy("operative", this, arrangedInt[3]);
+        Strategy startSpyMasterStrategy = StrategyFactory.makeStrategy("spymaster", this, passInt[0]);
+        Strategy startOperativeStrategy = StrategyFactory.makeStrategy("operative", this, passInt[1]);
+        Strategy secondSpyMasterStrategy = StrategyFactory.makeStrategy("spymaster", this, passInt[2]);
+        Strategy secondOperativeStrategy = StrategyFactory.makeStrategy("operative", this, passInt[3]);
 
         Commander.log(this.startTeam.niceName() + " Team will start, which means they must guess 9 cards");
         Commander.log(second.niceName() + " Team will go second, which means they must guess 8 cards");
