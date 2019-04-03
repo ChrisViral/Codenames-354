@@ -30,7 +30,8 @@ public class PlayerTest
     public void operativePlayTurnShouldRevealACard()
     {
         PlayerIntelligence intelligence[] = { PlayerIntelligence.SMART, PlayerIntelligence.SMART, PlayerIntelligence.SMART, PlayerIntelligence.SMART };
-        Game game = new Game(intelligence);
+        Game game = new Game();
+        game.setPlayers(intelligence);
         Player player = new Player(PlayerType.RED, new OperativeAI(game));
         game.setCurrentPlayer(player);
 
