@@ -45,6 +45,6 @@ abstract public class Strategy
      * Plays a given player's turn according to rules defined in the method
      * Modified by Michael Wilgus (Rename to clearly indicate that this conforms to Strategy Pattern)
      */
-    abstract void execute();
+    public abstract void execute();
     //endregion
 }

@@ -169,13 +169,11 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     @FXML
     private void onClicked(MouseEvent data)
     {
-        /* Chris - Commented out because no longer necessary for now
         //Pass on the clicked card to the Model
         Node box = (Node)data.getSource();
         int x = GridPane.getRowIndex(box) - 1;
         int y = GridPane.getColumnIndex(box) - 1;
-        this.game.getBoard().revealAt(x, y);
-        */
+        this.game.informPlayer(x, y);
     }
 
     /**

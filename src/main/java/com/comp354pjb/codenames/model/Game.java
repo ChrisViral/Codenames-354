@@ -351,6 +351,34 @@ public class Game
     }
 
     /**
+     * Reveals the card at the given location
+     * =========
+     * Added by Christophe Savard 04/04/19
+     * @param x X coordinate of the card
+     * @param y Y coordinate of the card
+     */
+    public void revealCard(int x, int y)
+    {
+        revealCard(this.board.getCard(x, y));
+    }
+
+    /**
+     * Informs a potential human player of the clicked card's location
+     * ==========
+     * Added by Christophe Savard 04/04/19
+     * @param x X coordinate of the card
+     * @param y Y coordinate of the card
+     */
+    public void informPlayer(int x, int y)
+    {
+        Strategy currentStrategy = getCurrentPlayer().getStrategy();
+        if (currentStrategy instanceof HumanOperative)
+        {
+            ((HumanOperative)currentStrategy).registerInput(x, y);
+        }
+    }
+
+    /**
      * Sets the game's phase
      * @param phase New game phase
      */
