@@ -58,7 +58,7 @@ public class OperativeAI extends Strategy
                 break;
             }
         }
-        if (game.getGuessesLeft() == 0) { finished = true; }
+        if (game.getGuessesLeft() == 0) { this.game.endCurrentTurn(); }
     }
     //endregion
 }

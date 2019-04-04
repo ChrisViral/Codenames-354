@@ -99,13 +99,6 @@ public class Game
         return this.startTeam;
     }
 
-    private Player currentPlayer;
-    /**
-     * Set the player that is currently giving clues or guessing cards
-     * @param player The Player associated with the game whose turn it is
-     */
-    public void setCurrentPlayer(Player player) { this.currentPlayer = player; }
-
     private int guessesLeft;
     /**
      * Gets the number of guesses left given the current clue
@@ -229,6 +222,17 @@ public class Game
     }
 
     /**
+     * Gets the player currently playing it's turn
+     * =================
+     * Added by Christophe Savard
+     * @return The current player
+     */
+    public Player getCurrentPlayer()
+    {
+        return this.players[this.playerIndex];
+    }
+
+    /**
      * Checks if the game must end
      * @return True if a winning game condition has been met
      */
@@ -287,21 +291,18 @@ public class Game
     public void enterNextGameTurn()
     {
         //Play the current player's turn
-        this.currentPlayer = this.players[this.playerIndex];
+        this.getCurrentPlayer().play();
 
-        this.currentPlayer.play();
+    }
 
-        if (currentPlayer.isFinished())
+    public void endCurrentTurn()
+    {
+        this.playerIndex = (this.playerIndex + 1) % PLAYER_COUNT;
+
+        if (this.playerIndex == 0)
         {
-            currentPlayer.setFinished(false);
-            this.playerIndex = (this.playerIndex + 1) % PLAYER_COUNT;
-
-            if (this.playerIndex == 0)
-            {
-                this.onRoundChange.invoke(++this.round);
-            }
+            this.onRoundChange.invoke(++this.round);
         }
-
     }
 
     /**
@@ -317,7 +318,7 @@ public class Game
         {
             //Actions for revealing an assassin card
             case ASSASSIN:
-                this.setLoser(this.currentPlayer.getTeam());
+                this.setLoser(getCurrentPlayer().getTeam());
                 this.setAssassinRevealed(true);
                 this.guessesLeft = 0;
                 return;
@@ -339,7 +340,7 @@ public class Game
 
         }
         //Take according actions
-        if (this.currentPlayer.getTeam().getCardType().equals(card.getType()))
+        if (getCurrentPlayer().getTeam().getCardType().equals(card.getType()))
         {
             this.guessesLeft--;
         }

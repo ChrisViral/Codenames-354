@@ -27,9 +27,6 @@ public class Player
     //region Properties
     protected final Strategy strategy;
     //endregion
-    // Added by Michael wilgus
-    // Keep track of when a player is done or cannot play any longer for a given turn
-    private boolean finished = false;
 
     /**
      * Creates a new player for a Codenames game
@@ -69,25 +66,11 @@ public class Player
     public void play()
     {
         this.strategy.execute();
-
-        // Added by Michael Wilgus
-        // Consult our strategy to know if we are done playing
-        this.finished = this.strategy.isFinished();
     }
 
     public PlayerType getTeam()
     {
         return team;
-    }
-
-    // Added by Michael Wilgus
-    public boolean isFinished() { return this.strategy.isFinished(); }
-
-    // Added by Michael Wilgus
-    public void setFinished(boolean finished)
-    {
-        this.finished = finished;
-        this.strategy.setFinished(finished);
     }
 
     //endregion

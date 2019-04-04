@@ -57,7 +57,7 @@ public class SafeSpyMasterAI extends Strategy
         game.setCurrentClue(clue);
 
         // We are done
-        finished = true;
+        this.game.endCurrentTurn();
     }
 
     // This comparator will be used to sort all the clues in the game according to the strategy

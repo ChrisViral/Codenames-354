@@ -52,7 +52,7 @@ public class MemoryOperativeAI extends Strategy
         if (useExtraTurn)
         {
             useExtraTurn = false;
-            finished = true;
+            this.game.endCurrentTurn();
             // Remember what cards are suggested by the clue
             clue = game.getSuggestionGraph().getClue(previousClue);
             boolean foundExtraCard = pickCard(clue);
@@ -79,7 +79,7 @@ public class MemoryOperativeAI extends Strategy
                     {
                         // We can't so forget the clue and end the turn
                         previousClue = null;
-                        finished = true;
+                        this.game.endCurrentTurn();
                         return;
                     }
                     // We can so indicate that
@@ -88,7 +88,7 @@ public class MemoryOperativeAI extends Strategy
                 else
                 {
                     // We got everything last turn so we can end this turn now
-                    finished = true;
+                    this.game.endCurrentTurn();
                 }
             }
         }
@@ -96,7 +96,7 @@ public class MemoryOperativeAI extends Strategy
         {
             // Our turn is over and we didn't succeed in guessing all of the right codenames;
             previousClue = clue.word;
-            finished = true;
+            this.game.endCurrentTurn();
             return;
         }
     }

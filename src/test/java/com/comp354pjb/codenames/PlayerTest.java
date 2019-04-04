@@ -32,11 +32,10 @@ public class PlayerTest
         PlayerIntelligence[] intelligence = { PlayerIntelligence.SMART, PlayerIntelligence.SMART, PlayerIntelligence.SMART, PlayerIntelligence.SMART };
         Game game = new Game();
         game.setPlayers(intelligence);
-        Player player = new Player(PlayerType.RED, new OperativeAI(game));
-        game.setCurrentPlayer(player);
 
-        // A card should be revealed when an operative plays
-        player.play();
+        //Play the first SpyMaster turn, then an Operative turn
+        game.enterNextGameTurn();
+        game.enterNextGameTurn();
 
         // Get a collection of the revealed status of all cards in the game
         ArrayList<Boolean> cardStatus = new ArrayList<>();

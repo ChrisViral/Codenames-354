@@ -38,23 +38,6 @@ abstract public class Strategy
     {
         this.team = team;
     }
-
-    /**
-     * Indicates whether a strategy is done with its turn
-     */
-    // Added by Michael Wilgus
-    protected boolean finished = false;
-    /**
-     * Whether or not the strategy is finished running
-     * @return true, false, True if it is done, false otherwise
-     */
-    public boolean isFinished() { return finished; }
-
-    /**
-     * Mutator for isFinished
-     * @param finished Whether or not the strategy is finished running
-     */
-    public void setFinished(boolean finished) { this.finished = finished; }
     //endregion
 
     //region Abstract methods

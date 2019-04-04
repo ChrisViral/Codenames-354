@@ -46,7 +46,7 @@ public class SpyMasterAI extends Strategy
         game.setCurrentClue(clue);
 
         // We are done
-        finished = true;
+        this.game.endCurrentTurn();
     }
     //endregion
 }

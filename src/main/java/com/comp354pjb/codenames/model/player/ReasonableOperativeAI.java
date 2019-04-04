@@ -53,6 +53,6 @@ public class ReasonableOperativeAI extends Strategy
         game.revealCard(card);
 
         // We used up our guesses so we are done
-        if (game.getGuessesLeft() == 0) { finished = true; }
+        if (game.getGuessesLeft() == 0) { this.game.endCurrentTurn(); }
     }
 }
