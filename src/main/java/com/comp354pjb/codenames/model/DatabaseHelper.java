@@ -33,7 +33,6 @@ public final class DatabaseHelper
     //endregion
 
     //region Constructors
-
     /**
      * Prevents class instantiation
      */
@@ -41,8 +40,6 @@ public final class DatabaseHelper
     //endregion
 
     //region Static methods
-    //region Support methods
-
     /**
      * get URL of Database
      * @return returns the header + absolute path to DB
@@ -133,7 +130,6 @@ public final class DatabaseHelper
         //Return the query results formatted as an array of strings.
         return toReturn;
     }
-    //endregion
 
     /**
      * Returns a single random codename from the database

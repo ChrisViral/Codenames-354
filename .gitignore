@@ -42,8 +42,8 @@ log.txt
 
 # IntelliJ
 # .idea/	# We actually need this to enforce code style
+dataSources.xml
 workspace.xml
-misc.xml
 .idea/dictionaries/
 .idea/inspectionProfiles/
 

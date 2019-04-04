@@ -21,7 +21,6 @@ public enum CardType
     ASSASSIN;
 
     //region Static methods
-
     /**
      * Parses a char value to the corresponding CardType member
      * @param value Char to parse, must be R, B, C, or A

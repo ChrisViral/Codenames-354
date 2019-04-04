@@ -141,7 +141,7 @@ public class Board
      */
     public ArrayList<Card> getCards()
     {
-        ArrayList<Card> cards = new ArrayList<>();
+        ArrayList<Card> cards = new ArrayList<>(25);
         for (int i = 0; i < 5; i++)
         {
             for (int j = 0; j < 5; j++)

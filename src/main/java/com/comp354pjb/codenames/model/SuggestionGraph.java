@@ -5,6 +5,7 @@
  *
  * Contributors:
  * Michael Wilgus
+ * Christophe Savard
  *
  * Description:
  * Codenames is about associating words. This Class aids
@@ -37,14 +38,19 @@ import java.util.Random;
  */
 public class SuggestionGraph
 {
-    //region Fileds
-    private HashMap<String, Clue> clues;
-    private HashMap<String, Card> cards;
-
-    private Random rand;
+    //region Fields
+    private final HashMap<String, Clue> clues;
+    private final HashMap<String, Card> cards;
+    private final Random rand;
     //endregion
 
     //region Constructors
+    /**
+     * Creates a new SuggestionGraph with the given game information
+     * @param clues Clue word to clue association map
+     * @param cards Card word to card association map
+     * @param rand  Random number generator to use
+     */
     public SuggestionGraph(HashMap<String, Clue> clues, HashMap<String, Card> cards, Random rand)
     {
         this.clues = clues;
@@ -53,6 +59,7 @@ public class SuggestionGraph
     }
     //endregion
 
+    //region Methods
     /**
      * Get a particular clue from the graph
      * @param clue The clue word associated with the object to be returned
@@ -70,8 +77,8 @@ public class SuggestionGraph
      */
     public Clue getBestClue(Comparator<Clue> comparator)
     {
-        HashMap<String, Clue> useableClues = getUseableClues();
-        ArrayList<Clue> list = new ArrayList<>(useableClues.values());
+        HashMap<String, Clue> usableClues = getUseableClues();
+        ArrayList<Clue> list = new ArrayList<>(usableClues.values());
         list.sort(comparator);
 
         // Best clue should be at the front
@@ -94,9 +101,9 @@ public class SuggestionGraph
      */
     public Clue getRandomClue()
     {
-        HashMap<String, Clue> useableClues = getUseableClues();
-        ArrayList<Clue> list = new ArrayList<>(useableClues.values());
-        int i = rand.nextInt(useableClues.size());
+        HashMap<String, Clue> usableClues = getUseableClues();
+        ArrayList<Clue> list = new ArrayList<>(usableClues.values());
+        int i = rand.nextInt(usableClues.size());
         return list.get(i);
     }
 
@@ -140,13 +147,15 @@ public class SuggestionGraph
         }
         return true;
     }
+    //endregion
 
     //region Helpers
-
-    // We can only give out clues that are not also codenames. Since it is possible that a clue word
-    // is also on a card we must exclude these clues until these cards are picked.
-    // NOTE: Strictly speaking this means the graph is not really bipartite in one sense. However, Clues
-    // and Cards are distinct so it is in another
+    /**
+     * We can only give out clues that are not also codenames. Since it is possible that a clue word
+     * is also on a card we must exclude these clues until these cards are picked.
+     * NOTE: Strictly speaking this means the graph is not really bipartite in one sense. However, Clues
+     * and Cards are distinct so it is in another
+     */
     private HashMap<String, Clue> getUseableClues()
     {
         // Will hold a subset of clues that are not also codenames
@@ -161,4 +170,5 @@ public class SuggestionGraph
 
         return useableClues;
     }
+    //endregion
 }

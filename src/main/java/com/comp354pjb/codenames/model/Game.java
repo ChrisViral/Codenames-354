@@ -26,6 +26,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 
+/**
+ * Game class, contains most of the information of the game and central hub of the Model
+ */
 public class Game
 {
     //region Constants
@@ -33,6 +36,10 @@ public class Game
      * Random number generator for the Game
      */
     public static final Random RANDOM = new Random();
+    /**
+     * Amount of players in the game
+     */
+    private static final int PLAYER_COUNT = 4;
     //endregion
 
     //region Events
@@ -52,13 +59,12 @@ public class Game
 
     //region Fields
     private int playerIndex, round = 1;
-    private final ArrayList<Player> players = new ArrayList<>();
+    private final Player[] players = new Player[PLAYER_COUNT];
 
     //Score keeping members
     private int redCardsRevealed;
     private int blueCardsRevealed;
     private int civilianCardsRevealed;
-    private Clue currentClue;
     //endregion
 
     //region Constructors
@@ -156,7 +162,26 @@ public class Game
         }
     }
 
-    private SuggestionGraph graph;
+    private Clue currentClue;
+    /**
+     * Current clue given to the Operatives
+     */
+    public Clue getCurrentClue()
+    {
+        return this.currentClue;
+    }
+    /**
+     * Sets the current clue
+     * @param clue New clue
+     */
+    public void setCurrentClue(Clue clue)
+    {
+        this.currentClue = clue;
+        this.guessesLeft = clue.value;
+        this.onClueGiven.invoke(clue);
+    }
+
+    private final SuggestionGraph graph;
     /**
      * Gets the graph structure that associates clues to words for this game
      * @return A SuggestionGraph that has the current clue to card relationship information for this game
@@ -171,6 +196,10 @@ public class Game
     /**
      * Sets the starting player for the game and initializes the AIs correctly
      * @param passInt Is passed by the controller to hold an array of PlayerIntelligence chosen by the user.
+     *
+     * ===================
+     * Updated by Christophe Savard 02/04/19
+     * Refactored to initialize starting team outside of the method to allow creating players at a later stage
      */
     public void setPlayers(PlayerIntelligence[] passInt)
     {
@@ -193,10 +222,10 @@ public class Game
         Commander.log(second.niceName() + " Team will go second, which means they must guess 8 cards");
 
         //Create the players
-        this.players.add(new Player(this.startTeam, StrategyFactory.makeStrategy(this, StrategyType.SPYMASTER,  passInt[0])));
-        this.players.add(new Player(this.startTeam, StrategyFactory.makeStrategy(this, StrategyType.OPERATIVE, passInt[1])));
-        this.players.add(new Player(second, StrategyFactory.makeStrategy(this, StrategyType.SPYMASTER, passInt[2])));
-        this.players.add(new Player(second, StrategyFactory.makeStrategy(this, StrategyType.OPERATIVE, passInt[3])));
+        this.players[0] = new Player(this.startTeam, StrategyFactory.makeStrategy(this, StrategyType.SPYMASTER,  passInt[0]));
+        this.players[1] = new Player(this.startTeam, StrategyFactory.makeStrategy(this, StrategyType.OPERATIVE, passInt[1]));
+        this.players[2] = new Player(second, StrategyFactory.makeStrategy(this, StrategyType.SPYMASTER, passInt[2]));
+        this.players[3] = new Player(second, StrategyFactory.makeStrategy(this, StrategyType.OPERATIVE, passInt[3]));
     }
 
     /**
@@ -258,14 +287,14 @@ public class Game
     public void enterNextGameTurn()
     {
         //Play the current player's turn
-        this.currentPlayer = this.players.get(this.playerIndex);
+        this.currentPlayer = this.players[this.playerIndex];
 
         this.currentPlayer.play();
 
         if (currentPlayer.isFinished())
         {
             currentPlayer.setFinished(false);
-            this.playerIndex = (this.playerIndex + 1) % this.players.size();
+            this.playerIndex = (this.playerIndex + 1) % PLAYER_COUNT;
 
             if (this.playerIndex == 0)
             {
@@ -273,22 +302,6 @@ public class Game
             }
         }
 
-    }
-
-    public Clue getCurrentClue()
-    {
-        return this.currentClue;
-    }
-
-    /**
-     * Sets the current clue
-     * @param clue New clue
-     */
-    public void setCurrentClue(Clue clue)
-    {
-        this.currentClue = clue;
-        this.guessesLeft = clue.value;
-        this.onClueGiven.invoke(clue);
     }
 
     /**
@@ -347,7 +360,6 @@ public class Game
     //endregion
 
     //region Helpers
-    //
     private SuggestionGraph createSuggestionGraph()
     {
         // Get all the cards on the board
@@ -357,10 +369,10 @@ public class Game
         for (Card c : codenames)
         {
             String[] clues = DatabaseHelper.getCluesForCodename(c.getWord().toLowerCase());
-            for (int i = 0; i < clues.length; i++)
+            for (String clue : clues)
             {
-                String clue = DatabaseHelper.toCamelCase(clues[i]);
-                c.addClue(clue);
+                String value = DatabaseHelper.toCamelCase(clue);
+                c.addClue(value);
             }
         }
 

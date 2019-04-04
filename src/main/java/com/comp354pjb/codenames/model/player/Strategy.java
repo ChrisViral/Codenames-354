@@ -24,27 +24,12 @@ package com.comp354pjb.codenames.model.player;
  */
 abstract public class Strategy
 {
-
+    //region Properties
     /**
      * The team being played
      * To be effective a strategy will need to know what team is being palyed
      */
     protected PlayerType team;
-
-    /**
-     * Indicates whether a strategy is done with its turn
-     */
-    // Added by Michael Wilgus
-    protected boolean finished = false;
-
-    //region Methods
-
-    /**
-     * Plays a given player's turn according to rules defined in the method
-     * Modified by Michael Wilgus (Rename to clearly indicate that this conforms to Strategy Pattern)
-     */
-    abstract void execute();
-
     /**
      * Mutator for team
      * @param team, Either red or blue
@@ -54,8 +39,11 @@ abstract public class Strategy
         this.team = team;
     }
 
+    /**
+     * Indicates whether a strategy is done with its turn
+     */
     // Added by Michael Wilgus
-
+    protected boolean finished = false;
     /**
      * Whether or not the strategy is finished running
      * @return true, false, True if it is done, false otherwise
@@ -67,5 +55,13 @@ abstract public class Strategy
      * @param finished Whether or not the strategy is finished running
      */
     public void setFinished(boolean finished) { this.finished = finished; }
+    //endregion
+
+    //region Abstract methods
+    /**
+     * Plays a given player's turn according to rules defined in the method
+     * Modified by Michael Wilgus (Rename to clearly indicate that this conforms to Strategy Pattern)
+     */
+    abstract void execute();
     //endregion
 }
