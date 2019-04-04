@@ -41,11 +41,11 @@ public class Codenames extends Application
     /**
      * Width of the Start Menu's window
      */
-    private static final int START_WIDTH = 350;
+    private static final int START_WIDTH = 560;
     /**
      * Height of the Start Menu's window
      */
-    private static final int START_HEIGHT = 250;
+    private static final int START_HEIGHT = 400;
     /**
      * Game Board FXML file location
      */
