@@ -231,7 +231,7 @@ public class Game
 
     /**
      * Mutator for playerIndex
-     * @param playerIndex The index of the player in the player array currently in play 
+     * @param playerIndex The index of the player in the player array currently in play
      */
     public void setCurrentPlayer(int playerIndex) {
         this.playerIndex = playerIndex;

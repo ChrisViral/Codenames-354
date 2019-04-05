@@ -33,7 +33,7 @@ public class BoardTest
     }
 
     @Test(expected = ArrayIndexOutOfBoundsException.class)
-    public void revealAtShouldNotAcceptBadCoords()
+    public void revealAtShouldNotAcceptBadCards()
     {
         Board board = new Board(DatabaseHelper.getRandomCodenames(25), getRandomLayout());
 

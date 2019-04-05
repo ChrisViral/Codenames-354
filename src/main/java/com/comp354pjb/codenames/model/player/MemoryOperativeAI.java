@@ -107,7 +107,7 @@ public class MemoryOperativeAI extends Strategy
     // pick a card and check if it belonged to our team
     private boolean pickCard(Clue clue)
     {
-        ArrayList<Card> cards = clue.getCards();
+        ArrayList<Card> cards;
         cards = clue.getCards();
         int i = Game.RANDOM.nextInt(cards.size());
         Card card = cards.get(i);
@@ -116,4 +116,14 @@ public class MemoryOperativeAI extends Strategy
         return card.getType().equals(team.getCardType());
     }
     //endregion
+
+
+    /**
+     * Accessor for use extra turn
+     * @return useExtraTurn
+     */
+    public boolean isUseExtraTurn()
+    {
+        return useExtraTurn;
+    }
 }

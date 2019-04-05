@@ -62,4 +62,8 @@ public class GameTest {
         assertTrue(game.getWinner() != player.getTeam()); //Checks that the winner is not the team which picked the assassin
     }
 
+    //TODO Human picking card should reveal it
+    //TODO Human picking card should decrease guess count
+    //TODO:Human picking assassin should end game
+
 }
