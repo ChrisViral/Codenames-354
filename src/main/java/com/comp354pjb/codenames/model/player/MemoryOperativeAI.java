@@ -126,4 +126,31 @@ public class MemoryOperativeAI extends Strategy
     {
         return useExtraTurn;
     }
+
+    /**
+     * Mutator for Use Extra Turn
+     * @param useExtraTurn whether or not an extra turn is available for use
+     */
+    private void setUseExtraTurn(boolean useExtraTurn)
+    {
+        this.useExtraTurn = useExtraTurn;
+    }
+
+    /**
+     * Accessor for PreviousClue
+     * @return
+     */
+    public String getPreviousClue()
+    {
+        return previousClue;
+    }
+
+    /**
+     * Mutator for PreviousClue
+     */
+
+    public void setPreviousClue(String previousClue)
+    {
+        this.previousClue = previousClue;
+    }
 }
