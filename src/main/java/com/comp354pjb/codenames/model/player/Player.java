@@ -68,6 +68,10 @@ public class Player
         this.strategy.execute();
     }
 
+    /**
+     * Accessor for the Team this player belongs to
+     * @return team
+     */
     public PlayerType getTeam()
     {
         return team;

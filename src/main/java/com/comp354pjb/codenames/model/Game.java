@@ -221,6 +221,22 @@ public class Game
         this.players[3] = new Player(second, StrategyFactory.makeStrategy(this, StrategyType.OPERATIVE, passInt[3]));
     }
 
+     /**
+     * Accessor for the list of players in the game
+     * @return players
+     */
+    public Player[] getPlayers() {
+        return players;
+    }
+
+    /**
+     * Mutator for playerIndex
+     * @param playerIndex The index of the player in the player array currently in play 
+     */
+    public void setCurrentPlayer(int playerIndex) {
+        this.playerIndex = playerIndex;
+    }
+
     /**
      * Gets the player currently playing it's turn
      * =================
@@ -295,6 +311,9 @@ public class Game
 
     }
 
+    /**
+     * This method ends the current turn
+     */
     public void endCurrentTurn()
     {
         this.playerIndex = (this.playerIndex + 1) % PLAYER_COUNT;
@@ -305,7 +324,7 @@ public class Game
         }
     }
 
-    /**
+   /**
      * Reveal a card on this games board
      * @param card The card to reveal
      */
