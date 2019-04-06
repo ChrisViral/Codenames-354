@@ -15,27 +15,48 @@ import com.comp354pjb.codenames.model.Game;
  */
 public class HumanOperative extends Strategy
 {
-    //region 
-    private final Game game;
+    //region fields
     private boolean ready;
+    //endregion
 
-    public HumanOperative(Game game)
+    //region Constructors
+    /**
+     * Creates a new HumanOperative
+     * @param game Game this human is linked to
+     * @param team Team this human is linked to
+     */
+    public HumanOperative(Game game, PlayerType team)
     {
-        this.game = game;
+        super(game, team);
+    }
+    //endregion
+
+    //region Methods
+    /**
+     * Operative title
+     * @return "Operative"
+     */
+    @Override
+    protected String title()
+    {
+        return "Operative";
     }
 
     /**
-     * Plays a given player's turn according to rules defined in the method
-     * Modified by Michael Wilgus (Rename to clearly indicate that this conforms to Strategy Pattern)
+     * Ready's a human player's turn
      */
     @Override
-    public void execute()
+    protected void executeStrategy()
     {
-        game.setPhase(this.team.niceName() + " Operative");
         game.onButtonStateChanged.invoke(true);
         this.ready = true;
     }
 
+    /**
+     * Registers a human input at the given coordinates
+     * @param x X coordinate of the input
+     * @param y Y coordinate of the input
+     */
     public void registerInput(int x, int y)
     {
         if (this.ready)
@@ -50,4 +71,5 @@ public class HumanOperative extends Strategy
             }
         }
     }
+    //endregion
 }

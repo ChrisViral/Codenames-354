@@ -6,13 +6,6 @@
  * Contributors:
  * Michael Wilgus
  * Christophe Savard
- *
- * Description:
- * This is intended to separate creation of strategies for use with
- * Players out of the Game module. This is desirable because there
- * are many combinations (3*3=9 for now but maybe more later...) of
- * strategies to be used. Keeping this logic here helps future aid
- * ease of future additions/modifications.
  */
 
 package com.comp354pjb.codenames.model.player;
@@ -21,7 +14,11 @@ import com.comp354pjb.codenames.model.Game;
 
 /**
  * Creates a new Strategy given parameters
- * (See above for full description)
+ * This is intended to separate creation of strategies for use with
+ * Players out of the Game module. This is desirable because there
+ * are many combinations (3*3=9 for now but maybe more later...) of
+ * strategies to be used. Keeping this logic here helps future aid
+ * ease of future additions/modifications.
  */
 public final class StrategyFactory
 {
@@ -49,7 +46,7 @@ public final class StrategyFactory
      * @param level The strategy class to be created
      * @return A Strategy with the given constraints
      */
-    public static Strategy makeStrategy(Game game, StrategyType type, PlayerIntelligence level)
+    public static Strategy makeStrategy(Game game, StrategyType type, PlayerIntelligence level, PlayerType team)
     {
         //Are we a SpyMaster or an Operative?
         switch (type)
@@ -59,24 +56,24 @@ public final class StrategyFactory
                 switch (level)
                 {
                     case SMART:
-                        return new SafeSpyMasterAI(game);
+                        return new SafeSpyMasterAI(game, team);
                     case MEDIUM:
-                        return new RiskySpyMasterAI(game);
+                        return new RiskySpyMasterAI(game, team);
                     case DUMB:
-                        return new SpyMasterAI(game);
+                        return new SpyMasterAI(game, team);
                 }
             case OPERATIVE:
                 switch (level)
                 {
                     case SMART:
-                        return new MemoryOperativeAI(game);
+                        return new MemoryOperativeAI(game, team);
                     case MEDIUM:
-                        return new ReasonableOperativeAI(game);
+                        return new ReasonableOperativeAI(game, team);
                     case DUMB:
-                        return new OperativeAI(game);
+                        return new OperativeAI(game, team);
 
                     case HUMAN:
-                        return new HumanOperative(game);
+                        return new HumanOperative(game, team);
                 }
         }
         return null; // Keep the compiler happy

@@ -220,10 +220,10 @@ public class Game
         Commander.log(second.niceName() + " Team will go second, which means they must guess 8 cards");
 
         //Create the players
-        this.players[0] = new Player(this.startTeam, StrategyFactory.makeStrategy(this, StrategyType.SPYMASTER,  passInt[0]));
-        this.players[1] = new Player(this.startTeam, StrategyFactory.makeStrategy(this, StrategyType.OPERATIVE, passInt[1]));
-        this.players[2] = new Player(second, StrategyFactory.makeStrategy(this, StrategyType.SPYMASTER, passInt[2]));
-        this.players[3] = new Player(second, StrategyFactory.makeStrategy(this, StrategyType.OPERATIVE, passInt[3]));
+        this.players[0] = new Player(this.startTeam, StrategyFactory.makeStrategy(this, StrategyType.SPYMASTER,  passInt[0], this.startTeam));
+        this.players[1] = new Player(this.startTeam, StrategyFactory.makeStrategy(this, StrategyType.OPERATIVE, passInt[1], this.startTeam));
+        this.players[2] = new Player(second, StrategyFactory.makeStrategy(this, StrategyType.SPYMASTER, passInt[2], second));
+        this.players[3] = new Player(second, StrategyFactory.makeStrategy(this, StrategyType.OPERATIVE, passInt[3], second));
     }
 
     /**
