@@ -1,9 +1,21 @@
+/*
+ * HumanOperative.java
+ * Created by: Christophe Savard
+ * Created on: 05/04/19
+ *
+ * Contributors:
+ */
+
 package com.comp354pjb.codenames.model.player;
 
 import com.comp354pjb.codenames.model.Game;
 
+/**
+ * Human interface for operatives
+ */
 public class HumanOperative extends Strategy
 {
+    //region 
     private final Game game;
     private boolean ready;
 
@@ -20,6 +32,7 @@ public class HumanOperative extends Strategy
     public void execute()
     {
         game.setPhase(this.team.niceName() + " Operative");
+        game.onButtonStateChanged.invoke(true);
         this.ready = true;
     }
 
@@ -27,11 +40,13 @@ public class HumanOperative extends Strategy
     {
         if (this.ready)
         {
-            game.revealCard(game.getBoard().getCard(x, y));// We used up our guesses so we are done
+            game.revealCard(game.getBoard().getCard(x, y));
+            // We used up our guesses so we are done
             if (game.getGuessesLeft() == 0)
             {
                 this.ready = false;
                 this.game.endCurrentTurn();
+                game.onButtonStateChanged.invoke(false);
             }
         }
     }

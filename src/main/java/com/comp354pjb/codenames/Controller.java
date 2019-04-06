@@ -17,10 +17,7 @@ import com.comp354pjb.codenames.model.board.Board;
 import com.comp354pjb.codenames.model.board.Card;
 import com.comp354pjb.codenames.model.player.Clue;
 import com.comp354pjb.codenames.model.player.PlayerIntelligence;
-import com.comp354pjb.codenames.observer.events.CardFlippedObserver;
-import com.comp354pjb.codenames.observer.events.ClueGivenObserver;
-import com.comp354pjb.codenames.observer.events.PhaseObserver;
-import com.comp354pjb.codenames.observer.events.RoundObserver;
+import com.comp354pjb.codenames.observer.events.*;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -37,7 +34,7 @@ import javafx.stage.Stage;
 /**
  * Controller object, interacts between the View (FXML) and the Model
  */
-public class Controller implements CardFlippedObserver, ClueGivenObserver, PhaseObserver, RoundObserver
+public class Controller implements CardFlippedObserver, ClueGivenObserver, PhaseObserver, RoundObserver, ButtonStateChangedObserver
 {
     //region Constants
     /**
@@ -98,6 +95,7 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
         this.game.onClueGiven.register(this);
         this.game.onPhaseChange.register(this);
         this.game.onRoundChange.register(this);
+        this.game.onButtonStateChanged.register(this);
         this.game.getBoard().onFlip.register(this);
 
         //Setup the starting player
@@ -197,13 +195,23 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
         this.game.enterNextGameTurn();
         if (this.game.checkWinner())
         {
-            this.nextMoveButton.setDisable(true);
+            updateState(true);
             Commander.log(this.game.getWinner().niceName() + " team has won the game");
         }
     }
     //endregion
 
     //region Methods
+    /**
+     * Sets the next game turn button to disabled or not
+     * @param disabled If the button is disabled or not
+     */
+    @Override
+    public void updateState(boolean disabled)
+    {
+        this.nextMoveButton.setDisable(disabled);
+    }
+
     /**
      * Card flipped event listener
      * ==========

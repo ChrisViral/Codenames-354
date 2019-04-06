@@ -17,6 +17,7 @@ import com.comp354pjb.codenames.model.board.Board;
 import com.comp354pjb.codenames.model.board.Card;
 import com.comp354pjb.codenames.model.player.*;
 import com.comp354pjb.codenames.model.player.StrategyFactory.StrategyType;
+import com.comp354pjb.codenames.observer.events.ButtonStateChangedEvent;
 import com.comp354pjb.codenames.observer.events.ClueGivenEvent;
 import com.comp354pjb.codenames.observer.events.PhaseEvent;
 import com.comp354pjb.codenames.observer.events.RoundEvent;
@@ -43,6 +44,10 @@ public class Game
     //endregion
 
     //region Events
+    /**
+     * Next game button state changed
+     */
+    public final ButtonStateChangedEvent onButtonStateChanged = new ButtonStateChangedEvent();
     /**
      * Clue given event
      */
