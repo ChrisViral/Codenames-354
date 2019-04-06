@@ -39,13 +39,7 @@ public class GameTest {
         PlayerIntelligence intelligence[] = {PlayerIntelligence.SMART, PlayerIntelligence.SMART, PlayerIntelligence.SMART, PlayerIntelligence.SMART};
         game.setPlayers(intelligence);
 
-        Random rand = new Random();
-        int n = rand.nextInt(1);
-        int index = n==0?1:3; //Uses a red or blue operative randomly
-        game.setCurrentPlayer(index);
-        Player player = game.getCurrentPlayer();
-
-        //Searching for the assassin card on the board
+       //Searching for the assassin card on the board
         Card assassin = null;
 
         for(int i = 0; i < 5; i++) {
@@ -59,7 +53,8 @@ public class GameTest {
         game.revealCard(assassin);
 
         assertTrue(game.checkWinner());//Checks that a winner was declared
-        assertTrue(game.getWinner() != player.getTeam()); //Checks that the winner is not the team which picked the assassin
+        assertTrue(game.getLoser() == game.getStartTeam());
+        assertTrue(game.getLoser() != game.getWinner());
     }
 
     //TODO Human picking card should reveal it
