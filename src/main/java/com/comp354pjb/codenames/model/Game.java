@@ -186,8 +186,12 @@ public class Game
      */
     public Game(String[] layout, String[] cards)
     {
-        Commander.log("Creating new game:\nBoard layout: " + layout[1] + "\nCodenames: " + String.join(", ", cards));
+        //Starting team
         this.startTeam = PlayerType.parse(layout[0]);
+        Commander.log(this.startTeam.niceName() + " Team will start, which means they must guess 9 cards");
+        Commander.log((this.startTeam == PlayerType.RED ? PlayerType.BLUE : PlayerType.RED).niceName() + " Team will go second, which means they must guess 8 cards");
+
+        //Board and clues graph
         this.board = new Board(cards, layout[1]);
         this.graph = createSuggestionGraph();
     }
@@ -218,15 +222,16 @@ public class Game
         //Get the second team
         PlayerType second = this.startTeam == PlayerType.RED ? PlayerType.BLUE : PlayerType.RED;
 
-        //Log the starting team
-        Commander.log(this.startTeam.niceName() + " Team will start, which means they must guess 9 cards");
-        Commander.log(second.niceName() + " Team will go second, which means they must guess 8 cards");
-
         //Create the players
         this.players[0] = new Player(this.startTeam, StrategyFactory.makeStrategy(this, StrategyType.SPYMASTER,  passInt[0], this.startTeam));
         this.players[1] = new Player(this.startTeam, StrategyFactory.makeStrategy(this, StrategyType.OPERATIVE, passInt[1], this.startTeam));
         this.players[2] = new Player(second, StrategyFactory.makeStrategy(this, StrategyType.SPYMASTER, passInt[2], second));
         this.players[3] = new Player(second, StrategyFactory.makeStrategy(this, StrategyType.OPERATIVE, passInt[3], second));
+        Commander.log(String.format("Player types created: %s, %s, %s, %s",
+                                    players[0].getStrategy().getClass().getSimpleName(),
+                                    players[1].getStrategy().getClass().getSimpleName(),
+                                    players[2].getStrategy().getClass().getSimpleName(),
+                                    players[3].getStrategy().getClass().getSimpleName()));
     }
 
     /**
