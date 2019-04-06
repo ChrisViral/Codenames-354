@@ -175,8 +175,8 @@ public final class DatabaseHelper
      */
     public static String[] getCluesForCodename(String codename)
     {
-        String query = String.format("SELECT clue FROM Suggest WHERE codename='%s'", codename);
-        return runSingleValQuery(query, "clue");
+        String query = String.format("SELECT clue FROM Suggest WHERE codename='%s'", codename.toLowerCase());
+        return runSingleValQuery(query, "Clue");
     }
 
     /**
@@ -188,7 +188,7 @@ public final class DatabaseHelper
      */
     public static String[] getCodenamesForClue(String clue)
     {
-        String query = String.format("SELECT codename FROM Suggest WHERE clue='%s'", clue);
+        String query = String.format("SELECT codename FROM Suggest WHERE clue='%s'", clue.toLowerCase());
         return runSingleValQuery(query, "codename");
     }
 
