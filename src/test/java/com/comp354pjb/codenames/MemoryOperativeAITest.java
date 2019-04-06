@@ -28,10 +28,10 @@ import java.util.Random;
 public class MemoryOperativeAITest {
     public Game game = new Game();
     public PlayerType pt = PlayerType.BLUE;
-    Player player = new Player(pt, StrategyFactory.makeStrategy(game, StrategyType.OPERATIVE, PlayerIntelligence.DUMB) );
+    Player player = new Player(pt, StrategyFactory.makeStrategy(game, StrategyType.OPERATIVE, PlayerIntelligence.DUMB, pt));
 
     private boolean useExtraTurn = false;
-    MemoryOperativeAI memory = new MemoryOperativeAI(game);
+    MemoryOperativeAI memory = new MemoryOperativeAI(game, pt);
 //TODO Write Test to see if Extra Turn becomes true when all cards aren't guessed by MemoryOpAI
    /* @Test
     public void MissingCardShouldTriggerExtraTurn()
