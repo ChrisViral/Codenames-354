@@ -124,6 +124,16 @@ public class Game
     }
 
     private PlayerType loser;
+
+    /**
+     * Accessor for the loser of the game
+     * @return loser
+     */
+    public PlayerType getLoser()
+    {
+        return loser;
+    }
+
     /**
      * Sets the game's loser
      */
