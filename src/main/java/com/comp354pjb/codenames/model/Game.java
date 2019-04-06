@@ -17,10 +17,7 @@ import com.comp354pjb.codenames.model.board.Board;
 import com.comp354pjb.codenames.model.board.Card;
 import com.comp354pjb.codenames.model.player.*;
 import com.comp354pjb.codenames.model.player.StrategyFactory.StrategyType;
-import com.comp354pjb.codenames.observer.events.ButtonStateChangedEvent;
-import com.comp354pjb.codenames.observer.events.ClueGivenEvent;
-import com.comp354pjb.codenames.observer.events.PhaseEvent;
-import com.comp354pjb.codenames.observer.events.RoundEvent;
+import com.comp354pjb.codenames.observer.events.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,10 +42,6 @@ public class Game
 
     //region Events
     /**
-     * Next game button state changed
-     */
-    public final ButtonStateChangedEvent onButtonStateChanged = new ButtonStateChangedEvent();
-    /**
      * Clue given event
      */
     public final ClueGivenEvent onClueGiven = new ClueGivenEvent();
@@ -60,6 +53,14 @@ public class Game
      * Round change event
      */
     public final RoundEvent onRoundChange = new RoundEvent();
+    /**
+     * Next game button state changed event
+     */
+    public final ButtonStateChangedEvent onButtonStateChanged = new ButtonStateChangedEvent();
+    /**
+     * Turn end event
+     */
+    public final TurnEndEvent onTurnEnd = new TurnEndEvent();
     //endregion
 
     //region Fields
@@ -67,6 +68,7 @@ public class Game
     private final Player[] players = new Player[PLAYER_COUNT];
 
     //Score keeping members
+    private boolean assassinRevealed;
     private int redCardsRevealed;
     private int blueCardsRevealed;
     private int civilianCardsRevealed;
@@ -109,16 +111,6 @@ public class Game
      * Gets the number of guesses left given the current clue
      */
     public int getGuessesLeft() { return this.guessesLeft; }
-
-    private boolean assassinRevealed;
-    /**
-     * Sets if the assassin card has been revealed
-     */
-    public void setAssassinRevealed(boolean assassinRevealed)
-    {
-        this.assassinRevealed = assassinRevealed;
-    }
-
     private PlayerType winner;
     /**
      * Gets the winning player
@@ -241,7 +233,7 @@ public class Game
      * Checks if the game must end
      * @return True if a winning game condition has been met
      */
-    public boolean checkWinner()
+    private boolean checkWinner()
     {
         //Game ends as soon as the Assassin is revealed
         if (this.assassinRevealed)
@@ -297,16 +289,26 @@ public class Game
     {
         //Play the current player's turn
         this.getCurrentPlayer().play();
-
     }
 
+    /**
+     * Ends the current player's turn
+     */
     public void endCurrentTurn()
     {
-        this.playerIndex = (this.playerIndex + 1) % PLAYER_COUNT;
-
-        if (this.playerIndex == 0)
+        if (checkWinner())
         {
-            this.onRoundChange.invoke(++this.round);
+            this.onTurnEnd.invoke(true);
+        }
+        else
+        {
+            this.playerIndex = (this.playerIndex + 1) % PLAYER_COUNT;
+
+            if (this.playerIndex == 0)
+            {
+                this.onRoundChange.invoke(++this.round);
+            }
+            this.onTurnEnd.invoke(false);
         }
     }
 
@@ -324,7 +326,7 @@ public class Game
             //Actions for revealing an assassin card
             case ASSASSIN:
                 setLoser(getCurrentPlayer().getTeam());
-                setAssassinRevealed(true);
+                this.assassinRevealed = true;
                 this.guessesLeft = 0;
                 return;
             //Actions for revealing a civilian card
@@ -353,18 +355,6 @@ public class Game
         {
             this.guessesLeft = 0;
         }
-    }
-
-    /**
-     * Reveals the card at the given location
-     * =========
-     * Added by Christophe Savard 04/04/19
-     * @param x X coordinate of the card
-     * @param y Y coordinate of the card
-     */
-    public void revealCard(int x, int y)
-    {
-        revealCard(this.board.getCard(x, y));
     }
 
     /**

@@ -70,8 +70,8 @@ public class HumanOperative extends Strategy
             if (game.getGuessesLeft() == 0)
             {
                 this.ready = false;
-                this.game.endCurrentTurn();
                 game.onButtonStateChanged.invoke(false);
+                this.game.endCurrentTurn();
             }
         }
     }

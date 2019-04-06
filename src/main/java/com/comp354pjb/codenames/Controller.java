@@ -34,7 +34,7 @@ import javafx.stage.Stage;
 /**
  * Controller object, interacts between the View (FXML) and the Model
  */
-public class Controller implements CardFlippedObserver, ClueGivenObserver, PhaseObserver, RoundObserver, ButtonStateChangedObserver
+public class Controller implements CardFlippedObserver, ClueGivenObserver, PhaseObserver, RoundObserver, ButtonStateChangedObserver, TurnEndObserver
 {
     //region Constants
     /**
@@ -96,6 +96,7 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
         this.game.onPhaseChange.register(this);
         this.game.onRoundChange.register(this);
         this.game.onButtonStateChanged.register(this);
+        this.game.onTurnEnd.register(this);
         this.game.getBoard().onFlip.register(this);
 
         //Setup the starting player
@@ -193,15 +194,24 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     private void onNextMove()
     {
         this.game.enterNextGameTurn();
-        if (this.game.checkWinner())
+    }
+    //endregion
+
+    //region Methods
+    /**
+     * Turn end event observer
+     * @param gameOver If the game is over or not
+     */
+    @Override
+    public void updateTurn(boolean gameOver)
+    {
+        if (gameOver)
         {
             updateState(true);
             Commander.log(this.game.getWinner().niceName() + " team has won the game");
         }
     }
-    //endregion
 
-    //region Methods
     /**
      * Sets the next game turn button to disabled or not
      * @param disabled If the button is disabled or not

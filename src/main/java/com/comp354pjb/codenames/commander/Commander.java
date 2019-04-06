@@ -92,7 +92,7 @@ public class Commander
     public void logMessage(String message)
     {
         //Get time and format message, then print to standard output
-        String logMessage = String.format("[%s] %s", LocalDateTime.now().format(FORMAT), message);
+        String logMessage = String.format("[%s]: %s", LocalDateTime.now().format(FORMAT), message);
         System.out.println(logMessage);
 
         //Print to log file
