@@ -44,7 +44,7 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     @FXML
     private GridPane grid;
     @FXML
-    private Button undoButton, redoButton, nextMoveButton, startGameBtn;
+    private Button nextMoveButton, startGameBtn;
     @FXML
     private Text round, phase, red, blue, guesses, clue;
     @FXML
@@ -52,7 +52,7 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
 
     //Data
     private boolean initialized;
-    private HBox[][] boxes;
+    private final HBox[][] boxes = new HBox[5][5];
     private Game game;
     private int maxGuesses, currentGuesses;
     private int currentBlue, maxBlue = 8, currentRed, maxRed = 8;
@@ -70,7 +70,6 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
         this.initialized = true;
 
         //Fetch all the card boxes
-        this.boxes = new HBox[5][5];
         for (Node node : grid.getChildren())
         {
             int x = GridPane.getRowIndex(node);
@@ -90,9 +89,6 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
         this.game.onPhaseChange.register(this);
         this.game.onRoundChange.register(this);
         this.game.getBoard().onFlip.register(this);
-
-        //Setup the commander object
-        Commander.instance().setup(this, this.game);
 
         //Setup the starting player
         switch (this.game.getStartTeam())
@@ -189,28 +185,9 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
             Commander.log(this.game.getWinner().niceName() + " team has won the game");
         }
     }
-
-    /**
-     * Triggers the Undo action in the Commander
-     */
-    @FXML
-    private void onUndo()
-    {
-        Commander.instance().undo();
-    }
-
-    /**
-     * Triggers the redo action in the Commander
-     */
-    @FXML
-    private void onRedo()
-    {
-        Commander.instance().redo();
-    }
     //endregion
 
     //region Methods
-
     /**
      * Card flipped event listener
      * @param card Card being flipped
@@ -233,30 +210,6 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
         }
 
         this.currentGuesses++;
-        this.guesses.setText(String.format("%d/%d", this.currentGuesses, this.maxGuesses));
-    }
-
-    /**
-     * Unflips a card on the View
-     * @param card Card to unflip
-     */
-    public void unFlip(Card card)
-    {
-        switchStyles(this.boxes[card.getX()][card.getY()], card.getType().name().toLowerCase(), "unknown");
-        switch (card.getType())
-        {
-            case BLUE:
-                this.currentBlue--;
-                this.blue.setText(String.format("%d/%d", this.currentBlue, this.maxBlue));
-                break;
-
-            case RED:
-                this.currentRed--;
-                this.red.setText(String.format("%d/%d", this.currentRed, this.maxRed));
-                break;
-        }
-
-        this.currentGuesses--;
         this.guesses.setText(String.format("%d/%d", this.currentGuesses, this.maxGuesses));
     }
 
@@ -294,24 +247,6 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     public void updatePhase(String phase)
     {
         this.phase.setText(phase);
-    }
-
-    /**
-     * Sets the enabled/disabled state of the Undo button
-     * @param disabled If the Undo button is disabled or not
-     */
-    public void setUndoDisabled(boolean disabled)
-    {
-        this.undoButton.setDisable(disabled);
-    }
-
-    /**
-     * Sets the enabled/disabled state of the Redo button
-     * @param disabled If the Redo button is disabled or not
-     */
-    public void setRedoDisabled(boolean disabled)
-    {
-        this.redoButton.setDisable(disabled);
     }
 
     /**
