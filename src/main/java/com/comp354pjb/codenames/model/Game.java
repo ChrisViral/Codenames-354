@@ -265,7 +265,7 @@ public class Game
      * Checks if the game must end
      * @return True if a winning game condition has been met
      */
-    private boolean checkWinner()
+    public boolean checkWinner()
     {
         //Game ends as soon as the Assassin is revealed
         if (this.assassinRevealed)
