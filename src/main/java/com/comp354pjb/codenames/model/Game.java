@@ -74,19 +74,6 @@ public class Game
     private int civilianCardsRevealed;
     //endregion
 
-    //region Constructors
-    /**
-     * Creates a new Game object and correctly sets up the board and cards, as well as players
-     */
-    public Game()
-    {
-        String[] setup = DatabaseHelper.getBoardLayout();
-        this.startTeam = PlayerType.parse(setup[0]);
-        this.board = new Board(DatabaseHelper.getRandomCodenames(25), setup[1]);
-        this.graph = createSuggestionGraph();
-    }
-    //endregion
-
     //region Properties
     private final Board board;
     /**
@@ -111,6 +98,7 @@ public class Game
      * Gets the number of guesses left given the current clue
      */
     public int getGuessesLeft() { return this.guessesLeft; }
+
     private PlayerType winner;
     /**
      * Gets the winning player
@@ -179,6 +167,29 @@ public class Game
     public SuggestionGraph getSuggestionGraph()
     {
         return graph;
+    }
+    //endregion
+
+    //region Constructors
+    /**
+     * Creates a new Game object and correctly sets up the board and cards randomly, as well as players
+     */
+    public Game()
+    {
+        this(DatabaseHelper.getBoardLayout(), DatabaseHelper.getRandomCodenames(25));
+    }
+
+    /**
+     * Creates a new game with the specified board layout and cards
+     * @param layout Board layout, must have two parameters
+     * @param cards  Array of 25 codenames to use on cards
+     */
+    public Game(String[] layout, String[] cards)
+    {
+        Commander.log("Creating new game:\nBoard layout: " + layout[1] + "\nCodenames: " + String.join(", ", cards));
+        this.startTeam = PlayerType.parse(layout[0]);
+        this.board = new Board(cards, layout[1]);
+        this.graph = createSuggestionGraph();
     }
     //endregion
 
@@ -381,13 +392,11 @@ public class Game
     {
         this.onPhaseChange.invoke(phase);
     }
-    //endregion
 
-    //region Helpers
     private SuggestionGraph createSuggestionGraph()
     {
         // Get all the cards on the board
-        ArrayList<Card> codenames = board.getCards();
+        ArrayList<Card> codenames = this.board.getCards();
 
         // Get all the clues for each card and add them to the cards
         for (Card c : codenames)
