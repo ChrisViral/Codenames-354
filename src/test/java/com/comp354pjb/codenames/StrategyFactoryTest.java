@@ -28,45 +28,45 @@ public class StrategyFactoryTest {
     @Test
     public void PickingDumbOperativeShouldCreateOpAI(){
 
-        Player player = new Player(pt,StrategyFactory.makeStrategy(game, StrategyType.OPERATIVE, PlayerIntelligence.DUMB) );
+        Player player = new Player(pt,StrategyFactory.makeStrategy(game, StrategyType.OPERATIVE, PlayerIntelligence.DUMB, pt));
         assertTrue(player.getStrategy() instanceof OperativeAI);
     }
 
     @Test
     public void PickingMediumOperativeShouldCreateReasonableOpAI(){
 
-        Player player = new Player(pt1,StrategyFactory.makeStrategy(game, StrategyType.OPERATIVE, PlayerIntelligence.MEDIUM) );
+        Player player = new Player(pt1,StrategyFactory.makeStrategy(game, StrategyType.OPERATIVE, PlayerIntelligence.MEDIUM, pt1));
         assertTrue(player.getStrategy() instanceof ReasonableOperativeAI);
     }
 
     @Test
     public void PickingSmartOperativeShouldCreateMemoryOpAI(){
 
-        Player player = new Player(pt,StrategyFactory.makeStrategy(game, StrategyType.OPERATIVE, PlayerIntelligence.SMART) );
+        Player player = new Player(pt,StrategyFactory.makeStrategy(game, StrategyType.OPERATIVE, PlayerIntelligence.SMART, pt));
         assertTrue(player.getStrategy() instanceof MemoryOperativeAI);
     }
 
     @Test
     public void PickingHumanOperativeShouldCreateHumanOp(){
-        Player player = new Player(pt1,StrategyFactory.makeStrategy(game, StrategyType.OPERATIVE, PlayerIntelligence.HUMAN) );
+        Player player = new Player(pt1,StrategyFactory.makeStrategy(game, StrategyType.OPERATIVE, PlayerIntelligence.HUMAN, pt1));
         assertTrue(player.getStrategy() instanceof HumanOperative);
     }
 
     @Test
     public void PickingDumbSpyMasterShouldCreateSpyAI(){
-        Player player = new Player(pt,StrategyFactory.makeStrategy(game, StrategyType.SPYMASTER, PlayerIntelligence.DUMB) );
+        Player player = new Player(pt,StrategyFactory.makeStrategy(game, StrategyType.SPYMASTER, PlayerIntelligence.DUMB, pt));
         assertTrue(player.getStrategy() instanceof SpyMasterAI);
     }
 
     @Test
     public void PickingMediumSpyMasterShouldCreateRiskySpyAI(){
-        Player player = new Player(pt1,StrategyFactory.makeStrategy(game, StrategyType.SPYMASTER, PlayerIntelligence.MEDIUM) );
+        Player player = new Player(pt1,StrategyFactory.makeStrategy(game, StrategyType.SPYMASTER, PlayerIntelligence.MEDIUM, pt1));
         assertTrue(player.getStrategy() instanceof RiskySpyMasterAI);
     }
 
     @Test
     public void PickingSmartSpyMasterShouldCreateSafeSpyMasterAI(){
-        Player player = new Player(pt,StrategyFactory.makeStrategy(game, StrategyType.SPYMASTER, PlayerIntelligence.SMART) );
+        Player player = new Player(pt,StrategyFactory.makeStrategy(game, StrategyType.SPYMASTER, PlayerIntelligence.SMART, pt));
         assertTrue(player.getStrategy() instanceof SafeSpyMasterAI);
     }
 }

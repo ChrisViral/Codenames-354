@@ -5,10 +5,6 @@
  *
  * Contributors:
  * Michael Wilgus
- *
- * Description:
- * Gets the current clue given by the SpyMaster and inspects it to see what cards it suggests.
- * Randomly pick one and reveal it.
  */
 
 package com.comp354pjb.codenames.model.player;
@@ -20,39 +16,46 @@ import java.util.ArrayList;
 
 /**
  * Medium level implementation of an Operative AI. Makes reasonable guesses given a clue
+ * Gets the current clue given by the SpyMaster and inspects it to see what cards it suggests.
+ * Randomly pick one and reveal it.
  */
 public class ReasonableOperativeAI extends Strategy
 {
-    private Game game;
-
-    public ReasonableOperativeAI(Game game)
+    //region Constructors
+    /**
+     * Creates a new ReasonableOperativeAI
+     * @param game Game this AI is linked to
+     * @param team Team this AI is linked to
+     */
+    public ReasonableOperativeAI(Game game, PlayerType team)
     {
-        this.game = game;
+        super(game, team);
     }
+    //endregion
+
     //region Methods
-
+    /**
+     * Operative title
+     * @return "Operative"
+     */
     @Override
-    public void execute()
+    protected String title()
     {
-        game.setPhase(this.team.niceName() + " Operative");
+        return "Operative";
+    }
 
+    /**
+     * Execute's this AI's turn
+     */
+    @Override
+    protected void executeStrategy()
+    {
         //Get the latest clue given by the SpyMaster
         Clue clue = game.getCurrentClue();
-
-        // Get all the cards that can possibly be associated with the given clue
-        ArrayList<Card> cards = clue.getCards();
-
-        // Pick randomly among the cards available
-        // Note: It is up to the SpyMaster to give a good clue.
-        // At this point we are free to assume that any card suggested
-        // will be a good choice
-        int i = Game.RANDOM.nextInt(cards.size());
-        Card card = cards.get(i);
-
-        // Pick a Card
-        game.revealCard(card);
+        pickCard(clue);
 
         // We used up our guesses so we are done
         if (game.getGuessesLeft() == 0) { this.game.endCurrentTurn(); }
     }
+    //endregion
 }

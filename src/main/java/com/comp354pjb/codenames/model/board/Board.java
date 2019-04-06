@@ -12,6 +12,7 @@
 
 package com.comp354pjb.codenames.model.board;
 
+import com.comp354pjb.codenames.commander.Commander;
 import com.comp354pjb.codenames.observer.events.CardFlippedEvent;
 
 import java.util.ArrayList;
@@ -68,16 +69,28 @@ public class Board
         Card[][] cards = new Card[5][5];
         wordSet.addAll(Arrays.asList(words));
 
+        StringBuilder codenames = new StringBuilder(), colours = new StringBuilder();
         //Add the cards to the set and array
         for (int i = 0; i < 5; i++)
         {
             int stride = i * 5;
+            codenames.append("\t");
+            colours.append("\t");
             for (int j = 0; j < 5; j++)
             {
                 int index = stride + j;
-                cards[i][j] = new Card(words[index], CardType.parse(layout.charAt(index)), i, j);
+                String codename = words[index];
+                CardType type = CardType.parse(layout.charAt(index));
+                cards[i][j] = new Card(codename, type, i, j);
+                codenames.append(codename).append(" ");
+                colours.append(type.niceName()).append(" ");
             }
+            codenames.append("\n");
+            colours.append("\n");
         }
+
+        codenames.deleteCharAt(codenames.length() - 1);
+        Commander.log("Created new board\nLayout:\n" + colours + "Codenames:\n" + codenames);
         return cards;
     }
     //endregion

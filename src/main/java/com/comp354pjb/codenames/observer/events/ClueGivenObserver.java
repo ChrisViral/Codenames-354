@@ -22,6 +22,6 @@ public interface ClueGivenObserver
      * Gets the new given clue
      * @param clue Clue given
      */
-    void getClue(Clue clue);
+    void updateClue(Clue clue);
     //endregion
 }

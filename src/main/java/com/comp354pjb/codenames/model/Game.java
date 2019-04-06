@@ -17,9 +17,7 @@ import com.comp354pjb.codenames.model.board.Board;
 import com.comp354pjb.codenames.model.board.Card;
 import com.comp354pjb.codenames.model.player.*;
 import com.comp354pjb.codenames.model.player.StrategyFactory.StrategyType;
-import com.comp354pjb.codenames.observer.events.ClueGivenEvent;
-import com.comp354pjb.codenames.observer.events.PhaseEvent;
-import com.comp354pjb.codenames.observer.events.RoundEvent;
+import com.comp354pjb.codenames.observer.events.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,6 +53,14 @@ public class Game
      * Round change event
      */
     public final RoundEvent onRoundChange = new RoundEvent();
+    /**
+     * Next game button state changed event
+     */
+    public final ButtonStateChangedEvent onButtonStateChanged = new ButtonStateChangedEvent();
+    /**
+     * Turn end event
+     */
+    public final TurnEndEvent onTurnEnd = new TurnEndEvent();
     //endregion
 
     //region Fields
@@ -62,22 +68,10 @@ public class Game
     private final Player[] players = new Player[PLAYER_COUNT];
 
     //Score keeping members
+    private boolean assassinRevealed;
     private int redCardsRevealed;
     private int blueCardsRevealed;
     private int civilianCardsRevealed;
-    //endregion
-
-    //region Constructors
-    /**
-     * Creates a new Game object and correctly sets up the board and cards, as well as players
-     */
-    public Game()
-    {
-        String[] setup = DatabaseHelper.getBoardLayout();
-        this.startTeam = PlayerType.parse(setup[0]);
-        this.board = new Board(DatabaseHelper.getRandomCodenames(25), setup[1]);
-        this.graph = createSuggestionGraph();
-    }
     //endregion
 
     //region Properties
@@ -104,15 +98,6 @@ public class Game
      * Gets the number of guesses left given the current clue
      */
     public int getGuessesLeft() { return this.guessesLeft; }
-
-    private boolean assassinRevealed;
-    /**
-     * Sets if the assassin card has been revealed
-     */
-    public void setAssassinRevealed(boolean assassinRevealed)
-    {
-        this.assassinRevealed = assassinRevealed;
-    }
 
     private PlayerType winner;
     /**
@@ -195,6 +180,33 @@ public class Game
     }
     //endregion
 
+    //region Constructors
+    /**
+     * Creates a new Game object and correctly sets up the board and cards randomly, as well as players
+     */
+    public Game()
+    {
+        this(DatabaseHelper.getBoardLayout(), DatabaseHelper.getRandomCodenames(25));
+    }
+
+    /**
+     * Creates a new game with the specified board layout and cards
+     * @param layout Board layout, must have two parameters
+     * @param cards  Array of 25 codenames to use on cards
+     */
+    public Game(String[] layout, String[] cards)
+    {
+        //Starting team
+        this.startTeam = PlayerType.parse(layout[0]);
+        Commander.log(this.startTeam.niceName() + " Team will start, which means they must guess 9 cards");
+        Commander.log((this.startTeam == PlayerType.RED ? PlayerType.BLUE : PlayerType.RED).niceName() + " Team will go second, which means they must guess 8 cards");
+
+        //Board and clues graph
+        this.board = new Board(cards, layout[1]);
+        this.graph = createSuggestionGraph();
+    }
+    //endregion
+
     //region Methods
     /**
      * Sets the starting player for the game and initializes the AIs correctly
@@ -220,15 +232,16 @@ public class Game
         //Get the second team
         PlayerType second = this.startTeam == PlayerType.RED ? PlayerType.BLUE : PlayerType.RED;
 
-        //Log the starting team
-        Commander.log(this.startTeam.niceName() + " Team will start, which means they must guess 9 cards");
-        Commander.log(second.niceName() + " Team will go second, which means they must guess 8 cards");
-
         //Create the players
-        this.players[0] = new Player(this.startTeam, StrategyFactory.makeStrategy(this, StrategyType.SPYMASTER,  passInt[0]));
-        this.players[1] = new Player(this.startTeam, StrategyFactory.makeStrategy(this, StrategyType.OPERATIVE, passInt[1]));
-        this.players[2] = new Player(second, StrategyFactory.makeStrategy(this, StrategyType.SPYMASTER, passInt[2]));
-        this.players[3] = new Player(second, StrategyFactory.makeStrategy(this, StrategyType.OPERATIVE, passInt[3]));
+        this.players[0] = new Player(this.startTeam, StrategyFactory.makeStrategy(this, StrategyType.SPYMASTER,  passInt[0], this.startTeam));
+        this.players[1] = new Player(this.startTeam, StrategyFactory.makeStrategy(this, StrategyType.OPERATIVE, passInt[1], this.startTeam));
+        this.players[2] = new Player(second, StrategyFactory.makeStrategy(this, StrategyType.SPYMASTER, passInt[2], second));
+        this.players[3] = new Player(second, StrategyFactory.makeStrategy(this, StrategyType.OPERATIVE, passInt[3], second));
+        Commander.log(String.format("Player types created: %s, %s, %s, %s",
+                                    players[0].getStrategy().getClass().getSimpleName(),
+                                    players[1].getStrategy().getClass().getSimpleName(),
+                                    players[2].getStrategy().getClass().getSimpleName(),
+                                    players[3].getStrategy().getClass().getSimpleName()));
     }
 
      /**
@@ -318,19 +331,26 @@ public class Game
     {
         //Play the current player's turn
         this.getCurrentPlayer().play();
-
     }
 
     /**
-     * This method ends the current turn
+     * Ends the current player's turn
      */
     public void endCurrentTurn()
     {
-        this.playerIndex = (this.playerIndex + 1) % PLAYER_COUNT;
-
-        if (this.playerIndex == 0)
+        if (checkWinner())
         {
-            this.onRoundChange.invoke(++this.round);
+            this.onTurnEnd.invoke(true);
+        }
+        else
+        {
+            this.playerIndex = (this.playerIndex + 1) % PLAYER_COUNT;
+
+            if (this.playerIndex == 0)
+            {
+                this.onRoundChange.invoke(++this.round);
+            }
+            this.onTurnEnd.invoke(false);
         }
     }
 
@@ -347,8 +367,8 @@ public class Game
         {
             //Actions for revealing an assassin card
             case ASSASSIN:
-                this.setLoser(getCurrentPlayer().getTeam());
-                this.setAssassinRevealed(true);
+                setLoser(getCurrentPlayer().getTeam());
+                this.assassinRevealed = true;
                 this.guessesLeft = 0;
                 return;
             //Actions for revealing a civilian card
@@ -380,18 +400,6 @@ public class Game
     }
 
     /**
-     * Reveals the card at the given location
-     * =========
-     * Added by Christophe Savard 04/04/19
-     * @param x X coordinate of the card
-     * @param y Y coordinate of the card
-     */
-    public void revealCard(int x, int y)
-    {
-        revealCard(this.board.getCard(x, y));
-    }
-
-    /**
      * Informs a potential human player of the clicked card's location
      * ==========
      * Added by Christophe Savard 04/04/19
@@ -415,13 +423,11 @@ public class Game
     {
         this.onPhaseChange.invoke(phase);
     }
-    //endregion
 
-    //region Helpers
     private SuggestionGraph createSuggestionGraph()
     {
         // Get all the cards on the board
-        ArrayList<Card> codenames = board.getCards();
+        ArrayList<Card> codenames = this.board.getCards();
 
         // Get all the clues for each card and add them to the cards
         for (Card c : codenames)

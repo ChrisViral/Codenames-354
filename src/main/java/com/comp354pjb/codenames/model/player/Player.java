@@ -6,28 +6,40 @@
  * Contributors:
  * Christophe Savard
  * Michael Wilgus
- *
- * Description:
- * Represents a player in the Codenmaes game.
- * Players can use different Strategies to either give or guess
- * clues/cards. This object assumes no particular strategy but can
- * be assigned one on creation.
  */
 
 package com.comp354pjb.codenames.model.player;
 
 /**
- * Game player object
+ * Represents a player in the Codenames game.
+ * Players can use different Strategies to either give or guess
+ * clues/cards. This object assumes no particular strategy but can
+ * be assigned one on creation.
  */
 public class Player
 {
-    public final String teamName;
-    //region Fields
-    protected final PlayerType team;
     //region Properties
+    protected final PlayerType team;
+    /**
+     * Player's team
+     */
+    public PlayerType getTeam()
+    {
+        return team;
+    }
+
     protected final Strategy strategy;
+    /**
+     * Gets the strategy associated to this player
+     * @return The currently used Strategy
+     */
+    public Strategy getStrategy()
+    {
+        return this.strategy;
+    }
     //endregion
 
+    //region Constructors
     /**
      * Creates a new player for a Codenames game
      * @param team     Team this player is on
@@ -41,25 +53,10 @@ public class Player
     {
         this.team = team;
         this.strategy = strategy;
-        this.strategy.setTeam(team);
-        this.teamName = this.team.niceName();
-    }
-    //endregion
-
-    //region Constructors
-
-    /**
-     * Gets the strategy associated to this player
-     * @return The currently used Strategy
-     */
-    public Strategy getStrategy()
-    {
-        return this.strategy;
     }
     //endregion
 
     //region Methods
-
     /**
      * Plays on of the players turns according to it's type and strategy
      */
@@ -67,15 +64,5 @@ public class Player
     {
         this.strategy.execute();
     }
-
-    /**
-     * Accessor for the Team this player belongs to
-     * @return team
-     */
-    public PlayerType getTeam()
-    {
-        return team;
-    }
-
     //endregion
 }

@@ -7,42 +7,55 @@
  * Benjamin Therrien
  * Christophe Savard
  * Michael Wilgus
- *
- * Description:
- * Plays the dumb SpyMaster AI turn.
- * Simply randomly consults the graph of clues/cards.
  */
 
 package com.comp354pjb.codenames.model.player;
 
+import com.comp354pjb.codenames.commander.Commander;
 import com.comp354pjb.codenames.model.Game;
 
 /**
- * Basic implementation of a SpyMaster AI. Gets a random clue from the suggestion graph to give.
+ * Plays the dumb SpyMaster AI turn.
+ * Simply randomly consults the graph of clues/cards.
  */
 public class SpyMasterAI extends Strategy
 {
-    public static final PlayerIntelligence STRATEGY_CLASS = PlayerIntelligence.DUMB;
-
-    private Game game;
-
-    public SpyMasterAI(Game game)
+    //region Constructors
+    /**
+     * Creates a new SpyMasterAI
+     * @param game Game this AI is linked to
+     * @param team Team this AI is linked to
+     */
+    public SpyMasterAI(Game game, PlayerType team)
     {
-        this.game = game;
+        super(game, team);
     }
+    //endregion
 
     //region Methods
-    // Modified by Michael Wilgus
+    /**
+     * SpyMaster title
+     * @return "SpyMaster"
+     */
     @Override
-    public void execute()
+    protected String title()
     {
-        game.setPhase(this.team.niceName() + " SpyMaster");
+        return "SpyMaster";
+    }
 
+    /**
+     * Gets the suggestion graph for the current game and passes it a comparator so that it can find
+     * some clue that fits this strategies criteria
+     */
+    @Override
+    public void executeStrategy()
+    {
         // Get a random hint that is *not* a word in the board
         Clue clue = game.getSuggestionGraph().getRandomClue();
         clue.value = Game.RANDOM.nextInt(clue.getCards().size()) + 1;
 
         // Give the clue
+        Commander.log(name() + " gave the clue " + clue);
         game.setCurrentClue(clue);
 
         // We are done
