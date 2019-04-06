@@ -39,6 +39,13 @@ import javafx.stage.Stage;
  */
 public class Controller implements CardFlippedObserver, ClueGivenObserver, PhaseObserver, RoundObserver
 {
+    //region Constants
+    /**
+     * Unknown/non flipped card style class
+     */
+    private static final String UNKNOWN = "unknown";
+    //endregion
+
     //region Fields
     //FXML Fields - Contain various components of the Graphical user Interface (GUI)
     @FXML
@@ -61,6 +68,9 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     //region FXML Methods
     /**
      * Initializes the controller
+     * ==========
+     * Updated by Christophe Savard 04/04/19
+     * Put back initialization only stuff in here
      */
     @FXML
     private void initialize()
@@ -124,6 +134,9 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
      * so that it responds to the start game button being clicked.
      * <p>
      * This function also passes PlayerIntelligence to the instancing of Game()
+     * ==========
+     * Updated by Christophe Savard 04/04/19
+     * Removed initialization only stuff from in here
      */
     @FXML
     private void setup()
@@ -160,6 +173,9 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
 
     /**
      * Mouse click event, registered to from the cards in the View
+     * ==========
+     * Updated by Christophe Savard 04/04/19
+     * Put back in order for human operative
      * @param data Event data from the mouse click
      */
     @FXML
@@ -190,12 +206,17 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     //region Methods
     /**
      * Card flipped event listener
+     * ==========
+     * Update by Christophe Savard 05/04/19
+     * Simplified code for switching styles
      * @param card Card being flipped
      */
     @Override
     public void onFlip(Card card)
     {
-        switchStyles(this.boxes[card.getX()][card.getY()], "unknown", card.getType().name().toLowerCase());
+        ObservableList<String> styles = this.boxes[card.getX()][card.getY()].getStyleClass();
+        styles.remove(UNKNOWN);
+        styles.add(card.getType().name().toLowerCase());
         switch (card.getType())
         {
             case BLUE:
@@ -214,24 +235,11 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     }
 
     /**
-     * Switches the CSS style of one of the HBoxes
-     * @param box  Box to change the style for
-     * @param from Style to remove
-     * @param to   Style to add
-     */
-    private void switchStyles(HBox box, String from, String to)
-    {
-        ObservableList<String> styles = box.getStyleClass();
-        styles.remove(from);
-        styles.add(to);
-    }
-
-    /**
      * Gets the new given clue
      * @param clue Clue given
      */
     @Override
-    public void getClue(Clue clue)
+    public void updateClue(Clue clue)
     {
         this.clue.setText(clue.toString());
         this.currentGuesses = 0;

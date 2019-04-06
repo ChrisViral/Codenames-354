@@ -318,8 +318,8 @@ public class Game
         {
             //Actions for revealing an assassin card
             case ASSASSIN:
-                this.setLoser(getCurrentPlayer().getTeam());
-                this.setAssassinRevealed(true);
+                setLoser(getCurrentPlayer().getTeam());
+                setAssassinRevealed(true);
                 this.guessesLeft = 0;
                 return;
             //Actions for revealing a civilian card
