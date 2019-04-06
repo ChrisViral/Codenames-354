@@ -46,7 +46,7 @@ public class ClueTest {
 			}
 		}
 
-		assertEquals(hascluecount, 25);
+		assertEquals(25,hascluecount);
 
 	}
 

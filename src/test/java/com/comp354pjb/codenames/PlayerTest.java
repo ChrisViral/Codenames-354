@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import static org.hamcrest.core.IsCollectionContaining.hasItem;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 
 public class PlayerTest
