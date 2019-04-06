@@ -10,6 +10,8 @@
 
 package com.comp354pjb.codenames.model.board;
 
+import com.comp354pjb.codenames.model.DatabaseHelper;
+
 /**
  * Type of card
  */
@@ -19,6 +21,28 @@ public enum CardType
     BLUE,
     CIVILIAN,
     ASSASSIN;
+
+    //region Properties
+    private final String camelCasedName;
+    /**
+     * Nicely formatted String version of the name of this enum member
+     * @return Enum member name
+     */
+    public String niceName()
+    {
+        return this.camelCasedName;
+    }
+    //endregion
+
+    //region Constructors
+    /**
+     * Creates a new CardType
+     */
+    CardType()
+    {
+        this.camelCasedName = DatabaseHelper.toCamelCase(name());
+    }
+    //endregion
 
     //region Static methods
     /**

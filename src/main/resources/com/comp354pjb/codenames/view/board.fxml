@@ -241,16 +241,5 @@
                 <Button fx:id="nextMoveButton" disable="false" onAction="#onNextMove" styleClass="buttonNext" text="Next Move" />
             </children>
         </HBox>
-        <!--THIS IS COMMENTED OUT BECAUSE IT'S AN EXTRA FEATURE WE DON'T HAVE IT WORKING PRESENTLY.-->
-        <!--<HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="6">-->
-        <!--<children>-->
-        <!--<Button fx:id="undoButton" disable="true" onAction="#onUndo" styleClass="button" text="Undo" />-->
-        <!--<Button fx:id="redoButton" disable="true" onAction="#onRedo" styleClass="button" text="Redo">-->
-        <!--<HBox.margin>-->
-        <!--<Insets left="10" />-->
-        <!--</HBox.margin>-->
-        <!--</Button>-->
-        <!--</children>-->
-        <!--</HBox>-->
     </children>
 </GridPane>

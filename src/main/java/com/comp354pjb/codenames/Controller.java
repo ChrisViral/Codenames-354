@@ -17,10 +17,7 @@ import com.comp354pjb.codenames.model.board.Board;
 import com.comp354pjb.codenames.model.board.Card;
 import com.comp354pjb.codenames.model.player.Clue;
 import com.comp354pjb.codenames.model.player.PlayerIntelligence;
-import com.comp354pjb.codenames.observer.events.CardFlippedObserver;
-import com.comp354pjb.codenames.observer.events.ClueGivenObserver;
-import com.comp354pjb.codenames.observer.events.PhaseObserver;
-import com.comp354pjb.codenames.observer.events.RoundObserver;
+import com.comp354pjb.codenames.observer.events.*;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -37,14 +34,21 @@ import javafx.stage.Stage;
 /**
  * Controller object, interacts between the View (FXML) and the Model
  */
-public class Controller implements CardFlippedObserver, ClueGivenObserver, PhaseObserver, RoundObserver
+public class Controller implements CardFlippedObserver, ClueGivenObserver, PhaseObserver, RoundObserver, ButtonStateChangedObserver, TurnEndObserver
 {
+    //region Constants
+    /**
+     * Unknown/non flipped card style class
+     */
+    private static final String UNKNOWN = "unknown";
+    //endregion
+
     //region Fields
     //FXML Fields - Contain various components of the Graphical user Interface (GUI)
     @FXML
     private GridPane grid;
     @FXML
-    private Button undoButton, redoButton, nextMoveButton, startGameBtn;
+    private Button nextMoveButton, startGameBtn;
     @FXML
     private Text round, phase, red, blue, guesses, clue;
     @FXML
@@ -52,7 +56,7 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
 
     //Data
     private boolean initialized;
-    private HBox[][] boxes;
+    private final HBox[][] boxes = new HBox[5][5];
     private Game game;
     private int maxGuesses, currentGuesses;
     private int currentBlue, maxBlue = 8, currentRed, maxRed = 8;
@@ -61,6 +65,9 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     //region FXML Methods
     /**
      * Initializes the controller
+     * ==========
+     * Updated by Christophe Savard 04/04/19
+     * Put back initialization only stuff in here
      */
     @FXML
     private void initialize()
@@ -70,7 +77,6 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
         this.initialized = true;
 
         //Fetch all the card boxes
-        this.boxes = new HBox[5][5];
         for (Node node : grid.getChildren())
         {
             int x = GridPane.getRowIndex(node);
@@ -89,10 +95,9 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
         this.game.onClueGiven.register(this);
         this.game.onPhaseChange.register(this);
         this.game.onRoundChange.register(this);
+        this.game.onButtonStateChanged.register(this);
+        this.game.onTurnEnd.register(this);
         this.game.getBoard().onFlip.register(this);
-
-        //Setup the commander object
-        Commander.instance().setup(this, this.game);
 
         //Setup the starting player
         switch (this.game.getStartTeam())
@@ -128,6 +133,9 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
      * so that it responds to the start game button being clicked.
      * <p>
      * This function also passes PlayerIntelligence to the instancing of Game()
+     * ==========
+     * Updated by Christophe Savard 04/04/19
+     * Removed initialization only stuff from in here
      */
     @FXML
     private void setup()
@@ -164,6 +172,9 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
 
     /**
      * Mouse click event, registered to from the cards in the View
+     * ==========
+     * Updated by Christophe Savard 04/04/19
+     * Put back in order for human operative
      * @param data Event data from the mouse click
      */
     @FXML
@@ -183,42 +194,47 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     private void onNextMove()
     {
         this.game.enterNextGameTurn();
-        if (this.game.checkWinner())
+    }
+    //endregion
+
+    //region Methods
+    /**
+     * Turn end event observer
+     * @param gameOver If the game is over or not
+     */
+    @Override
+    public void updateTurn(boolean gameOver)
+    {
+        if (gameOver)
         {
-            this.nextMoveButton.setDisable(true);
+            updateState(true);
             Commander.log(this.game.getWinner().niceName() + " team has won the game");
         }
     }
 
     /**
-     * Triggers the Undo action in the Commander
+     * Sets the next game turn button to disabled or not
+     * @param disabled If the button is disabled or not
      */
-    @FXML
-    private void onUndo()
+    @Override
+    public void updateState(boolean disabled)
     {
-        Commander.instance().undo();
+        this.nextMoveButton.setDisable(disabled);
     }
-
-    /**
-     * Triggers the redo action in the Commander
-     */
-    @FXML
-    private void onRedo()
-    {
-        Commander.instance().redo();
-    }
-    //endregion
-
-    //region Methods
 
     /**
      * Card flipped event listener
+     * ==========
+     * Update by Christophe Savard 05/04/19
+     * Simplified code for switching styles
      * @param card Card being flipped
      */
     @Override
     public void onFlip(Card card)
     {
-        switchStyles(this.boxes[card.getX()][card.getY()], "unknown", card.getType().name().toLowerCase());
+        ObservableList<String> styles = this.boxes[card.getX()][card.getY()].getStyleClass();
+        styles.remove(UNKNOWN);
+        styles.add(card.getType().name().toLowerCase());
         switch (card.getType())
         {
             case BLUE:
@@ -237,48 +253,11 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     }
 
     /**
-     * Unflips a card on the View
-     * @param card Card to unflip
-     */
-    public void unFlip(Card card)
-    {
-        switchStyles(this.boxes[card.getX()][card.getY()], card.getType().name().toLowerCase(), "unknown");
-        switch (card.getType())
-        {
-            case BLUE:
-                this.currentBlue--;
-                this.blue.setText(String.format("%d/%d", this.currentBlue, this.maxBlue));
-                break;
-
-            case RED:
-                this.currentRed--;
-                this.red.setText(String.format("%d/%d", this.currentRed, this.maxRed));
-                break;
-        }
-
-        this.currentGuesses--;
-        this.guesses.setText(String.format("%d/%d", this.currentGuesses, this.maxGuesses));
-    }
-
-    /**
-     * Switches the CSS style of one of the HBoxes
-     * @param box  Box to change the style for
-     * @param from Style to remove
-     * @param to   Style to add
-     */
-    private void switchStyles(HBox box, String from, String to)
-    {
-        ObservableList<String> styles = box.getStyleClass();
-        styles.remove(from);
-        styles.add(to);
-    }
-
-    /**
      * Gets the new given clue
      * @param clue Clue given
      */
     @Override
-    public void getClue(Clue clue)
+    public void updateClue(Clue clue)
     {
         this.clue.setText(clue.toString());
         this.currentGuesses = 0;
@@ -294,24 +273,6 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     public void updatePhase(String phase)
     {
         this.phase.setText(phase);
-    }
-
-    /**
-     * Sets the enabled/disabled state of the Undo button
-     * @param disabled If the Undo button is disabled or not
-     */
-    public void setUndoDisabled(boolean disabled)
-    {
-        this.undoButton.setDisable(disabled);
-    }
-
-    /**
-     * Sets the enabled/disabled state of the Redo button
-     * @param disabled If the Redo button is disabled or not
-     */
-    public void setRedoDisabled(boolean disabled)
-    {
-        this.redoButton.setDisable(disabled);
     }
 
     /**
