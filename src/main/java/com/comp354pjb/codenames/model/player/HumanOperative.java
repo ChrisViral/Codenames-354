@@ -8,7 +8,9 @@
 
 package com.comp354pjb.codenames.model.player;
 
+import com.comp354pjb.codenames.commander.Commander;
 import com.comp354pjb.codenames.model.Game;
+import com.comp354pjb.codenames.model.board.Card;
 
 /**
  * Human interface for operatives
@@ -61,7 +63,9 @@ public class HumanOperative extends Strategy
     {
         if (this.ready)
         {
-            game.revealCard(game.getBoard().getCard(x, y));
+            Card card = game.getBoard().getCard(x, y);
+            Commander.log(name() + " revealed the " + card.getType().niceName() + " card " + card.getWord() + " at location (" + x + ", " + y + ")");
+            game.revealCard(card);
             // We used up our guesses so we are done
             if (game.getGuessesLeft() == 0)
             {

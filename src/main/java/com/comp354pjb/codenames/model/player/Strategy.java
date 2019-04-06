@@ -18,6 +18,7 @@
 
 package com.comp354pjb.codenames.model.player;
 
+import com.comp354pjb.codenames.commander.Commander;
 import com.comp354pjb.codenames.model.Game;
 import com.comp354pjb.codenames.model.board.Card;
 
@@ -62,6 +63,15 @@ abstract public class Strategy
 
     //region Methods
     /**
+     * Name of the Strategy
+     * @return Team name and title
+     */
+    protected String name()
+    {
+        return this.team.niceName() + " " + getClass().getSimpleName();
+    }
+
+    /**
      * Pick a random card and check if it belonged to our team
      * @param clue Clue to get the cards from
      * @return If the card belongs to our team or not
@@ -71,6 +81,7 @@ abstract public class Strategy
         ArrayList<Card> cards = clue.getCards();
         int i = Game.RANDOM.nextInt(cards.size());
         Card card = cards.get(i);
+        Commander.log(name() + " revealed the " + card.getType().niceName() + " card " + card.getWord());
         game.revealCard(card);
 
         return card.getType().equals(team.getCardType());

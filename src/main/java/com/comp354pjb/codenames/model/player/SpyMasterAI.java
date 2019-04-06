@@ -11,6 +11,7 @@
 
 package com.comp354pjb.codenames.model.player;
 
+import com.comp354pjb.codenames.commander.Commander;
 import com.comp354pjb.codenames.model.Game;
 
 /**
@@ -54,6 +55,7 @@ public class SpyMasterAI extends Strategy
         clue.value = Game.RANDOM.nextInt(clue.getCards().size()) + 1;
 
         // Give the clue
+        Commander.log(name() + " gave the clue " + clue);
         game.setCurrentClue(clue);
 
         // We are done

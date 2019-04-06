@@ -136,7 +136,7 @@ public class Clue
      */
     public boolean suggestsSomeCard()
     {
-        return redSuggested > 0 || blueSuggested > 0 || civilianSuggested > 0 || assassinSuggested == true;
+        return redSuggested > 0 || blueSuggested > 0 || civilianSuggested > 0 || assassinSuggested;
     }
 
     /**

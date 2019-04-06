@@ -9,6 +9,7 @@
 
 package com.comp354pjb.codenames.model.player;
 
+import com.comp354pjb.codenames.commander.Commander;
 import com.comp354pjb.codenames.model.Game;
 import com.comp354pjb.codenames.model.SuggestionGraph;
 
@@ -102,6 +103,7 @@ public class RiskySpyMasterAI extends Strategy
         clue.value = clue.getNumberOfCardsSuggestedForTeam(this.team);
 
         // Give the clue
+        Commander.log(name() + " gave the clue " + clue);
         game.setCurrentClue(clue);
 
         // We are done

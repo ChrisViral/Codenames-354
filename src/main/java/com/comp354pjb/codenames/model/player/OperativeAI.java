@@ -12,6 +12,7 @@
 
 package com.comp354pjb.codenames.model.player;
 
+import com.comp354pjb.codenames.commander.Commander;
 import com.comp354pjb.codenames.model.Game;
 import com.comp354pjb.codenames.model.board.Card;
 
@@ -59,6 +60,7 @@ public class OperativeAI extends Strategy
             if (!card.isRevealed())
             {
                 //Reveal card
+                Commander.log(name() + " revealed the " + card.getType().niceName() + " card " + card.getWord());
                 game.revealCard(card);
                 break;
             }
