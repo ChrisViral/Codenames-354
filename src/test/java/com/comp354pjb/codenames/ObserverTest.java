@@ -28,7 +28,7 @@ public class ObserverTest implements ButtonStateChangedObserver, CardFlippedObse
 {
     //region Constants
     /**
-     * Dummy board layout
+     * Dummy board layout for testing with human operatives
      */
     private static final String[] LAYOUT = { "R", "ACCCCCCCBBBBBBBBRRRRRRRRR" };
     //endregion
