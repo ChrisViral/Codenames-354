@@ -57,8 +57,6 @@ public class GameTest {
         assertTrue(game.getLoser() != game.getWinner());
     }
 
-    //TODO Human picking card should reveal it
-    //TODO Human picking card should decrease guess count
-    //TODO:Human picking assassin should end game
+
 
 }
