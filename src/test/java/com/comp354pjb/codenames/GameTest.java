@@ -57,6 +57,38 @@ public class GameTest {
         assertTrue(game.getLoser() != game.getWinner());
     }
 
+    /*
+     * Added by Rezza-Zairan Zaharin
+     *
+     * Checks if players are stored in Game
+     */
+    @Test
+    public void checkIfPlayersAreSetUp()
+    {
+        //Setting up new Game
+        Game game = new Game();
+
+        PlayerIntelligence intelligence[] = {PlayerIntelligence.SMART, PlayerIntelligence.SMART, PlayerIntelligence.SMART, PlayerIntelligence.SMART};
+        game.setPlayers(intelligence);
+
+        //clone game's players onto array
+        Player player[] = game.getPlayers().clone();
+
+        //Boolean check for if false
+        Boolean TestFailsIfFalse = true;
+
+        for (int i=0; i < player.length; i++)
+        {
+            if (player[i] == null)
+            {
+                TestFailsIfFalse = false;
+                break;
+            }
+        }
+
+        assertTrue(TestFailsIfFalse);
+    }
+
     //TODO Human picking card should reveal it
     //TODO Human picking card should decrease guess count
     //TODO:Human picking assassin should end game

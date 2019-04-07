@@ -75,4 +75,40 @@ public class BoardTest
     {
         return DatabaseHelper.getBoardLayout()[1];
     }
+
+    /*
+     * Added by Rezza-Zairan Zaharin
+     *
+     * Tests if the board is filled with the sufficient number of cards
+     */
+    @Test
+    public void checkIfBoardCreated()
+    {
+        //Dummy values for testing
+        String[] WORDS = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j",
+                           "k", "l", "m", "n", "o", "p", "q", "r", "s", "t",
+                           "u", "v", "w", "x", "y"};
+
+        String layout = getRandomLayout();
+
+        //Creates board
+        Board board = new Board(WORDS, layout);
+
+        //Boolean for test
+        boolean ifFalseTestFails = true;
+
+        for(int i=0; i < 5; i++)
+        {
+            for (int j = 0; j < 5; j++)
+            {
+                if (board.getCard(i,j) == null)
+                {
+                    ifFalseTestFails = false;
+                    break;
+                }
+            }
+        }
+
+        assertTrue(ifFalseTestFails);
+    }
 }
