@@ -116,17 +116,6 @@ public class BoardTest
     }
 
     /**
-     * The statistics should be undated as necessary
-     */
-    @Test
-    public void addStatsShouldActuallyAddStats(){
-        boolean answer = DatabaseHelper.addGameToStats("rt", "bt", -25, "Bt", true, 2, 1, 0 );
-        DatabaseHelper.deleteTestEntry();
-        assertTrue(answer);
-
-    }
-
-    /**
      * Accessor for a random layout from the Database Helper
      * @return
      */
