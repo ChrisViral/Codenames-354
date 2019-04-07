@@ -39,7 +39,6 @@ public class CardTest
     @Test
     public void differentCardsShouldNotBeEqual()
     {
-
         Card card = generateCard();
         Card dummy = new Card(generateRandomString(), CardType.BLUE, RAND.nextInt(5), RAND.nextInt(5));
         assertNotEquals(dummy, card);
