@@ -18,10 +18,8 @@ import com.comp354pjb.codenames.model.player.Clue;
 import com.comp354pjb.codenames.model.DatabaseHelper;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Random;
+
+import java.util.*;
 // endregion
 
 public class SuggestionGraphTest
@@ -113,8 +111,8 @@ public class SuggestionGraphTest
 
         return new SuggestionGraph(cluesHash, cardsHash, RANDOM);
     }
-
     // endregion
+
 
     // region Tests
 
@@ -149,18 +147,61 @@ public class SuggestionGraphTest
         assertFalse(clue1.equals(clue2) || clue2.equals(clue3));
     }
 
-    // get clue should return a clue if it exists
+    /**
+     * Tests that returns a clue if it exists.
+     * -----------
+     * Created by Mordechai Zirkind
+     */
     @Test
-    public void shouldReturnCluesThatExist()
+    public void shouldReturnClueIfItExists()
     {
-        
+        String[] codenames = DatabaseHelper.getRandomCodenames(25);
+        SuggestionGraph graph = createSuggestionGraph(codenames);
+
+        assertNotNull(graph.getClue(DatabaseHelper.getCluesForCodename(codenames[0])[0]));
     }
 
-    // get clue should return nothing if the clue doesn't exist
+    /**
+     * Tests that returns null if clue doesn't exists.
+     * -----------
+     * Created by Mordechai Zirkind
+     */
+    @Test
+    public void shouldReturnNullIfClueDoesntExist()
+    {
+        SuggestionGraph graph = createSuggestionGraph(DatabaseHelper.getRandomCodenames(25));
+        assertNull(graph.getClue("Mordechai"));
+    }
 
-    // pick card should return true for word in the game
+    /**
+     * Tests that pick card returns true for word in the game.
+     * -----------
+     * Created by Mordechai Zirkind
+     */
+    @Test
+    public void shouldReturnTrueIfPickAValidWord()
+    {
+        String[] codenames = DatabaseHelper.getRandomCodenames(25);
+        SuggestionGraph graph = createSuggestionGraph(codenames);
 
-    // pick card should return false for word not in the game
+        assertTrue(graph.pickCard(codenames[0]));
+    }
+
+
+    /**
+     * Tests that pick card returns false for word not in the game.
+     * -----------
+     * Created by Mordechai Zirkind
+     */
+    @Test
+    public void shouldReturnFalseIfPickAValidWord()
+    {
+        String[] codenames = DatabaseHelper.getRandomCodenames(25);
+        SuggestionGraph graph = createSuggestionGraph(codenames);
+
+        assertFalse(graph.pickCard("Mordechai"));
+    }
+
 
     // endregion
 }
