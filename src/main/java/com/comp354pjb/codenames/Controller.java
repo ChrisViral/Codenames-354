@@ -62,6 +62,17 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     private int currentBlue, maxBlue = 8, currentRed, maxRed = 8;
     //endregion
 
+    //region Static methods
+    /**
+     * Logs a message using the Commander, but by adding a Controller specific pre text
+     * @param message Message to log
+     */
+    private static void log(String message)
+    {
+        Commander.log("~Controller~ " + message);
+    }
+    //endregion
+
     //region FXML Methods
     /**
      * Initializes the controller
@@ -76,6 +87,8 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
         if (this.initialized) { return; }
         this.initialized = true;
 
+        log("Controller initialization has begun");
+
         //Fetch all the card boxes
         for (Node node : grid.getChildren())
         {
@@ -88,6 +101,9 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
             }
         }
 
+
+        log("Controller correctly identified all UI card boxes");
+
         //Create game object
         this.game = new Game();
 
@@ -98,6 +114,8 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
         this.game.onButtonStateChanged.register(this);
         this.game.onTurnEnd.register(this);
         this.game.getBoard().onFlip.register(this);
+
+        log("Game created and observers registered");
 
         //Setup the starting player
         switch (this.game.getStartTeam())
@@ -113,6 +131,8 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
         this.red.setText("0/" + this.maxRed);
         this.blue.setText("0/" + this.maxBlue);
 
+        log("Card count text fields updated for starting players");
+
         //Setup all the text boxes in the view to their correct word
         Board board = this.game.getBoard();
         for (int i = 0; i < 5; i++)
@@ -124,6 +144,8 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
                 text.setText(board.getCard(i, j).getWord());
             }
         }
+
+        log("UI card boxes updated with their correct codenames");
     }
 
     /**
@@ -143,6 +165,7 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
         //Only run if all selections are valid
         if (redSpymaster.getValue() == null || redOperative.getValue() == null || blueSpymaster.getValue() == null || blueOperative.getValue() == null)
         {
+            log("Incomplete Player type selection detected, retrying...");
             startGameBtn.setText("TRY AGAIN");
             return;
         }
@@ -156,9 +179,13 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
             PlayerIntelligence.parse(blueOperative.getValue())
         };
 
+        log(String.format("Valid player type selection: %s, %s, %s, %s", passInt[0], passInt[1], passInt[2], passInt[3]));
+
         //Setup players then transfer control to game window
         this.game.setPlayers(passInt);
         ((Stage)startGameBtn.getScene().getWindow()).close();
+
+        log("Players successfully initialized and selection window closed");
     }
 
     /**
@@ -167,6 +194,7 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     @FXML
     private void cancel()
     {
+        log("Cancelling game and closing windows...");
         Platform.exit();
     }
 
@@ -184,6 +212,7 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
         Node box = (Node)data.getSource();
         int x = GridPane.getRowIndex(box) - 1;
         int y = GridPane.getColumnIndex(box) - 1;
+        log("UI Card box click detected at location (" + x + ", " + y + ")");
         this.game.informPlayer(x, y);
     }
 
@@ -193,6 +222,7 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     @FXML
     private void onNextMove()
     {
+        log("Next move started from UI");
         this.game.enterNextGameTurn();
     }
     //endregion
@@ -208,7 +238,7 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
         if (gameOver)
         {
             updateState(true);
-            Commander.log(this.game.getWinner().niceName() + " team has won the game");
+            log(this.game.getWinner().niceName() + " team has won the game");
         }
     }
 
@@ -219,6 +249,7 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     @Override
     public void updateState(boolean disabled)
     {
+        log("Setting next move button " + (disabled ? "disabled" : "enabled"));
         this.nextMoveButton.setDisable(disabled);
     }
 
@@ -232,6 +263,7 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     @Override
     public void onFlip(Card card)
     {
+        log("Flipping the card " + card.getWord());
         ObservableList<String> styles = this.boxes[card.getX()][card.getY()].getStyleClass();
         styles.remove(UNKNOWN);
         styles.add(card.getType().name().toLowerCase());
@@ -259,6 +291,7 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     @Override
     public void updateClue(Clue clue)
     {
+        log("Setting the clue " + clue);
         this.clue.setText(clue.toString());
         this.currentGuesses = 0;
         this.maxGuesses = clue.value;
@@ -272,6 +305,7 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     @Override
     public void updatePhase(String phase)
     {
+        log("Setting the phase " + phase);
         this.phase.setText(phase);
     }
 
@@ -282,6 +316,7 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     @Override
     public void updateRound(Integer round)
     {
+        log("Setting the round to " + round);
         this.round.setText(round.toString());
     }
     //endregion
