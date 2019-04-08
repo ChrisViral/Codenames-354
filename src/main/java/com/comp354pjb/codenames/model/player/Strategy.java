@@ -18,54 +18,82 @@
 
 package com.comp354pjb.codenames.model.player;
 
+import com.comp354pjb.codenames.commander.Commander;
+import com.comp354pjb.codenames.model.Game;
+import com.comp354pjb.codenames.model.board.Card;
+
+import java.util.ArrayList;
+
 /**
  * Abstract class for the strategy of Player
  * (See above for full description)
  */
 abstract public class Strategy
 {
+    //region Fields
+    protected final Game game;
+    protected final PlayerType team;
+    //endregion
 
+    //region Constructors
     /**
-     * The team being played
-     * To be effective a strategy will need to know what team is being palyed
+     * Creates a new Strategy, linked to the given Game
+     * @param game Game linked to this Strategy
      */
-    protected PlayerType team;
+    protected Strategy(Game game, PlayerType team)
+    {
+        this.game = game;
+        this.team = team;
+    }
+    //endregion
 
-    /**
-     * Indicates whether a strategy is done with its turn
-     */
-    // Added by Michael Wilgus
-    protected boolean finished = false;
-
-    //region Methods
-
+    //region Abstract methods
     /**
      * Plays a given player's turn according to rules defined in the method
      * Modified by Michael Wilgus (Rename to clearly indicate that this conforms to Strategy Pattern)
      */
-    abstract void execute();
+    protected abstract void executeStrategy();
 
     /**
-     * Mutator for team
-     * @param team, Either red or blue
+     * Player type title
+     * @return The title of this player
      */
-    public void setTeam(PlayerType team)
+    protected abstract String title();
+    //endregion
+
+    //region Methods
+    /**
+     * Name of the Strategy
+     * @return Team name and title
+     */
+    protected String name()
     {
-        this.team = team;
+        return this.team.niceName() + " " + getClass().getSimpleName();
     }
 
-    // Added by Michael Wilgus
+    /**
+     * Pick a random card and check if it belonged to our team
+     * @param clue Clue to get the cards from
+     * @return If the card belongs to our team or not
+     */
+    protected boolean pickCard(Clue clue)
+    {
+        ArrayList<Card> cards = clue.getCards();
+        int i = Game.RANDOM.nextInt(cards.size());
+        Card card = cards.get(i);
+        Commander.log(name() + " revealed the " + card.getType().niceName() + " card " + card.getWord());
+        game.revealCard(card);
+
+        return card.getType().equals(team.getCardType());
+    }
 
     /**
-     * Whether or not the strategy is finished running
-     * @return true, false, True if it is done, false otherwise
+     * Executes the Strategy's turn
      */
-    public boolean isFinished() { return finished; }
-
-    /**
-     * Mutator for isFinished
-     * @param finished Whether or not the strategy is finished running
-     */
-    public void setFinished(boolean finished) { this.finished = finished; }
+    public void execute()
+    {
+        game.setPhase(this.team.niceName() + " " + title());
+        executeStrategy();
+    }
     //endregion
 }

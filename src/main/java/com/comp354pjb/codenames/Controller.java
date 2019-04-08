@@ -17,10 +17,8 @@ import com.comp354pjb.codenames.model.board.Board;
 import com.comp354pjb.codenames.model.board.Card;
 import com.comp354pjb.codenames.model.player.Clue;
 import com.comp354pjb.codenames.model.player.PlayerIntelligence;
-import com.comp354pjb.codenames.observer.events.CardFlippedObserver;
-import com.comp354pjb.codenames.observer.events.ClueGivenObserver;
-import com.comp354pjb.codenames.observer.events.PhaseObserver;
-import com.comp354pjb.codenames.observer.events.RoundObserver;
+import com.comp354pjb.codenames.observer.events.*;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -36,36 +34,118 @@ import javafx.stage.Stage;
 /**
  * Controller object, interacts between the View (FXML) and the Model
  */
-public class Controller implements CardFlippedObserver, ClueGivenObserver, PhaseObserver, RoundObserver
+public class Controller implements CardFlippedObserver, ClueGivenObserver, PhaseObserver, RoundObserver, ButtonStateChangedObserver, TurnEndObserver
 {
+    //region Constants
+    /**
+     * Unknown/non flipped card style class
+     */
+    private static final String UNKNOWN = "unknown";
+    //endregion
+
     //region Fields
     //FXML Fields - Contain various components of the Graphical user Interface (GUI)
     @FXML
     private GridPane grid;
     @FXML
-    private Button undoButton, redoButton, nextMoveButton, startGameBtn;
+    private Button nextMoveButton, startGameBtn;
     @FXML
     private Text round, phase, red, blue, guesses, clue;
     @FXML
     private ComboBox<String> redSpymaster, redOperative, blueSpymaster, blueOperative;
 
     //Data
-    private HBox[][] boxes;
+    private boolean initialized;
+    private final HBox[][] boxes = new HBox[5][5];
     private Game game;
-    private Commander commander;
     private int maxGuesses, currentGuesses;
     private int currentBlue, maxBlue = 8, currentRed, maxRed = 8;
     //endregion
 
-    //region FXML Methods
+    //region Static methods
+    /**
+     * Logs a message using the Commander, but by adding a Controller specific pre text
+     * @param message Message to log
+     */
+    private static void log(String message)
+    {
+        Commander.log("~Controller~ " + message);
+    }
+    //endregion
 
+    //region FXML Methods
     /**
      * Initializes the controller
+     * ==========
+     * Updated by Christophe Savard 04/04/19
+     * Put back initialization only stuff in here
      */
     @FXML
     private void initialize()
     {
+        //Do not initialize more than once
+        if (this.initialized) { return; }
+        this.initialized = true;
 
+        log("Controller initialization has begun");
+
+        //Fetch all the card boxes
+        for (Node node : grid.getChildren())
+        {
+            int x = GridPane.getRowIndex(node);
+            int y = GridPane.getColumnIndex(node);
+
+            if (x >= 1 && x <= 5 && y >= 1 && y <= 5)
+            {
+                this.boxes[x - 1][y - 1] = (HBox)node;
+            }
+        }
+
+
+        log("Controller correctly identified all UI card boxes");
+
+        //Create game object
+        this.game = new Game();
+
+        //Register to all events
+        this.game.onClueGiven.register(this);
+        this.game.onPhaseChange.register(this);
+        this.game.onRoundChange.register(this);
+        this.game.onButtonStateChanged.register(this);
+        this.game.onTurnEnd.register(this);
+        this.game.getBoard().onFlip.register(this);
+
+        log("Game created and observers registered");
+
+        //Setup the starting player
+        switch (this.game.getStartTeam())
+        {
+            case RED:
+                this.maxRed++;
+                break;
+
+            case BLUE:
+                this.maxBlue++;
+                break;
+        }
+        this.red.setText("0/" + this.maxRed);
+        this.blue.setText("0/" + this.maxBlue);
+
+        log("Card count text fields updated for starting players");
+
+        //Setup all the text boxes in the view to their correct word
+        Board board = this.game.getBoard();
+        for (int i = 0; i < 5; i++)
+        {
+            for (int j = 0; j < 5; j++)
+            {
+                //Get child text component
+                Text text = (Text)this.boxes[i][j].getChildren().get(0);
+                text.setText(board.getCard(i, j).getWord());
+            }
+        }
+
+        log("UI card boxes updated with their correct codenames");
     }
 
     /**
@@ -75,164 +155,65 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
      * so that it responds to the start game button being clicked.
      * <p>
      * This function also passes PlayerIntelligence to the instancing of Game()
+     * ==========
+     * Updated by Christophe Savard 04/04/19
+     * Removed initialization only stuff from in here
      */
     @FXML
     private void setup()
     {
-        //Only runs if every option has a value
-        if ((redSpymaster.getValue() != null) &&
-            (redOperative.getValue() != null) &&
-            (blueSpymaster.getValue() != null) &&
-            (blueOperative.getValue() != null))
+        //Only run if all selections are valid
+        if (redSpymaster.getValue() == null || redOperative.getValue() == null || blueSpymaster.getValue() == null || blueOperative.getValue() == null)
         {
-            //Transition to next scene
-            Stage stage = (Stage)startGameBtn.getScene().getWindow();
-            Scene gameScene = nextMoveButton.getScene();
-            stage.setScene(gameScene);
-
-            //Collect data from start menu
-            PlayerIntelligence[] passInt = new PlayerIntelligence[4];
-
-            // Updated by Michael Wilgus (Added more options to reflect the number of strategies I wrote)
-           /*   Assigns the level of player intelligence to the
-                red Spymaster as chosen by the user
-            */
-            switch (redSpymaster.getValue())
-            {
-                case "DUMB":
-                    passInt[0] = PlayerIntelligence.DUMB;
-                    break;
-                case "RISKY":
-                    passInt[0] = PlayerIntelligence.MEDIUM;
-                    break;
-                case "SAFE":
-                    passInt[0] = PlayerIntelligence.SMART;
-                    break;
-            }
-
-            // Updated by Michael Wilgus (Added more options to reflect the number of strategies I wrote)
-           /*   Assigns the level of player intelligence to the
-                red Operative as chosen by the user
-            */
-            switch (redOperative.getValue())
-            {
-                case "DUMB":
-                    passInt[1] = PlayerIntelligence.DUMB;
-                    break;
-                case "MEDIUM":
-                    passInt[1] = PlayerIntelligence.MEDIUM;
-                    break;
-                case "SMART":
-                    passInt[1] = PlayerIntelligence.SMART;
-                    break;
-            }
-
-            // Updated by Michael Wilgus (Added more options to reflect the number of strategies I wrote)
-           /*   Assigns the level of player intelligence to the
-                blue Spymaster as chosen by the user
-            */
-            switch (blueSpymaster.getValue())
-            {
-                case "DUMB":
-                    passInt[2] = PlayerIntelligence.DUMB;
-                    break;
-                case "RISKY":
-                    passInt[2] = PlayerIntelligence.MEDIUM;
-                    break;
-                case "SAFE":
-                    passInt[2] = PlayerIntelligence.SMART;
-                    break;
-            }
-
-            // Updated by Michael Wilgus (Added more options to reflect the number of strategies I wrote)
-           /*   Assigns the level of player intelligence to the
-                blue Operative as chosen by the user
-            */
-            switch (blueOperative.getValue())
-            {
-                case "DUMB":
-                    passInt[3] = PlayerIntelligence.DUMB;
-                    break;
-                case "MEDIUM":
-                    passInt[3] = PlayerIntelligence.MEDIUM;
-                    break;
-                case "SMART":
-                    passInt[3] = PlayerIntelligence.SMART;
-                    break;
-            }
-
-            //Fetch all the card boxes
-            this.boxes = new HBox[5][5];
-            for (Node node : grid.getChildren())
-            {
-                int x = GridPane.getRowIndex(node);
-                int y = GridPane.getColumnIndex(node);
-
-                if (x >= 1 && x <= 5 && y >= 1 && y <= 5)
-                {
-                    this.boxes[x - 1][y - 1] = (HBox)node;
-                }
-            }
-
-            //Create game object
-            this.game = new Game(passInt);
-
-            //Register to all events
-            this.game.onClueGiven.register(this);
-            this.game.onPhaseChange.register(this);
-            this.game.onRoundChange.register(this);
-            this.game.getBoard().onFlip.register(this);
-
-            //Setup the commander object
-            Commander.instance().setup(this, this.game);
-
-            //Setup the starting player
-            switch (this.game.getStartTeam())
-            {
-                case RED:
-                    this.maxRed++;
-                    break;
-
-                case BLUE:
-                    this.maxBlue++;
-                    break;
-            }
-            this.red.setText("0/" + this.maxRed);
-            this.blue.setText("0/" + this.maxBlue);
-
-            //Setup all the text boxes in the view to their correct word
-            Board board = this.game.getBoard();
-            for (int i = 0; i < 5; i++)
-            {
-                for (int j = 0; j < 5; j++)
-                {
-                    //Get child text component
-                    Text text = (Text)this.boxes[i][j].getChildren().get(0);
-                    text.setText(board.getCard(i, j).getWord());
-                }
-            }
-        }
-        //If at least one option fails
-        else
-        {
+            log("Incomplete Player type selection detected, retrying...");
             startGameBtn.setText("TRY AGAIN");
+            return;
         }
+
+        //Collect data from start menu
+        PlayerIntelligence[] passInt =
+        {
+            PlayerIntelligence.parse(redSpymaster.getValue()),
+            PlayerIntelligence.parse(redOperative.getValue()),
+            PlayerIntelligence.parse(blueSpymaster.getValue()),
+            PlayerIntelligence.parse(blueOperative.getValue())
+        };
+
+        log(String.format("Valid player type selection: %s, %s, %s, %s", passInt[0], passInt[1], passInt[2], passInt[3]));
+
+        //Setup players then transfer control to game window
+        this.game.setPlayers(passInt);
+        ((Stage)startGameBtn.getScene().getWindow()).close();
+
+        log("Players successfully initialized and selection window closed");
+    }
+
+    /**
+     * Cancels player selection and closes the game
+     */
+    @FXML
+    private void cancel()
+    {
+        log("Cancelling game and closing windows...");
+        Platform.exit();
     }
 
     /**
      * Mouse click event, registered to from the cards in the View
+     * ==========
+     * Updated by Christophe Savard 04/04/19
+     * Put back in order for human operative
      * @param data Event data from the mouse click
      */
     @FXML
     private void onClicked(MouseEvent data)
     {
-        /* Chris - Commented out because no longer necessary for now
         //Pass on the clicked card to the Model
         Node box = (Node)data.getSource();
         int x = GridPane.getRowIndex(box) - 1;
         int y = GridPane.getColumnIndex(box) - 1;
-        this.game.getBoard().revealAt(x, y);
-        */
+        log("UI Card box click detected at location (" + x + ", " + y + ")");
+        this.game.informPlayer(x, y);
     }
 
     /**
@@ -241,43 +222,51 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     @FXML
     private void onNextMove()
     {
+        log("Next move started from UI");
         this.game.enterNextGameTurn();
-        if (this.game.checkWinner())
-        {
-            this.nextMoveButton.setDisable(true);
-            Commander.log(this.game.getWinner().niceName() + " team has won the game");
-        }
-    }
-
-    /**
-     * Triggers the Undo action in the Commander
-     */
-    @FXML
-    private void onUndo()
-    {
-        this.commander.undo();
-    }
-
-    /**
-     * Triggers the redo action in the Commander
-     */
-    @FXML
-    private void onRedo()
-    {
-        this.commander.redo();
     }
     //endregion
 
     //region Methods
+    /**
+     * Turn end event observer
+     * @param gameOver If the game is over or not
+     */
+    @Override
+    public void updateTurn(boolean gameOver)
+    {
+        if (gameOver)
+        {
+            updateState(true);
+            log(this.game.getWinner().niceName() + " team has won the game");
+        }
+    }
+
+    /**
+     * Sets the next game turn button to disabled or not
+     * @param disabled If the button is disabled or not
+     */
+    @Override
+    public void updateState(boolean disabled)
+    {
+        log("Setting next move button " + (disabled ? "disabled" : "enabled"));
+        this.nextMoveButton.setDisable(disabled);
+    }
 
     /**
      * Card flipped event listener
+     * ==========
+     * Update by Christophe Savard 05/04/19
+     * Simplified code for switching styles
      * @param card Card being flipped
      */
     @Override
     public void onFlip(Card card)
     {
-        switchStyles(this.boxes[card.getX()][card.getY()], "unknown", card.getType().name().toLowerCase());
+        log("Flipping the card " + card.getWord());
+        ObservableList<String> styles = this.boxes[card.getX()][card.getY()].getStyleClass();
+        styles.remove(UNKNOWN);
+        styles.add(card.getType().name().toLowerCase());
         switch (card.getType())
         {
             case BLUE:
@@ -296,49 +285,13 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     }
 
     /**
-     * Unflips a card on the View
-     * @param card Card to unflip
-     */
-    public void unFlip(Card card)
-    {
-        switchStyles(this.boxes[card.getX()][card.getY()], card.getType().name().toLowerCase(), "unknown");
-        switch (card.getType())
-        {
-            case BLUE:
-                this.currentBlue--;
-                this.blue.setText(String.format("%d/%d", this.currentBlue, this.maxBlue));
-                break;
-
-            case RED:
-                this.currentRed--;
-                this.red.setText(String.format("%d/%d", this.currentRed, this.maxRed));
-                break;
-        }
-
-        this.currentGuesses--;
-        this.guesses.setText(String.format("%d/%d", this.currentGuesses, this.maxGuesses));
-    }
-
-    /**
-     * Switches the CSS style of one of the HBoxes
-     * @param box  Box to change the style for
-     * @param from Style to remove
-     * @param to   Style to add
-     */
-    private void switchStyles(HBox box, String from, String to)
-    {
-        ObservableList<String> styles = box.getStyleClass();
-        styles.remove(from);
-        styles.add(to);
-    }
-
-    /**
      * Gets the new given clue
      * @param clue Clue given
      */
     @Override
-    public void getClue(Clue clue)
+    public void updateClue(Clue clue)
     {
+        log("Setting the clue " + clue);
         this.clue.setText(clue.toString());
         this.currentGuesses = 0;
         this.maxGuesses = clue.value;
@@ -352,25 +305,8 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     @Override
     public void updatePhase(String phase)
     {
+        log("Setting the phase " + phase);
         this.phase.setText(phase);
-    }
-
-    /**
-     * Sets the enabled/disabled state of the Undo button
-     * @param disabled If the Undo button is disabled or not
-     */
-    public void setUndoDisabled(boolean disabled)
-    {
-        this.undoButton.setDisable(disabled);
-    }
-
-    /**
-     * Sets the enabled/disabled state of the Redo button
-     * @param disabled If the Redo button is disabled or not
-     */
-    public void setRedoDisabled(boolean disabled)
-    {
-        this.redoButton.setDisable(disabled);
     }
 
     /**
@@ -380,6 +316,7 @@ public class Controller implements CardFlippedObserver, ClueGivenObserver, Phase
     @Override
     public void updateRound(Integer round)
     {
+        log("Setting the round to " + round);
         this.round.setText(round.toString());
     }
     //endregion

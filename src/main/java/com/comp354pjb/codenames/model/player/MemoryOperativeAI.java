@@ -5,13 +5,6 @@
  *
  * Contributors:
  * Michael Wilgus
- *
- * Description:
- * Continually guesses until it either picks a wrong colored card or it picks as many cards as
- * was indicated by the SpyMaster. This strategy can remember a previous clue if it failed to
- * guess all the correct cards. It will use the memory on subsequent turns if it guesses all of
- * the current cards correctly. It will proceed to use the previous clue and its extra guess to
- * to attempt to get at most one extra card.
  */
 
 package com.comp354pjb.codenames.model.player;
@@ -23,36 +16,54 @@ import java.util.ArrayList;
 
 /**
  * Smartest implementation of an Operative AI. Has a memory of previous clues.
- * (See above for full description)
+ * Continually guesses until it either picks a wrong colored card or it picks as many cards as
+ * was indicated by the SpyMaster. This strategy can remember a previous clue if it failed to
+ * guess all the correct cards. It will use the memory on subsequent turns if it guesses all of
+ * the current cards correctly. It will proceed to use the previous clue and its extra guess to
+ * to attempt to get at most one extra card.
  */
 public class MemoryOperativeAI extends Strategy
 {
-    public static final PlayerIntelligence STRATEGY_CLASS = PlayerIntelligence.SMART;
-
-    private Game game;
-
+    //region Fields
     private String previousClue = null;
     private boolean useExtraTurn = false;
+    //endregion
 
-    public MemoryOperativeAI(Game game)
+    //region Constructors
+    /**
+     * Creates a new MemoryOperativeAI
+     * @param game Game this AI is linked to
+     * @param team Team this AI is linked to
+     */
+    public MemoryOperativeAI(Game game, PlayerType team)
     {
-        this.game = game;
+        super(game, team);
     }
+    //endregion
 
     //region Methods
-
+    /**
+     * Operative title
+     * @return "Operative"
+     */
     @Override
-    public void execute()
+    protected String title()
     {
-        game.setPhase(this.team.niceName() + " Operative");
+        return "Operative";
+    }
 
+    /**
+     * Executes this AI's turn
+     */
+    @Override
+    protected void executeStrategy()
+    {
         Clue clue = game.getCurrentClue();
 
         // We are going to use our extra turn
         if (useExtraTurn)
         {
             useExtraTurn = false;
-            finished = true;
             // Remember what cards are suggested by the clue
             clue = game.getSuggestionGraph().getClue(previousClue);
             boolean foundExtraCard = pickCard(clue);
@@ -61,13 +72,10 @@ public class MemoryOperativeAI extends Strategy
                 previousClue = null;
             }
             // We still didn't find the suggested card so hold on to our memory
-            return;
+            this.game.endCurrentTurn();
         }
-
-        boolean foundAGoodCard = pickCard(clue);
-
         // We've made our choice so we can look at the card now
-        if (foundAGoodCard)
+        else if (pickCard(clue))
         {
             if (game.getGuessesLeft() == 0)
             {
@@ -79,7 +87,7 @@ public class MemoryOperativeAI extends Strategy
                     {
                         // We can't so forget the clue and end the turn
                         previousClue = null;
-                        finished = true;
+                        this.game.endCurrentTurn();
                         return;
                     }
                     // We can so indicate that
@@ -88,7 +96,7 @@ public class MemoryOperativeAI extends Strategy
                 else
                 {
                     // We got everything last turn so we can end this turn now
-                    finished = true;
+                    this.game.endCurrentTurn();
                 }
             }
         }
@@ -96,24 +104,8 @@ public class MemoryOperativeAI extends Strategy
         {
             // Our turn is over and we didn't succeed in guessing all of the right codenames;
             previousClue = clue.word;
-            finished = true;
-            return;
+            this.game.endCurrentTurn();
         }
-    }
-    //endregion
-
-    //region Helpers
-
-    // pick a card and check if it belonged to our team
-    private boolean pickCard(Clue clue)
-    {
-        ArrayList<Card> cards = clue.getCards();
-        cards = clue.getCards();
-        int i = Game.RANDOM.nextInt(cards.size());
-        Card card = cards.get(i);
-        game.revealCard(card);
-
-        return card.getType().equals(team.getCardType());
     }
     //endregion
 }

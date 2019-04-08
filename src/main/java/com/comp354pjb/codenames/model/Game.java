@@ -16,15 +16,17 @@ import com.comp354pjb.codenames.commander.Commander;
 import com.comp354pjb.codenames.model.board.Board;
 import com.comp354pjb.codenames.model.board.Card;
 import com.comp354pjb.codenames.model.player.*;
-import com.comp354pjb.codenames.observer.events.ClueGivenEvent;
-import com.comp354pjb.codenames.observer.events.PhaseEvent;
-import com.comp354pjb.codenames.observer.events.RoundEvent;
+import com.comp354pjb.codenames.model.player.StrategyFactory.StrategyType;
+import com.comp354pjb.codenames.observer.events.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 
+/**
+ * Game class, contains most of the information of the game and central hub of the Model
+ */
 public class Game
 {
     //region Constants
@@ -32,6 +34,10 @@ public class Game
      * Random number generator for the Game
      */
     public static final Random RANDOM = new Random();
+    /**
+     * Amount of players in the game
+     */
+    private static final int PLAYER_COUNT = 4;
     //endregion
 
     //region Events
@@ -47,41 +53,29 @@ public class Game
      * Round change event
      */
     public final RoundEvent onRoundChange = new RoundEvent();
+    /**
+     * Next game button state changed event
+     */
+    public final ButtonStateChangedEvent onButtonStateChanged = new ButtonStateChangedEvent();
+    /**
+     * Turn end event
+     */
+    public final TurnEndEvent onTurnEnd = new TurnEndEvent();
     //endregion
-    //region Properties
-    private final Board board;
+
     //region Fields
     private int playerIndex, round = 1;
-    //endregion
-    private ArrayList<Player> players = new ArrayList<>();
-    private PlayerType startTeam;
-    private Player currentPlayer;
-    //score keeping members
-    private int guessesLeft;
+    private final Player[] players = new Player[PLAYER_COUNT];
+
+    //Score keeping members
+    private boolean assassinRevealed;
     private int redCardsRevealed;
     private int blueCardsRevealed;
     private int civilianCardsRevealed;
-    private boolean assassinRevealed;
-    private PlayerType winner;
-    private PlayerType loser;
-    private SuggestionGraph graph;
-    private Clue currentClue;
+    //endregion
 
-    /**
-     * Creates a new Game object and correctly sets up the board and cards, as well as players
-     * <p>
-     * Update by Rezza-Zairan
-     * ----------------------
-     * @param passInt is passed by the controller to hold an array of PlayerIntelligence chosen by the user.
-     */
-    public Game(PlayerIntelligence[] passInt)
-    {
-        String[] setup = DatabaseHelper.getBoardLayout();
-        setPlayers(setup[0], passInt);
-        this.board = new Board(DatabaseHelper.getRandomCodenames(25), setup[1]);
-        this.graph = createSuggestionGraph();
-    }
-
+    //region Properties
+    private final Board board;
     /**
      * Gets this game's Board
      */
@@ -90,6 +84,7 @@ public class Game
         return this.board;
     }
 
+    private final PlayerType startTeam;
     /**
      * Gets the starting team colour
      */
@@ -98,25 +93,13 @@ public class Game
         return this.startTeam;
     }
 
-    /**
-     * Set the player that is currently giving clues or guessing cards
-     * @param player The Player associated with the game whose turn it is
-     */
-    public void setCurrentPlayer(Player player) { this.currentPlayer = player; }
-
+    private int guessesLeft;
     /**
      * Gets the number of guesses left given the current clue
      */
     public int getGuessesLeft() { return this.guessesLeft; }
 
-    /**
-     * Sets if the assassin card has been revealed
-     */
-    public void setAssassinRevealed(boolean assassinRevealed)
-    {
-        this.assassinRevealed = assassinRevealed;
-    }
-
+    private PlayerType winner;
     /**
      * Gets the winning player
      */
@@ -124,7 +107,6 @@ public class Game
     {
         return this.winner;
     }
-
     /**
      * Sets the winning player and records a win in the database.
      */
@@ -140,9 +122,17 @@ public class Game
                 this.loser = PlayerType.RED;
         }
     }
-    //endregion
 
-    //region Constructors
+    private PlayerType loser;
+
+    /**
+     * Accessor for the loser of the game
+     * @return loser
+     */
+    public PlayerType getLoser()
+    {
+        return loser;
+    }
 
     /**
      * Sets the game's loser
@@ -159,10 +149,27 @@ public class Game
                 this.winner = PlayerType.RED;
         }
     }
-    //endregion
 
-    //region Methods
+    private Clue currentClue;
+    /**
+     * Current clue given to the Operatives
+     */
+    public Clue getCurrentClue()
+    {
+        return this.currentClue;
+    }
+    /**
+     * Sets the current clue
+     * @param clue New clue
+     */
+    public void setCurrentClue(Clue clue)
+    {
+        this.currentClue = clue;
+        this.guessesLeft = clue.value;
+        this.onClueGiven.invoke(clue);
+    }
 
+    private final SuggestionGraph graph;
     /**
      * Gets the graph structure that associates clues to words for this game
      * @return A SuggestionGraph that has the current clue to card relationship information for this game
@@ -171,44 +178,97 @@ public class Game
     {
         return graph;
     }
+    //endregion
+
+    //region Constructors
+    /**
+     * Creates a new Game object and correctly sets up the board and cards randomly, as well as players
+     */
+    public Game()
+    {
+        this(DatabaseHelper.getBoardLayout(), DatabaseHelper.getRandomCodenames(25));
+    }
 
     /**
-     * Sets the starting player for the game and initializes the AIs correctly
-     * @param startingPlayer Starting team name
-     *                       <p>
-     *                       Update by Rezza-Zairan
-     *                       ----------------------
-     * @param passInt        is passed by the controller to hold an array of PlayerIntelligence chosen by the user.
+     * Creates a new game with the specified board layout and cards
+     * @param layout Board layout, must have two parameters
+     * @param cards  Array of 25 codenames to use on cards
      */
-    private void setPlayers(String startingPlayer, PlayerIntelligence[] passInt)
+    public Game(String[] layout, String[] cards)
     {
+        //Starting team
+        this.startTeam = PlayerType.parse(layout[0]);
+        Commander.log(this.startTeam.niceName() + " Team will start, which means they must guess 9 cards");
+        Commander.log((this.startTeam == PlayerType.RED ? PlayerType.BLUE : PlayerType.RED).niceName() + " Team will go second, which means they must guess 8 cards");
 
-        this.startTeam = PlayerType.parse(startingPlayer);
-        PlayerType second = this.startTeam == PlayerType.RED ? PlayerType.BLUE : PlayerType.RED;
+        //Board and clues graph
+        this.board = new Board(cards, layout[1]);
+        this.graph = createSuggestionGraph();
+    }
+    //endregion
 
-        //Rearranging AI according to who starts first
-        PlayerIntelligence[] arrangedInt = new PlayerIntelligence[4];
-        arrangedInt = passInt;
-
+    //region Methods
+    /**
+     * Sets the starting player for the game and initializes the AIs correctly
+     * @param passInt Is passed by the controller to hold an array of PlayerIntelligence chosen by the user.
+     *
+     * ===================
+     * Updated by Christophe Savard 02/04/19
+     * Refactored to initialize starting team outside of the method to allow creating players at a later stage
+     */
+    public void setPlayers(PlayerIntelligence[] passInt)
+    {
+        //Invert strategies if blue is starting
         if (this.startTeam == PlayerType.BLUE)
         {
-            arrangedInt[0] = passInt[2];
-            arrangedInt[1] = passInt[3];
-            arrangedInt[2] = passInt[0];
-            arrangedInt[3] = passInt[1];
+            PlayerIntelligence temp = passInt[0];
+            passInt[0] = passInt[2];
+            passInt[2] = temp;
+            temp = passInt[1];
+            passInt[1] = passInt[3];
+            passInt[3] = temp;
         }
 
-        Strategy startSpyMasterStrategy = StrategyFactory.makeStrategy("spymaster", this, arrangedInt[0]);
-        Strategy startOperativeStrategy = StrategyFactory.makeStrategy("operative", this, arrangedInt[1]);
-        Strategy secondSpyMasterStrategy = StrategyFactory.makeStrategy("spymaster", this, arrangedInt[2]);
-        Strategy secondOperativeStrategy = StrategyFactory.makeStrategy("operative", this, arrangedInt[3]);
+        //Get the second team
+        PlayerType second = this.startTeam == PlayerType.RED ? PlayerType.BLUE : PlayerType.RED;
 
-        Commander.log(this.startTeam.niceName() + " Team will start, which means they must guess 9 cards");
-        Commander.log(second.niceName() + " Team will go second, which means they must guess 8 cards");
-        this.players.add(new Player(this.startTeam, startSpyMasterStrategy));
-        this.players.add(new Player(this.startTeam, startOperativeStrategy));
-        this.players.add(new Player(second, secondSpyMasterStrategy));
-        this.players.add(new Player(second, secondOperativeStrategy));
+        //Create the players
+        this.players[0] = new Player(this.startTeam, StrategyFactory.makeStrategy(this, StrategyType.SPYMASTER,  passInt[0], this.startTeam));
+        this.players[1] = new Player(this.startTeam, StrategyFactory.makeStrategy(this, StrategyType.OPERATIVE, passInt[1], this.startTeam));
+        this.players[2] = new Player(second, StrategyFactory.makeStrategy(this, StrategyType.SPYMASTER, passInt[2], second));
+        this.players[3] = new Player(second, StrategyFactory.makeStrategy(this, StrategyType.OPERATIVE, passInt[3], second));
+        Commander.log(String.format("Player types created: %s, %s, %s, %s",
+                                    players[0].getStrategy().getClass().getSimpleName(),
+                                    players[1].getStrategy().getClass().getSimpleName(),
+                                    players[2].getStrategy().getClass().getSimpleName(),
+                                    players[3].getStrategy().getClass().getSimpleName()));
+    }
+
+     /**
+     * Accessor for the list of players in the game
+     * @return players
+     */
+    public Player[] getPlayers() {
+        return players;
+    }
+
+    /**
+     * Mutator for playerIndex
+     * @param playerIndex The index of the player in the player array currently in play
+     */
+    public void setCurrentPlayer(int playerIndex) {
+        this.playerIndex = playerIndex;
+    }
+
+    /**
+     * Gets the player currently playing it's turn
+     * =================
+     * Added by Christophe Savard
+     * @return The current player
+     */
+    public Player getCurrentPlayer()
+    {
+        return this.players[this.playerIndex];
     }
 
     /**
@@ -270,40 +330,31 @@ public class Game
     public void enterNextGameTurn()
     {
         //Play the current player's turn
-        this.currentPlayer = this.players.get(this.playerIndex);
+        this.getCurrentPlayer().play();
+    }
 
-        this.currentPlayer.play();
-
-        if (currentPlayer.isFinished())
+    /**
+     * Ends the current player's turn
+     */
+    public void endCurrentTurn()
+    {
+        if (checkWinner())
         {
-            currentPlayer.setFinished(false);
-            this.playerIndex = (this.playerIndex + 1) % this.players.size();
+            this.onTurnEnd.invoke(true);
+        }
+        else
+        {
+            this.playerIndex = (this.playerIndex + 1) % PLAYER_COUNT;
 
             if (this.playerIndex == 0)
             {
                 this.onRoundChange.invoke(++this.round);
             }
+            this.onTurnEnd.invoke(false);
         }
-
     }
 
-    public Clue getCurrentClue()
-    {
-        return this.currentClue;
-    }
-
-    /**
-     * Sets the current clue
-     * @param clue New clue
-     */
-    public void setCurrentClue(Clue clue)
-    {
-        this.currentClue = clue;
-        this.guessesLeft = clue.value;
-        this.onClueGiven.invoke(clue);
-    }
-
-    /**
+   /**
      * Reveal a card on this games board
      * @param card The card to reveal
      */
@@ -316,8 +367,8 @@ public class Game
         {
             //Actions for revealing an assassin card
             case ASSASSIN:
-                this.setLoser(this.currentPlayer.getTeam());
-                this.setAssassinRevealed(true);
+                setLoser(getCurrentPlayer().getTeam());
+                this.assassinRevealed = true;
                 this.guessesLeft = 0;
                 return;
             //Actions for revealing a civilian card
@@ -338,13 +389,29 @@ public class Game
 
         }
         //Take according actions
-        if (this.currentPlayer.getTeam().getCardType().equals(card.getType()))
+        if (getCurrentPlayer().getTeam().getCardType().equals(card.getType()))
         {
             this.guessesLeft--;
         }
         else
         {
             this.guessesLeft = 0;
+        }
+    }
+
+    /**
+     * Informs a potential human player of the clicked card's location
+     * ==========
+     * Added by Christophe Savard 04/04/19
+     * @param x X coordinate of the card
+     * @param y Y coordinate of the card
+     */
+    public void informPlayer(int x, int y)
+    {
+        Strategy currentStrategy = getCurrentPlayer().getStrategy();
+        if (currentStrategy instanceof HumanOperative)
+        {
+            ((HumanOperative)currentStrategy).registerInput(x, y);
         }
     }
 
@@ -356,23 +423,20 @@ public class Game
     {
         this.onPhaseChange.invoke(phase);
     }
-    //endregion
 
-    //region Helpers
-    //
     private SuggestionGraph createSuggestionGraph()
     {
         // Get all the cards on the board
-        ArrayList<Card> codenames = board.getCards();
+        ArrayList<Card> codenames = this.board.getCards();
 
         // Get all the clues for each card and add them to the cards
         for (Card c : codenames)
         {
             String[] clues = DatabaseHelper.getCluesForCodename(c.getWord().toLowerCase());
-            for (int i = 0; i < clues.length; i++)
+            for (String clue : clues)
             {
-                String clue = DatabaseHelper.toCamelCase(clues[i]);
-                c.addClue(clue);
+                String value = DatabaseHelper.toCamelCase(clue);
+                c.addClue(value);
             }
         }
 

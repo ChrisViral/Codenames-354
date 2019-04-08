@@ -22,8 +22,26 @@ public enum PlayerType
 
     //region Properties
     private final CardType cardType;
+    /**
+     * Get the Card type associated to this Player type
+     * @return The associated CardType
+     */
+    public CardType getCardType()
+    {
+        return this.cardType;
+    }
     private final String camelCasedName;
+    /**
+     * Nicely formatted String version of the name of this enum member
+     * @return Enum member name
+     */
+    public String niceName()
+    {
+        return this.camelCasedName;
+    }
+    //endregion
 
+    //region Constructors
     /**
      * Creates a new PlayerType wrapper around a CardType
      * @param cardType CardType this PlayerType represents
@@ -33,7 +51,9 @@ public enum PlayerType
         this.cardType = cardType;
         this.camelCasedName = DatabaseHelper.toCamelCase(name());
     }
+    //endregion
 
+    //region Static methods
     /**
      * Parses a char value to the corresponding CardType member
      * @param name Name of the team to parse
@@ -53,30 +73,6 @@ public enum PlayerType
 
         //If nothing is found, throw
         throw new EnumConstantNotPresentException(CardType.class, name);
-    }
-    //endregion
-
-    //region Constructors
-
-    /**
-     * Get the Card type associated to this Player type
-     * @return The associated CardType
-     */
-    public CardType getCardType()
-    {
-        return this.cardType;
-    }
-    //endregion
-
-    //region Static methods
-
-    /**
-     * Nicely formatted String version of the name of this enum member
-     * @return Enum member name
-     */
-    public String niceName()
-    {
-        return this.camelCasedName;
     }
     //endregion
 }

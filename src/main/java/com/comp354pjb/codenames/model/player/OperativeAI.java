@@ -8,44 +8,50 @@
  * Steven Zanga
  * Christophe Savard
  * Michael Wilgus
- *
- * Description:
- * Plays the dumb Operative AI's turn
- * Randomly determine which card to pick, checking that that card has not been revealed before it is chosen
  */
 
 package com.comp354pjb.codenames.model.player;
 
+import com.comp354pjb.codenames.commander.Commander;
 import com.comp354pjb.codenames.model.Game;
 import com.comp354pjb.codenames.model.board.Card;
 
 /**
  * Implementation  of Strategy for the AI class
- * (See above for full description)
+ * Plays the dumb Operative AI's turn
+ * Randomly determine which card to pick, checking that that card has not been revealed before it is chosen
  */
 public class OperativeAI extends Strategy
 {
+    //region Constructors
     /**
-     * Changes the intelligence level of this operative to dumb
+     * Creates a new OperativeAI
+     * @param game Game this AI is linked to
+     * @param team Team this AI is linked to
      */
-    public static final PlayerIntelligence STRATEGY_CLASS = PlayerIntelligence.DUMB;
-
-    /**
-     *
-     */
-    private Game game;
-
-    public OperativeAI(Game game)
+    public OperativeAI(Game game, PlayerType team)
     {
-        this.game = game;
+        super(game, team);
     }
+    //endregion
 
     //region Methods
-    // Modified by Michael Wilgus
+    /**
+     * Operative title
+     * @return "Operative"
+     */
     @Override
-    public void execute()
+    protected String title()
     {
-        game.setPhase(this.team.niceName() + " Operative");
+        return "Operative";
+    }
+
+    /**
+     * Execute's the AI's strategy
+     */
+    @Override
+    protected void executeStrategy()
+    {
         // Keep getting random positions until we get an unrevealed card
         while (true)
         {
@@ -54,11 +60,12 @@ public class OperativeAI extends Strategy
             if (!card.isRevealed())
             {
                 //Reveal card
+                Commander.log(name() + " revealed the " + card.getType().niceName() + " card " + card.getWord());
                 game.revealCard(card);
                 break;
             }
         }
-        if (game.getGuessesLeft() == 0) { finished = true; }
+        if (game.getGuessesLeft() == 0) { this.game.endCurrentTurn(); }
     }
     //endregion
 }

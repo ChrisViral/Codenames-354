@@ -10,6 +10,8 @@
 
 package com.comp354pjb.codenames.model.board;
 
+import com.comp354pjb.codenames.model.DatabaseHelper;
+
 /**
  * Type of card
  */
@@ -20,8 +22,29 @@ public enum CardType
     CIVILIAN,
     ASSASSIN;
 
-    //region Static methods
+    //region Properties
+    private final String camelCasedName;
+    /**
+     * Nicely formatted String version of the name of this enum member
+     * @return Enum member name
+     */
+    public String niceName()
+    {
+        return this.camelCasedName;
+    }
+    //endregion
 
+    //region Constructors
+    /**
+     * Creates a new CardType
+     */
+    CardType()
+    {
+        this.camelCasedName = DatabaseHelper.toCamelCase(name());
+    }
+    //endregion
+
+    //region Static methods
     /**
      * Parses a char value to the corresponding CardType member
      * @param value Char to parse, must be R, B, C, or A

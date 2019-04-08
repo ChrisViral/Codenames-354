@@ -27,7 +27,7 @@ public class ClueGivenEvent extends Subject<ClueGivenObserver, Clue>
     @Override
     protected void update(ClueGivenObserver listener, Clue clue)
     {
-        listener.getClue(clue);
+        listener.updateClue(clue);
     }
     //endregion
 }

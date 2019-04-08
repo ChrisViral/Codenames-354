@@ -6,12 +6,6 @@
  * Contributors:
  * Christophe Savard
  * Michael Wilgus
- *
- * Description:
- * Represents the notion of a clue in the Codenames game.
- * Clues suggest codenames on the board. For bookkeeping sake,
- * This object stores information about how many of each type
- * of card a particular clue suggests.
  */
 
 package com.comp354pjb.codenames.model.player;
@@ -22,7 +16,10 @@ import java.util.ArrayList;
 
 /**
  * Wrapper around word/number pair for a clue
- * (See above for full description)
+ * Represents the notion of a clue in the Codenames game.
+ * Clues suggest codenames on the board. For bookkeeping sake,
+ * This object stores information about how many of each type
+ * of card a particular clue suggests.
  */
 public class Clue
 {
@@ -31,41 +28,21 @@ public class Clue
      * The clue word
      */
     public final String word;
-
     /**
      * The number of cards on the board associated with that clue word
      */
     public int value;
-    public boolean isActiveCodename = false;
     // Added by Michael Wilgus
     // Bookkeeping variables for AI descision making
+    public boolean isActiveCodename = false;
     private int redSuggested = 0;
     private int blueSuggested = 0;
     private int civilianSuggested = 0;
     private boolean assassinSuggested = false;
-
-    // Added by Michael Wilgus
-    /**
-     * List of cards that are suggested by this clue
-     */
-    private ArrayList<Card> cards;
     //endregion
 
-    //region Constructors
-
-    /**
-     * Creates a new Clue
-     * @param word Word of the clue
-     */
-    public Clue(String word)
-    {
-        this.word = word;
-        this.cards = new ArrayList<>();
-    }
-    //endregion
-
-    //region Methods
-
+    //region Properties
+    private final ArrayList<Card> cards = new ArrayList<>();
     /**
      * Get the cards on the board that are suggested by this clue
      * Added by Michael Wilgus
@@ -75,7 +52,20 @@ public class Clue
     {
         return cards;
     }
+    //endregion
 
+    //region Constructors
+    /**
+     * Creates a new Clue
+     * @param word Word of the clue
+     */
+    public Clue(String word)
+    {
+        this.word = word;
+    }
+    //endregion
+
+    //region Methods
     /**
      * Method to associate a card object with this clue
      * Indicates that this clue suggests the codename on the card
@@ -146,7 +136,7 @@ public class Clue
      */
     public boolean suggestsSomeCard()
     {
-        return redSuggested > 0 || blueSuggested > 0 || civilianSuggested > 0 || assassinSuggested == true;
+        return redSuggested > 0 || blueSuggested > 0 || civilianSuggested > 0 || assassinSuggested;
     }
 
     /**
@@ -207,6 +197,5 @@ public class Clue
     {
         return this.word + " " + this.value;
     }
-
     //endregion
 }

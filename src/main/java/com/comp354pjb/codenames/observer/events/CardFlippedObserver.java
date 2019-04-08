@@ -17,7 +17,6 @@ import com.comp354pjb.codenames.model.board.Card;
 public interface CardFlippedObserver
 {
     //region Methods
-
     /**
      * Card flipped event update method
      * @param card The card being flipped

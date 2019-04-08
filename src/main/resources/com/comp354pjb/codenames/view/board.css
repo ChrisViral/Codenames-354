@@ -9,7 +9,6 @@
 
 #grid {
     display: block;
-    /*-fx-background-color: rgb(188, 191, 186);*/
     -fx-background-color: radial-gradient(center 50% 50% , radius 100% , rgba(11, 9, 86, 0.50), rgba(49, 70, 191, 0.5));
 }
 

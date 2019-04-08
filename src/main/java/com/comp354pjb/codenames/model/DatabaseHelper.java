@@ -33,7 +33,6 @@ public final class DatabaseHelper
     //endregion
 
     //region Constructors
-
     /**
      * Prevents class instantiation
      */
@@ -41,8 +40,6 @@ public final class DatabaseHelper
     //endregion
 
     //region Static methods
-    //region Support methods
-
     /**
      * get URL of Database
      * @return returns the header + absolute path to DB
@@ -133,7 +130,6 @@ public final class DatabaseHelper
         //Return the query results formatted as an array of strings.
         return toReturn;
     }
-    //endregion
 
     /**
      * Returns a single random codename from the database
@@ -179,8 +175,8 @@ public final class DatabaseHelper
      */
     public static String[] getCluesForCodename(String codename)
     {
-        String query = String.format("SELECT clue FROM Suggest WHERE codename='%s'", codename);
-        return runSingleValQuery(query, "clue");
+        String query = String.format("SELECT clue FROM Suggest WHERE codename='%s'", codename.toLowerCase());
+        return runSingleValQuery(query, "Clue");
     }
 
     /**
@@ -192,7 +188,7 @@ public final class DatabaseHelper
      */
     public static String[] getCodenamesForClue(String clue)
     {
-        String query = String.format("SELECT codename FROM Suggest WHERE clue='%s'", clue);
+        String query = String.format("SELECT codename FROM Suggest WHERE clue='%s'", clue.toLowerCase());
         return runSingleValQuery(query, "codename");
     }
 
